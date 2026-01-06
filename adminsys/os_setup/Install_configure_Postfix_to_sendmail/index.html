@@ -9,25 +9,25 @@
       
       
       
-        <link rel="prev" href="../../../Install_configure_Postfix_to_sendmail/">
+        <link rel="prev" href="../08.Debian_upgrade/">
       
       
-        <link rel="next" href="../../../security/">
+        <link rel="next" href="../auto_config/ansible/ansible_roles/">
       
       
         
       
       
-      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>ansible roles - Pengfei Documentation</title>
+        <title>Use postfix to sendmail - Pengfei Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ansible-roles" class="md-skip">
+        <a href="#configure-postfix-mta-as-send-only-on-debian-11" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +80,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+    <a href="../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ansible roles
+              Use postfix to sendmail
             
           </span>
         </div>
@@ -180,7 +180,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+    <a href="../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -198,7 +198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -323,7 +323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../01.Lang_support/" class="md-nav__link">
+      <a href="../01.Lang_support/" class="md-nav__link">
         
   
   
@@ -351,7 +351,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../02.Add_debian_backports_repo/" class="md-nav__link">
+      <a href="../02.Add_debian_backports_repo/" class="md-nav__link">
         
   
   
@@ -379,7 +379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../03.Remote_Desktop_access/" class="md-nav__link">
+      <a href="../03.Remote_Desktop_access/" class="md-nav__link">
         
   
   
@@ -407,7 +407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../05.Debian_security_update_automation/" class="md-nav__link">
+      <a href="../05.Debian_security_update_automation/" class="md-nav__link">
         
   
   
@@ -435,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../06.Accept_private_ca_certificate/" class="md-nav__link">
+      <a href="../06.Accept_private_ca_certificate/" class="md-nav__link">
         
   
   
@@ -463,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../07.Setup_shared_folder/" class="md-nav__link">
+      <a href="../07.Setup_shared_folder/" class="md-nav__link">
         
   
   
@@ -491,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../08.Debian_upgrade/" class="md-nav__link">
+      <a href="../08.Debian_upgrade/" class="md-nav__link">
         
   
   
@@ -516,132 +516,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../Install_configure_Postfix_to_sendmail/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Use postfix to sendmail
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2_1_9" id="__nav_2_1_9_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    auto_config
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_9_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_1_9">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    auto_config
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9_1" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2_1_9_1" id="__nav_2_1_9_1_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ansible
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_9_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_1_9_1">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    ansible
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
     
   
   
@@ -661,7 +535,7 @@
   <span class="md-ellipsis">
     
   
-    ansible roles
+    Use postfix to sendmail
   
 
     
@@ -679,7 +553,7 @@
   <span class="md-ellipsis">
     
   
-    ansible roles
+    Use postfix to sendmail
   
 
     
@@ -705,10 +579,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#role-organization" class="md-nav__link">
+  <a href="#1-setup-server-hostname" class="md-nav__link">
     <span class="md-ellipsis">
       
-        role organization
+        1 Setup server hostname
       
     </span>
   </a>
@@ -716,10 +590,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#role-vs-playbook" class="md-nav__link">
+  <a href="#2install-the-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Role vs Playbook
+        2Install the packages
       
     </span>
   </a>
@@ -727,10 +601,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-a-role" class="md-nav__link">
+  <a href="#3-configure-postfix-mta-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating a role
+        3. Configure Postfix MTA Server
       
     </span>
   </a>
@@ -738,63 +612,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sharing-a-role" class="md-nav__link">
+  <a href="#4-test-the-postfix-service" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sharing a role
+        4. Test the postfix service
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-roles-in-an-ansible-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use roles in an ansible playbook
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Use roles in an ansible playbook">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-the-roles-option-in-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the roles option in playbook
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-include_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the include_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-import_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the import_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -802,6 +626,128 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_9" id="__nav_2_1_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_9_1" id="__nav_2_1_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -877,7 +823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
@@ -905,7 +851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/01.Configure_ssh_local_account/" class="md-nav__link">
+      <a href="../security/01.Configure_ssh_local_account/" class="md-nav__link">
         
   
   
@@ -933,7 +879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+      <a href="../security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
         
   
   
@@ -961,7 +907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+      <a href="../security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
         
   
   
@@ -989,7 +935,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+      <a href="../security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
         
   
   
@@ -1017,7 +963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+      <a href="../security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
         
   
   
@@ -1045,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+      <a href="../security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
         
   
   
@@ -1143,7 +1089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../data_management/tuning.md" class="md-nav__link">
+      <a href="../../../data_management/tuning.md" class="md-nav__link">
         
   
   
@@ -1171,7 +1117,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../data_management/faq.md" class="md-nav__link">
+      <a href="../../../data_management/faq.md" class="md-nav__link">
         
   
   
@@ -1253,7 +1199,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../devops/install.md" class="md-nav__link">
+      <a href="../../../devops/install.md" class="md-nav__link">
         
   
   
@@ -1281,7 +1227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../devops/config.md" class="md-nav__link">
+      <a href="../../../devops/config.md" class="md-nav__link">
         
   
   
@@ -1363,7 +1309,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
         
   
   
@@ -1418,10 +1364,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#role-organization" class="md-nav__link">
+  <a href="#1-setup-server-hostname" class="md-nav__link">
     <span class="md-ellipsis">
       
-        role organization
+        1 Setup server hostname
       
     </span>
   </a>
@@ -1429,10 +1375,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#role-vs-playbook" class="md-nav__link">
+  <a href="#2install-the-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Role vs Playbook
+        2Install the packages
       
     </span>
   </a>
@@ -1440,10 +1386,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#creating-a-role" class="md-nav__link">
+  <a href="#3-configure-postfix-mta-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating a role
+        3. Configure Postfix MTA Server
       
     </span>
   </a>
@@ -1451,63 +1397,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sharing-a-role" class="md-nav__link">
+  <a href="#4-test-the-postfix-service" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sharing a role
+        4. Test the postfix service
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-roles-in-an-ansible-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use roles in an ansible playbook
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Use roles in an ansible playbook">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-the-roles-option-in-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the roles option in playbook
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-include_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the include_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-import_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the import_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1528,114 +1424,50 @@
 
 
 
-<h1 id="ansible-roles">Ansible roles<a class="headerlink" href="#ansible-roles" title="Permanent link">&para;</a></h1>
-<p>Read this <a href="https://blog.stephane-robert.info/docs/infra-as-code/gestion-de-configuration/ansible/ecrire-roles/#utilisation-de-vos-r%C3%B4les-dans-vos-playbooks">doc</a> 
-for more details on how to write an ansible role</p>
-<p>An <strong>Ansible Role</strong> is a <code>self-contained, portable unit</code> of Ansible automation that serves as the <strong>preferred method</strong> for 
-grouping related tasks and associated variables, files, handlers, and other assets in a known file structure. 
-While automation tasks can be written exclusively in an Ansible Playbook, Ansible Roles allow you to create bundles 
-of automation content that can be 
-- run in 1 or more plays, 
-- reused across playbooks, 
-- shared with other users in collections.</p>
-<h2 id="role-organization">role organization<a class="headerlink" href="#role-organization" title="Permanent link">&para;</a></h2>
-<p><code>Ansible Roles</code> are expressed in YAML files. When a role is included in a task or a play, Ansible looks for 
-a <code>main.yml</code> file in at least 1 of 8 standard role directories such as :
-- tasks, 
-- handlers, 
-- modules, 
-- defaults, 
-- variables, 
-- files, 
-- templates,
-- meta.</p>
-<div class="codehilite"><pre><span></span><code>roles/
-    my_role1/               # this hierarchy represents a &quot;role&quot;
-        tasks/            #
-            main.yml      #  &lt;-- tasks file can include smaller files if warranted
-        handlers/         #
-            main.yml      #  &lt;-- handlers file
-        templates/        #  &lt;-- files for use with the template resource
-            ntp.conf.j2   #  &lt;------- templates end in .j2
-        files/            #
-            bar.txt       #  &lt;-- files for use with the copy resource
-            foo.sh        #  &lt;-- script files for use with the script resource
-        vars/             #
-            main.yml      #  &lt;-- variables associated with this role
-        defaults/         #
-            main.yml      #  &lt;-- default lower priority variables for this role
-        meta/             #
-            main.yml      #  &lt;-- role dependencies
-        library/          # roles can also include custom modules
-        module_utils/     # roles can also include custom module_utils
-        lookup_plugins/   # or other types of plugins, like lookup in this case
+<h1 id="configure-postfix-mta-as-send-only-on-debian-11">Configure Postfix MTA as Send-Only on Debian 11<a class="headerlink" href="#configure-postfix-mta-as-send-only-on-debian-11" title="Permanent link">&para;</a></h1>
+<h2 id="1-setup-server-hostname">1 Setup server hostname<a class="headerlink" href="#1-setup-server-hostname" title="Permanent link">&para;</a></h2>
+<p>The hostname of the server will be used as the name of the sender of the emails. So you should keep it nice and clean</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># get the current hostname</span>
+hostname
 
-    my_role2/              # same kind of structure as &quot;my_role1&quot; was above, but for another purpose
-    my_role3/              # &quot;&quot;
-    my_role4/              # &quot;&quot;
+<span class="c1"># if the name does not fit you, you can set up a new hostname</span>
+sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>smtp.casd.local<span class="w"> </span>--static
 </code></pre></div>
 
-<h2 id="role-vs-playbook">Role vs Playbook<a class="headerlink" href="#role-vs-playbook" title="Permanent link">&para;</a></h2>
-<p>Why use an Ansible Role instead of an Ansible Playbook?
-Ansible Roles and Ansible Playbooks are both tools for organizing and executing automation tasks, but each serves a different purpose. Whether you choose to create Ansible Roles or write all of your tasks in an Ansible Playbook depends on your specific use case and your experience with Ansible.</p>
-<p>Most automation developers and system administrators begin creating automation content with individual playbooks. A playbook is a list of automation tasks that execute for a defined inventory. Tasks can be organized into a play—a grouping of 1 or more tasks mapped to a specific host and executed in order. A playbook can contain 1 or more plays, offering a flexible mechanism for executing Ansible automation in a single file.</p>
-<p>While playbooks are a powerful method for automating with Ansible, writing all of your tasks in a playbook isn’t always the best approach. In instances where scope and variables are complex and reusability is helpful, creating most of your automation content in Ansible Roles and calling them within a playbook may be the more appropriate choice.</p>
-<p>The following example illustrates the use of a role, linux-systemr-roles.timesync, within a playbook. In this instance, over 4 tasks would be required to achieve what the single role accomplishes. </p>
-<h2 id="creating-a-role">Creating a role<a class="headerlink" href="#creating-a-role" title="Permanent link">&para;</a></h2>
-<p>You can create a new role skeleton by using <code>ansible-galaxy</code></p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span>ansible-galaxy<span class="w"> </span>role<span class="w"> </span>init<span class="w"> </span>role_name
+<h2 id="2install-the-packages">2Install the packages<a class="headerlink" href="#2install-the-packages" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Install mailutils package</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>mailutils
+
+<span class="c1"># install postfix</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>postfix
 </code></pre></div>
 
-<h2 id="sharing-a-role">Sharing a role<a class="headerlink" href="#sharing-a-role" title="Permanent link">&para;</a></h2>
-<p>There are few ways to share your ansible roles:</p>
-<ul>
-<li><strong>Ansible Galaxy</strong>: A free repository for sharing roles and other Ansible content with the larger Ansible community. 
-           Roles can be uploaded to Ansible Galaxy via the command-line (CLI), whereas collections can be shared 
-               from the web interface. Since Ansible Galaxy is a community site, content is not vetted, certified.</li>
-<li><strong>Ansible automation hub</strong>: repo for <code>Red Hat Ansible Automation Platform</code>, which is a central repository for 
-                       finding, downloading, and sharing <code>Ansible Content Collections</code>.</li>
-<li><strong>Private automation hub</strong>: An on-premise repository. You can share roles and other automation content within your 
-                           enterprise, allowing teams to simplify workflows and speed up automation. </li>
-</ul>
-<h2 id="use-roles-in-an-ansible-playbook">Use roles in an ansible playbook<a class="headerlink" href="#use-roles-in-an-ansible-playbook" title="Permanent link">&para;</a></h2>
-<p>There are three ways to integre an <code>ansible role</code> in an <code>ansible playbook</code>.
-- Use the <code>roles</code> option in playbook
-- Use the <code>include_role</code> in a task 
-- Use the <code>import_role</code> in a task</p>
-<h3 id="use-the-roles-option-in-playbook">Use the <code>roles</code> option in playbook<a class="headerlink" href="#use-the-roles-option-in-playbook" title="Permanent link">&para;</a></h3>
-<p>Below is an example of a playbook which calls the role <code>configure_sshd_pam_sssd_openldap</code> and <code>intall_nginx</code> before tasks. </p>
-<blockquote>
-<p>If you have multiple roles, the order is not guarantied with this approach. The roles are executed before tasks. If you
-want to order the task and roles, use the <code>include_role</code> or <code>import_role</code></p>
-</blockquote>
-<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_servers</span>
-<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configure_sshd_pam_sssd_openldap</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">install_nginx</span>
-<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">task1</span>
+<p>As the <code>postfix</code> package installs, you’ll be asked to select an option on screen for your mail server. 
+For <strong>General type of email configuration</strong> window, select <strong>Internet site</strong> and click <strong>OK</strong> button. Here we suppose
+your server has internet connexion.</p>
+<p>The next page will ask you to set your <strong>Mail server name</strong>, this can be domain or server hostname with an A record.
+In this tutorial, we choose the host name of the server <code>smtp.casd.local</code>.</p>
+<h2 id="3-configure-postfix-mta-server">3. Configure Postfix MTA Server<a class="headerlink" href="#3-configure-postfix-mta-server" title="Permanent link">&para;</a></h2>
+<p>Edit Postfix configuration file <strong>/etc/postfix/main.cf</strong> to ensure it is configured as send only ( Only relaying emails from the local server).</p>
+<p>Set Postfix to listen on the 127.0.0.1loopback interface. <code>The default setting is to listen on all interfaces</code></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># open the conf file</span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/postfix/main.cf
+
+<span class="c1"># edit the below line</span>
+<span class="nv">inet_interfaces</span><span class="o">=</span>loopback-only
+<span class="nv">myhostname</span><span class="o">=</span>smtp.casd.local
+
+<span class="c1"># restart the postfix service</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
 </code></pre></div>
 
-<h3 id="use-the-include_role-in-a-task">Use the <code>include_role</code> in a task<a class="headerlink" href="#use-the-include_role-in-a-task" title="Permanent link">&para;</a></h3>
-<p>The content of the role is parsed during the execution of the task. </p>
-<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_servers</span>
-<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Print a message</span>
-<span class="w">      </span><span class="nt">ansible.builtin.debug</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;this</span><span class="nv"> </span><span class="s">task</span><span class="nv"> </span><span class="s">runs</span><span class="nv"> </span><span class="s">before</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">role1&quot;</span>
-
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Include the role with name role1</span>
-<span class="w">      </span><span class="nt">ansible.builtin.include_role</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">role1</span>
-<span class="w">      </span><span class="nt">vars</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/opt/a&#39;</span>
-<span class="w">        </span><span class="nt">app_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<h2 id="4-test-the-postfix-service">4. Test the postfix service<a class="headerlink" href="#4-test-the-postfix-service" title="Permanent link">&para;</a></h2>
+<p>To test email delivery, use the mail command like below.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># send a mail to userx@example.com with title `Postfix Testing` and content `Postfix Send-Only Server`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Postfix Send-Only Server&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;Postfix Testing&quot;</span><span class="w"> </span>userx@example.com
 </code></pre></div>
 
-<h3 id="use-the-import_role-in-a-task">Use the <code>import_role</code> in a task<a class="headerlink" href="#use-the-import_role-in-a-task" title="Permanent link">&para;</a></h3>
-<p>The content of the role is parsed at the start of the playbook. </p>
+<p>Check the junk mails, you may find it there.</p>
 
 
 
@@ -1685,10 +1517,10 @@ want to order the task and roles, use the <code>include_role</code> or <code>imp
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

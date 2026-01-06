@@ -9,25 +9,25 @@
       
       
       
-        <link rel="prev" href="../../../Install_configure_Postfix_to_sendmail/">
+        <link rel="prev" href="../../..">
       
       
-        <link rel="next" href="../../../security/">
+        <link rel="next" href="../02.Add_debian_backports_repo/">
       
       
         
       
       
-      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>ansible roles - Pengfei Documentation</title>
+        <title>server language support - Pengfei Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ansible-roles" class="md-skip">
+        <a href="#debian-server-language-support-management" class="md-skip">
           Skip to content
         </a>
       
@@ -80,7 +80,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+    <a href="../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ansible roles
+              server language support
             
           </span>
         </div>
@@ -180,7 +180,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+    <a href="../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -198,7 +198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -320,10 +320,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../01.Lang_support/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -339,6 +366,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-add-new-language-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Add new language support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-change-the-default-language-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Change the default language support
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -351,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../02.Add_debian_backports_repo/" class="md-nav__link">
+      <a href="../02.Add_debian_backports_repo/" class="md-nav__link">
         
   
   
@@ -379,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../03.Remote_Desktop_access/" class="md-nav__link">
+      <a href="../03.Remote_Desktop_access/" class="md-nav__link">
         
   
   
@@ -407,7 +476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../05.Debian_security_update_automation/" class="md-nav__link">
+      <a href="../05.Debian_security_update_automation/" class="md-nav__link">
         
   
   
@@ -435,7 +504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../06.Accept_private_ca_certificate/" class="md-nav__link">
+      <a href="../06.Accept_private_ca_certificate/" class="md-nav__link">
         
   
   
@@ -463,7 +532,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../07.Setup_shared_folder/" class="md-nav__link">
+      <a href="../07.Setup_shared_folder/" class="md-nav__link">
         
   
   
@@ -491,7 +560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../08.Debian_upgrade/" class="md-nav__link">
+      <a href="../08.Debian_upgrade/" class="md-nav__link">
         
   
   
@@ -519,7 +588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+      <a href="../Install_configure_Postfix_to_sendmail/" class="md-nav__link">
         
   
   
@@ -544,20 +613,18 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9" >
         
           
           <label class="md-nav__link" for="__nav_2_1_9" id="__nav_2_1_9_label" tabindex="0">
@@ -578,7 +645,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_9_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -593,20 +660,18 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9_1" >
         
           
           <label class="md-nav__link" for="__nav_2_1_9_1" id="__nav_2_1_9_1_label" tabindex="0">
@@ -627,7 +692,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_9_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_9_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1_9_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -642,37 +707,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ansible roles
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../auto_config/ansible/ansible_roles/" class="md-nav__link">
         
   
   
@@ -688,120 +726,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#role-organization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        role organization
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#role-vs-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Role vs Playbook
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-role" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating a role
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sharing-a-role" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sharing a role
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-roles-in-an-ansible-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use roles in an ansible playbook
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Use roles in an ansible playbook">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-the-roles-option-in-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the roles option in playbook
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-include_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the include_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-import_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the import_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -877,7 +801,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
@@ -905,7 +829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/01.Configure_ssh_local_account/" class="md-nav__link">
+      <a href="../security/01.Configure_ssh_local_account/" class="md-nav__link">
         
   
   
@@ -933,7 +857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+      <a href="../security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
         
   
   
@@ -961,7 +885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+      <a href="../security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
         
   
   
@@ -989,7 +913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+      <a href="../security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
         
   
   
@@ -1017,7 +941,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+      <a href="../security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
         
   
   
@@ -1045,7 +969,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+      <a href="../security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
         
   
   
@@ -1143,7 +1067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../data_management/tuning.md" class="md-nav__link">
+      <a href="../../../data_management/tuning.md" class="md-nav__link">
         
   
   
@@ -1171,7 +1095,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../data_management/faq.md" class="md-nav__link">
+      <a href="../../../data_management/faq.md" class="md-nav__link">
         
   
   
@@ -1253,7 +1177,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../devops/install.md" class="md-nav__link">
+      <a href="../../../devops/install.md" class="md-nav__link">
         
   
   
@@ -1281,7 +1205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../devops/config.md" class="md-nav__link">
+      <a href="../../../devops/config.md" class="md-nav__link">
         
   
   
@@ -1363,7 +1287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
         
   
   
@@ -1418,10 +1342,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#role-organization" class="md-nav__link">
+  <a href="#1-add-new-language-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        role organization
+        1. Add new language support
       
     </span>
   </a>
@@ -1429,85 +1353,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#role-vs-playbook" class="md-nav__link">
+  <a href="#2-change-the-default-language-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Role vs Playbook
+        2. Change the default language support
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-a-role" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating a role
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sharing-a-role" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sharing a role
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-roles-in-an-ansible-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use roles in an ansible playbook
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Use roles in an ansible playbook">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-the-roles-option-in-playbook" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the roles option in playbook
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-include_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the include_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-the-import_role-in-a-task" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use the import_role in a task
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1528,114 +1380,38 @@
 
 
 
-<h1 id="ansible-roles">Ansible roles<a class="headerlink" href="#ansible-roles" title="Permanent link">&para;</a></h1>
-<p>Read this <a href="https://blog.stephane-robert.info/docs/infra-as-code/gestion-de-configuration/ansible/ecrire-roles/#utilisation-de-vos-r%C3%B4les-dans-vos-playbooks">doc</a> 
-for more details on how to write an ansible role</p>
-<p>An <strong>Ansible Role</strong> is a <code>self-contained, portable unit</code> of Ansible automation that serves as the <strong>preferred method</strong> for 
-grouping related tasks and associated variables, files, handlers, and other assets in a known file structure. 
-While automation tasks can be written exclusively in an Ansible Playbook, Ansible Roles allow you to create bundles 
-of automation content that can be 
-- run in 1 or more plays, 
-- reused across playbooks, 
-- shared with other users in collections.</p>
-<h2 id="role-organization">role organization<a class="headerlink" href="#role-organization" title="Permanent link">&para;</a></h2>
-<p><code>Ansible Roles</code> are expressed in YAML files. When a role is included in a task or a play, Ansible looks for 
-a <code>main.yml</code> file in at least 1 of 8 standard role directories such as :
-- tasks, 
-- handlers, 
-- modules, 
-- defaults, 
-- variables, 
-- files, 
-- templates,
-- meta.</p>
-<div class="codehilite"><pre><span></span><code>roles/
-    my_role1/               # this hierarchy represents a &quot;role&quot;
-        tasks/            #
-            main.yml      #  &lt;-- tasks file can include smaller files if warranted
-        handlers/         #
-            main.yml      #  &lt;-- handlers file
-        templates/        #  &lt;-- files for use with the template resource
-            ntp.conf.j2   #  &lt;------- templates end in .j2
-        files/            #
-            bar.txt       #  &lt;-- files for use with the copy resource
-            foo.sh        #  &lt;-- script files for use with the script resource
-        vars/             #
-            main.yml      #  &lt;-- variables associated with this role
-        defaults/         #
-            main.yml      #  &lt;-- default lower priority variables for this role
-        meta/             #
-            main.yml      #  &lt;-- role dependencies
-        library/          # roles can also include custom modules
-        module_utils/     # roles can also include custom module_utils
-        lookup_plugins/   # or other types of plugins, like lookup in this case
+<h1 id="debian-server-language-support-management">Debian server language support management<a class="headerlink" href="#debian-server-language-support-management" title="Permanent link">&para;</a></h1>
+<h2 id="1-add-new-language-support">1. Add new language support<a class="headerlink" href="#1-add-new-language-support" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># check installed language</span>
+sudo<span class="w"> </span>locale<span class="w"> </span>-a
 
-    my_role2/              # same kind of structure as &quot;my_role1&quot; was above, but for another purpose
-    my_role3/              # &quot;&quot;
-    my_role4/              # &quot;&quot;
+<span class="c1"># install a new language support</span>
+sudo<span class="w"> </span>locale-gen<span class="w"> </span>en_US.UTF-8
 </code></pre></div>
 
-<h2 id="role-vs-playbook">Role vs Playbook<a class="headerlink" href="#role-vs-playbook" title="Permanent link">&para;</a></h2>
-<p>Why use an Ansible Role instead of an Ansible Playbook?
-Ansible Roles and Ansible Playbooks are both tools for organizing and executing automation tasks, but each serves a different purpose. Whether you choose to create Ansible Roles or write all of your tasks in an Ansible Playbook depends on your specific use case and your experience with Ansible.</p>
-<p>Most automation developers and system administrators begin creating automation content with individual playbooks. A playbook is a list of automation tasks that execute for a defined inventory. Tasks can be organized into a play—a grouping of 1 or more tasks mapped to a specific host and executed in order. A playbook can contain 1 or more plays, offering a flexible mechanism for executing Ansible automation in a single file.</p>
-<p>While playbooks are a powerful method for automating with Ansible, writing all of your tasks in a playbook isn’t always the best approach. In instances where scope and variables are complex and reusability is helpful, creating most of your automation content in Ansible Roles and calling them within a playbook may be the more appropriate choice.</p>
-<p>The following example illustrates the use of a role, linux-systemr-roles.timesync, within a playbook. In this instance, over 4 tasks would be required to achieve what the single role accomplishes. </p>
-<h2 id="creating-a-role">Creating a role<a class="headerlink" href="#creating-a-role" title="Permanent link">&para;</a></h2>
-<p>You can create a new role skeleton by using <code>ansible-galaxy</code></p>
-<div class="codehilite"><pre><span></span><code><span class="w"> </span>ansible-galaxy<span class="w"> </span>role<span class="w"> </span>init<span class="w"> </span>role_name
+<h2 id="2-change-the-default-language-support">2. Change the default language support<a class="headerlink" href="#2-change-the-default-language-support" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/default/locale
+
+<span class="c1"># add the below lines</span>
+<span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LANGUAGE</span><span class="o">=</span><span class="s2">&quot;en_US:en&quot;</span>
+<span class="nv">LC_ADDRESS</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_NAME</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_MONETARY</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_PAPER</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_IDENTIFICATION</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_TELEPHONE</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_MEASUREMENT</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_TIME</span><span class="o">=</span>en_US.UTF-8
+<span class="nv">LC_NUMERIC</span><span class="o">=</span>en_US.UTF-8
+
+
+<span class="c1"># load the new config</span>
+<span class="nb">source</span><span class="w"> </span>/etc/default/locale
+
+<span class="c1"># update the language support by using the default config</span>
+sudo<span class="w"> </span>update-locale<span class="w"> </span><span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
 </code></pre></div>
-
-<h2 id="sharing-a-role">Sharing a role<a class="headerlink" href="#sharing-a-role" title="Permanent link">&para;</a></h2>
-<p>There are few ways to share your ansible roles:</p>
-<ul>
-<li><strong>Ansible Galaxy</strong>: A free repository for sharing roles and other Ansible content with the larger Ansible community. 
-           Roles can be uploaded to Ansible Galaxy via the command-line (CLI), whereas collections can be shared 
-               from the web interface. Since Ansible Galaxy is a community site, content is not vetted, certified.</li>
-<li><strong>Ansible automation hub</strong>: repo for <code>Red Hat Ansible Automation Platform</code>, which is a central repository for 
-                       finding, downloading, and sharing <code>Ansible Content Collections</code>.</li>
-<li><strong>Private automation hub</strong>: An on-premise repository. You can share roles and other automation content within your 
-                           enterprise, allowing teams to simplify workflows and speed up automation. </li>
-</ul>
-<h2 id="use-roles-in-an-ansible-playbook">Use roles in an ansible playbook<a class="headerlink" href="#use-roles-in-an-ansible-playbook" title="Permanent link">&para;</a></h2>
-<p>There are three ways to integre an <code>ansible role</code> in an <code>ansible playbook</code>.
-- Use the <code>roles</code> option in playbook
-- Use the <code>include_role</code> in a task 
-- Use the <code>import_role</code> in a task</p>
-<h3 id="use-the-roles-option-in-playbook">Use the <code>roles</code> option in playbook<a class="headerlink" href="#use-the-roles-option-in-playbook" title="Permanent link">&para;</a></h3>
-<p>Below is an example of a playbook which calls the role <code>configure_sshd_pam_sssd_openldap</code> and <code>intall_nginx</code> before tasks. </p>
-<blockquote>
-<p>If you have multiple roles, the order is not guarantied with this approach. The roles are executed before tasks. If you
-want to order the task and roles, use the <code>include_role</code> or <code>import_role</code></p>
-</blockquote>
-<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_servers</span>
-<span class="w">  </span><span class="nt">roles</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configure_sshd_pam_sssd_openldap</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">install_nginx</span>
-<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">task1</span>
-</code></pre></div>
-
-<h3 id="use-the-include_role-in-a-task">Use the <code>include_role</code> in a task<a class="headerlink" href="#use-the-include_role-in-a-task" title="Permanent link">&para;</a></h3>
-<p>The content of the role is parsed during the execution of the task. </p>
-<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_servers</span>
-<span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Print a message</span>
-<span class="w">      </span><span class="nt">ansible.builtin.debug</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">msg</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;this</span><span class="nv"> </span><span class="s">task</span><span class="nv"> </span><span class="s">runs</span><span class="nv"> </span><span class="s">before</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">role1&quot;</span>
-
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Include the role with name role1</span>
-<span class="w">      </span><span class="nt">ansible.builtin.include_role</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">role1</span>
-<span class="w">      </span><span class="nt">vars</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/opt/a&#39;</span>
-<span class="w">        </span><span class="nt">app_port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
-</code></pre></div>
-
-<h3 id="use-the-import_role-in-a-task">Use the <code>import_role</code> in a task<a class="headerlink" href="#use-the-import_role-in-a-task" title="Permanent link">&para;</a></h3>
-<p>The content of the role is parsed at the start of the playbook. </p>
 
 
 
@@ -1685,10 +1461,10 @@ want to order the task and roles, use the <code>include_role</code> or <code>imp
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

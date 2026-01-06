@@ -1,0 +1,2389 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../05.Static_uid_gid_integration_in_sssd/">
+      
+      
+        <link rel="next" href="../../../../hadoop/Integrate_kerberos_in_hadoop_cluster/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Configure_ssh_sssd_kerberos_linux - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configure-debian-server-sshd-auth-with-pam-sssd-kerberos" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configure_ssh_sssd_kerberos_linux
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    admin_sys
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    admin_sys
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    os_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.Lang_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02.Add_debian_backports_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian backports repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03.Remote_Desktop_access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server rdp access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05.Debian_security_update_automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server security update automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.Accept_private_ca_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server accept private ca cert
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07.Setup_shared_folder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure a shared folder in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.Debian_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate debian 11 to 13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use postfix to sendmail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_9" id="__nav_2_1_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_9_1" id="__nav_2_1_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_10" id="__nav_2_1_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.Configure_ssh_local_account/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_local_account
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.Configure_ssh_pam_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_pam_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure ssh sssd ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_ad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static_uid_gid_integration_in_sssd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configure-and-test-krb-client-on-ssh-clientcasdlocal-and-ssh-servercasdlocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configure and test krb client on ssh-client.casd.local and ssh-server.casd.local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Configure and test krb client on ssh-client.casd.local and ssh-server.casd.local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-install-the-required-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Install the required packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-configure-the-krb-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Configure the krb client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-test-the-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Test the client
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-config-sshd-pam-sssd-on-ssh-servercasdlocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Config sshd, pam, sssd on ssh-server.casd.local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Config sshd, pam, sssd on ssh-server.casd.local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-install-required-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Install required packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-configure-sshd-to-use-pam-as-an-authentication-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Configure sshd to use pam as an authentication mechanism
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Configure sshd to use pam as an authentication mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#23-configure-pam-to-use-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 configure pam to use sssd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 configure pam to use sssd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-common-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 common-auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-common-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.2 common-account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#233-common-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.3 common-password:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#234-common-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.4 common-session
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-configure-nss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Configure NSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-configure-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Configure sssd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Configure sssd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#251-debug-sssd-by-using-sssd-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.1 debug sssd by using sssd-tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5.1 debug sssd by using sssd-tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-the-validity-of-the-sssd-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check the validity of the sssd config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-available-domain-configured-in-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list all available domain configured in sssd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-the-status-of-a-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check the status of a domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-the-status-of-a-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check the status of a user
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#252-clear-sssd-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.2 Clear sssd cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-create-service-principals-for-kerberos-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Create service principals for kerberos authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-test-ssh-connexions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Test ssh connexions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hadoop
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    hadoop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate kerberos in hadoop cluster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-configure-and-test-krb-client-on-ssh-clientcasdlocal-and-ssh-servercasdlocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Configure and test krb client on ssh-client.casd.local and ssh-server.casd.local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Configure and test krb client on ssh-client.casd.local and ssh-server.casd.local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-install-the-required-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Install the required packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-configure-the-krb-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Configure the krb client
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-test-the-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Test the client
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-config-sshd-pam-sssd-on-ssh-servercasdlocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Config sshd, pam, sssd on ssh-server.casd.local
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Config sshd, pam, sssd on ssh-server.casd.local">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-install-required-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Install required packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-configure-sshd-to-use-pam-as-an-authentication-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Configure sshd to use pam as an authentication mechanism
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Configure sshd to use pam as an authentication mechanism">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#23-configure-pam-to-use-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 configure pam to use sssd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 configure pam to use sssd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-common-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 common-auth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-common-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.2 common-account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#233-common-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.3 common-password:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#234-common-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.4 common-session
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-configure-nss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Configure NSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-configure-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Configure sssd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Configure sssd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#251-debug-sssd-by-using-sssd-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.1 debug sssd by using sssd-tools
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5.1 debug sssd by using sssd-tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check-the-validity-of-the-sssd-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check the validity of the sssd config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-all-available-domain-configured-in-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list all available domain configured in sssd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-the-status-of-a-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check the status of a domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-the-status-of-a-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check the status of a user
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#252-clear-sssd-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5.2 Clear sssd cache
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-create-service-principals-for-kerberos-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Create service principals for kerberos authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-test-ssh-connexions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Test ssh connexions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="configure-debian-server-sshd-auth-with-pam-sssd-kerberos">Configure debian server sshd auth with pam, sssd, kerberos<a class="headerlink" href="#configure-debian-server-sshd-auth-with-pam-sssd-kerberos" title="Permanent link">&para;</a></h1>
+<p>There is a complete tutorial on how to setup openldap, kerberos for unified authentication. You can visit
+this <a href="https://www.infoq.cn/article/s1ngm7eubqer9bw8xhk4">website</a>.</p>
+<p>In this tutorial, we show a scenario light compares to the architecture which shows in the above tutorial. 
+We don't use the <code>SASL/GSSAPI</code> to delegate user password check to kerberos.</p>
+<p>It means, in the below tutorial, user has a password in openldap, and a password in kerberos, which are not synchronized
+automatically. The <strong>user id</strong> does the link of user between openldap and kerberos.</p>
+<p>Suppose we have a ldap and kerberos server running on <code>10.50.5.200</code> with url as <code>krb.casd.local</code>.</p>
+<p>suppose we have three servers:
+- krb.casd.local: server hosts openldap and kerberos (can be replaced by AD/kerberos)
+- ssh-server.casd.local: server runs sshd server which uses pam, sssd, sssd-krb5 to check user authentication
+- ssh-client.casd.local: a vm runs an ssh client and krb5-client, user can get a kerberos ticket, and use this ticket to ssh
+                           into the ssh-server.casd.local</p>
+<p>The full authentication process:
+1. user get a kerberos ticket (kinit <user-principal>) (in ssh-client.casd.local)
+2. user init an ssh connection with the cached kerberos ticket(ssh uid@ssh-server.casd.local) (in ssh-client.casd.local)
+3. ssh-server receives the ssh connection requests (sshd config checks all the possible authentication methods) (in ssh-server.casd.local)
+4. <code>sshd</code> delegate the authentication to <code>pam</code>(<code>UsePAM yes in sshd_config</code>), <code>pam</code> delegate to <code>sssd</code>, <code>sssd</code> delegate to <code>sssd-krb5</code>. Because we set <code>auth_provider</code>
+      as <code>krb5</code> in <code>sssd</code>. (in ssh-server.casd.local)
+5. <code>sssd-krb5</code> sends a request to <code>krb.casd.local</code> to verify the authenticity of the kerberos ticket. This steps requires <code>ssh-server.casd.local</code>
+    has a valid principal in <code>krb.casd.local</code> (in ssh-server.casd.local)
+6. <code>krb.casd.local</code> verify the ticket and send the result back to <code>ssh-server.casd.local</code>. (in krb.casd.local)
+7. <code>sssd-krb5</code> in <code>ssh-server.casd.local</code> receives the result, if ok, it will ask the <code>id_provider</code> of the <code>sssd</code>, 
+      in our case it's <code>openldap</code> to get <code>uid</code> and <code>gid</code> of the user with the uid of the kerberos ticket. The user
+      <code>uid</code> and <code>gid</code> information will be transfer to <code>nss</code>. <code>sssd</code> tells pam it's ok, <code>pam</code> tells sshd it's ok.
+     Then pam will create a user session in the server after user login. (in ssh-server.casd.local)
+8. user will get a terminal on <code>ssh-server.casd.local</code> with uid and gids from the <code>openldap</code> account.</p>
+<h2 id="1-configure-and-test-krb-client-on-ssh-clientcasdlocal-and-ssh-servercasdlocal">1. Configure and test krb client on ssh-client.casd.local and ssh-server.casd.local<a class="headerlink" href="#1-configure-and-test-krb-client-on-ssh-clientcasdlocal-and-ssh-servercasdlocal" title="Permanent link">&para;</a></h2>
+<p>We need to install the kerberos client on both servers:
+- ssh-client.casd.local
+- ssh-server.casd.local</p>
+<h3 id="11-install-the-required-packages">1.1 Install the required packages<a class="headerlink" href="#11-install-the-required-packages" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># krb client package</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>krb5-user
+</code></pre></div>
+
+<h3 id="12-configure-the-krb-client">1.2 Configure the krb client<a class="headerlink" href="#12-configure-the-krb-client" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/krb5.conf
+
+<span class="c1"># add the below content</span>
+<span class="o">[</span>libdefaults<span class="o">]</span>
+<span class="w">    </span><span class="nv">default_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>CASD.LOCAL
+
+<span class="c1"># The following krb5.conf variables are only for MIT Kerberos.</span>
+<span class="w">    </span><span class="nv">kdc_timesync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="nv">ccache_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>
+<span class="w">    </span><span class="nv">forwardable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="nv">proxiable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">rdns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span>
+
+
+<span class="c1"># The following libdefaults parameters are only for Heimdal Kerberos.</span>
+<span class="w">    </span>fcc-mit-ticketflags<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="o">[</span>realms<span class="o">]</span>
+<span class="w">    </span>CASD.LOCAL<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="nv">kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>krb.casd.local
+<span class="w">        </span><span class="nv">admin_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>krb.casd.local
+<span class="w">    </span><span class="o">}</span>
+
+
+<span class="o">[</span>domain_realm<span class="o">]</span>
+<span class="w">        </span>casd.local<span class="w"> </span><span class="o">=</span><span class="w"> </span>CASD.LOCAL
+<span class="w">        </span>.casd.local<span class="w"> </span><span class="o">=</span><span class="w"> </span>CASD.LOCAL
+</code></pre></div>
+
+<h3 id="13-test-the-client">1.3 Test the client<a class="headerlink" href="#13-test-the-client" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># generate a ticket, the principal must exist in the krb server</span>
+kinit<span class="w"> </span>pliu@CASD.LOCAL
+
+<span class="c1"># normally, you can view the ticket</span>
+klist
+
+<span class="c1"># clean the ticket</span>
+kdestory
+</code></pre></div>
+
+<h2 id="2-config-sshd-pam-sssd-on-ssh-servercasdlocal">2. Config sshd, pam, sssd on ssh-server.casd.local<a class="headerlink" href="#2-config-sshd-pam-sssd-on-ssh-servercasdlocal" title="Permanent link">&para;</a></h2>
+<h3 id="21-install-required-packages">2.1 Install required packages<a class="headerlink" href="#21-install-required-packages" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sssd<span class="w"> </span>sssd-tools<span class="w"> </span>libnss-sss<span class="w"> </span>libpam-sss<span class="w"> </span>libpam-mkhomedir
+</code></pre></div>
+
+<ul>
+<li><strong>sssd</strong>: package for daemon sssd((System Security Services Daemon))</li>
+<li><strong>sssd-tools</strong>: provides command-line utilities for managing and troubleshooting SSSD</li>
+<li><strong>nss</strong>: NSS (Name Service Switch) is a subsystem in Linux and Unix-like systems that allows applications 
+         to retrieve information about users, groups, hosts, networks, services, and more from various 
+         sources (like /etc/passwd, LDAP, NIS, or SSSD). By default, this daemon is running on a debian server, 
+         no need to install the package. The main config is in <code>/etc/nsswitch.conf</code></li>
+<li><strong>libnss-sss</strong>: This daemon allows <code>nss</code> to retrieve user information from <code>sssd</code></li>
+<li><strong>libpam-sss</strong>: This daemon allows <code>pam</code> to use <code>sssd</code> as an authentication mechanism. </li>
+<li><strong>libpam-mkhomedir</strong>: This daemon allows <code>pam</code> to create home dir for newly connected users.</li>
+</ul>
+<h2 id="22-configure-sshd-to-use-pam-as-an-authentication-mechanism">2.2 Configure sshd to use pam as an authentication mechanism<a class="headerlink" href="#22-configure-sshd-to-use-pam-as-an-authentication-mechanism" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>Include<span class="w"> </span>/etc/ssh/sshd_config.d/*.conf
+
+<span class="c1">#Port 22</span>
+<span class="c1">#AddressFamily any</span>
+<span class="c1">#ListenAddress 0.0.0.0</span>
+<span class="c1">#ListenAddress ::</span>
+
+<span class="c1">#HostKey /etc/ssh/ssh_host_rsa_key</span>
+<span class="c1">#HostKey /etc/ssh/ssh_host_ecdsa_key</span>
+<span class="c1">#HostKey /etc/ssh/ssh_host_ed25519_key</span>
+
+<span class="c1"># Ciphers and keying</span>
+<span class="c1">#RekeyLimit default none</span>
+
+<span class="c1"># Logging</span>
+<span class="c1">#SyslogFacility AUTH</span>
+<span class="c1">#LogLevel INFO</span>
+
+<span class="c1"># Authentication:</span>
+
+<span class="c1">#LoginGraceTime 2m</span>
+<span class="c1">#PermitRootLogin prohibit-password</span>
+<span class="c1">#StrictModes yes</span>
+<span class="c1">#MaxAuthTries 6</span>
+<span class="c1">#MaxSessions 10</span>
+
+<span class="c1">#PubkeyAuthentication yes</span>
+
+<span class="c1"># Expect .ssh/authorized_keys2 to be disregarded by default in future.</span>
+<span class="c1">#AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2</span>
+
+<span class="c1">#AuthorizedPrincipalsFile none</span>
+
+<span class="c1">#AuthorizedKeysCommand none</span>
+<span class="c1">#AuthorizedKeysCommandUser nobody</span>
+
+<span class="c1"># For this to work you will also need host keys in /etc/ssh/ssh_known_hosts</span>
+<span class="c1">#HostbasedAuthentication no</span>
+<span class="c1"># Change to yes if you don&#39;t trust ~/.ssh/known_hosts for</span>
+<span class="c1"># HostbasedAuthentication</span>
+<span class="c1">#IgnoreUserKnownHosts no</span>
+<span class="c1"># Don&#39;t read the user&#39;s ~/.rhosts and ~/.shosts files</span>
+<span class="c1">#IgnoreRhosts yes</span>
+
+<span class="c1"># To disable tunneled clear text passwords, change to no here!</span>
+<span class="c1">#PasswordAuthentication yes</span>
+<span class="c1">#PermitEmptyPasswords no</span>
+
+<span class="c1"># Change to yes to enable challenge-response passwords (beware issues with</span>
+<span class="c1"># some PAM modules and threads)</span>
+ChallengeResponseAuthentication<span class="w"> </span>no
+<span class="c1">#AuthenticationMethods gssapi-with-mic,password</span>
+
+<span class="c1"># Kerberos options</span>
+<span class="c1"># KerberosAuthentication yes</span>
+<span class="c1"># KerberosOrLocalPasswd yes</span>
+<span class="c1"># KerberosTicketCleanup yes</span>
+<span class="c1"># KerberosGetAFSToken yes</span>
+<span class="c1">#UseDNS yes</span>
+<span class="c1"># GSSAPI options</span>
+GSSAPIAuthentication<span class="w"> </span>yes
+GSSAPICleanupCredentials<span class="w"> </span>yes
+GSSAPIStrictAcceptorCheck<span class="w"> </span>no
+<span class="c1">#GSSAPIKeyExchange no</span>
+AllowTcpForwarding<span class="w"> </span>yes
+AllowAgentForwarding<span class="w"> </span>yes
+GssapiKeyExchange<span class="w"> </span>yes
+<span class="c1"># Set this to &#39;yes&#39; to enable PAM authentication, account processing,</span>
+<span class="c1"># and session processing. If this is enabled, PAM authentication will</span>
+<span class="c1"># be allowed through the ChallengeResponseAuthentication and</span>
+<span class="c1"># PasswordAuthentication.  Depending on your PAM configuration,</span>
+<span class="c1"># PAM authentication via ChallengeResponseAuthentication may bypass</span>
+<span class="c1"># the setting of &quot;PermitRootLogin without-password&quot;.</span>
+<span class="c1"># If you just want the PAM account and session checks to run without</span>
+<span class="c1"># PAM authentication, then enable this but set PasswordAuthentication</span>
+<span class="c1"># and ChallengeResponseAuthentication to &#39;no&#39;.</span>
+UsePAM<span class="w"> </span>yes
+UseDNS<span class="w"> </span>yes
+<span class="c1">#AllowAgentForwarding yes</span>
+<span class="c1">#AllowTcpForwarding yes</span>
+<span class="c1">#GatewayPorts no</span>
+X11Forwarding<span class="w"> </span>yes
+<span class="c1">#X11DisplayOffset 10</span>
+<span class="c1">#X11UseLocalhost yes</span>
+<span class="c1">#PermitTTY yes</span>
+PrintMotd<span class="w"> </span>no
+<span class="c1">#PrintLastLog yes</span>
+<span class="c1">#TCPKeepAlive yes</span>
+<span class="c1">#PermitUserEnvironment no</span>
+<span class="c1">#Compression delayed</span>
+<span class="c1">#ClientAliveInterval 0</span>
+<span class="c1">#ClientAliveCountMax 3</span>
+<span class="c1">#UseDNS no</span>
+<span class="c1">#PidFile /var/run/sshd.pid</span>
+<span class="c1">#MaxStartups 10:30:100</span>
+<span class="c1">#PermitTunnel no</span>
+<span class="c1">#ChrootDirectory none</span>
+<span class="c1">#VersionAddendum none</span>
+PermitRootLogin<span class="w"> </span>yes
+<span class="c1">#PasswordAuthentication yes</span>
+
+<span class="c1"># no default banner path</span>
+<span class="c1">#Banner none</span>
+
+<span class="c1"># Allow client to pass locale environment variables</span>
+AcceptEnv<span class="w"> </span>LANG<span class="w"> </span>LC_*
+
+<span class="c1"># override default of no subsystems</span>
+Subsystem<span class="w">   </span>sftp<span class="w">    </span>/usr/lib/openssh/sftp-server
+
+<span class="c1"># Example of overriding settings on a per-user basis</span>
+<span class="c1">#Match User anoncvs</span>
+<span class="c1">#   X11Forwarding no</span>
+<span class="c1">#   AllowTcpForwarding no</span>
+<span class="c1">#   PermitTTY no</span>
+<span class="c1">#   ForceCommand cvs server</span>
+</code></pre></div>
+
+<blockquote>
+<p>In the above conf, you can notice that I have two authentication methods: <code>GSSAPI</code> and <code>PAM</code>. Here <code>GSSAPI</code> is used to
+allow user to submit his ticket kerberos to sshd server. The sssd-krb5 can only support user login and password auth
+via kerberos.
+</p>
+</blockquote>
+<h3 id="23-configure-pam-to-use-sssd">2.3 configure pam to use sssd<a class="headerlink" href="#23-configure-pam-to-use-sssd" title="Permanent link">&para;</a></h3>
+<p><code>pam</code> has a list of configuration files(located in <code>/etc/pam.d/</code>):
+- <strong>common-auth</strong>: user authentication 
+- <strong>common-account</strong>: User account management
+- <strong>common-password</strong>: Allow user to modify password.
+- <strong>common-session</strong>: user session settings</p>
+<h4 id="231-common-auth">2.3.1 common-auth<a class="headerlink" href="#231-common-auth" title="Permanent link">&para;</a></h4>
+<p>The simplest config example :</p>
+<div class="codehilite"><pre><span></span><code>auth<span class="w">      </span>sufficient<span class="w">  </span>pam_unix.so
+auth<span class="w">      </span>sufficient<span class="w">  </span>pam_sss.so<span class="w"> </span>use_first_pass
+auth<span class="w">      </span>required<span class="w">    </span>pam_deny.so
+</code></pre></div>
+
+<p>pam_unix.so: Uses local account to authenticate users
+pam_sss.so use_first_pass: Uses SSSD as first method to authenticate users.
+pam_deny.so: Denies access if all the above authentication method fails.
+pam_permit.so: Allows authentication if all previous steps succeed.</p>
+<h4 id="232-common-account">2.3.2 common-account<a class="headerlink" href="#232-common-account" title="Permanent link">&para;</a></h4>
+<p>This controls how the user account can interact with the system. 
+Below is a simple config example. </p>
+<div class="codehilite"><pre><span></span><code>account<span class="w">   </span>required<span class="w">    </span>pam_unix.so
+account<span class="w">   </span>sufficient<span class="w">  </span>pam_sss.so
+account<span class="w">   </span>required<span class="w">    </span>pam_permit.so
+</code></pre></div>
+
+<blockquote>
+<p><strong>don't</strong> add <code>account requisite  pam_deny.so</code> in the config, otherwise you can no longer become root with sudoers right.</p>
+</blockquote>
+<h4 id="233-common-password">2.3.3 common-password:<a class="headerlink" href="#233-common-password" title="Permanent link">&para;</a></h4>
+<p>Allow user to modify password.</p>
+<div class="codehilite"><pre><span></span><code>password<span class="w">  </span>sufficient<span class="w">  </span>pam_unix.so<span class="w"> </span>nullok<span class="w"> </span>md5<span class="w"> </span>shadow<span class="w"> </span>use_authtok
+password<span class="w">  </span>sufficient<span class="w">  </span>pam_sss.so<span class="w"> </span>try_first_pass
+password<span class="w">  </span>required<span class="w">    </span>pam_deny.so
+</code></pre></div>
+
+<blockquote>
+<p>This configuration is not enough for user to change password. You need to change sssd, ldap/kerberos config to 
+allow users to change their passwords through sssd, Kerberos/LDAP.</p>
+</blockquote>
+<h4 id="234-common-session">2.3.4 common-session<a class="headerlink" href="#234-common-session" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>session<span class="w">   </span>required<span class="w">    </span>pam_unix.so
+session<span class="w">   </span>optional<span class="w">    </span>pam_sss.so
+session<span class="w">   </span>required<span class="w">    </span>pam_mkhomedir.so<span class="w"> </span><span class="nv">skel</span><span class="o">=</span>/etc/skel/<span class="w"> </span><span class="nv">umask</span><span class="o">=</span><span class="m">0022</span>
+</code></pre></div>
+
+<p>pam_mkhomedir.so: Create a home directory on first login if it doesn’t exist with umask=0022.
+pam_sss.so: Ensures SSSD session modules are applied.</p>
+<h3 id="24-configure-nss">2.4 Configure NSS<a class="headerlink" href="#24-configure-nss" title="Permanent link">&para;</a></h3>
+<p>Ensure SSSD is used for user and group lookup.</p>
+<p>The NSS (Name Service Switch) main config is located at <code>/etc/nsswitch.conf</code>:</p>
+<p>The following config is a simple example tells Linux to check both local files (/etc/passwd) and SSSD for user information.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/nsswitch.conf
+
+passwd:<span class="w">         </span>files<span class="w"> </span>sss
+group:<span class="w">          </span>files<span class="w"> </span>sss
+shadow:<span class="w">         </span>files<span class="w"> </span>sss
+</code></pre></div>
+
+<h3 id="25-configure-sssd">2.5 Configure sssd<a class="headerlink" href="#25-configure-sssd" title="Permanent link">&para;</a></h3>
+<p>The <code>sssd</code> can query ldap/kerberos, AD/kerberos to check user authenticity(auth_provider), query ldap, or AD to get user
+id, groups, etc(id_provider).</p>
+<p><code>sssd</code> also allows user to change password of the backend(e.g. ldap, krb)</p>
+<div class="codehilite"><pre><span></span><code><span class="o">[</span>sssd<span class="o">]</span>
+<span class="nv">services</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>nss,<span class="w"> </span>pam,<span class="w"> </span>ssh
+<span class="nv">domains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>casd.local
+<span class="nv">config_file_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+
+<span class="o">[</span>domain/casd.local<span class="o">]</span>
+<span class="nv">id_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ldap
+<span class="nv">ldap_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ldap://krb.casd.local
+<span class="nv">ldap_search_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">dc</span><span class="o">=</span>casd,dc<span class="o">=</span><span class="nb">local</span>
+
+<span class="nv">auth_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>krb5
+<span class="nv">chpass_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>krb5
+<span class="nv">krb5_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>CASD.LOCAL
+<span class="nv">krb5_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>krb.casd.local
+<span class="nv">krb5_kpasswd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>krb.casd.local
+<span class="nv">debug_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>
+<span class="nv">krb5_validate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="nv">krb5_ccachedir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/var/tmp<span class="w"> </span><span class="c1"># note that RHEL-7 default to KERNEL ccaches, which are preferred in most cases to FILE</span>
+<span class="nv">krb5_keytab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/krb5.keytab
+<span class="nv">cache_credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="nv">override_homedir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/home/%u
+<span class="nv">default_shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/bin/bash
+
+
+<span class="o">[</span>nss<span class="o">]</span>
+<span class="nv">homedir_substring</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/home
+
+<span class="o">[</span>pam<span class="o">]</span>
+</code></pre></div>
+
+<p>You need to restart the daemon <code>sssd</code>, after modifying the <code>sssd.conf</code></p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sssd
+</code></pre></div>
+
+<h4 id="251-debug-sssd-by-using-sssd-tools">2.5.1 debug sssd by using sssd-tools<a class="headerlink" href="#251-debug-sssd-by-using-sssd-tools" title="Permanent link">&para;</a></h4>
+<p>You need the admin right to run this command, otherwise you will get <code>command not found</code> error message. You can view
+the documentation of the tool with <code>sudo sssctl</code>.</p>
+<h5 id="check-the-validity-of-the-sssd-config">Check the validity of the sssd config<a class="headerlink" href="#check-the-validity-of-the-sssd-config" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>sssctl<span class="w"> </span>config-check
+
+<span class="c1"># output</span>
+Issues<span class="w"> </span>identified<span class="w"> </span>by<span class="w"> </span>validators:<span class="w"> </span><span class="m">0</span>
+
+Messages<span class="w"> </span>generated<span class="w"> </span>during<span class="w"> </span>configuration<span class="w"> </span>merging:<span class="w"> </span><span class="m">0</span>
+
+Used<span class="w"> </span>configuration<span class="w"> </span>snippet<span class="w"> </span>files:<span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+
+<h5 id="list-all-available-domain-configured-in-sssd">list all available domain configured in sssd<a class="headerlink" href="#list-all-available-domain-configured-in-sssd" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-list
+
+<span class="c1"># output example</span>
+casd.local
+</code></pre></div>
+
+<h5 id="check-the-status-of-a-domain">check the status of a domain<a class="headerlink" href="#check-the-status-of-a-domain" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>sssctl<span class="w"> </span>domain-status<span class="w"> </span>casd.local
+
+<span class="c1"># output example</span>
+Online<span class="w"> </span>status:<span class="w"> </span>Online
+Active<span class="w"> </span>servers:
+KPASSWD:<span class="w"> </span>krb.casd.local
+KERBEROS:<span class="w"> </span>krb.casd.local
+LDAP:<span class="w"> </span>krb.casd.local
+Discovered<span class="w"> </span>KPASSWD<span class="w"> </span>servers:
+-<span class="w"> </span>krb.casd.local
+Discovered<span class="w"> </span>KERBEROS<span class="w"> </span>servers:
+-<span class="w"> </span>krb.casd.local
+Discovered<span class="w"> </span>LDAP<span class="w"> </span>servers:
+-<span class="w"> </span>krb.casd.local
+</code></pre></div>
+
+<h5 id="check-the-status-of-a-user">check the status of a user<a class="headerlink" href="#check-the-status-of-a-user" title="Permanent link">&para;</a></h5>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>sssctl<span class="w"> </span>user-checks<span class="w"> </span>pengfei
+
+<span class="c1"># output example</span>
+user:<span class="w"> </span>pengfei
+action:<span class="w"> </span>acct
+service:<span class="w"> </span>system-auth
+
+SSSD<span class="w"> </span>nss<span class="w"> </span>user<span class="w"> </span>lookup<span class="w"> </span>result:
+<span class="w"> </span>-<span class="w"> </span>user<span class="w"> </span>name:<span class="w"> </span>pengfei
+<span class="w"> </span>-<span class="w"> </span>user<span class="w"> </span>id:<span class="w"> </span><span class="m">3002</span>
+<span class="w"> </span>-<span class="w"> </span>group<span class="w"> </span>id:<span class="w"> </span><span class="m">4000</span>
+<span class="w"> </span>-<span class="w"> </span>gecos:<span class="w"> </span>pengfei
+<span class="w"> </span>-<span class="w"> </span>home<span class="w"> </span>directory:<span class="w"> </span>/home/pengfei
+<span class="w"> </span>-<span class="w"> </span>shell:<span class="w"> </span>/bin/bash
+
+SSSD<span class="w"> </span>InfoPipe<span class="w"> </span>user<span class="w"> </span>lookup<span class="w"> </span>result:
+<span class="w"> </span>-<span class="w"> </span>name:<span class="w"> </span>pengfei
+<span class="w"> </span>-<span class="w"> </span>uidNumber:<span class="w"> </span><span class="m">3002</span>
+<span class="w"> </span>-<span class="w"> </span>gidNumber:<span class="w"> </span><span class="m">4000</span>
+<span class="w"> </span>-<span class="w"> </span>gecos:<span class="w"> </span>pengfei
+<span class="w"> </span>-<span class="w"> </span>homeDirectory:<span class="w"> </span>/home/pengfei
+<span class="w"> </span>-<span class="w"> </span>loginShell:<span class="w"> </span>/bin/bash
+
+testing<span class="w"> </span>pam_acct_mgmt
+
+pam_acct_mgmt:<span class="w"> </span>Success
+
+PAM<span class="w"> </span>Environment:
+<span class="w"> </span>-<span class="w"> </span>no<span class="w"> </span>env<span class="w"> </span>-
+</code></pre></div>
+
+<h4 id="252-clear-sssd-cache">2.5.2 Clear sssd cache<a class="headerlink" href="#252-clear-sssd-cache" title="Permanent link">&para;</a></h4>
+<p>Use the below command to clear SSSD cache, if SSSD is using outdated credentials.</p>
+<div class="codehilite"><pre><span></span><code>sss_cache<span class="w"> </span>-E<span class="w">   </span><span class="c1"># Clear all cached entries</span>
+sss_cache<span class="w"> </span>-u<span class="w"> </span>username<span class="w">  </span><span class="c1"># Clear cache for a specific user</span>
+sss_cache<span class="w"> </span>-g<span class="w"> </span>groupname<span class="w">  </span><span class="c1"># Clear cache for a specific group</span>
+</code></pre></div>
+
+<h3 id="26-create-service-principals-for-kerberos-authentication">2.6 Create service principals for kerberos authentication<a class="headerlink" href="#26-create-service-principals-for-kerberos-authentication" title="Permanent link">&para;</a></h3>
+<p>sssd-krb5 requires a service principal to be able to talk with the kerberos server. So we need to create a service account(principal)
+for <code>ssh-server.casd.local</code> to be able to access <code>krb.casd.local</code></p>
+<p>In <code>ssh-server.casd.local</code>, run the below command</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># connect to krb server via kadmin. The principal which you use to connect to the admin console </span>
+<span class="c1"># must has the admin rights in krb server</span>
+sudo<span class="w"> </span>kadmin<span class="w"> </span>-p<span class="w"> </span>admin/admin@CASD.LOCAL
+
+<span class="c1"># you should see the below terminal</span>
+kadmin:
+
+<span class="c1"># create a principal with a generated password for the ssh-server</span>
+kadmin:<span class="w">  </span>addprinc<span class="w"> </span>-randkey<span class="w"> </span>auth-agent/sssd-test.casd.local@CASD.LOCAL
+
+<span class="c1"># export the principal with encrypted password to the default keytab</span>
+kadmin:<span class="w">  </span>ktadd<span class="w"> </span>auth-agent/sssd-test.casd.local@CASD.LOCAL
+
+<span class="c1"># exit the kadmin shell</span>
+quit
+
+<span class="c1"># check the principal in the keytab</span>
+sudo<span class="w"> </span>klist<span class="w"> </span>-k<span class="w"> </span>/etc/krb5.keytab
+
+<span class="c1"># short version</span>
+sudo<span class="w"> </span>klist<span class="w"> </span>-ke
+</code></pre></div>
+
+<blockquote>
+<p>if your principal does not have admin rights, you can edit the <code>/etc/krb5kdc/kadm5.acl</code> file to grant admin rights
+to certain principals</p>
+</blockquote>
+<p>The below file is an example. One common way to set up Kerberos administration is to <code>allow any principal 
+ ending in /admin is given full administrative rights.</code></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># To enable this, uncomment the following line:</span>
+*/admin<span class="w"> </span>*
+</code></pre></div>
+
+<h3 id="27-test-ssh-connexions">2.7 Test ssh connexions<a class="headerlink" href="#27-test-ssh-connexions" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># on the ssh-server, you can already check if the pam, sssd, openldap config</span>
+getent<span class="w"> </span>passwd<span class="w"> </span>username
+
+<span class="c1"># on the ssh-client, </span>
+ssh<span class="w"> </span>uid@ssh-server.casd.local
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
