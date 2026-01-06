@@ -1,0 +1,1516 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Integrate kerberos into a hadoop cluster - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#integrate-kerberos-into-a-hadoop-cluster" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Integrate kerberos into a hadoop cluster
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-prerequisite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prerequisite
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Prerequisite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-prepare-service-account-and-their-keytab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Prepare service account and their keytab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-merge-the-keytab-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Merge the keytab files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-check-if-the-hadoop-servers-are-in-the-ad-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Check if the hadoop servers are in the AD DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-check-kerberos-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Check kerberos client
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-enable-ssl-in-the-hadoop-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Enable SSL in the hadoop cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Enable SSL in the hadoop cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-generate-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Generate certificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-configuration-of-ssl-in-hadoop-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Configuration of SSL in hadoop cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-integrate-kerberos-in-to-hadoop-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Integrate kerberos in to Hadoop cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Integrate kerberos in to Hadoop cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-edit-hadoop-envsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Edit hadoop-env.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-updates-the-security-configuration-of-jdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Updates the security configuration of JDK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-update-the-hadoop-service-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Update the hadoop service configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Update the hadoop service configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231-for-name-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.1 For Name nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232-for-datanode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3.2 For DataNode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#refresh-user-to-group-mappings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refresh User to group mappings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repo-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repo test
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="integrate-kerberos-into-a-hadoop-cluster">Integrate kerberos into a hadoop cluster<a class="headerlink" href="#integrate-kerberos-into-a-hadoop-cluster" title="Permanent link">&para;</a></h1>
+<p>In this tutorial, we will show how to integrate kerberos into a hadoop cluster. The goal is to use the kerberos tickets
+to authenticate users, hosts(e.g. namenode, datanode, resourceManager, etc.) and services(e.g. hdfs, yarn). </p>
+<p>We have different strategy for different kinds of users. For service account, we will generate <code>.keytab</code> files to generate
+kerberos tickets automatically. For user account, a password maybe required to generate the ticket.</p>
+<h2 id="1-prerequisite">1. Prerequisite<a class="headerlink" href="#1-prerequisite" title="Permanent link">&para;</a></h2>
+<p>Before we start, we need to clarify the hadoop cluster context. Because the <code>AD/Ldap account</code> and <code>kerberos principal</code>
+naming conventions strongly depends on the cluster architecture.</p>
+<p>Suppose we have three servers, in each server we run different services:
+- spark-m01.casdds.casd: name-node(hdfs), resource-manager(yarn), history-server(spark)
+- spark-m02.casdds.casd: data-node(hdfs), node-manager(yarn)
+- spark-m03.casdds.casd: data-node(hdfs), node-manager(yarn)</p>
+<blockquote>
+<p>We suppose you already join these machines into the AD/krb realm. For more details, you can check this 
+<a href="https://github.com/pengfei99/LinuxAdminSys/blob/main/docs/debian_server/os_setup/security/05.Configure_ssh_sssd_AD.md">doc</a> </p>
+</blockquote>
+<h3 id="11-prepare-service-account-and-their-keytab">1.1 Prepare service account and their keytab<a class="headerlink" href="#11-prepare-service-account-and-their-keytab" title="Permanent link">&para;</a></h3>
+<p>By convention, we recommend you to create <code>a dedicated AD/Ldap account and kerberos principal for each service</code>. 
+This ensures <code>secure authentication</code> and <code>proper ticket management</code>. It's also easier to monitor access and avoid 
+unexpected situations. Technically, an AD/Ldap account can be associated with one or more kerberos principals.</p>
+<p>Below is a list of all AD/Ldap accounts and kerberos principal you need to create:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Hadoop Role</th>
+<th>Host</th>
+<th>Kerberos Principal</th>
+<th>AD account name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HDFS</td>
+<td>NameNode</td>
+<td>spark-m01.casdds.casd</td>
+<td>nn/spark-m01.casdds.casd@CASDDS.CASD</td>
+<td>hdfs-nn</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DataNode</td>
+<td>spark-m02.casdds.casd</td>
+<td>dn/spark-m02.casdds.casd@CASDDS.CASD</td>
+<td>hdfs-dn1</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>DataNode</td>
+<td>spark-m03.casdds.casd</td>
+<td>dn/spark-m03.casdds.casd@CASDDS.CASD</td>
+<td>hdfs-dn2</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>HTTP Service</td>
+<td>spark-m01.casdds.casd</td>
+<td>http/spark-m01.casdds.casd@CASDDS.CASD</td>
+<td>http-nn</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>HTTP Service</td>
+<td>spark-m02.casdds.casd</td>
+<td>http/spark-m02.casdds.casd@CASDDS.CASD</td>
+<td>http-dn1</td>
+</tr>
+<tr>
+<td>HDFS</td>
+<td>HTTP Service</td>
+<td>spark-m03.casdds.casd</td>
+<td>http/spark-m03.casdds.casd@CASDDS.CASD</td>
+<td>http-dn2</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>ResourceManager</td>
+<td>spark-m01.casdds.casd</td>
+<td>rm/spark-m01.casdds.casd@CASDDS.CASD</td>
+<td>yarn-rn</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>spark-m02.casdds.casd</td>
+<td>nm/spark-m02.casdds.casd@CASDDS.CASD</td>
+<td>yarn-nm1</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>spark-m03.casdds.casd</td>
+<td>nm/spark-m03.casdds.casd@CASDDS.CASD</td>
+<td>yarn-nm2</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td>History Server</td>
+<td>spark-m01.casdds.casd</td>
+<td>jhs/spark-m01.casdds.casd@CASDDS.CASD</td>
+<td>spark-jhs</td>
+</tr>
+<tr>
+<td>HOST</td>
+<td>None</td>
+<td>spark-m01.casdds.casd</td>
+<td>host/spark-m01.casdds.casd@CASDDS.CASD</td>
+<td>spark-m01</td>
+</tr>
+<tr>
+<td>HOST</td>
+<td>None</td>
+<td>spark-m02.casdds.casd</td>
+<td>host/spark-m02.casdds.casd@CASDDS.CASD</td>
+<td>spark-m02</td>
+</tr>
+<tr>
+<td>HOST</td>
+<td>None</td>
+<td>spark-m03.casdds.casd</td>
+<td>host/spark-m03.casdds.casd@CASDDS.CASD</td>
+<td>spark-m03</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The AD account name cannot contain special character such as <code>@</code> and <code>.</code>, so we can't use the principal name as 
+AD account name. </p>
+</blockquote>
+<p>You can create an AD account in windows with the below command</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># create AD account and kerberos principal</span>
+New-ADUser<span class="w"> </span>-Name<span class="w"> </span><span class="s2">&quot;hdfs-nn&quot;</span><span class="w"> </span>-SamAccountName<span class="w"> </span><span class="s2">&quot;hdfs-nn&quot;</span><span class="w"> </span>-UserPrincipalName<span class="w"> </span><span class="s2">&quot;nn/spark-m01.casdds.casd@CASDDS.CASD&quot;</span><span class="w"> </span>-Enabled<span class="w"> </span><span class="nv">$true</span><span class="w"> </span>-PasswordNeverExpires<span class="w"> </span><span class="nv">$true</span><span class="w"> </span>-CannotChangePassword<span class="w"> </span><span class="nv">$true</span><span class="w"> </span>-ChangePasswordAtLogon<span class="w"> </span><span class="nv">$false</span><span class="w"> </span>-PassThru<span class="w"> </span><span class="p">|</span><span class="w"> </span>Set-ADAccountControl<span class="w"> </span>-PasswordNotRequired<span class="w"> </span><span class="nv">$true</span>
+
+<span class="c1"># create corresponding keytab</span>
+ktpass<span class="w"> </span>-princ<span class="w"> </span>nn/spark-m01.casdds.casd@CASDDS.CASD<span class="w"> </span>-mapuser<span class="w"> </span>hdfs-nn<span class="w"> </span>-crypto<span class="w"> </span>ALL<span class="w"> </span>-ptype<span class="w"> </span>KRB5_NT_PRINCIPAL<span class="w"> </span>-pass<span class="w"> </span>Password!<span class="w"> </span>-out<span class="w"> </span>hdfs-nn.keytab
+</code></pre></div>
+
+<p>After you generate the required keytab files for all principals, you need to copy them to the target server.
+For example, for server <code>spark-m01.casdds.casd@CASDDS.CASD</code>, you need to copy the keytab file for principals:
+- nn/spark-m01.casdds.casd@CASDDS.CASD
+- HTTP/spark-m01.casdds.casd@CASDDS.CASD
+- rm/spark-m01.casdds.casd@CASDDS.CASD
+- jhs/spark-m01.casdds.casd@CASDDS.CASD
+- host/spark-m01.casdds.casd@CASDDS.CASD</p>
+<blockquote>
+<p>The general rule is straightforward, you need to check the host fqdn name in the principals </p>
+</blockquote>
+<p>You can test the validity of the keytab file by asking a kerberos ticket. Below command is an example</p>
+<div class="codehilite"><pre><span></span><code>kinit<span class="w"> </span>-kt<span class="w"> </span>/etc/hdfs-nn.keytab<span class="w"> </span>nn/spark-m01.casdds.casd@CASDDS.CASD
+</code></pre></div>
+
+<p>To show the details of a keytab file, you can use the below command: </p>
+<div class="codehilite"><pre><span></span><code>klist<span class="w"> </span>-e<span class="w"> </span>-k<span class="w"> </span>-t<span class="w"> </span>/etc/yarn.keytab
+
+<span class="c1"># expected output</span>
+Keytab<span class="w"> </span>name:<span class="w"> </span>FILE:<span class="w"> </span>/etc/yarn.keytab
+<span class="w"> </span>KVNO<span class="w"> </span>Timestamp<span class="w">         </span>Principal
+<span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">07</span>/18/11<span class="w"> </span><span class="m">21</span>:08:09<span class="w"> </span>yarn/spark-m02.casdds.casd<span class="w"> </span><span class="o">(</span>AES-256<span class="w"> </span>CTS<span class="w"> </span>mode<span class="w"> </span>with<span class="w"> </span><span class="m">96</span>-bit<span class="w"> </span>SHA-1<span class="w"> </span>HMAC<span class="o">)</span>
+<span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">07</span>/18/11<span class="w"> </span><span class="m">21</span>:08:09<span class="w"> </span>yarn/spark-m02.casdds.casd<span class="w"> </span><span class="o">(</span>AES-128<span class="w"> </span>CTS<span class="w"> </span>mode<span class="w"> </span>with<span class="w"> </span><span class="m">96</span>-bit<span class="w"> </span>SHA-1<span class="w"> </span>HMAC<span class="o">)</span>
+<span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">07</span>/18/11<span class="w"> </span><span class="m">21</span>:08:09<span class="w"> </span>yarn/spark-m02.casdds.casd<span class="w"> </span><span class="o">(</span>ArcFour<span class="w"> </span>with<span class="w"> </span>HMAC/md5<span class="o">)</span>
+<span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">07</span>/18/11<span class="w"> </span><span class="m">21</span>:08:09<span class="w"> </span>host/spark-m02.casdds.casd<span class="w"> </span><span class="o">(</span>AES-256<span class="w"> </span>CTS<span class="w"> </span>mode<span class="w"> </span>with<span class="w"> </span><span class="m">96</span>-bit<span class="w"> </span>SHA-1<span class="w"> </span>HMAC<span class="o">)</span>
+<span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">07</span>/18/11<span class="w"> </span><span class="m">21</span>:08:09<span class="w"> </span>host/spark-m02.casdds.casd<span class="w"> </span><span class="o">(</span>AES-128<span class="w"> </span>CTS<span class="w"> </span>mode<span class="w"> </span>with<span class="w"> </span><span class="m">96</span>-bit<span class="w"> </span>SHA-1<span class="w"> </span>HMAC<span class="o">)</span>
+<span class="w">   </span><span class="m">4</span><span class="w"> </span><span class="m">07</span>/18/11<span class="w"> </span><span class="m">21</span>:08:09<span class="w"> </span>host/spark-m02.casdds.casd<span class="w"> </span><span class="o">(</span>ArcFour<span class="w"> </span>with<span class="w"> </span>HMAC/md5<span class="o">)</span>
+</code></pre></div>
+
+<h3 id="12-merge-the-keytab-files">1.2 Merge the keytab files<a class="headerlink" href="#12-merge-the-keytab-files" title="Permanent link">&para;</a></h3>
+<p>To avoid managing many keytab files, you can merge the multi keytab files into one by using <code>ktutil</code> tool.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># start a ktuitl shell with sudo right</span>
+sudo<span class="w"> </span>ktutil
+
+<span class="c1"># load credentials from the keytab files</span>
+rkt<span class="w"> </span>/tmp/yarnm02.keytab
+rkt<span class="w"> </span>/tmp/hostm02.keytab
+
+<span class="c1"># output the loaded credential to a new keytable file</span>
+wkt<span class="w"> </span>/tmp/merged.keytab
+
+<span class="c1"># exit the ktuitl shell</span>
+q
+</code></pre></div>
+
+<p>You can test the content of the merged keytab file with the below command</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>klist<span class="w"> </span>-k<span class="w"> </span>/tmp/merged.keytab
+</code></pre></div>
+
+<h3 id="13-check-if-the-hadoop-servers-are-in-the-ad-dns">1.3. Check if the hadoop servers are in the AD DNS<a class="headerlink" href="#13-check-if-the-hadoop-servers-are-in-the-ad-dns" title="Permanent link">&para;</a></h3>
+<p>Normally, when the linux servers have joined the AD/Krb realm, their AD/DNS configuration are done automatically.</p>
+<p>Just to make sure, you can open the DNS manager on the <code>Domain controller</code> where AD/Krb is located.
+Below figure is an example of the <code>DNS manager GUI</code></p>
+<p><img alt="ad_dns_manager.png" src="../../../images/ad_dns_manager.png" /></p>
+<p>You need to check the <code>value of FQDN and ip</code> for each server in <code>forward and reverse lookup zones</code>.</p>
+<p>Below figure is an example for the Forward loopup zone definition of a server</p>
+<p><img alt="ad_dns_server_spec.png" src="../../../images/ad_dns_server_spec.png" /></p>
+<h2 id="14-check-kerberos-client">1.4. Check kerberos client<a class="headerlink" href="#14-check-kerberos-client" title="Permanent link">&para;</a></h2>
+<p>Normally, you should have a valid krb5 client and config on each hadoop node.</p>
+<p>Below is an example of the krb5 client conf(<code>/etc/krb5.conf</code>).</p>
+<div class="codehilite"><pre><span></span><code><span class="k">[libdefaults]</span>
+<span class="na">default_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+<span class="na">default_tkt_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96</span>
+<span class="na">default_tgs_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96</span>
+<span class="na">permitted_enctypes</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="s">aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96</span>
+<span class="na">kdc_timesync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+<span class="na">ccache_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">4</span>
+<span class="na">forwardable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">ticket_lifetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">24h</span>
+<span class="na">dns_lookup_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">dns_lookup_kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+
+<span class="c1">#allow_weak_crypto = true</span>
+
+<span class="k">[realms]</span>
+<span class="na">CASDDS.CASD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">{</span>
+<span class="w">    </span><span class="na">kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.50.5.64</span>
+<span class="w">    </span><span class="na">admin_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">10.50.5.64</span>
+<span class="na">}</span>
+
+<span class="k">[domain_realm]</span>
+<span class="na">.CASDDS.CASD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+<span class="na">CASDDS.CASD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+</code></pre></div>
+
+<blockquote>
+<p>You can enable allow_weak_crypto = true, if the AD/Krb can't use advance crypto algorithm</p>
+</blockquote>
+<h2 id="2-enable-ssl-in-the-hadoop-cluster">2. Enable SSL in the hadoop cluster<a class="headerlink" href="#2-enable-ssl-in-the-hadoop-cluster" title="Permanent link">&para;</a></h2>
+<p>To secure communication between services in the hadoop cluster, we can enable SSL.</p>
+<h3 id="21-generate-certificate">2.1 Generate certificate<a class="headerlink" href="#21-generate-certificate" title="Permanent link">&para;</a></h3>
+<p>Generate a key pair and store it in a java key store</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>keytool<span class="w"> </span>-genkeypair<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-alias<span class="w"> </span>hadoop<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-keyalg<span class="w"> </span>RSA<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-keysize<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-validity<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-keystore<span class="w"> </span>/opt/hadoop/keystore.jks<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-storepass<span class="w"> </span>changeit
+</code></pre></div>
+
+<p>Check the keystore content </p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>keytool<span class="w"> </span>-list<span class="w"> </span>-keystore<span class="w"> </span>/opt/hadoop/keystore.jks<span class="w"> </span>-storepass<span class="w"> </span>changeit
+</code></pre></div>
+
+<p>Export the certificate</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>keytool<span class="w"> </span>-export<span class="w"> </span>-alias<span class="w"> </span>hadoop<span class="w"> </span>-keystore<span class="w"> </span>/opt/hadoop/keystore.jks<span class="w"> </span>-file<span class="w"> </span>/opt/hadoop/hadoop-cert.pem<span class="w"> </span>-storepass<span class="w"> </span>changeit
+</code></pre></div>
+
+<h3 id="22-configuration-of-ssl-in-hadoop-cluster">2.2 Configuration of SSL in hadoop cluster<a class="headerlink" href="#22-configuration-of-ssl-in-hadoop-cluster" title="Permanent link">&para;</a></h3>
+<p>The ssl configuration file in hadoop cluster is <code>$HADOOP_HOME/etc/hadoop/ssl-server.xml</code> and 
+<code>$HADOOP_HOME/etc/hadoop/ssl-client.xml</code>. In our case, we only need to modify <code>ssl-server.xml</code>.</p>
+<p>Below is an example of the <code>ssl-server.xml</code></p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>ssl-server.xml
+</code></pre></div>
+
+<p>Add the below lines</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.location<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/opt/hadoop/keystore.jks<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.password<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>changeit<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.keypassword<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>changeit<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.type<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>jks<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>(Optionnel)<span class="w"> </span>Format<span class="w"> </span>du<span class="w"> </span>keystore<span class="w"> </span>(par<span class="w"> </span>défaut<span class="w"> </span>«<span class="w"> </span>jks<span class="w"> </span>»).<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.exclude.cipher.list<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>
+<span class="w">      </span>TLS_ECDHE_RSA_WITH_RC4_128_SHA,
+<span class="w">      </span>SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA,
+<span class="w">      </span>SSL_RSA_WITH_DES_CBC_SHA,
+<span class="w">      </span>SSL_DHE_RSA_WITH_DES_CBC_SHA,
+<span class="w">      </span>SSL_RSA_EXPORT_WITH_RC4_40_MD5,
+<span class="w">      </span>SSL_RSA_EXPORT_WITH_DES40_CBC_SHA,
+<span class="w">      </span>SSL_RSA_WITH_RC4_128_MD5
+<span class="w">    </span><span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>(Optionnel)<span class="w"> </span>Liste<span class="w"> </span>des<span class="w"> </span>suites<span class="w"> </span>de<span class="w"> </span>chiffrement<span class="w"> </span>faibles<span class="w"> </span>à<span class="w"> </span>exclure.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
+
+<blockquote>
+<p>This needs to be done all nodes of the hadoop cluster</p>
+</blockquote>
+<h2 id="2-integrate-kerberos-in-to-hadoop-cluster">2. Integrate kerberos in to Hadoop cluster<a class="headerlink" href="#2-integrate-kerberos-in-to-hadoop-cluster" title="Permanent link">&para;</a></h2>
+<p>Here, we suppose you already have a working hadoop cluster, the below steps only shows how to integrate kerberos into
+Hadoop. If you want to learn how to deploy a hadoop cluster, you need to follow this 
+<a href="https://github.com/pengfei99/hadoopCluster/tree/main/docs/hadoop_spark_cluster/02.Installation">doc</a></p>
+<h3 id="21-edit-hadoop-envsh">2.1 Edit hadoop-env.sh<a class="headerlink" href="#21-edit-hadoop-envsh" title="Permanent link">&para;</a></h3>
+<p>The <code>hadoop-env.sh</code> file specifies all environment variables related to the hadoop cluster</p>
+<p>Below is a list of variables you need to check </p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-11-openjdk-amd64
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.net.preferIPv4Stack=true -Djava.security.debug=gssloginconfig,configfile,configparser,logincontext&quot;</span>
+<span class="c1"># use krb client config </span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.security.krb5.conf=/etc/krb5.conf </span><span class="nv">$HADOOP_OPTS</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HDFS_NAMENODE_USER</span><span class="o">=</span>hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">HDFS_DATANODE_USER</span><span class="o">=</span>hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">HDFS_SECONDARYNAMENODE_USER</span><span class="o">=</span>hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">JSVC_HOME</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>jsvc<span class="k">))</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span>/opt/hadoop/etc/hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_SECURITY_LOGGER</span><span class="o">=</span>INFO,RFAS,console
+<span class="nb">export</span><span class="w"> </span><span class="nv">JAVA_TOOL_OPTIONS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$JAVA_TOOL_OPTIONS</span><span class="s2"> --add-opens=java.base/sun.net.dns=ALL-UNNAMED&quot;</span>
+</code></pre></div>
+
+<h3 id="22-updates-the-security-configuration-of-jdk">2.2 Updates the security configuration of JDK<a class="headerlink" href="#22-updates-the-security-configuration-of-jdk" title="Permanent link">&para;</a></h3>
+<p>For kerberos interoperate well with JDK, we need to update the default security conf of the JDK. </p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span><span class="nv">$JAVA_HOME</span>/conf/security/java.security
+
+<span class="c1"># in our case, we use openjdk in debian 11. We can use the absolute path</span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/usr/lib/jvm/java-11-openjdk-amd64/conf/security/java.security
+
+<span class="c1"># you need to add the below lines</span>
+crypto.policy<span class="o">=</span>unlimited
+sun.security.krb5.disableReferrals<span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+
+<blockquote>
+<p>By default, the <code>RC4</code> encryption algo is disabled, because it's weak. But some Windows server still uses it.
+You can find the line <code>jdk.jar.disabledAlgorithms</code> and <code>jdk.tls.disabledAlgorith</code>, then remove the <code>RC4</code> from the 
+disabled algo list.</p>
+</blockquote>
+<h3 id="23-update-the-hadoop-service-configuration">2.3 Update the hadoop service configuration<a class="headerlink" href="#23-update-the-hadoop-service-configuration" title="Permanent link">&para;</a></h3>
+<h4 id="231-for-name-nodes">2.3.1 For Name nodes<a class="headerlink" href="#231-for-name-nodes" title="Permanent link">&para;</a></h4>
+<p>For <code>Name nodes</code>, you need to edit the below config files:
+- core-site.xml
+- hdfs-site.xml
+- yarn-site.xml</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>core-site.xml<span class="w"> </span>
+
+<span class="c1"># add the below lines</span>
+&lt;configuration&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.ssl.server.conf&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/opt/hadoop/etc/hadoop/ssl-server.xml&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;fs.defaultFS&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hdfs://spark-m01.casdds.casd:9000&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.security.authentication&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;kerberos&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.security.authorization&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">    </span>&lt;property&gt;
+<span class="w">        </span>&lt;name&gt;hadoop.security.group.mapping&lt;/name&gt;
+<span class="w">        </span>&lt;value&gt;org.apache.hadoop.security.ShellBasedUnixGroupsMapping&lt;/value&gt;
+<span class="w">    </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.http.authentication.type&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;kerberos&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.http.authentication.kerberos.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;HTTP/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.http.authentication.kerberos.keytab&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/httpm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.http.filter.initializers&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;org.apache.hadoop.security.AuthenticationFilterInitializer&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.security.auth_to_local&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;
+<span class="w">      </span>RULE:<span class="o">[</span><span class="m">2</span>:<span class="nv">$1</span>@<span class="nv">$0</span><span class="o">](</span>.*@casdds<span class="se">\.</span>casd<span class="o">)</span>s/@casdds<span class="se">\.</span>casd//
+<span class="w">      </span>RULE:<span class="o">[</span><span class="m">1</span>:<span class="nv">$1</span><span class="o">]</span>
+<span class="w">      </span>DEFAULT
+<span class="w">    </span>&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Mapping<span class="w"> </span>du<span class="w"> </span>principal<span class="w"> </span>Kerberos<span class="w"> </span>vers<span class="w"> </span>le<span class="w"> </span>nom<span class="w"> </span>d’utilisateur<span class="w"> </span>local.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>hdfs-site.xml
+
+<span class="c1"># add the below lines</span>
+&lt;configuration&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.https.server.keystore.resource&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;ssl-server.xml&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.http.policy&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;HTTPS_ONLY&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.https.port&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;50470&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.data.transfer.protection&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;authentication&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.secondary.https.port&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;50490&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Port<span class="w"> </span>HTTPS<span class="w"> </span>pour<span class="w"> </span>le<span class="w"> </span>secondary-namenode.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.https.address&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;spark-m01.casdds.casd:50470&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Adresse<span class="w"> </span>HTTPS<span class="w"> </span>d’écoute<span class="w"> </span>du<span class="w"> </span>Namenode.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.encrypt.data.transfer&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.replication&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;3&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;file:///opt/hadoop/hadoop_tmp/hdfs/data&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;file:///opt/hadoop/hadoop_tmp/hdfs/data&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.permissions&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Activation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>vérification<span class="w"> </span>des<span class="w"> </span>permissions<span class="w"> </span>sur<span class="w"> </span>HDFS.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.handler.count&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;100&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Augmentation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>file<span class="w"> </span>d’attente<span class="w"> </span>pour<span class="w"> </span>gérer<span class="w"> </span>davantage<span class="w"> </span>de<span class="w"> </span>connexions<span class="w"> </span>clients.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;ipc.server.max.response.size&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;5242880&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.permissions.supergroup&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hadoop&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Nom<span class="w"> </span>du<span class="w"> </span>groupe<span class="w"> </span>des<span class="w"> </span>super-utilisateurs.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.cluster.administrators&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hadoop&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;ACL<span class="w"> </span>pour<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>servlets<span class="w"> </span>par<span class="w"> </span>défaut<span class="w"> </span>de<span class="w"> </span>HDFS.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.access.time.precision&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;0&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Désactivation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>mise<span class="w"> </span>à<span class="w"> </span>jour<span class="w"> </span>des<span class="w"> </span>temps<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>les<span class="w"> </span>fichiers<span class="w"> </span>HDFS.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.block.access.token.enable&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Activation<span class="w"> </span>des<span class="w"> </span>tokens<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>sécuriser<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>datanodes.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;ipc.server.read.threadpool.size&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;5&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.http-address&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;spark-m01.casdds.casd:9870&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.kerberos.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hdfs/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.keytab.file&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/hdfsm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.secondary.namenode.kerberos.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hdfs/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.secondary.namenode.keytab.file&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/hdfsm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.permissions.enabled&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>yarn-site.xml
+
+<span class="c1"># add the below lines</span>
+&lt;configuration&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;spark-m01.casdds.casd&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.resource.cpu-vcores&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;2&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;2048&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.scheduler.maximum-allocation-mb&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;2048&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;512&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.resourcemanager.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;yarn/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.resourcemanager.keytab&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/yarnm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.timeline-service.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;yarn/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.timeline-service.keytab&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/yarnm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre></div>
+
+<h4 id="232-for-datanode">2.3.2 For DataNode<a class="headerlink" href="#232-for-datanode" title="Permanent link">&para;</a></h4>
+<p>For data nodes, you need to edit the below configuration files:
+- core-site.xml
+- hdfs-site.xml
+- yarn-site.xml</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>core-site.xml
+
+<span class="c1"># add the below lines</span>
+&lt;configuration&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;fs.defaultFS&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hdfs://spark-m01.casdds.casd:9000&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.security.authentication&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;kerberos&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.security.authorization&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.ssl.server.conf&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;ssl-server.xml&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;hadoop.security.auth_to_local&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;
+<span class="w">      </span>RULE:<span class="o">[</span><span class="m">2</span>:<span class="nv">$1</span>@<span class="nv">$0</span><span class="o">](</span>.*@CASDDS<span class="se">\.</span>CASD<span class="o">)</span>s/@CASDDS<span class="se">\.</span>CASD//
+<span class="w">      </span>RULE:<span class="o">[</span><span class="m">1</span>:<span class="nv">$1</span><span class="o">]</span>
+<span class="w">      </span>DEFAULT
+<span class="w">    </span>&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Mapping<span class="w"> </span>du<span class="w"> </span>principal<span class="w"> </span>Kerberos<span class="w"> </span>vers<span class="w"> </span>l’utilisateur<span class="w"> </span>local.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>hdfs-site.xml
+
+<span class="c1"># add the below lines</span>
+&lt;configuration&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.https.server.keystore.resource&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;ssl-server.xml&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.http.policy&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;HTTPS_ONLY&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.https.port&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;50470&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.data.transfer.protection&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;authentication&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.secondary.https.port&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;50490&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Port<span class="w"> </span>HTTPS<span class="w"> </span>pour<span class="w"> </span>le<span class="w"> </span>secondary-namenode.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.https.address&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;ip-10-50-5-203.casdds.casd:50470&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Adresse<span class="w"> </span>HTTPS<span class="w"> </span>d’écoute<span class="w"> </span>du<span class="w"> </span>Namenode<span class="w"> </span>sur<span class="w"> </span>le<span class="w"> </span>DataNode.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.encrypt.data.transfer&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.replication&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;3&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;file:///opt/hadoop/hadoop_tmp/hdfs/data&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;file:///opt/hadoop/hadoop_tmp/hdfs/data&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.datanode.kerberos.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hdfs/spark-m02.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.datanode.keytab.file&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/hdfsm02.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.kerberos.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hdfs/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.namenode.keytab.file&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/hdfsm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.permissions&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Activation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>vérification<span class="w"> </span>des<span class="w"> </span>permissions<span class="w"> </span>sur<span class="w"> </span>HDFS.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.permissions.supergroup&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hadoop&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Nom<span class="w"> </span>du<span class="w"> </span>groupe<span class="w"> </span>des<span class="w"> </span>super-utilisateurs.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;ipc.server.max.response.size&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;5242880&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.block.access.token.enable&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Activation<span class="w"> </span>des<span class="w"> </span>tokens<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>datanodes.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.datanode.data.dir.perm&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;750&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Permissions<span class="w"> </span>requises<span class="w"> </span>sur<span class="w"> </span>les<span class="w"> </span>répertoires<span class="w"> </span>de<span class="w"> </span>données.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.access.time.precision&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;0&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;Désactivation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>mise<span class="w"> </span>à<span class="w"> </span>jour<span class="w"> </span>des<span class="w"> </span>temps<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>les<span class="w"> </span>fichiers<span class="w"> </span>HDFS.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;dfs.cluster.administrators&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;hadoop&lt;/value&gt;
+<span class="w">    </span>&lt;description&gt;ACL<span class="w"> </span>pour<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>servlets<span class="w"> </span>par<span class="w"> </span>défaut<span class="w"> </span>de<span class="w"> </span>HDFS.&lt;/description&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;ipc.server.read.threadpool.size&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;5&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>yarn-site.xml
+
+<span class="c1"># add the below lines</span>
+&lt;configuration&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.hostname&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;spark-m02.casdds.casd&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;spark-m01.casdds.casd&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.resource.cpu-vcores&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;2&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;2048&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.scheduler.maximum-allocation-mb&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;2048&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;512&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.resourcemanager.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;yarn/spark-m01.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.resourcemanager.keytab&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/yarnm01.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.timeline-service.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;yarn/spark-m02.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.timeline-service.keytab&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/yarnm02.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.principal&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;yarn/spark-m02.casdds.casd@CASDDS.CASD&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.keytab&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;/etc/yarnm02.keytab&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.timeline-service.http-authentication.type&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;kerberos&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+<span class="w">  </span>&lt;property&gt;
+<span class="w">    </span>&lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;
+<span class="w">    </span>&lt;value&gt;true&lt;/value&gt;
+<span class="w">  </span>&lt;/property&gt;
+&lt;/configuration&gt;
+</code></pre></div>
+
+<h2 id="refresh-user-to-group-mappings">Refresh User to group mappings<a class="headerlink" href="#refresh-user-to-group-mappings" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>hdfs<span class="w"> </span>dfsadmin<span class="w"> </span>-refreshUserToGroupsMappings
+</code></pre></div>
+
+<h2 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
+<ul>
+<li>https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SecureMode.html</li>
+<li>http://docs.cloudera.com.s3-website-us-east-1.amazonaws.com/HDPDocuments/HDP3/HDP-3.1.5/security-reference/content/kerberos_nonambari_adding_security_information_to_configuration_files.html</li>
+</ul>
+<h2 id="repo-test">Repo test<a class="headerlink" href="#repo-test" title="Permanent link">&para;</a></h2>
+<p>https://github.com/CASD-EU/admin_sys/tree/test/dev/roles</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

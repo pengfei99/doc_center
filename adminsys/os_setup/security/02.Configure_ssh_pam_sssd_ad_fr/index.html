@@ -1,0 +1,1071 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Guide pour intégrer une machine Debian 11 à un domaine Active Directory et configurer SSH avec GSSAPI/Kerberos - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guide-pour-integrer-une-machine-debian-11-a-un-domaine-active-directory-et-configurer-ssh-avec-gssapikerberos" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Guide pour intégrer une machine Debian 11 à un domaine Active Directory et configurer SSH avec GSSAPI/Kerberos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#etape-1-preparation-de-la-machine-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 1 : Préparation de la machine Debian
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étape 1 : Préparation de la machine Debian">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-renommer-la-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Renommer la machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-mise-a-jour-du-systeme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Mise à jour du système
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-configurer-le-dns-sur-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Configurer le DNS sur Debian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-installer-les-paquets-necessaires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Installer les paquets nécessaires
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-2-joindre-le-domaine-active-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 2 : Joindre le domaine Active Directory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étape 2 : Joindre le domaine Active Directory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-decouvrir-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Découvrir le domaine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-rejoindre-le-domaine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Rejoindre le domaine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-3-configuration-dns-et-kerberos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 3 : Configuration DNS et Kerberos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étape 3 : Configuration DNS et Kerberos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-ajouter-lenregistrement-dns-sur-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Ajouter l'enregistrement DNS sur Windows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-enregistrer-le-spn-service-principal-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Enregistrer le SPN (Service Principal Name)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-verifier-le-keytab-kerberos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Vérifier le keytab Kerberos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-generation-et-deploiement-dun-fichier-keytab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4. Génération et déploiement d’un fichier keytab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-4-configuration-de-sssd-pam-et-kerberos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 4 : Configuration de SSSD, PAM et Kerberos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étape 4 : Configuration de SSSD, PAM et Kerberos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-fichier-etcsssdsssdconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1. Fichier /etc/sssd/sssd.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-configurer-pam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2. Configurer PAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-fichier-etckrb5conf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3. Fichier /etc/krb5.conf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-5-configuration-ssh-avec-gssapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 5 : Configuration SSH avec GSSAPI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étape 5 : Configuration SSH avec GSSAPI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sur-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Sur Debian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-sur-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Sur Windows
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-6-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Étape 6 : Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Étape 6 : Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-test-kerberos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. Test Kerberos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-connexion-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Connexion SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-notes-importantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix Notes importantes :
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="guide-pour-integrer-une-machine-debian-11-a-un-domaine-active-directory-et-configurer-ssh-avec-gssapikerberos">Guide pour intégrer une machine Debian 11 à un domaine Active Directory et configurer SSH avec GSSAPI/Kerberos<a class="headerlink" href="#guide-pour-integrer-une-machine-debian-11-a-un-domaine-active-directory-et-configurer-ssh-avec-gssapikerberos" title="Permanent link">&para;</a></h1>
+<p>In this tutorial, we show how to join a <code>debian 11</code> server </p>
+<h2 id="etape-1-preparation-de-la-machine-debian">Étape 1 : Préparation de la machine Debian<a class="headerlink" href="#etape-1-preparation-de-la-machine-debian" title="Permanent link">&para;</a></h2>
+<h3 id="11-renommer-la-machine">1.1 Renommer la machine<a class="headerlink" href="#11-renommer-la-machine" title="Permanent link">&para;</a></h3>
+<p>Modifier le nom d'hôte selon la politique de l'entreprise :</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hostname<span class="w">  </span><span class="c1"># Exemple : debian.casdds.casd</span>
+sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span><span class="s2">&quot;nouveau_nom&quot;</span>
+</code></pre></div>
+
+<p>Metter à jour <code>/etc/hosts</code> pour inclure le nom et l'IP statique :</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts<span class="w">  </span><span class="c1"># Ajouter : 10.50.5.X   debian.casdds.casd</span>
+</code></pre></div>
+
+<h3 id="12-mise-a-jour-du-systeme">1.2 Mise à jour du système<a class="headerlink" href="#12-mise-a-jour-du-systeme" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>
+</code></pre></div>
+
+<h3 id="13-configurer-le-dns-sur-debian">1.3 Configurer le DNS sur Debian<a class="headerlink" href="#13-configurer-le-dns-sur-debian" title="Permanent link">&para;</a></h3>
+<p>Définir le serveur DNS AD dans <code>/etc/resolv.conf</code> :</p>
+<div class="codehilite"><pre><span></span><code>search<span class="w"> </span>casdds.casd
+nameserver<span class="w"> </span><span class="m">10</span>.50.5.64
+nameserver<span class="w"> </span><span class="m">8</span>.8.8.8
+</code></pre></div>
+
+<h3 id="14-installer-les-paquets-necessaires">1.4 Installer les paquets nécessaires<a class="headerlink" href="#14-installer-les-paquets-necessaires" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>realmd<span class="w"> </span>sssd<span class="w"> </span>sssd-tools<span class="w"> </span>libnss-sss<span class="w"> </span>libpam-sss<span class="w"> </span>adcli<span class="w"> </span>samba-common-bin<span class="w"> </span>krb5-user<span class="w"> </span>oddjob<span class="w"> </span>oddjob-mkhomedir<span class="w"> </span>packagekit<span class="w"> </span>-y
+</code></pre></div>
+
+<h2 id="etape-2-joindre-le-domaine-active-directory">Étape 2 : Joindre le domaine Active Directory<a class="headerlink" href="#etape-2-joindre-le-domaine-active-directory" title="Permanent link">&para;</a></h2>
+<h3 id="21-decouvrir-le-domaine">2.1. Découvrir le domaine<a class="headerlink" href="#21-decouvrir-le-domaine" title="Permanent link">&para;</a></h3>
+<p>Vérifier la connectivité avec le contrôleur de domaine :</p>
+<div class="codehilite"><pre><span></span><code>realm<span class="w"> </span>discover<span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+
+<h3 id="22-rejoindre-le-domaine">2.2. Rejoindre le domaine<a class="headerlink" href="#22-rejoindre-le-domaine" title="Permanent link">&para;</a></h3>
+<p>Utiliser un compte administrateur AD :</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>Administrateur<span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+
+<p>A ce stade, mon client Debian a bien rejoint mon domaine et apparaît dans la console Utilisateurs et Ordinateurs Active Directory de mon serveur Windows.
+S’il n’apparait pas, on peut l’ajouter manuellement dans Ordinateurs en sélectionne l’@ip static et délégation kerberos </p>
+<p>{{:datascience:admin_system:linux:capture1.png?400|}}
+{{:datascience:admin_system:linux:capture2.png?400|}}</p>
+<h2 id="etape-3-configuration-dns-et-kerberos">Étape 3 : Configuration DNS et Kerberos<a class="headerlink" href="#etape-3-configuration-dns-et-kerberos" title="Permanent link">&para;</a></h2>
+<h3 id="31-ajouter-lenregistrement-dns-sur-windows">3.1. Ajouter l'enregistrement DNS sur Windows<a class="headerlink" href="#31-ajouter-lenregistrement-dns-sur-windows" title="Permanent link">&para;</a></h3>
+<p>Dans le serveur DNS Windows :</p>
+<p><em>Ajouter un enregistrement </em><em>A</em><em> pour la machine Debian dans la zone </em>Forward Lookup*. (S'il n'est pas présent) </p>
+<ul>
+<li>Créer un enregistrement <strong>PTR</strong> dans la zone <em>Reverse Lookup</em>.(S'il n'est pas présent) 
+{{:datascience:admin_system:linux:capture1.png?400|}}
+{{:datascience:admin_system:linux:capture4.png?400|}}</li>
+</ul>
+<h3 id="32-enregistrer-le-spn-service-principal-name">3.2. Enregistrer le SPN (Service Principal Name)<a class="headerlink" href="#32-enregistrer-le-spn-service-principal-name" title="Permanent link">&para;</a></h3>
+<p>Pour assurer que l'enregistrement existant, on tape: </p>
+<p>Sur le contrôleur de domaine (PowerShell administrateur) :   </p>
+<div class="codehilite"><pre><span></span><code>setspn<span class="w"> </span>-L<span class="w"> </span>debian
+</code></pre></div>
+
+<p>Si host/debian.casdds.casd n'est pas présent, on l'ajouter avec Powershell admin :</p>
+<div class="codehilite"><pre><span></span><code>setspn<span class="w"> </span>-S<span class="w"> </span>host/debian.casdds.casd<span class="w"> </span>debian
+ktpass<span class="w"> </span>-princ<span class="w"> </span>host/debian.casdds.casd@CASDDS.CASD<span class="w"> </span>-mapuser<span class="w"> </span>DEBIAN$<span class="w"> </span>-pass<span class="w"> </span>*<span class="w"> </span>-ptype<span class="w"> </span>KRB5_NT_PRINCIPAL<span class="w"> </span>-crypto<span class="w"> </span>AES256-SHA1
+</code></pre></div>
+
+<h3 id="33-verifier-le-keytab-kerberos">3.3. Vérifier le keytab Kerberos<a class="headerlink" href="#33-verifier-le-keytab-kerberos" title="Permanent link">&para;</a></h3>
+<p>Sur Debian :</p>
+<div class="codehilite"><pre><span></span><code>klist<span class="w"> </span>-k<span class="w"> </span>/etc/krb5.keytab<span class="w">  </span><span class="c1"># Vérifier la présence de &quot;host/debian.casdds.casd&quot;</span>
+</code></pre></div>
+
+<p>Si absent, quitter et rejoigner le domaine :</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>realm<span class="w"> </span>leave<span class="w"> </span>CASDDS.CASD
+sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>Administrateur<span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+
+<h3 id="34-generation-et-deploiement-dun-fichier-keytab">3.4. Génération et déploiement d’un fichier keytab<a class="headerlink" href="#34-generation-et-deploiement-dun-fichier-keytab" title="Permanent link">&para;</a></h3>
+<p>Génération du keytab sur Windows :</p>
+<div class="codehilite"><pre><span></span><code>ktpass<span class="w"> </span>-princ<span class="w"> </span>user@CASDDS.CASD<span class="w"> </span>-mapuser<span class="w"> </span>user<span class="w"> </span>-crypto<span class="w"> </span>AES256-SHA1<span class="w"> </span>-ptype<span class="w"> </span>KRB5_NT_PRINCIPAL<span class="w"> </span>-pass<span class="w"> </span>*<span class="w"> </span>-out<span class="w"> </span>user.keytab
+</code></pre></div>
+
+<p>Transfert vers Debian :</p>
+<div class="codehilite"><pre><span></span><code>scp<span class="w"> </span>user.keytab<span class="w"> </span>user@debian.casdds.casd:/tmp/
+</code></pre></div>
+
+<p>Installation et sécurisation du keytab :</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>cp<span class="w"> </span>/tmp/user.keytab<span class="w"> </span>/etc/
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/etc/user.keytab
+sudo<span class="w"> </span>chown<span class="w"> </span>root:root<span class="w"> </span>/etc/user.keytab
+</code></pre></div>
+
+<h2 id="etape-4-configuration-de-sssd-pam-et-kerberos">Étape 4 : Configuration de SSSD, PAM et Kerberos<a class="headerlink" href="#etape-4-configuration-de-sssd-pam-et-kerberos" title="Permanent link">&para;</a></h2>
+<h3 id="41-fichier-etcsssdsssdconf">4.1. Fichier <code>/etc/sssd/sssd.conf</code><a class="headerlink" href="#41-fichier-etcsssdsssdconf" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="o">[</span>sssd<span class="o">]</span>
+<span class="nv">services</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>nss,<span class="w"> </span>pam
+<span class="nv">domains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>casdds.casd
+<span class="nv">config_file_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+
+<span class="o">[</span>nss<span class="o">]</span>
+<span class="nv">homedir_substring</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/home
+
+<span class="o">[</span>pam<span class="o">]</span>
+
+<span class="o">[</span>domain/casdds.casd<span class="o">]</span>
+<span class="nv">ldap_sasl_authid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>user@CASDDS.CASD
+<span class="nv">krb5_keytab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/user.keytab
+<span class="nv">default_shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/bin/bash
+<span class="nv">krb5_store_password_if_offline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">cache_credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">krb5_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+<span class="nv">realmd_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>manages-system<span class="w"> </span>joined-with-adcli
+<span class="nv">id_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ad
+<span class="nv">fallback_homedir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/home/%u@%d
+<span class="nv">ad_domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>casdds.casd
+<span class="nv">use_fully_qualified_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
+<span class="nv">ldap_id_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">access_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ad
+<span class="nv">ldap_group_nesting_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+
+<h3 id="42-configurer-pam">4.2. Configurer PAM<a class="headerlink" href="#42-configurer-pam" title="Permanent link">&para;</a></h3>
+<p>Modifier les fichiers dans <code>/etc/pam.d/</code> pour inclure <code>pam_sss.so</code> </p>
+<div class="codehilite"><pre><span></span><code><span class="c1">### /etc/pam.d/common-auth</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+auth<span class="w">      </span>sufficient<span class="w">  </span>pam_unix.so<span class="w"> </span>try_first_pass
+auth<span class="w">      </span>sufficient<span class="w">  </span>pam_sss.so<span class="w"> </span>use_first_pass
+auth<span class="w">      </span>required<span class="w">    </span>pam_deny.so
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1">### /etc/pam.d/common-account</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+account<span class="w">   </span>required<span class="w">    </span>pam_unix.so
+account<span class="w">   </span>sufficient<span class="w">  </span>pam_sss.so
+account<span class="w">   </span>required<span class="w">    </span>pam_permit.so
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1">### /etc/pam.d/common-password</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+password<span class="w">  </span>sufficient<span class="w">  </span>pam_unix.so
+password<span class="w">  </span>sufficient<span class="w">  </span>pam_sss.so
+password<span class="w">  </span>required<span class="w">    </span>pam_deny.so
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1">### /etc/pam.d/common-session</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+session<span class="w">   </span>required<span class="w">    </span>pam_unix.so
+session<span class="w">   </span>optional<span class="w">    </span>pam_sss.so
+session<span class="w">   </span>required<span class="w">    </span>pam_mkhomedir.so<span class="w"> </span><span class="nv">skel</span><span class="o">=</span>/etc/skel/<span class="w"> </span><span class="nv">umask</span><span class="o">=</span><span class="m">0022</span>
+</code></pre></div>
+
+<h2 id="43-fichier-etckrb5conf">4.3. Fichier <code>/etc/krb5.conf</code><a class="headerlink" href="#43-fichier-etckrb5conf" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="o">[</span>libdefaults<span class="o">]</span>
+<span class="w">        </span><span class="nv">default_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+
+<span class="w">        </span><span class="nv">default_tkt_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>aes256-cts-hmac-sha1-96<span class="w"> </span>aes128-cts-hmac-sha1-96
+<span class="w">        </span><span class="nv">default_tgs_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>aes256-cts-hmac-sha1-96<span class="w"> </span>aes128-cts-hmac-sha1-96
+<span class="w">        </span><span class="nv">permitted_enctypes</span><span class="w">   </span><span class="o">=</span><span class="w"> </span>aes256-cts-hmac-sha1-96<span class="w"> </span>aes128-cts-hmac-sha1-96
+<span class="w">        </span><span class="nv">kdc_timesync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="nv">ccache_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>
+<span class="w">        </span><span class="nv">forwardable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">proxiable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">ticket_lifetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>24h
+<span class="w">        </span><span class="nv">dns_lookup_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">dns_lookup_kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">dns_canonicalize_hostname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span><span class="nv">rdns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span>
+<span class="w">         </span><span class="nv">allow_weak_crypto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="c1"># The following libdefaults parameters are only for Heimdal Kerberos.</span>
+<span class="w">        </span>fcc-mit-ticketflags<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+
+<span class="o">[</span>realms<span class="o">]</span>
+<span class="w">        </span>CASDDS.CASD<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span>
+<span class="w">                </span><span class="nv">kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.50.5.64
+<span class="w">                </span><span class="nv">admin_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.50.5.64
+<span class="w">        </span><span class="o">}</span>
+…..
+<span class="o">[</span>domain_realm<span class="o">]</span>
+….
+<span class="w">        </span>.casdds.casd<span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+<span class="w">        </span>casdds.casd<span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+
+<h2 id="etape-5-configuration-ssh-avec-gssapi">Étape 5 : Configuration SSH avec GSSAPI<a class="headerlink" href="#etape-5-configuration-ssh-avec-gssapi" title="Permanent link">&para;</a></h2>
+<h3 id="51-sur-debian">5.1. Sur Debian<a class="headerlink" href="#51-sur-debian" title="Permanent link">&para;</a></h3>
+<p>Modifier <code>/etc/ssh/sshd_config</code> :</p>
+<div class="codehilite"><pre><span></span><code>UsePam<span class="w"> </span>yes
+GSSAPIAuthentication<span class="w"> </span>yes<span class="w"> </span><span class="c1"># l&#39;authentification basée sur GSSAPI pour les connexions SSH</span>
+GSSAPICleanupCredentials<span class="w"> </span>yes<span class="w"> </span><span class="c1"># la suppression automatique des identifiants temporaires obtenus via GSSAPI après leur utilisation pour renforcer la sécurité</span>
+GSSAPIKeyExchange<span class="w"> </span>yes<span class="w"> </span><span class="c1"># sécuriser l&#39;échange de clés, protégeant ainsi le processus de négociation contre les interceptions</span>
+GSSAPIStrictAcceptorCheck<span class="w"> </span>no<span class="w"> </span><span class="c1"># Désactive la vérification stricte de l&#39;identité de l&#39;acceptateur, facilitant les connexions dans des environnements où les noms de principal peuvent varier</span>
+</code></pre></div>
+
+<p>Modifier <code>/etc/ssh/ssh_config</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span>Host<span class="w"> </span>*
+<span class="w">       </span>…
+<span class="w">       </span>GSSAPIAuthentication<span class="w"> </span>yes
+<span class="w">       </span>GSSAPIDelegateCredentials<span class="w"> </span>yes<span class="w"> </span><span class="c1"># déléguer les identifiants GSSAPI du client au serveur pour </span>
+</code></pre></div>
+
+<p>Redémarrer les services :</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd<span class="w"> </span>sssd
+</code></pre></div>
+
+<h3 id="52-sur-windows">5.2. Sur Windows<a class="headerlink" href="#52-sur-windows" title="Permanent link">&para;</a></h3>
+<p>Installer OpenSSH via PowerShell:</p>
+<div class="codehilite"><pre><span></span><code>Add-WindowsCapability<span class="w"> </span>-Online<span class="w"> </span>-Name<span class="w"> </span>OpenSSH.Client~~~~0.0.1.0
+Add-WindowsCapability<span class="w"> </span>-Online<span class="w"> </span>-Name<span class="w"> </span>OpenSSH.Server~~~~0.0.1.0
+Start-Service<span class="w"> </span>sshd
+Set-Service<span class="w"> </span>-Name<span class="w"> </span>sshd<span class="w"> </span>-StartupType<span class="w"> </span><span class="s1">&#39;Automatic&#39;</span>
+</code></pre></div>
+
+<p>Activer GSSAPI dans <code>C:\ProgramData\ssh\sshd_config</code> :</p>
+<div class="codehilite"><pre><span></span><code>GSSAPIAuthentication<span class="w"> </span>yes
+GSSAPICleanupCredentials<span class="w"> </span>yes
+</code></pre></div>
+
+<p>Redémarrer le service:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span>Restart-Service<span class="w"> </span>sshd
+</code></pre></div>
+
+<h2 id="etape-6-validation">Étape 6 : Validation<a class="headerlink" href="#etape-6-validation" title="Permanent link">&para;</a></h2>
+<h3 id="61-test-kerberos">6.1. Test Kerberos<a class="headerlink" href="#61-test-kerberos" title="Permanent link">&para;</a></h3>
+<p>Sur Debian :</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span>kinit<span class="w"> </span>user@CASDDS.CASD<span class="w">  </span><span class="c1"># Authentifier avec le mot de passe AD</span>
+klist<span class="w">    </span>
+</code></pre></div>
+
+<h3 id="62-connexion-ssh">6.2. Connexion SSH<a class="headerlink" href="#62-connexion-ssh" title="Permanent link">&para;</a></h3>
+<p>Depuis Windows :</p>
+<div class="codehilite"><pre><span></span><code>ssh<span class="w"> </span>-K<span class="w"> </span>user@debian.casdds.casd<span class="w">  </span><span class="c1"># -K active la délégation Kerberos</span>
+</code></pre></div>
+
+<h2 id="appendix-notes-importantes">Appendix Notes importantes :<a class="headerlink" href="#appendix-notes-importantes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Permissions SSSD : Vérifier que <code>/etc/sssd/sssd.conf</code> a les droits <code>600</code> :</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/sssd/sssd.conf
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
