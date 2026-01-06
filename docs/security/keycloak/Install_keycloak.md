@@ -1,0 +1,693 @@
+# Install keycloak on debian 11
+
+This tutorial shows how to install and config a keycloak server in a scripted manner. The objective is: 
+
+- enable installation automation without K8s cluster
+- enable the usage of variables for supporting various environments
+- enable idempotence (the script can be executed multiple times producing the same results)
+
+You can find the official doc https://www.keycloak.org/documentation.html
+
+> Keycloak Operator can only be used in a Kubernetes based runtime.
+
+We will follow below key Steps 
+1. Installing and starting the Keycloak server
+2. Connecting the Admin CLI
+3. Configuring
+## Step 0 : Prerequisites
+
+### Create user account
+
+For good practice, we should run the `keycloak.service` with a service account(e.g. specific User and Group). 
+In this tutorial, we decide to use `keycloak` as the username and group name.
+
+You can create the user and group using the `groupadd and useradd` commands. The following example creates the user, group, 
+and working directory for keycloak. These commands typically requires root (sudo) permissions.
+
+```shell
+sudo groupadd -r keycloak
+
+sudo useradd -r -g keycloak -d /opt/keycloak -s /sbin/nologin keycloak
+
+sudo mkdir -p /opt/keycloak
+
+# change the owner of the data folder
+sudo chown keycloak:keycloak /opt/keycloak
+
+```
+
+### Install jdk
+
+Keycloak requires Java to work. You can check and verify that Java is installed with the following command.
+Base on the keycloak version, you need to install the required jdk version.
+In this tutorial, for keycloak 23.0.4, we use jdk-17
+```shell
+# check if java installed
+java -version
+
+# install jdk 17 (debian 11)
+sudo apt install openjdk-17-jdk
+```
+
+
+## Step 1: Installing and starting the Keycloak server 
+
+We can install the keycloak en mode:
+- bare metal
+- container(e.g. docker, k8s, etc.)
+
+### Installation en mode bare metal
+
+Download of the Keycloak distribution.
+
+```shell
+# fix the kc version which you want to download
+export KC_VERSION=23.0.4
+curl -LO  https://github.com/keycloak/keycloak/releases/download/"${KC_VERSION}"/keycloak-"${KC_VERSION}".zip
+
+# copy the bin into the working directory
+sudo mv keycloak-${KC_VERSION}.zip /opt/keycloak
+
+# unpacking the archive.
+unzip keycloak-${KC_VERSION}.zip
+
+# 
+cd keycloak-${KC_VERSION}
+
+# add execute acl on bin folder
+sudo chmod o+x bin
+
+# This directory contains a Keycloak Quarkus application.
+# When we start the server for the first time, we have to set the admin user and the admin password:
+# You can notice all the config is done by setting env var not in a config file. Because it's designed with cloud native
+KEYCLOAK_ADMIN=admin KEYCLOAK_ADMIN_PASSWORD=YVqs7p4bJaim3rQ2FSI8 ./bin/kc.sh start-dev
+
+# When we start again, it is not necessary to set these variables, again. You can start the server with:
+./bin/kc.sh start-dev
+
+# start-dev runs the quarkus application in DEV-mode. Do not use this for Production.
+# By default, the Keycloak server is using the following ports. They are only served from the localhost loopback address 127.0.0.1:
+# 8080 for Keycloak using HTTP
+# One of the last lines from the log output is:
+# 2023-04-11 13:23:29,545 INFO  [io.quarkus] (main) Keycloak 21.0.2 on JVM (powered by Quarkus 2.13.7.Final) started in 4.418s. Listening on: http://0.0.0.0:8080
+# 
+```
+
+> We can now open the Administration Console from localhost and do the login with the just created admin user.
+
+
+The distribution also contains the `Admin CLI`. This is the shell script **./bin/kcadm.sh**.
+
+We define the `environment variable KCADM for the kcadm.sh` script. 
+
+```shell
+# It must be the absolute path to the 
+# kcadm.sh script from the above Keycloak installation.
+# general form
+export KCADM="/path/to/keycloak/bin/kcadm.sh"
+# in our tutorial
+export KCADM="/opt/keycloak/keycloak-23.0.4/bin/kcadm.sh"
+export HOST_FOR_KCADM=localhost
+```
+
+### Installation en mode docker image
+
+To install and run Keycloak as a docker container a single command is necessary.
+
+```shell
+#  
+export KC_VERSION=23.0.4
+
+# create a container
+docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:${KC_VERSION} start-dev
+```
+
+In the next steps we are using the Admin CLI script (kcadm.sh). It is also contained in the Keycloak docker image. 
+This means every call of the Admin CLI is executing the script from within the docker image.
+
+```shell
+docker run --rm --entrypoint /opt/keycloak/bin/kcadm.sh quay.io/keycloak/keycloak:${KC_VERSION}
+```
+We define the environment variable KCADM for the above command. Additionally, we mount the `$HOME/.keycloak` folder 
+from the docker host at `/opt/.keycloak`.
+
+```shell
+export KCADM="docker run --rm --entrypoint /opt/keycloak/bin/kcadm.sh -v ${HOME}/.keycloak:/opt/keycloak/.keycloak quay.io/keycloak/keycloak:${KC_VERSION}"
+
+# When we executed $KCADM successfully the following output is shown:
+Keycloak Admin CLI
+
+Use 'kcadm.sh config credentials' command with username and password to start a session against a specific
+server and realm.
+
+```
+
+When executing this script with a command (like config, create, get etc.) it connects to the Keycloak instance running 
+in another docker container. Depending on the docker environment you are using, the host name of the Keycloak instance 
+must be specified differently. For Docker Desktop environments the host name can be defined as `host.docker.internal`.
+
+
+```shell
+export HOST_FOR_KCADM=host.docker.internal
+```
+
+
+## Step2: Starting the keycloak server
+
+### In development mode
+
+This mode offers convenient defaults for developers to get the keycloak server up and running quickly. 
+
+```shell
+# To start in development mode, enter the following command:
+
+bin/kc.[sh|bat] start-dev
+```
+
+You can write a little script to run the service on the background. **Not recommended for the production usage**
+
+
+
+```shell
+#!/bin/bash
+export KEYCLOAK_ADMIN=admin
+export KEYCLOAK_ADMIN_PASSWORD=YVqs7p4bJaim3rQ2FSI8
+
+nohup path/to/keycloak/bin/kc.sh start-dev --http_server_proxy edge  --hostname-strict=false --hostname=keycloak.casd.local &
+```
+
+Development mode sets the following default configuration:
+
+ - HTTP is enabled
+ - Strict hostname resolution is disabled
+ - Cache is set to local (No distributed cache mechanism used for high availability)
+ - Theme-caching and template-caching is disabled
+
+### In production mode
+
+This mode follows a secure by default principle.
+
+```shell
+To start in production mode, enter the following command:
+
+bin/kc.[sh|bat] start
+
+```
+
+Without further configuration, this command will not start Keycloak and show you an error instead. This response is 
+done on purpose, because Keycloak follows a secure by default principle. Production mode expects a hostname to be 
+set up and an HTTPS/TLS setup to be available when started.
+
+Production mode sets the following defaults:
+
+  - HTTP is disabled as transport layer security (HTTPS) is essential 
+  - Hostname configuration is expected 
+  - HTTPS/TLS configuration is expected
+
+Before deploying Keycloak in a production environment, make sure to follow the steps outlined in Configuring 
+Keycloak for [production](https://www.keycloak.org/server/configuration-production).
+
+### Creating the initial admin user
+
+You can create the initial admin user by using the `web frontend`, which you access using a local connection 
+(localhost). You can instead create this user by using environment variables. Set `KEYCLOAK_ADMIN=<username>` for 
+the initial admin username and `KEYCLOAK_ADMIN_PASSWORD=<password>` for the initial admin password.
+
+Keycloak parses these values at first startup to create an initial user with administrative rights. Once the first 
+user with administrative rights exists, you can use the Admin Console or the command line tool kcadm.[sh|bat] to 
+create additional users.
+
+If the initial administrator already exists and the environment variables are still present at startup, an error 
+message stating the failed creation of the initial administrator is shown in the logs. Keycloak ignores the 
+values and starts up correctly.
+
+### Optimize the Keycloak startup
+
+We recommend optimizing Keycloak to provide faster startup and better memory consumption before deploying Keycloak 
+in a production environment. 
+
+By default, when you use the start or start-dev command, Keycloak runs a build command under the covers for 
+convenience reasons.
+
+You can run the build command explicitly. Below are some examples
+
+```shell
+# get all build command options 
+bin/kc.[sh|bat] build --help
+
+# Run a build to set the database to PostgreSQL before startup
+bin/kc.[sh|bat] 
+
+# below is an example
+sudo ./bin/kc.sh build --db=postgres 
+
+# after the build process, you can check the config of the build result
+sudo ./bin/kc.sh show-config
+```
+
+For example, you can add below conf in the `conf/keycloak.conf` file
+
+```shell
+# Basic settings for running in production. Change accordingly before deploying the server.
+
+# Database
+
+# The database vendor.
+db=postgres
+
+# The username of the database user.
+db-username=keycloak
+
+# The password of the database user.
+db-password=changeMe
+
+# The full database JDBC URL. If not provided, a default URL is set based on the selected database vendor.
+db-url=jdbc:postgresql://localhost/keycloak
+
+# Observability
+
+# If the server should expose healthcheck endpoints.
+#health-enabled=true
+
+# If the server should expose metrics endpoints.
+#metrics-enabled=true
+
+# HTTP
+
+# The file path to a server certificate or certificate chain in PEM format.
+https-certificate-file=/opt/keycloak/keycloak-23.0.4/conf/wildcard-casd.pem
+
+# The file path to a private key in PEM format.
+https-certificate-key-file=/opt/keycloak/keycloak-23.0.4/conf/wildcard-casd.key
+
+# The http_server_proxy address forwarding mode if the server is behind a reverse http_server_proxy.
+#http_server_proxy=reencrypt
+
+# Do not attach route to cookies and rely on the session affinity capabilities from reverse http_server_proxy
+#spi-sticky-session-encoder-infinispan-should-attach-route=false
+
+# Hostname for the Keycloak server.
+hostname=keycloak.casd.local
+
+```
+
+After a successful build, you can start Keycloak and turn off the default startup behavior by entering the following
+command:
+
+```shell
+bin/kc.[sh|bat] start --optimized <configuration-options>
+```
+
+> The `--optimized` parameter tells Keycloak to assume a pre-built, already optimized Keycloak image is used. As 
+a result, Keycloak avoids checking for and running a build directly at startup, which saves time.
+
+For more information you can visit this page. https://www.keycloak.org/server/configuration
+
+## Step3 : Connection the admin CLI
+
+Now we connect the `Keycloak Admin CLI` to the API and authenticate with the user created previously. We use two 
+environment variables created in Step 1:
+
+- $KCADM
+- $HOST_FOR_KCADM
+
+Please make sure they are defined. Their definition is dependent on the runtime you have chosen.
+
+We log in to the master realm with the admin user. By using the options config credentials we request and maintain an 
+authenticated session, which is used for all further calls. Be aware the access and refresh tokens for this session will be stored in the file $HOME/.keycloak/kcadm.config.
+
+```shell
+$KCADM config credentials --server http://$HOST_FOR_KCADM:8080 --user admin --password YVqs7p4bJaim3rQ2FSI8 --realm master
+```
+
+To check the successful authentication and an authenticated session, we make a first request to the API.
+
+```shell
+$KCADM get serverinfo
+```
+
+The Keycloak server responds with a dump of information about its state and functionality. The same information is 
+also available within the Web Admin Console.
+
+## Step3: Creating a SystemD Service File for Keycloak
+
+If everythion goes well in step 1 and 2, it means we have a keycloak server ready. To facilitate the keycloak 
+service management, Now we will create a systemD service config file.
+
+### configuration directory for Keycloak
+
+Create a configuration directory for Keycloak under /etc directory by the name keycloak.
+
+```shell
+$ cd /etc/
+$ sudo mkdir keycloak
+```
+
+The keycloak distribution contains a default config template which locate at `/path/to/keycloak/conf/keycloak.conf` 
+We can use it as our start point, so copy it to  `/etc/keycloak/` and rename it to keycloak.conf
+
+```shell
+# in our example, our keycloak path is /opt/keycloak/keycloak-23.0.4
+sudo cp /opt/keycloak/keycloak-23.0.4/conf/keycloak.conf /etc/keycloak/keycloak.conf
+```
+
+
+## Create a systemd service for keycloak
+
+If you followed the above tutorial, you should have one keycloak server on mode bare-metal ready to run.
+
+To do a test run, you can use the below command.
+```shell
+sudo ./bin/kc.sh start --http_server_proxy edge --hostname-strict=false --http-port=8080 --log=file --log-file=/var/log/keycloak/keycloak.log
+```
+
+
+You can also create a systemd daemon to better control the keycloak service. 
+
+```text
+# Create a file
+sudo vim /etc/systemd/system/keycloak.service
+
+# put the below content
+[Unit]
+Description=Keycloak Server
+After=syslog.target network.target
+Wants=network.target
+
+[Service]
+Type=notify
+AmbientCapabilities=CAP_SYS_ADMIN
+User=keycloak
+Group=keycloak
+Environment=JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+# this needs to be reviewed in production env
+ExecStart=/opt/keycloak/current/bin/kc.sh start --proxy edge --hostname-strict=false --http-port=8080 --log=file --log-file=/var/log/keycloak/keycloak.log
+
+[Install]
+WantedBy=multi-user.target
+```
+
+You can now control the keycloak daemon with systemd
+
+```shell
+sudo systemctl start/status/stop/restart keycloak
+```
+
+
+## Set a reverse proxy
+
+In this tutorial, I used nginx, you can use other product. Below is a nginx server config example. This works fine
+with direct grant request. If you use an app to integrate keycloak, you may encounter the 
+**CORS header 'Access-Control-Allow-Origin' missing** issue. To resolve this issue, you need to modify the 
+below config to add `Access-Control-Allow-Origin` in the http response header. For more details, check
+
+```shell
+# set a backend upstream for keycloak server
+upstream keycloak_backend {
+    server 127.0.0.1:8080 fail_timeout=0;
+}
+
+server {
+  listen 80;
+  server_name keycloak.casd.local;
+
+  # Redirect all traffic to SSL
+  rewrite ^ https://$host$request_uri? permanent;
+}
+
+server {
+  listen 443 ssl default_server;
+
+  # enables SSLv3/TLSv1, but not SSLv2 which is weak and should no longer be used.
+  ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+  
+  # disables all weak ciphers
+  ssl_ciphers ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;
+
+  server_name keycloak.casd.local;
+
+  ## Access and error logs.
+  access_log /var/log/nginx/access.log;
+  error_log  /var/log/nginx/error.log info;
+
+  ## Keep alive timeout set to a greater value for SSL/TLS.
+  keepalive_timeout 75 75;
+
+  ## See the keepalive_timeout directive in nginx.conf.
+  ## Server certificate and key.
+  ssl_certificate /opt/keycloak/keycloak-23.0.4/conf/wildcard-casd.pem;
+  ssl_certificate_key /opt/keycloak/keycloak-23.0.4/conf/wildcard-casd.key;
+  ssl_session_timeout  5m;
+
+  ## Strict Transport Security header for enhanced security. See
+  ## http://www.chromium.org/sts. I've set it to 2 hours; set it to
+  ## whichever age you want.
+  
+  location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-Port $mapped_server_port;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://keycloak_backend;
+    }
+  
+}
+
+```
+
+
+## Testing the keycloak service
+
+### Set up keycloak client
+
+1. Create a new realm(e.g. Data-catalog)
+2. Create a client inside the realm which you just created (e.g. open-metadata )
+3. In the `Capability config/Authentication flow` section, select two options `standard flow`, and `direct access grants`
+4. In the `Capability config/Client authentication` section, enable it. This will set up a password for the `open-metadata` client
+5. Get the password from the `credentials` Tab.
+
+### Get an access token
+This curl command will get a token from the `open-metadata` client in realm `Data-catalog`(generated by keycloak server).
+
+```shell
+# 
+curl -k -X POST https://keycloak.casd.local/realms/Data-catalog/protocol/openid-connect/token \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -H 'Accept: application/json' \
+     -d 'grant_type=password' \
+     -d 'client_id=open-metadata' \
+     -d 'client_secret=HZDISp4LEuLL96ozs6cN2p4HftHKY62P' \
+     -d 'scope=openid' \
+     -d 'username=jsnow' \
+     -d 'password=jsnow'
+```
+
+### Verify User access token
+
+```shell
+curl -k -X GET https://keycloak.casd.local/realms/Data-catalog/protocol/openid-connect/userinfo \
+     -H 'Content-Type: application/x-www-form-urlencoded' \
+     -H 'Authorization: Bearer <access-token>'
+```
+
+> If your token is not valid, you will not receive the user info. If everything goes well, you will have the below 
+> response
+
+```json
+{
+    "sub": "d0618826-8b2f-4853-a216-5b342d2c0452",
+    "email_verified": false,
+    "name": "John Snow",
+    "preferred_username": "jsnow",
+    "given_name": "John",
+    "family_name": "Snow",
+    "email": "jsnow@casd.local"
+}
+``` 
+ 
+Below are some useful urls
+```
+# you can get the realm configuration with the below url
+https://keycloak.casd.local/realms/Data-catalog/.well-known/openid-configuration
+
+# you can get the token endpoint
+https://keycloak.casd.local/realms/examples/protocol/openid-connect/token
+
+```
+
+### Use postman to test the above request
+
+1. Create a new collection `keycloak API test`
+2. Create a request `Get keycloak access token`, this will simulate the first curl request
+3. In `Get keycloak access token`, In http method, choose `POST`, in url, put `https://keycloak.casd.local/realms/Data-catalog/protocol/openid-connect/token`
+   In `Headers`, add two row `Content-Type:application/x-www-form-urlencoded`, `Accept:application/json`. In `Body`,
+   add the below rows `grant_type:password client_id:open-metadata client_secret:changeMe scope:openid username:jsnow password:jsnow`
+4. Copy the access token in the response body
+5. Create a new request `Verify keycloak access token`
+6. In http method, choose `GET`, in url, put `https://keycloak.casd.local/realms/Data-catalog/protocol/openid-connect/userinfo`
+   In `Authorization`, in `Type` choose `Bearer token`, Copy the access token in Token input line.
+7. After sending the request, you should receive the repose with user profile
+
+> The default access token is only valid for 5 mins, so it's normal your token is no longer valid after 5 mins. You can
+ Change this in Keycloak -> realm settings -> token
+
+## Troubleshoot
+
+### CSS loading issue after hosting keycloak on linux with nginx as proxy server
+
+https://github.com/keycloak/keycloak/issues/12719
+
+### CORS header 'Access-Control-Allow-Origin' missing
+
+You can find more info about this issue here: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin
+
+You can also check this page https://www.stackhawk.com/blog/react-cors-guide-what-it-is-and-how-to-enable-it/
+
+The response to the CORS request is missing the required Access-Control-Allow-Origin header, which is used to determine 
+whether the resource can be accessed by content operating within the current origin.
+
+To correct this issue, you need to add the appropriate `Access-Control-Allow-Origin` values into the HTTP header.
+
+In this tutorial, we used the nginx as our reverse proxy. The below lines show a possible config for nginx. The idea is
+the nginx server checks the `origin value of the http request header`. Base on this value, it will set 
+the `Access-Control-Allow-Origin` on the http response header.
+
+```text
+# set default values for the cors values 
+  set $cors_origin "";
+  set $cors_cred   true;
+  set $cors_header "Content-Type";
+  set $cors_method "POST, GET";
+
+# if requests comes from the allowed domain or subdomain, we assign certain core values 
+# nginx create variables for http header, for example the origin header has the equivalent variable $http_origin in nginx 
+  if ($http_origin ~* (https?://.*\.mckinsey\.com(:[0-9]+)?$)) {
+            set $cors_origin $http_origin;
+            set $cors_cred   true;
+            set $cors_header $http_access_control_request_headers;
+            set $cors_method $http_access_control_request_method;
+  }
+
+# if request comes from null origin, we set another group of core values
+ if ($http_origin ~ 'null') {
+            set $cors_origin "null";
+            set $cors_cred   true;
+            set $cors_header $http_access_control_request_headers;
+            set $cors_method $http_access_control_request_method;
+  }
+
+# add header to the Http response
+  add_header Access-Control-Allow-Origin      $cors_origin;
+  add_header Access-Control-Allow-Credentials $cors_cred;
+  add_header Access-Control-Allow-Headers     $cors_header;
+  add_header Access-Control-Allow-Methods     $cors_method;
+ 
+  location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_pass http://keycloak_backend;
+    }
+
+```
+
+### Bash script to test Authorization Code grant of Keycloak
+
+This following script expects `KEYCLOAK_URL`, `REDIRECT_URL` (it is the client application URL, in this case 
+it can be any URL), `REALM` (Keycloak realm), `CLIENTID` (client application created in Keycloak) and the `USERNAME`.
+
+```shell
+#!/bin/bash
+
+# This script will perform the following steps:
+#
+# 1. Initialize variables and functions.
+# 2. Prompt for the user's password.
+# 3. Obtain the authentication URL from Keycloak.
+# 4. Send username and password to Keycloak to receive a code URL.
+# 5. Extract the code from the received URL.
+# 6. Send the code to Keycloak to receive the Access Token.
+# 7. Decode and display the Access Token.
+# 8. Clean up the cookie file used for authentication.
+
+# Initialize variables
+init() {
+    KEYCLOAK_URL="https://keycloak.casd.local"
+    REDIRECT_URL="http://localhost:8080"
+    USERNAME="jsnow"
+    REALM="Data-catalog"
+    CLIENTID="open-metadata"
+}
+
+# Function to decode the access token
+decode() {
+    jq -R 'split(".") | .[1] | @base64d | fromjson' <<< "$1"
+}
+
+# Prompt for password
+read -rp "Password: " -s PASSWORD
+echo " "
+
+# Initialize
+init
+
+# Cookie file path
+COOKIE="$(pwd)/cookie.jar"
+
+# Step 1: Obtain the authentication URL
+AUTHENTICATE_URL=$(curl -sSL --get --cookie "$COOKIE" --cookie-jar "$COOKIE" \
+    --data-urlencode "client_id=${CLIENTID}" \
+    --data-urlencode "redirect_uri=${REDIRECT_URL}" \
+    --data-urlencode "scope=openid" \
+    --data-urlencode "response_type=code" \
+    "$KEYCLOAK_URL/realms/$REALM/protocol/openid-connect/auth" | pup "form#kc-form-login attr{action}")
+
+# Convert &amp; to &
+AUTHENTICATE_URL=$(echo "$AUTHENTICATE_URL" | sed -e 's/\&amp;/\&/g')
+
+echo "Sending Username Password to the following authentication URL of Keycloak: $AUTHENTICATE_URL"
+echo " "
+
+# Step 2: Obtain the code URL
+CODE_URL=$(curl -sS --cookie "$COOKIE" --cookie-jar "$COOKIE" \
+    --data-urlencode "username=$USERNAME" \
+    --data-urlencode "password=$PASSWORD" \
+    --write-out "%{REDIRECT_URL}" \
+    "$AUTHENTICATE_URL")
+
+echo "Following URL with code received from Keycloak: $CODE_URL"
+echo " "
+
+# Extract code from URL
+code=$(echo "$CODE_URL" | awk -F "code=" '{print $2}' | awk '{print $1}')
+
+echo "Extracted code: $code"
+echo " "
+
+echo "Sending code=$code to Keycloak to receive Access token"
+echo " "
+
+# Step 3: Obtain the Access Token
+ACCESS_TOKEN=$(curl -sS --cookie "$COOKIE" --cookie-jar "$COOKIE" \
+    --data-urlencode "client_id=$CLIENTID" \
+    --data-urlencode "redirect_uri=$REDIRECT_URL" \
+    --data-urlencode "code=$code" \
+    --data-urlencode "grant_type=authorization_code" \
+    "$KEYCLOAK_URL/realms/$REALM/protocol/openid-connect/token" | jq -r ".access_token")
+
+echo " "
+
+# Print decoded Access Token
+echo "Decoded Access Token: "
+decode "$ACCESS_TOKEN"
+
+# Clean up the cookie file
+rm "$COOKIE"
+
+```
+
+> you can find the above bash script in ./src/keycloak/keycloak_auth_code.bash
