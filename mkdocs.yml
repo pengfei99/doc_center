@@ -47,3 +47,15 @@ nav:
       - Configuration: devops/config.md
   - hadoop:
       - Integrate kerberos in hadoop cluster: hadoop/Integrate_kerberos_in_hadoop_cluster.md
+  - security:
+      - Kerberos:
+          - 01.Introduction: security/kerberos/01.Introduction.md
+          - 02.Install_kerberos_client_server: security/kerberos/02.Install_kerberos_server_client_for_debian_server.md
+          - 03.Configure_kerberos_to_use_ldap: security/kerberos/03.Configure_kerberos_to_use_ldap.md
+          - 04.Install_kerberos_server_client_for_windows: security/kerberos/04.Install_kerberos_server_client_for_windows_server.md
+          - 05.Configure_sssd_to_use_static_uid_gid: security/kerberos/05.Configure_sssd_to_use_static_uid_gid.md
+          - 06.Keytab_introduction: security/kerberos/Keytab_introduction.md
+      - keycloak:
+          - Install_keycloak: security/keycloak/Install_keycloak.md
+      - ldap:
+          - Install_ldap: security/ldap/01.install_ldap.md
