@@ -1,0 +1,26 @@
+site_name: Pengfei Documentation
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - codehilite
+
+nav:
+  - Home: index.md
+  - dev_ops:
+      - Installation: devops/install.md
+      - Configuration: devops/config.md
+  - data_management:
+      - Tuning: data_management/tuning.md
+      - FAQ: data_management/faq.md
