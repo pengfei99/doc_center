@@ -1,6 +1,7 @@
-# Welcome to MkDocs
+# Welcome to Pengfei doc center
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+This website is build by using `mkdocs`. For more information about `mkdocs`, please visit [mkdocs.org](https://www.mkdocs.org).
+
 
 ## Commands
 
