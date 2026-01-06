@@ -18,9 +18,32 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - dev_ops:
-      - Installation: devops/install.md
-      - Configuration: devops/config.md
+  - admin_sys:
+      - os_setup:
+          - server language support: adminsys/os_setup/01.Lang_support.md
+          - debian backports repo: adminsys/os_setup/02.Add_debian_backports_repo.md
+          - debian server rdp access: adminsys/os_setup/03.Remote_Desktop_access.md
+          - debian server security update automation: adminsys/os_setup/05.Debian_security_update_automation.md
+          - debian server accept private ca cert: adminsys/os_setup/06.Accept_private_ca_certificate.md
+          - Configure a shared folder in debian: adminsys/os_setup/07.Setup_shared_folder.md
+          - Migrate debian 11 to 13: adminsys/os_setup/08.Debian_upgrade.md
+          - Use postfix to sendmail: adminsys/os_setup/Install_configure_Postfix_to_sendmail.md
+          - auto_config:
+              - ansible:
+                   - ansible roles: adminsys/os_setup/auto_config/ansible/ansible_roles.md
+          - security:
+              - Summary: adminsys/os_setup/security/README.md
+              - Configure_ssh_local_account: adminsys/os_setup/security/01.Configure_ssh_local_account.md
+              - Configure_ssh_pam_ldap: adminsys/os_setup/security/02.Configure_ssh_pam_ldap.md
+              - Configure ssh sssd ldap: adminsys/os_setup/security/03.Configure_ssh_sssd_ldap.md
+              - Configure_ssh_sssd_ad: adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md
+              - Static_uid_gid_integration_in_sssd: adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd.md
+              - Configure_ssh_sssd_kerberos_linux: adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux.md
   - data_management:
       - Tuning: data_management/tuning.md
       - FAQ: data_management/faq.md
+  - dev_ops:
+      - Installation: devops/install.md
+      - Configuration: devops/config.md
+  - hadoop:
+      - Integrate kerberos in hadoop cluster: hadoop/Integrate_kerberos_in_hadoop_cluster.md
