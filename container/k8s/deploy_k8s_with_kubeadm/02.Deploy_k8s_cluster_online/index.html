@@ -1,0 +1,4989 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../01.Introduction_of_Kubeadm/">
+      
+      
+        <link rel="next" href="../03.K8s_cluster_management/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Deploy k8s with kubeadm - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deploy-a-k8s-cluster" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deploy k8s with kubeadm
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    admin_sys
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    admin_sys
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    systemd(serviced) in linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    db_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    db_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgres
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgres
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    os_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian backports repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server rdp access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server security update automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server accept private ca cert
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure a shared folder in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate debian 11 to 13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use postfix to sendmail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_9" id="__nav_2_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_9_1" id="__nav_2_3_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_3_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_10" id="__nav_2_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    package_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    package_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install package via deb files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    use private package repo in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_11" id="__nav_2_3_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_local_account
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_pam_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure ssh sssd ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_ad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static_uid_gid_integration_in_sssd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    other_services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    other_services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build_openssl_tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_gitlab_ce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_vscode_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_4" id="__nav_2_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enable_https_and_auto_redirect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use_nginx_as_load_balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containerd
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containerd
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Containerd/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Containerd/02.Install_config_containerd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker and Docker compose
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker and Docker compose
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/01.Install_docker_dockerCompose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/02.Use_docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Docker/03.Use_docker_compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Helm_chart_registry/01.Deploy_a_helm_chart_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    helm chart registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container image registry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container image registry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_1" id="__nav_3_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    harbor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    harbor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Image_registry/harbor/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Image_registry/harbor/02.Harbor_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Image_registry/harbor/03.Harbor_helm_chart_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor helm chart management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Image_registry/04.Use_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure container runtime to use private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_1" id="__nav_3_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_with_kubeadm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_with_kubeadm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.Introduction_of_Kubeadm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-cluster-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Cluster setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-cluster-network-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Cluster Network config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Cluster Network config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-change-server-hostname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1: Change server hostname
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-list-server-hostnames-of-the-cluster-in-the-etchosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2: List server hostnames of the cluster in the /etc/hosts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-check-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.3: Check connectivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-enable-ipv4-packet-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.4 Enable IPv4 packet forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#125-check-your-cgroup-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.5 Check your cgroup drivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#126-disable-firewalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.6 Disable firewalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-install-container-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Install container runtime
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-diable-swap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Diable swap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-install-k8s-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Install k8s packages
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Install k8s packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-setup-k8s-apt-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Setup k8s apt repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-install-kubelet-kubectl-and-kubeadm-on-all-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Install kubelet, kubectl and kubeadm on all nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-create-kubernetes-cluster-with-kubeadm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Create Kubernetes Cluster with Kubeadm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Create Kubernetes Cluster with Kubeadm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-use-custom-root-ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Use custom root CA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-init-the-k8s-control-plane-master-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Init the k8s control plane (master node)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-setup-kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Setup kubectl
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-join-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Join worker node
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-check-your-k8s-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Check your k8s status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-reset-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Reset the cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-install-calico-pod-network-addon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Install Calico Pod Network Addon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-test-your-k8s-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Test your k8s cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix1-cgroup-and-systemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix1: cgroup and systemd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix1: cgroup and systemd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cgroupfs-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cgroupfs driver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemd-cgroup-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        systemd cgroup driver
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-install-containerd-via-default-apt-repo-not-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix : Install containerd via default apt repo (not recommended)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix : Install containerd via default apt repo (not recommended)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-containerd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure containerd
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-kubeadm-init-without-internet-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Kubeadm init without internet access
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.K8s_cluster_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manage k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.Post_k8s_cluster_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post installation config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_2" id="__nav_3_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_client_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_client_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../k8s_client_setup/01.Install_kubectl_and_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install kubectl and helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../k8s_client_setup/02.Helm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../k8s_client_setup/03.Helm_use_private_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure helm client to use private repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_3" id="__nav_3_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../k8s_security/01.K8s_security_best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s security best practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../k8s_security/06.k8s_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s network security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04.Managing_k8s_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing k8s certificate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05.k8s_cluster_supervision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    K8s_cluster_supervision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Debug_application_in_cluster_k8s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debug_deployed_app_in_k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../k8s_cluster_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_cluster_upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hadoop
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    hadoop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate kerberos in hadoop cluster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kerberos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/02.Install_kerberos_server_client_for_debian_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.Install_kerberos_client_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/03.Configure_kerberos_to_use_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.Configure_kerberos_to_use_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/04.Install_kerberos_server_client_for_windows_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04.Install_kerberos_server_client_for_windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/05.Configure_sssd_to_use_static_uid_gid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05.Configure_sssd_to_use_static_uid_gid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/Keytab_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06.Keytab_introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    keycloak
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    keycloak
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/keycloak/Install_keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ldap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ldap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/ldap/01.install_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-cluster-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Cluster setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-cluster-network-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Cluster Network config
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 Cluster Network config">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-change-server-hostname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.1: Change server hostname
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-list-server-hostnames-of-the-cluster-in-the-etchosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.2: List server hostnames of the cluster in the /etc/hosts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-check-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.3: Check connectivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#124-enable-ipv4-packet-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.4 Enable IPv4 packet forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#125-check-your-cgroup-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.5 Check your cgroup drivers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#126-disable-firewalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2.6 Disable firewalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-install-container-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Install container runtime
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-diable-swap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Diable swap
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-install-k8s-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Install k8s packages
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Install k8s packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-setup-k8s-apt-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Setup k8s apt repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-install-kubelet-kubectl-and-kubeadm-on-all-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Install kubelet, kubectl and kubeadm on all nodes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-create-kubernetes-cluster-with-kubeadm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Create Kubernetes Cluster with Kubeadm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Create Kubernetes Cluster with Kubeadm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-use-custom-root-ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Use custom root CA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-init-the-k8s-control-plane-master-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Init the k8s control plane (master node)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-setup-kubectl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Setup kubectl
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-join-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Join worker node
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-check-your-k8s-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 Check your k8s status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-reset-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Reset the cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-install-calico-pod-network-addon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Install Calico Pod Network Addon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-test-your-k8s-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Test your k8s cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix1-cgroup-and-systemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix1: cgroup and systemd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix1: cgroup and systemd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cgroupfs-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cgroupfs driver
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemd-cgroup-driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        systemd cgroup driver
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-install-containerd-via-default-apt-repo-not-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix : Install containerd via default apt repo (not recommended)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix : Install containerd via default apt repo (not recommended)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-containerd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure containerd
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-kubeadm-init-without-internet-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Kubeadm init without internet access
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="deploy-a-k8s-cluster">Deploy a k8s cluster<a class="headerlink" href="#deploy-a-k8s-cluster" title="Permanent link">&para;</a></h1>
+<p>This tutorial shows how to deploy a k8s cluster with internet access on debian servers.</p>
+<h2 id="1-prerequisites">1. Prerequisites<a class="headerlink" href="#1-prerequisites" title="Permanent link">&para;</a></h2>
+<p>Suppose we have three servers with Debian 11 and below hardware:
+- 4 CPU / vCPU
+- 8 GB RAM
+- 20 GB free disk space
+- Sudo User with Admin rights
+- Stable Internet Connectivity (optional)</p>
+<h3 id="11-cluster-setup">1.1 Cluster setup<a class="headerlink" href="#11-cluster-setup" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Master Node (k8s-master) – 10.50.5.67</li>
+<li>Worker Node 1 (k8s-worker1) – 10.50.5.68</li>
+<li>Worker Node 2 (k8s-worker2) – 10.50.5.69</li>
+</ul>
+<h3 id="12-cluster-network-config">1.2 Cluster Network config<a class="headerlink" href="#12-cluster-network-config" title="Permanent link">&para;</a></h3>
+<p>To enable the communication between Master node and worker node, we need to set up hostnames</p>
+<h4 id="121-change-server-hostname">1.2.1: Change server hostname<a class="headerlink" href="#121-change-server-hostname" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># run this on master node</span>
+sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>k8s-master
+
+<span class="c1"># run this on worker1</span>
+sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>k8s-worker1
+
+<span class="c1"># run this on worker2</span>
+sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>k8s-worker2
+</code></pre></div>
+
+<h4 id="122-list-server-hostnames-of-the-cluster-in-the-etchosts">1.2.2: List server hostnames of the cluster in the <code>/etc/hosts</code><a class="headerlink" href="#122-list-server-hostnames-of-the-cluster-in-the-etchosts" title="Permanent link">&para;</a></h4>
+<p>Add the following lines into <code>/etc/hosts</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="m">10</span>.50.5.67<span class="w">       </span>k8s-master
+<span class="m">10</span>.50.5.68<span class="w">       </span>k8s-worker1
+<span class="m">10</span>.50.5.69<span class="w">       </span>k8s-worker2
+</code></pre></div>
+
+<h4 id="123-check-connectivity">1.2.3: Check connectivity<a class="headerlink" href="#123-check-connectivity" title="Permanent link">&para;</a></h4>
+<p>You can try to ping each workder node from the master and vice-versa</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># from master</span>
+ping<span class="w"> </span>k8s-worker1
+ping<span class="w"> </span>k8s-worker2
+
+<span class="c1"># from the worker</span>
+ping<span class="w"> </span>k8s-master
+</code></pre></div>
+
+<h4 id="124-enable-ipv4-packet-forwarding">1.2.4 Enable IPv4 packet forwarding<a class="headerlink" href="#124-enable-ipv4-packet-forwarding" title="Permanent link">&para;</a></h4>
+<p>By default, the <code>Linux kernel does not allow IPv4 packets to be routed between interfaces</code>. Most Kubernetes 
+cluster networking implementations will change this setting (if needed), but some might expect the administrator 
+to do it for them. (Some might also expect other sysctl parameters to be set, kernel modules to be loaded, etc; 
+consult the documentation for your specific network implementation.</p>
+<p>We will provide the complete procedure
+on how to set up this in <a href="../../../Containerd/02.Install_config_containerd/">docs/Container/Containerd/02.Install_config_containerd.md</a></p>
+<h4 id="125-check-your-cgroup-drivers">1.2.5 Check your cgroup drivers<a class="headerlink" href="#125-check-your-cgroup-drivers" title="Permanent link">&para;</a></h4>
+<p>On Linux, <strong>control groups</strong> are used to constrain resources that are allocated to processes.</p>
+<p>Both the <code>kubelet and the underlying container runtime</code> need to interface with <code>control groups</code> to enforce resource 
+management for pods and containers and set resources such as cpu/memory requests and limits. 
+<code>To interface with control groups, the kubelet and the container runtime need to use a cgroup driver</code>. 
+<strong>It's critical that the kubelet and the container runtime use the same cgroup driver and are configured the same</strong>.</p>
+<p>There are two cgroup drivers available:</p>
+<ul>
+<li>cgroupfs</li>
+<li>systemd</li>
+</ul>
+<p>In our case, as we use debian 11, the default cgroup is <strong>cgroup v2</strong>(Uses a unified hierarchy, improving resource 
+delegation and security), and the default cgroup driver is <strong>systemd</strong>. You can check the cgroup value with below 
+command</p>
+<div class="codehilite"><pre><span></span><code>mount<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>cgroup
+
+<span class="c1"># expected output</span>
+cgroup2<span class="w"> </span>on<span class="w"> </span>/sys/fs/cgroup<span class="w"> </span><span class="nb">type</span><span class="w"> </span>cgroup2<span class="w"> </span><span class="o">(</span>rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot<span class="o">)</span>
+</code></pre></div>
+
+<h4 id="126-disable-firewalls">1.2.6 Disable firewalls<a class="headerlink" href="#126-disable-firewalls" title="Permanent link">&para;</a></h4>
+<p>If you have firewalls installed on your severs, the easiest way is to disable them.</p>
+<div class="codehilite"><pre><span></span><code>ufw<span class="w"> </span>disable
+
+sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>apparmor
+sudo<span class="w"> </span>systemctl<span class="w"> </span>disable<span class="w"> </span>apparmor
+</code></pre></div>
+
+<p>Or you can follow the below commands to set up specific rules</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># On Master node, run</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">6443</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">2379</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">2380</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">10250</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">10251</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">10252</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">10255</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>reload
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># On Worker Nodes,</span>
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">10250</span>/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>allow<span class="w"> </span><span class="m">30000</span>:32767/tcp
+$<span class="w"> </span>sudo<span class="w"> </span>ufw<span class="w"> </span>reload
+</code></pre></div>
+
+<h2 id="2-install-container-runtime">2. Install container runtime<a class="headerlink" href="#2-install-container-runtime" title="Permanent link">&para;</a></h2>
+<p>Containers require a <code>container runtime</code> to run on the host machine. As a result, we must install a container runtime 
+before deploying a k8s cluster.</p>
+<p>For now, <code>Containerd is the industry standard container run time</code>, we must <strong>install containerd on all master and worker nodes</strong>.</p>
+<blockquote>
+<p>Don't use the containerd binary of the native apt repo. Use the version of containerd.io</p>
+</blockquote>
+<p>The detailed installation guide is in <a href="../../../Containerd/02.Install_config_containerd/">docs/Container/Containerd/02.Install_config_containerd.md</a></p>
+<h2 id="3-diable-swap">3. Diable swap<a class="headerlink" href="#3-diable-swap" title="Permanent link">&para;</a></h2>
+<p>For kubelet to work smoothly, it is recommended to disable swap. Run following commands to turn off swap. This step can be skipped if your server does not have swap</p>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>swapoff<span class="w"> </span>-a
+$<span class="w"> </span>sudo<span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/ swap / s/^\(.*\)$/#\1/g&#39;</span><span class="w"> </span>/etc/fstab
+</code></pre></div>
+
+<h2 id="4-install-k8s-packages">4. Install k8s packages<a class="headerlink" href="#4-install-k8s-packages" title="Permanent link">&para;</a></h2>
+<p>The k8s releases are updated every 6 months. So the below docs maybe obsolete. The official doc can be found here
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management</p>
+<p>The below docs are tested on <strong>debian 11</strong> server with k8s <strong>v1.33</strong>.</p>
+<h3 id="41-setup-k8s-apt-repository">4.1 Setup k8s apt repository<a class="headerlink" href="#41-setup-k8s-apt-repository" title="Permanent link">&para;</a></h3>
+<p>You need to set up k8s apt repository on all nodes</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># install required dependencies</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gnupg<span class="w"> </span>gnupg2<span class="w"> </span>curl<span class="w"> </span>software-properties-common<span class="w"> </span>apt-transport-https<span class="w"> </span>-y
+
+<span class="c1"># create the keyrings folder</span>
+sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/apt/keyrings
+
+<span class="c1"># add GPG key</span>
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+<span class="c1"># allow unprivileged APT programs to read this keyring</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/etc/apt/keyrings/kubernetes-apt-keyring.gpg<span class="w"> </span>
+
+<span class="c1"># This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list</span>
+<span class="c1"># add v1.33 k8s repo to source.list </span>
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list
+
+<span class="c1"># helps tools such as command-not-found to work correctly</span>
+sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/etc/apt/sources.list.d/kubernetes.list<span class="w">   </span>
+</code></pre></div>
+
+<blockquote>
+<p>In releases older than Debian 12 and Ubuntu 22.04, folder /etc/apt/keyrings does not exist by default, and it should be created before the curl command.</p>
+</blockquote>
+<h3 id="7-install-kubelet-kubectl-and-kubeadm-on-all-nodes">7. Install kubelet, kubectl and kubeadm on all nodes<a class="headerlink" href="#7-install-kubelet-kubectl-and-kubeadm-on-all-nodes" title="Permanent link">&para;</a></h3>
+<p>Run the following apt commands on all the nodes to install Kubernetes cluster components like kubelet, kubectl and Kubeadm.</p>
+<div class="codehilite"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+
+<span class="c1"># you can check the available version before install</span>
+apt-cache<span class="w"> </span>madison<span class="w"> </span>kubeadm
+
+<span class="c1"># expected output</span>
+kubeadm<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.33.2-1.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.33/deb<span class="w">  </span>Packages
+kubeadm<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.33.1-1.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.33/deb<span class="w">  </span>Packages
+kubeadm<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>.33.0-1.1<span class="w"> </span><span class="p">|</span><span class="w"> </span>https://pkgs.k8s.io/core:/stable:/v1.33/deb<span class="w">  </span>Packages
+
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>kubelet<span class="w"> </span>kubeadm<span class="w"> </span>kubectl<span class="w"> </span>-y
+
+<span class="c1"># check the installed version</span>
+apt<span class="w"> </span>list<span class="w"> </span>--installed<span class="w"> </span>kubeadm
+
+<span class="c1"># hold is used to mark a package as held back, which will prevent the package from being automatically installed, upgraded or removed.</span>
+sudo<span class="w"> </span>apt-mark<span class="w"> </span>hold<span class="w"> </span>kubelet<span class="w"> </span>kubeadm<span class="w"> </span>kubectl
+</code></pre></div>
+
+<h2 id="8-create-kubernetes-cluster-with-kubeadm">8. Create Kubernetes Cluster with Kubeadm<a class="headerlink" href="#8-create-kubernetes-cluster-with-kubeadm" title="Permanent link">&para;</a></h2>
+<p>Now, we need to use kubeadm to create a k8s cluster.</p>
+<h3 id="81-use-custom-root-ca">8.1 Use custom root CA<a class="headerlink" href="#81-use-custom-root-ca" title="Permanent link">&para;</a></h3>
+<p>By default, the k8s cluster will generate a root CA for TLS communication.
+If you want to use a custom root CA certificate, you need to do the following steps:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Step1: put your custom CA files in:</span>
+<span class="c1"># The ca.crt is a valid X.509 root certificate</span>
+/etc/kubernetes/pki/ca.crt
+<span class="c1"># The ca.key is the corresponding private key (PEM format, unencrypted)</span>
+/etc/kubernetes/pki/ca.key
+
+<span class="c1"># Step2: Permissions Check</span>
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/kubernetes/pki/ca.key
+chown<span class="w"> </span>root:root<span class="w"> </span>/etc/kubernetes/pki/ca.key
+
+<span class="c1"># step3: prepare the config (check 8.2)</span>
+
+<span class="c1"># step4: init the cluster with the config file</span>
+kubeadm<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>kubeadm-config.yaml<span class="w"> </span>--upload-certs
+
+<span class="c1"># step5: Optional, if certs were already created with a different CA and you want to re-sign:</span>
+kubeadm<span class="w"> </span>certs<span class="w"> </span>renew<span class="w"> </span>all<span class="w"> </span>--config<span class="w"> </span>kubeadm-config.yaml
+</code></pre></div>
+
+<blockquote>
+<p>Do not pass --skip-phases or --certificate-key, unless managing every phase manually</p>
+</blockquote>
+<h3 id="82-init-the-k8s-control-plane-master-node">8.2 Init the k8s control plane (master node)<a class="headerlink" href="#82-init-the-k8s-control-plane-master-node" title="Permanent link">&para;</a></h3>
+<p>Run the following command only from the master node, it will init the master node as a control plane endpoint</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># short version</span>
+sudo<span class="w"> </span>kubeadm<span class="w"> </span>init
+
+<span class="c1"># long version</span>
+sudo<span class="w"> </span>kubeadm<span class="w"> </span>init<span class="w"> </span>--control-plane-endpoint<span class="o">=</span>k8s-master<span class="w"> </span>--kubernetes-version<span class="w"> </span>v1.27.0
+
+<span class="c1"># with a custom config file, all the configuration is in a file, it&#39;s better for versioning</span>
+kubeadm<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>kubeadm-config.yaml<span class="w"> </span>--upload-certs
+</code></pre></div>
+
+<p>Below is an example of the <code>kubeadm-config.yaml</code></p>
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta3</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InitConfiguration</span>
+<span class="c1"># Configuration for the local kubelet.</span>
+<span class="nt">nodeRegistration</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># the hostname used for the node in the cluster.</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">onyxia-master</span>
+<span class="w">  </span><span class="c1"># The path to the container runtime interface socket (here: containerd).</span>
+<span class="w">  </span><span class="nt">criSocket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unix:///run/containerd/containerd.sock</span>
+<span class="w">  </span><span class="c1"># Forces kubelet to advertise the correct internal IP. Prevents wrong IP detection on multi-interface hosts.</span>
+<span class="w">  </span><span class="nt">kubeletExtraArgs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">node-ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.50.5.67</span>
+
+<span class="nt">localAPIEndpoint</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># The IP address the kube-apiserver binds to on this node.</span>
+<span class="w">  </span><span class="nt">advertiseAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.50.5.67</span>
+<span class="w">  </span><span class="c1"># Port exposed for control-plane communication </span>
+<span class="w">  </span><span class="nt">bindPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta3</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterConfiguration</span>
+<span class="c1"># Target Kubernetes version to install </span>
+<span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.33.2</span>
+<span class="c1"># DNS name or IP + port of the cluster’s load balancer or primary API server. In single-node, it&#39;s the master&#39;s IP.</span>
+<span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10.50.5.67:6443&quot;</span>
+<span class="nt">networking</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># CIDR used by the CNI plugin </span>
+<span class="w">  </span><span class="c1"># REQUIRED to match Calico default</span>
+<span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.0/16</span><span class="w">       </span>
+<span class="w">  </span><span class="nt">serviceSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+<span class="w">  </span><span class="nt">dnsDomain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster.local</span>
+<span class="nt">apiServer</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Additional Subject Alternative Names added to the kube-apiserver certificate. Allows API to be reached via IP or DNS.</span>
+<span class="w">  </span><span class="nt">certSANs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;10.50.5.67&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;onyxia-master&quot;</span>
+<span class="w">  </span><span class="c1"># Configures the authorization model </span>
+<span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">authorization-mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Node,RBAC</span>
+
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeproxy.config.k8s.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubeProxyConfiguration</span>
+<span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iptables</span>
+</code></pre></div>
+
+<p>You can notice the config file has three main parts:
+- <strong>InitConfiguration</strong>: It controls the local node's behavior
+- <strong>ClusterConfiguration</strong>: It defines the global cluster settings
+- <strong>KubeProxyConfiguration</strong>: It defines kube-proxy behavior</p>
+<p>I had a warning, because the api <code>v1beta3</code> is too old, kubeadm has a command to convert it to <code>v1beta4</code></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run this command to convert the config</span>
+kubeadm<span class="w"> </span>config<span class="w"> </span>migrate<span class="w"> </span>--old-config<span class="w"> </span>kubeadm-config.yaml<span class="w"> </span>--new-config<span class="w"> </span>new-config.yaml
+</code></pre></div>
+
+<p>Below is the generated new config in <code>v1beta4</code></p>
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta4</span>
+<span class="nt">bootstrapTokens</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">groups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system:bootstrappers:kubeadm:default-node-token</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">56mm95.5r9xhf31zr9r9gpm</span>
+<span class="w">  </span><span class="nt">ttl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24h0m0s</span>
+<span class="w">  </span><span class="nt">usages</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">signing</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authentication</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">InitConfiguration</span>
+<span class="nt">localAPIEndpoint</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">advertiseAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.50.5.67</span>
+<span class="w">  </span><span class="nt">bindPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<span class="nt">nodeRegistration</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">criSocket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unix:///run/containerd/containerd.sock</span>
+<span class="w">  </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span>
+<span class="w">  </span><span class="nt">imagePullSerial</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">kubeletExtraArgs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node-ip</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.50.5.67</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">onyxia-master</span>
+<span class="w">  </span><span class="nt">taints</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NoSchedule</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node-role.kubernetes.io/control-plane</span>
+<span class="nt">timeouts</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">controlPlaneComponentHealthCheck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4m0s</span>
+<span class="w">  </span><span class="nt">discovery</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m0s</span>
+<span class="w">  </span><span class="nt">etcdAPICall</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2m0s</span>
+<span class="w">  </span><span class="nt">kubeletHealthCheck</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4m0s</span>
+<span class="w">  </span><span class="nt">kubernetesAPICall</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1m0s</span>
+<span class="w">  </span><span class="nt">tlsBootstrap</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m0s</span>
+<span class="w">  </span><span class="nt">upgradeManifests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m0s</span>
+<span class="nn">---</span>
+<span class="nt">apiServer</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">certSANs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.50.5.67</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">onyxia-master</span>
+<span class="w">  </span><span class="nt">extraArgs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">authorization-mode</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Node,RBAC</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubeadm.k8s.io/v1beta4</span>
+<span class="nt">caCertificateValidityPeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">87600h0m0s</span>
+<span class="nt">certificateValidityPeriod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8760h0m0s</span>
+<span class="nt">certificatesDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/kubernetes/pki</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span>
+<span class="nt">controlPlaneEndpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.50.5.67:6443</span>
+<span class="nt">controllerManager</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">dns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">encryptionAlgorithm</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RSA-2048</span>
+<span class="nt">etcd</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">local</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dataDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/etcd</span>
+<span class="nt">imageRepository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.k8s.io</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterConfiguration</span>
+<span class="nt">kubernetesVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.33.2</span>
+<span class="nt">networking</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dnsDomain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster.local</span>
+<span class="w">  </span><span class="nt">podSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.0/16</span>
+<span class="w">  </span><span class="nt">serviceSubnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+<span class="nt">proxy</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">scheduler</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+
+<p>Now you have you needed to run <code>kubeadm init --config kubeadm-config.yaml --upload-certs</code>
+If everything works well, you should see the below output</p>
+<div class="codehilite"><pre><span></span><code>Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of control-plane nodes by copying certificate authorities
+and service account keys on each node and then running the following as root:
+
+  kubeadm join k8s-master:6443 --token 48elby.xre538l1ytebqe7q \
+        --discovery-token-ca-cert-hash sha256:e0cccf7851ec76248163359058ea8e9aad478daefe14180c82f881a5e433dbda \
+        --control-plane
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join k8s-master:6443 --token 48elby.xre538l1ytebqe7q \
+        --discovery-token-ca-cert-hash sha256:e0cccf7851ec76248163359058ea8e9aad478daefe14180c82f881a5e433dbda
+</code></pre></div>
+
+<p>You can notice there are three commands :
+- setup kubectl (k8s client) to connect the k8s cluster (regular user and root user)
+- To join any number of master nodes to control plane
+- To join any number of worker nodes to the cluster</p>
+<h3 id="82-setup-kubectl">8.2 Setup kubectl<a class="headerlink" href="#82-setup-kubectl" title="Permanent link">&para;</a></h3>
+<p>To start interacting with cluster as a regular user, run following commands on master node</p>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/.kube
+$<span class="w"> </span>sudo<span class="w"> </span>cp<span class="w"> </span>-i<span class="w"> </span>/etc/kubernetes/admin.conf<span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+$<span class="w"> </span>sudo<span class="w"> </span>chown<span class="w"> </span><span class="k">$(</span>id<span class="w"> </span>-u<span class="k">)</span>:<span class="k">$(</span>id<span class="w"> </span>-g<span class="k">)</span><span class="w"> </span><span class="nv">$HOME</span>/.kube/config
+</code></pre></div>
+
+<p>Run following kubectl command to get nodes and cluster information,</p>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+$<span class="w"> </span>kubectl<span class="w"> </span>cluster-info
+</code></pre></div>
+
+<h3 id="83-join-worker-node">8.3 Join worker node<a class="headerlink" href="#83-join-worker-node" title="Permanent link">&para;</a></h3>
+<p>If you fogot the token to join the cluster, you can generate a new one with below command:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># you need to have k8s admin right</span>
+kubeadm<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>--print-join-command
+
+<span class="c1"># you should see below outputs</span>
+kubeadm<span class="w"> </span>join<span class="w"> </span><span class="m">10</span>.50.5.67:6443<span class="w"> </span>--token<span class="w"> </span>03mxyl.eg12gb36v3ya2bcs<span class="w"> </span>--discovery-token-ca-cert-hash<span class="w"> </span>sha256:1b19519e76812d286a93413320499bfd7ac1e06f7bd795994e086d0d1d0e6661
+
+<span class="c1"># list existing token</span>
+kubeadm<span class="w"> </span>token<span class="w"> </span>list
+
+<span class="c1"># you should see below outputs</span>
+TOKEN<span class="w">                     </span>TTL<span class="w">         </span>EXPIRES<span class="w">                </span>USAGES<span class="w">                   </span>DESCRIPTION<span class="w">                                                </span>EXTRA<span class="w"> </span>GROUPS
+03mxyl.eg12gb36v3ya2bcs<span class="w">   </span>23h<span class="w">         </span><span class="m">2023</span>-04-18T15:05:50Z<span class="w">   </span>authentication,signing<span class="w">   </span>&lt;none&gt;<span class="w">                                                     </span>system:bootstrappers:kubeadm:default-node-token
+</code></pre></div>
+
+<blockquote>
+<p>You can notice the token has a TTL, so it expires in 23hours</p>
+</blockquote>
+<p>The general form of the join command is shown below:</p>
+<div class="codehilite"><pre><span></span><code>kubeadm<span class="w"> </span>join<span class="w"> </span>&lt;api-server-ip:port&gt;<span class="w"> </span>--token<span class="w"> </span>&lt;token-value&gt;<span class="w"> </span><span class="se">\</span>
+--discovery-token-ca-cert-hash<span class="w"> </span>sha256:&lt;<span class="nb">hash</span><span class="w"> </span>value&gt;
+</code></pre></div>
+
+<p>So we need three information, </p>
+<ul>
+<li>k8s Api-server-ip and port</li>
+<li>a Valid token</li>
+<li>Token-ca-cert-hash value</li>
+</ul>
+<p>You can run below command to get the api server ip and port</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span>--minify<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.clusters[0].cluster.server}&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+</code></pre></div>
+
+<blockquote>
+<p>You need to have root privilege to run kubeadm join</p>
+</blockquote>
+<h2 id="84-check-your-k8s-status">8.4 Check your k8s status<a class="headerlink" href="#84-check-your-k8s-status" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># get available nodes</span>
+NAME<span class="w">            </span>STATUS<span class="w">     </span>ROLES<span class="w">           </span>AGE<span class="w">     </span>VERSION
+onyxia-master<span class="w">   </span>NotReady<span class="w">   </span>control-plane<span class="w">   </span>5m43s<span class="w">   </span>v1.33.2
+onyxia-w01<span class="w">      </span>NotReady<span class="w">   </span>&lt;none&gt;<span class="w">          </span>20s<span class="w">     </span>v1.33.2
+onyxia-w02<span class="w">      </span>NotReady<span class="w">   </span>&lt;none&gt;<span class="w">          </span>9s<span class="w">      </span>v1.33.2
+
+<span class="c1"># get pods in name space</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system
+</code></pre></div>
+
+<blockquote>
+<p>If you see the nodes status are <code>Not-Ready</code>, you can check the pods status in kube-system with the below command. 
+<code>kubectl get pods -n kube-system</code>.
+If you see <strong>coredns</strong> is pending, it's normal. Because it <strong>requires a network addon to run</strong>. We will install it in the next section</p>
+</blockquote>
+<h2 id="9-reset-the-cluster">9. Reset the cluster<a class="headerlink" href="#9-reset-the-cluster" title="Permanent link">&para;</a></h2>
+<p>https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-reset/</p>
+<h2 id="10-install-calico-pod-network-addon">10. Install Calico Pod Network Addon<a class="headerlink" href="#10-install-calico-pod-network-addon" title="Permanent link">&para;</a></h2>
+<p>To enable communication between nodes and services in k8s cluster, we need a network addon. 
+In our case, we use <strong>Calico</strong>. The project page is <a href="https://github.com/projectcalico/calico">here</a></p>
+<p>On the master node, run beneath command to install calico. Here I choose the current latest version v3.25.1. You can 
+visit the project page and get the latest version.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># general form</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/projectcalico/calico/<span class="o">{</span>calico-versioin<span class="o">}</span>/manifests/calico.yaml
+
+<span class="c1"># example</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/projectcalico/calico/v3.25.1/manifests/calico.yaml
+</code></pre></div>
+
+<blockquote>
+<p>You need to check the compatibility between your k8s cluster version and the calico version. 
+For </p>
+</blockquote>
+<h2 id="11-test-your-k8s-cluster">11. Test your k8s cluster<a class="headerlink" href="#11-test-your-k8s-cluster" title="Permanent link">&para;</a></h2>
+<p>To test Kubernetes cluster installation, let’s try to deploy nginx-based application via deployment. Run beneath commands,</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># get general status of your cluster</span>
+kubectl<span class="w"> </span>cluster-info
+
+<span class="c1"># create a deployment with nginx image</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>deployment<span class="w"> </span>nginx-app<span class="w"> </span>--image<span class="o">=</span>nginx<span class="w"> </span>--replicas<span class="w"> </span><span class="m">2</span>
+
+<span class="c1"># create a service which uses the deployment</span>
+kubectl<span class="w"> </span>expose<span class="w"> </span>deployment<span class="w"> </span>nginx-app<span class="w"> </span>--name<span class="o">=</span>nginx-web-svc<span class="w"> </span>--type<span class="w"> </span>NodePort<span class="w"> </span>--port<span class="w"> </span><span class="m">80</span><span class="w"> </span>--target-port<span class="w"> </span><span class="m">80</span>
+
+<span class="c1"># get the pod info the deployment</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide
+
+NAME<span class="w">                         </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE<span class="w">   </span>IP<span class="w">               </span>NODE<span class="w">          </span>NOMINATED<span class="w"> </span>NODE<span class="w">   </span>READINESS<span class="w"> </span>GATES
+nginx-app-7df7b66fb5-b6lhk<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>83m<span class="w">   </span><span class="m">192</span>.168.194.68<span class="w">   </span>k8s-worker1<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+nginx-app-7df7b66fb5-qtsw7<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>83m<span class="w">   </span><span class="m">192</span>.168.194.66<span class="w">   </span>k8s-worker1<span class="w">   </span>&lt;none&gt;<span class="w">           </span>&lt;none&gt;
+
+<span class="c1"># get the info of the service, you need to get the node port</span>
+kubectl<span class="w"> </span>describe<span class="w"> </span>svc<span class="w"> </span>nginx-web-svc
+
+<span class="c1"># the output</span>
+
+Name:<span class="w">                     </span>nginx-web-svc
+Namespace:<span class="w">                </span>default
+Labels:<span class="w">                   </span><span class="nv">app</span><span class="o">=</span>nginx-app
+Annotations:<span class="w">              </span>&lt;none&gt;
+Selector:<span class="w">                 </span><span class="nv">app</span><span class="o">=</span>nginx-app
+Type:<span class="w">                     </span>NodePort
+IP<span class="w"> </span>Family<span class="w"> </span>Policy:<span class="w">         </span>SingleStack
+IP<span class="w"> </span>Families:<span class="w">              </span>IPv4
+IP:<span class="w">                       </span><span class="m">10</span>.103.208.99
+IPs:<span class="w">                      </span><span class="m">10</span>.103.208.99
+Port:<span class="w">                     </span>&lt;unset&gt;<span class="w">  </span><span class="m">80</span>/TCP
+TargetPort:<span class="w">               </span><span class="m">80</span>/TCP
+NodePort:<span class="w">                 </span>&lt;unset&gt;<span class="w">  </span><span class="m">31169</span>/TCP
+Endpoints:<span class="w">                </span>&lt;none&gt;
+Session<span class="w"> </span>Affinity:<span class="w">         </span>None
+External<span class="w"> </span>Traffic<span class="w"> </span>Policy:<span class="w">  </span>Cluster
+Events:<span class="w">                   </span>&lt;none&gt;
+
+<span class="c1"># with the above two commands, you know that the pods runs on `k8s-worker1`, the node port is 31169.</span>
+<span class="c1"># You can try to access the nginx service with the below command.</span>
+<span class="c1"># you need to modify the url and port based on the svc output</span>
+curl<span class="w"> </span>http://k8s-worker1:31169
+
+<span class="c1"># clean the cluster after test</span>
+kubectl<span class="w"> </span>delete<span class="w"> </span>deployment<span class="w"> </span>nginx-app
+kubectl<span class="w"> </span>delete<span class="w"> </span>service<span class="w"> </span>nginx-web-svc
+</code></pre></div>
+
+<p>If you get a HTML response from the nginx server with success, it means your k8s cluster is good.</p>
+<h2 id="appendix1-cgroup-and-systemd">Appendix1: cgroup and systemd<a class="headerlink" href="#appendix1-cgroup-and-systemd" title="Permanent link">&para;</a></h2>
+<p><code>Systemd</code> organizes processes using <code>cgroups</code> to track and manage resource usage. Each systemd unit (like a service) 
+runs in its own cgroup. For example, the <code>nginx.service</code> runs in <code>/sys/fs/cgroup/system.slice/nginx.service/</code>
+This ensures services are isolated and can have specific resource limits.</p>
+<p>Systemd provides commands to control resource usage dynamically:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Limit CPU usage:</span>
+systemctl<span class="w"> </span>set-property<span class="w"> </span>nginx.service<span class="w"> </span><span class="nv">CPUQuota</span><span class="o">=</span><span class="m">50</span>%
+
+<span class="c1"># Limit Memory usage:</span>
+systemctl<span class="w"> </span>set-property<span class="w"> </span>nginx.service<span class="w"> </span><span class="nv">MemoryMax</span><span class="o">=</span>500M
+</code></pre></div>
+
+<p>These settings are applied via cgroup controllers in the background.</p>
+<h3 id="cgroupfs-driver">cgroupfs driver<a class="headerlink" href="#cgroupfs-driver" title="Permanent link">&para;</a></h3>
+<p>The <strong>cgroupfs</strong> driver is the default cgroup driver in the kubelet. When the cgroupfs driver is used, the kubelet 
+and the container runtime directly interface with the cgroup filesystem to configure cgroups.</p>
+<p><strong>The cgroupfs driver is not recommended</strong> when systemd is the init system because systemd expects a single cgroup manager on the system. Additionally, if you use cgroup v2 , use the systemd cgroup driver instead of cgroupfs.</p>
+<h3 id="systemd-cgroup-driver">systemd cgroup driver<a class="headerlink" href="#systemd-cgroup-driver" title="Permanent link">&para;</a></h3>
+<p>When <strong>systemd</strong> is chosen as the init system for a Linux distribution, the init process generates and consumes a root control group (cgroup) and acts as a cgroup manager.</p>
+<p>systemd has a tight integration with cgroups and allocates a cgroup per systemd unit. As a result, if you use systemd as the init system with the cgroupfs driver, the system gets two different cgroup managers.</p>
+<p>Two cgroup managers result in two views of the available and in-use resources in the system. In some cases, nodes that are configured to use cgroupfs for the kubelet and container runtime, but use systemd for the rest of the processes become unstable under resource pressure.</p>
+<p>The approach to mitigate this instability is to use systemd as the cgroup driver for the kubelet and the container runtime when systemd is the selected init system.</p>
+<p>To set <code>systemd</code> as the cgroup driver, edit the <a href="https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/">KubeletConfiguration</a> option of cgroupDriver and set it to systemd. For example: </p>
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet.config.k8s.io/v1beta1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubeletConfiguration</span>
+<span class="nn">...</span>
+<span class="nt">cgroupDriver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">systemd</span>
+</code></pre></div>
+
+<p>If you configure systemd as the cgroup driver for the kubelet, you must also configure systemd as the cgroup driver 
+for the container runtime. Refer to the documentation for your container runtime for instructions. For example:</p>
+<ul>
+<li>containerd</li>
+<li>CRI-O</li>
+</ul>
+<blockquote>
+<p>Caution: Changing the cgroup driver of a Node that has joined a cluster is a sensitive operation. If the kubelet 
+has created Pods using the semantics of one cgroup driver, changing the container runtime to another cgroup 
+driver can cause errors when trying to re-create the Pod sandbox for such existing Pods. 
+Restarting the kubelet may not solve such errors.</p>
+</blockquote>
+<p>If you have automation that makes it feasible, replace the node with another using the updated configuration, or reinstall it using automation.</p>
+<h2 id="appendix-install-containerd-via-default-apt-repo-not-recommended">Appendix : Install containerd via default apt repo (not recommended)<a class="headerlink" href="#appendix-install-containerd-via-default-apt-repo-not-recommended" title="Permanent link">&para;</a></h2>
+<p>You can find the offical intallation doc of containd <a href="https://github.com/containerd/containerd/blob/main/docs/getting-started.md">here</a></p>
+<h3 id="configure-containerd">Configure containerd<a class="headerlink" href="#configure-containerd" title="Permanent link">&para;</a></h3>
+<p>If you have problems with containerd, check this <a href="../../../Containerd/02.Install_config_containerd/">02.Install_config_containerd.md</a></p>
+<h2 id="appendix-kubeadm-init-without-internet-access">Appendix: Kubeadm init without internet access<a class="headerlink" href="#appendix-kubeadm-init-without-internet-access" title="Permanent link">&para;</a></h2>
+<p>Get all images that you need to pull</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--all-namespaces<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&quot;{.items[*].spec.containers[*].image}&quot;</span><span class="w"> </span><span class="p">|</span><span class="se">\</span>
+tr<span class="w"> </span>-s<span class="w"> </span><span class="s1">&#39;[[:space:]]&#39;</span><span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="w"> </span><span class="p">|</span><span class="se">\</span>
+sort<span class="w"> </span><span class="p">|</span><span class="se">\</span>
+uniq<span class="w"> </span>-c
+</code></pre></div>
+
+<p>You need to pull below image into local containerd cache
+- registry.k8s.io/coredns/coredns:v1.10.1
+- registry.k8s.io/etcd:3.5.7-0
+- registry.k8s.io/kube-apiserver:v1.27.0
+- registry.k8s.io/kube-controller-manager:v1.27.0
+- registry.k8s.io/kube-proxy:v1.27.0
+- registry.k8s.io/kube-scheduler:v1.27.0</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
