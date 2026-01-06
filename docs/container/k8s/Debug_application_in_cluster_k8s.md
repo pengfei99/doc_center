@@ -70,23 +70,20 @@ kubectl logs --previous ingress-nginx-controller-qt489 -n ingress-nginx
 ```shell
 kubectl get events --sort-by='.metadata.creationTimestamp' -A | grep ingress-nginx
 ```
+
 You might see:
+- Insufficient CPU/memory
+- Taints not tolerated
+- Node selector mismatch
 
-Insufficient CPU/memory
+### 5.Verify Volume Mounts
 
-Taints not tolerated
-
-Node selector mismatch
-
-🔹 5. Verify Volume Mounts
 If you mounted the CA:
 
 Ensure secret exists:
-
-bash
-Copy
-Edit
+```shell
 kubectl get secret root-ca -n ingress-nginx -o yaml
-Ensure volume and volumeMount path is correct.
+```
 
-Check file permissions (readOnly: true + non-root user?).
+> Ensure volume and volumeMount path is correct.
+> Check file permissions (readOnly: true + non-root user?).
