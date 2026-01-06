@@ -19,6 +19,14 @@ markdown_extensions:
 nav:
   - Home: index.md
   - admin_sys:
+      - core:
+          - systemd(serviced) in linux: adminsys/core/Systemd(serviced).md
+      - db_management:
+          - mariadb:
+              - installation: adminsys/db_management/mariadb/Installation.md
+              - configuration: adminsys/db_management/mariadb/Management.md
+          - postgres:
+              - installation: adminsys/db_management/postgres/Install_postgresql.md
       - os_setup:
           - server language support: adminsys/os_setup/01.Lang_support.md
           - debian backports repo: adminsys/os_setup/02.Add_debian_backports_repo.md
@@ -31,6 +39,9 @@ nav:
           - auto_config:
               - ansible:
                    - ansible roles: adminsys/os_setup/auto_config/ansible/ansible_roles.md
+          - package_management:
+              - install package via deb files: adminsys/os_setup/package_management/01.Install_deb_files.md
+              - use private package repo in debian: adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md
           - security:
               - Summary: adminsys/os_setup/security/README.md
               - Configure_ssh_local_account: adminsys/os_setup/security/01.Configure_ssh_local_account.md
@@ -39,6 +50,49 @@ nav:
               - Configure_ssh_sssd_ad: adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md
               - Static_uid_gid_integration_in_sssd: adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd.md
               - Configure_ssh_sssd_kerberos_linux: adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux.md
+      - other_services:
+          - build_openssl_tool: adminsys/other_services/build_openssl_tool.md
+          - install_gitlab_ce: adminsys/other_services/install_gitlab_ce.md
+          - install_vscode_server: adminsys/other_services/install_vscode_server.md
+          - Nginx:
+              - Installation: adminsys/other_services/Nginx/01.Install_Nginx.md
+              - Enable_https_and_auto_redirect: adminsys/other_services/Nginx/02.Enable_https_resolution.md
+              - Use_nginx_as_load_balancer: adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer.md
+  - container:
+      - Containerd:
+          - Introduction: container/Containerd/01.Introduction.md
+          - Installation: container/Containerd/02.Install_config_containerd.md
+      - Docker and Docker compose:
+          - Installation: container/Docker/01.Install_docker_dockerCompose.md
+          - Use docker: container/Docker/02.Use_docker.md
+          - Use docker compose: container/Docker/03.Use_docker_compose.md
+      - helm chart registry: container/Helm_chart_registry/01.Deploy_a_helm_chart_registry.md
+      - container image registry:
+          - harbor:
+              - Introduction: container/Image_registry/harbor/01.Introduction.md
+              - Harbor installation: container/Image_registry/harbor/02.Harbor_installation.md
+              - Harbor helm chart management: container/Image_registry/harbor/03.Harbor_helm_chart_management.md
+          - Configure container runtime to use private image registry: container/Image_registry/04.Use_private_image_registry.md
+      - k8s:
+          - deploy_k8s_with_kubeadm:
+              - Introduction of kubeadm: container/k8s/deploy_k8s_with_kubeadm/01.Introduction_of_Kubeadm.md
+              - Deploy k8s with kubeadm: container/k8s/deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online.md
+              - Manage k8s with kubeadm: container/k8s/deploy_k8s_with_kubeadm/03.K8s_cluster_management.md
+              - Post installation config: container/k8s/deploy_k8s_with_kubeadm/04.Post_k8s_cluster_installation.md
+          - k8s_client_setup:
+              - Install kubectl and helm: container/k8s/k8s_client_setup/01.Install_kubectl_and_helm.md
+              - Introduction of helm: container/k8s/k8s_client_setup/02.Helm_introduction.md
+              - Configure helm client to use private repo: container/k8s/k8s_client_setup/03.Helm_use_private_repo.md
+          - k8s_security:
+              - k8s security best practices: container/k8s/k8s_security/01.K8s_security_best_practices.md
+              - k8s network security: container/k8s/k8s_security/06.k8s_security.md
+          - Introduction of k8s: container/k8s/01.Introduction.md
+          - Managing k8s certificate: container/k8s/04.Managing_k8s_certificate.md
+          - K8s_cluster_supervision: container/k8s/05.k8s_cluster_supervision.md
+          - Debug_deployed_app_in_k8s: container/k8s/Debug_application_in_cluster_k8s.md
+          - k8s_cluster_upgrade: container/k8s/k8s_cluster_upgrade.md
+
+
   - data_management:
       - Tuning: data_management/tuning.md
       - FAQ: data_management/faq.md
