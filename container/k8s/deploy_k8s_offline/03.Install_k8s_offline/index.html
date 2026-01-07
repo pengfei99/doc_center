@@ -3721,13 +3721,13 @@
 <h2 id="2-cluster-network-config">2. Cluster Network config<a class="headerlink" href="#2-cluster-network-config" title="Permanent link">&para;</a></h2>
 <h2 id="3-diable-swap">3. Diable swap<a class="headerlink" href="#3-diable-swap" title="Permanent link">&para;</a></h2>
 <h2 id="4-configure-firewall-rules">4. Configure Firewall Rules<a class="headerlink" href="#4-configure-firewall-rules" title="Permanent link">&para;</a></h2>
-<p>Step 1. to 4. do not require internet connection, so follow the doc of <a href="./01.Install_with_internet.md">01.Install_with_internet.md</a> </p>
+<p>Step 1. to 4. do not require internet connection, so follow the doc of <a href="../../deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/">01.Install_with_internet.md</a> </p>
 <h2 id="5-install-containerd-run-times-on-all-nodes">5. Install Containerd run times on all nodes<a class="headerlink" href="#5-install-containerd-run-times-on-all-nodes" title="Permanent link">&para;</a></h2>
-<p>The <strong>containerd.io</strong> deb package should be in the local deb repo (deb.casd.local). So follow the doc  of <a href="./01.Install_with_internet.md">01.Install_with_internet.md</a>. </p>
+<p>The <strong>containerd.io</strong> deb package should be in the local deb repo (deb.casd.local). So follow the doc  of <a href="../../deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/">01.Install_with_internet.md</a>. </p>
 <h2 id="6-setup-k8s-apt-repository">6. Setup k8s apt repository<a class="headerlink" href="#6-setup-k8s-apt-repository" title="Permanent link">&para;</a></h2>
 <p>SKIP, no need</p>
 <h2 id="7-install-kubelet-kubectl-and-kubeadm-on-all-nodes">7. Install kubelet, kubectl and kubeadm on all nodes<a class="headerlink" href="#7-install-kubelet-kubectl-and-kubeadm-on-all-nodes" title="Permanent link">&para;</a></h2>
-<p>The <strong>kubelet kubeadm kubectl</strong> deb package should be in the local deb repo (deb.casd.local). So follow the doc  of <a href="./01.Install_with_internet.md">01.Install_with_internet.md</a>. </p>
+<p>The <strong>kubelet kubeadm kubectl</strong> deb package should be in the local deb repo (deb.casd.local). So follow the doc  of <a href="../../deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/">01.Install_with_internet.md</a>. </p>
 <h2 id="8-create-kubernetes-cluster-with-kubeadm">8. Create Kubernetes Cluster with Kubeadm<a class="headerlink" href="#8-create-kubernetes-cluster-with-kubeadm" title="Permanent link">&para;</a></h2>
 <p>For <code>running kubeadm without an Internet connection</code> you have to <strong>pre-pull the required control-plane images</strong>.</p>
 <p>You can list and pull the images using the kubeadm config images sub-command:</p>

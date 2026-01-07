@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction-of-k8s-concepts" class="md-skip">
+        <a href="#introduction-of-k8s" class="md-skip">
           Skip to content
         </a>
       
@@ -2743,6 +2743,40 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#master-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master nodes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worker node
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#pod-kubernetes-concept" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2752,8 +2786,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#pod-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2780,8 +2814,8 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#container-containerd-concept" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2789,6 +2823,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3700,6 +3739,40 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#master-nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Master nodes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worker node
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#pod-kubernetes-concept" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3709,8 +3782,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#pod-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3737,8 +3810,8 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#container-containerd-concept" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3746,6 +3819,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3766,8 +3844,64 @@
 
 
 
-<h1 id="introduction-of-k8s-concepts">Introduction of k8s concepts<a class="headerlink" href="#introduction-of-k8s-concepts" title="Permanent link">&para;</a></h1>
-<h2 id="pod-kubernetes-concept">Pod (Kubernetes Concept)<a class="headerlink" href="#pod-kubernetes-concept" title="Permanent link">&para;</a></h2>
+<h1 id="introduction-of-k8s">Introduction of k8s<a class="headerlink" href="#introduction-of-k8s" title="Permanent link">&para;</a></h1>
+<p><strong>Kubernetes (K8s)</strong> is an open-source system for automating deployment, scaling, and management of <code>containerized applications</code>.</p>
+<p>K8s is <code>Cloud Native application</code>, so it follows the <a href="https://12factor.net/">12 factor</a>.</p>
+<p>Kubernetes takes care of service discovery, scaling, load balancing, self-healing, leader election, etc. therefore, 
+developers no longer have to build these services inside their application.</p>
+<p><img alt="k8s_archi_simple.png" src="../../../assets/k8s_archi_simple.png" /></p>
+<p>In the above figure, you can notice that K8s cluster contains two types of nodes:</p>
+<ul>
+<li><strong>Master node</strong>:</li>
+<li><strong>Worker node</strong>:</li>
+</ul>
+<h2 id="master-nodes">Master nodes<a class="headerlink" href="#master-nodes" title="Permanent link">&para;</a></h2>
+<p>It is responsible for managing whole cluster. It monitors the health check of all nodes in the cluster. 
+It stores the members information regarding the different nodes, planning which containers are 
+schedules to which worker nodes, monitoring the containers and nodes, etc. So, when a worker node 
+failed, it moves the workload from failed node to another healthy worker node. 
+Kubernetes master is responsible for scheduling, provisioning, configuring and exposing API’s to<br />
+the client. So, all these done by a master node using the <strong>components called as control plane components</strong>.</p>
+<p>Four basic components of the master node(control plane):</p>
+<ul>
+<li>API server : is a centralized component where all the cluster components are communicated. Scheduler, 
+               controller manager and other worker node component communicate with the API server. Scheduler 
+               and controller manager request information to API server before taking any action. 
+                This API server exposes the Kubernetes API.</li>
+<li>Scheduler : is responsible for assigning your application to worker node. It will automatically detect which pod 
+              to place on which node based on the resource requirements, hardware constraints and other factors. It 
+              will smartly find out the optimum node which fulfills the requirements to run the application.</li>
+<li>Controller manager : maintains the cluster, it handles node failures, replicating components, maintaining the 
+                      correct number of pods, etc. It constantly tries to keep system in desired state by comparing 
+                      it with current state of system.</li>
+<li>etcd : is a data store that stores the cluster configuration. It is recommended that you have a back-up as it is 
+         the source of truth for your cluster. And, if anything happened, you can restore all the cluster components 
+         from this stored cluster configuration. Etcd is a distributed reliable key-value store where all the 
+         configuration is stored in a documents and it’s schema-less.</li>
+</ul>
+<h2 id="worker-node">Worker node<a class="headerlink" href="#worker-node" title="Permanent link">&para;</a></h2>
+<p>The <strong>Worker node</strong> are nothing but a virtual machine(VM’s) running in cloud or on-prem, a physical server 
+ running inside your data center. So, any hardware capable of running container runtime can become a worker node. 
+ These nodes expose the underlying compute, storage and networking to the applications. They do the heavy-lifting of 
+ application running inside the Kubernetes cluster. Together, these nodes form a cluster and run a workload assign to 
+ them by master node component as same as manager assign a task to individual team member. This way we could 
+ be able to achieve fault-tolerance and replication.</p>
+<p>Three basic components of the Worker Node(Data plane)</p>
+<ul>
+<li>Kubelet : runs and manages the containers on node, and it talks to API server. The scheduler will update the 
+           spec.NodeName with respective worker nodes name and kubelet controller will get a notification from 
+          API server, and it will then contact the container runtime like Docker for e.g. to go out and pull images 
+          that requires to run the pod.</li>
+<li>Kube-proxy : load balances traffic between application components It is also called as service proxy 
+               which run on each node in the Kubernetes cluster. It will constantly look for 
+                new services and appropriately create the rules on each node to forward traffic to services to 
+               the back-end pods respectively.
+Container runtime: which runs the containers like Docker, rkt or containerd. Once you have the specification 
+                that describe your image for your application, the container runtime will pull the images and run 
+                the containers.</li>
+</ul>
+<h2 id="basic-concepts">Basic concepts<a class="headerlink" href="#basic-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="pod-kubernetes-concept">Pod (Kubernetes Concept)<a class="headerlink" href="#pod-kubernetes-concept" title="Permanent link">&para;</a></h3>
 <p><code>A pod is the smallest deployable unit in Kubernetes</code>. It represents <strong>a group of one or more containers</strong> that are 
 scheduled and managed together.</p>
 <p>Pod Characteristics:
@@ -3781,13 +3915,13 @@ scheduled and managed together.</p>
             replicas are running, restarting containers if needed, and ensuring the pod matches its defined state.
    - <strong>High-Level Abstraction</strong>: A pod abstracts away container specifics, letting Kubernetes manage the 
                           complexity of container scheduling, scaling, networking, and storage.</p>
-<h2 id="pod-sandbox">Pod Sandbox<a class="headerlink" href="#pod-sandbox" title="Permanent link">&para;</a></h2>
+<h3 id="pod-sandbox">Pod Sandbox<a class="headerlink" href="#pod-sandbox" title="Permanent link">&para;</a></h3>
 <p>A pod sandbox sets up the environment for the containers, including network, storage, and DNS settings. Each pod is 
 associated with one sandbox. All containers within the same pod share the same sandbox, meaning 
 they share the same network namespace and IP address.</p>
 <p>The sandbox also isolates the resources that belong to a pod from others.</p>
-<h3 id="sandbox-status">Sandbox status<a class="headerlink" href="#sandbox-status" title="Permanent link">&para;</a></h3>
-<h2 id="container-containerd-concept">Container (containerd Concept):<a class="headerlink" href="#container-containerd-concept" title="Permanent link">&para;</a></h2>
+<h4 id="sandbox-status">Sandbox status<a class="headerlink" href="#sandbox-status" title="Permanent link">&para;</a></h4>
+<h3 id="container-containerd-concept">Container (containerd Concept):<a class="headerlink" href="#container-containerd-concept" title="Permanent link">&para;</a></h3>
 <p>A <strong>container is a runtime instance of a containerized application</strong> (such as an individual Docker container). 
 It is a <code>single, isolated process</code> on the system with its own filesystem, networking, and process tree.</p>
 <p>Container Characteristics:

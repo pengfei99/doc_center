@@ -4199,7 +4199,7 @@ Disk    40 GB   160 GB
 <li>docker compose</li>
 <li>openssl</li>
 </ul>
-<p>To install docker engine and compose, you can follow this <a href="./02.Docker_engine_installation.md">doc</a>.</p>
+<p>To install docker engine and compose, you can follow this <a href="../../../Docker/01.Install_docker_dockerCompose/">doc</a>.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># install openssl</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openssl
 </code></pre></div>
@@ -4276,7 +4276,7 @@ cp<span class="w"> </span>harbor.yml.tmpl<span class="w"> </span>harbor.yml.
 <li><code>admin password</code></li>
 <li><code>data_volume</code></li>
 </ul>
-<p>You can find an example in <a href="../../resources/harbor/docker-compose/harbor.yaml">harbor.yaml</a></p>
+<p>You can find an example in <a href="../../../../src/harbor/docker-compose/harbor.yaml">harbor.yaml</a></p>
 <h2 id="5-run-the-installer-script">5. Run the installer script<a class="headerlink" href="#5-run-the-installer-script" title="Permanent link">&para;</a></h2>
 <p>Once you have configured <code>harbor.yml</code>, you can install and run Harbor by using <code>install.sh</code> script.</p>
 <p>By default, it only deploys Harbor, you can enable other modules with extra options
@@ -4340,7 +4340,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 <blockquote>
 <p>Note if you want to push an image to harbor, you must tag the image in the local repo with below general form is <code>&lt;harbor-host-name&gt;/&lt;project-name&gt;/&lt;repo-name&gt;:&lt;tag&gt;</code>. tag is optional, if ommited, latest version will be used. </p>
 </blockquote>
-<p>For example, below is a minimum docker file. You can find the full example in <a href="../../resources/harbor/sample_docker_file/">sample_docker_file</a></p>
+<p>For example, below is a minimum docker file. You can find the full example in <a href="../../../../src/harbor/sample_docker_file/">sample_docker_file</a></p>
 <div class="codehilite"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">busybox:latest</span>
 <span class="k">LABEL</span><span class="w"> </span><span class="nv">MAINTAINER</span><span class="o">=</span>pengfei.liu@casd.eu
 <span class="k">LABEL</span><span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span>

@@ -1,0 +1,4527 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>7. Setup Object storage - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#7-setup-object-storage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7. Setup Object storage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    admin_sys
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    admin_sys
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    systemd(serviced) in linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    db_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    db_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgres
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgres
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    os_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian backports repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server rdp access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server security update automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server accept private ca cert
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure a shared folder in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate debian 11 to 13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use postfix to sendmail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_9" id="__nav_2_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_9_1" id="__nav_2_3_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_3_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_10" id="__nav_2_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    package_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    package_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install package via deb files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    use private package repo in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_11" id="__nav_2_3_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_local_account
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_pam_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure ssh sssd ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_ad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static_uid_gid_integration_in_sssd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    other_services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    other_services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build_openssl_tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_gitlab_ce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_vscode_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_4" id="__nav_2_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enable_https_and_auto_redirect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use_nginx_as_load_balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containerd
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containerd
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Containerd/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Containerd/02.Install_config_containerd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker and Docker compose
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker and Docker compose
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Docker/01.Install_docker_dockerCompose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Docker/02.Use_docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Docker/03.Use_docker_compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Helm_chart_registry/01.Deploy_a_helm_chart_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    helm chart registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container image registry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container image registry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_1" id="__nav_3_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    harbor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    harbor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Image_registry/harbor/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Image_registry/harbor/02.Harbor_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Image_registry/harbor/03.Harbor_helm_chart_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor helm chart management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/Image_registry/04.Use_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure container runtime to use private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_1" id="__nav_3_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_with_kubeadm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_with_kubeadm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/deploy_k8s_with_kubeadm/01.Introduction_of_Kubeadm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/deploy_k8s_with_kubeadm/03.K8s_cluster_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manage k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/deploy_k8s_with_kubeadm/04.Post_k8s_cluster_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post installation config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_2" id="__nav_3_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_client_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_client_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/k8s_client_setup/01.Install_kubectl_and_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install kubectl and helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/k8s_client_setup/02.Helm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/k8s_client_setup/03.Helm_use_private_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure helm client to use private repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_3" id="__nav_3_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/k8s_security/01.K8s_security_best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s security best practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/k8s_security/06.k8s_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s network security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/04.Managing_k8s_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing k8s certificate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/05.k8s_cluster_supervision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    K8s_cluster_supervision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/Debug_application_in_cluster_k8s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debug_deployed_app_in_k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../container/k8s/k8s_cluster_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_cluster_upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hadoop
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    hadoop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hadoop/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate kerberos in hadoop cluster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kerberos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kerberos/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kerberos/02.Install_kerberos_server_client_for_debian_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.Install_kerberos_client_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kerberos/03.Configure_kerberos_to_use_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.Configure_kerberos_to_use_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kerberos/04.Install_kerberos_server_client_for_windows_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04.Install_kerberos_server_client_for_windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kerberos/05.Configure_sssd_to_use_static_uid_gid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05.Configure_sssd_to_use_static_uid_gid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kerberos/Keytab_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06.Keytab_introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    keycloak
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    keycloak
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/keycloak/Install_keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ldap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ldap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/ldap/01.install_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#72-deploy-minio-cluster-via-helm-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Deploy minio cluster via helm chart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.3 Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#731-k8s-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3.1 K8s version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#732-k8s-tls-certificate-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3.2 k8s TLS certificate API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#733-install-the-minio-kubernetes-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3.3 Install the MinIO Kubernetes Plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74-formatting-disks-with-directpv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Formatting disks with DirectPV
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.4 Formatting disks with DirectPV">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#741-installing-directpv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4.1 Installing DirectPV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#742-formatting-disks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4.2 Formatting disks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#75-install-minio-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Install minio operator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.5 Install minio operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#751-minio-operator-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5.1 Minio Operator console
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#76-install-minio-tenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 Install minio tenant
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.6 Install minio tenant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#761-tls-ssl-certificate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6.1 TLS SSL certificate configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.6.1 TLS SSL certificate configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-work-around" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The work around
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#762-sso-keycloak-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6.2 SSO (Keycloak) configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.6.2 SSO (Keycloak) configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7621-create-minio-auth-client-in-keycloak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6.2.1 Create minio auth client in Keycloak
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.6.2.1 Create minio auth client in Keycloak">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-a-new-auth-client-for-minio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 Create a new auth client for minio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-create-a-policy-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 Create a policy claim
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7622-configure-minio-to-use-the-keycloak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6.2.2 Configure minio to use the Keycloak
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#763-details-on-minio-tenant-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6.3 Details on minio tenant configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#77-minio-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 Minio client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.7 Minio client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#771-the-minio-web-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7.1 The minio web console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#772-the-minio-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7.2 The minio CLI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.7.2 The minio CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-server-connection-alias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set server connection alias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-minio-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use minio client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use minio client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-minio-admin-client-to-add-access-control-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use minio admin client to add access control policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#78-integrate-minio-in-onyxia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.8 Integrate minIO in onyxia
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.8 Integrate minIO in onyxia">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#782-set-up-policy-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.8.2 Set up policy claim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#783-link-minio-to-onyxia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.8.3 Link minio to Onyxia
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="7-setup-object-storage">7. Setup Object storage<a class="headerlink" href="#7-setup-object-storage" title="Permanent link">&para;</a></h1>
+<p>The Onyxia uses object storage to store data outside a pod (unlike block storage for pod disk attachement).</p>
+<p>In this doc, we will deploy a MinIO cluster as the object storage.</p>
+<h2 id="72-deploy-minio-cluster-via-helm-chart">7.2 Deploy minio cluster via helm chart<a class="headerlink" href="#72-deploy-minio-cluster-via-helm-chart" title="Permanent link">&para;</a></h2>
+<p>In k8s, MinIO is deployed with two layers:</p>
+<ul>
+<li>The <a href="https://github.com/minio/operator/tree/master/helm/operator">MinIO Operator</a>, which orchestrates and deploys one or multiple MinIO Tenants;</li>
+<li>The <a href="https://github.com/minio/operator/tree/master/helm/tenant">MinIO Tenant</a>, an isolated instance of object storage.</li>
+</ul>
+<p>While the orchestrator provides common resources, the Tenant hosts the actual object storage instance. It also hosts the services for the object storage API and the web console.</p>
+<p>As the MinIO Operator is fit for Kubernetes deployments and multi-tenancy, we chose to use it. We also chose to install the MinIO Operator through Helm, as it helps centralize the configuration.</p>
+<p>To sum things up, the MinIO installation process goes as follows:</p>
+<ul>
+<li><a href="/en/datalab/datalab-install/minio/minio-operator">Deploying the MinIO Operator through Helm</a>;</li>
+<li><a href="/en/datalab/datalab-install/minio/minio-tenant">Deploying the MinIO Tenant through Helm</a>.</li>
+</ul>
+<p>Disks need to be formatted beforehand. This is done by <a href="/en/datalab/datalab-install/object-storage/directpv">deploying and using DirectPV</a>.</p>
+<h2 id="73-prerequisites">7.3 Prerequisites<a class="headerlink" href="#73-prerequisites" title="Permanent link">&para;</a></h2>
+<h3 id="731-k8s-version">7.3.1 K8s version<a class="headerlink" href="#731-k8s-version" title="Permanent link">&para;</a></h3>
+<p>For minio v4.0.0+, the Kubernetes infrastructure and the kubectl CLI tool must have the version of 1.19.0+.</p>
+<p><strong>You need to have the necessary access to the cluster (cluster admin)</strong> to complete below commands</p>
+<h3 id="732-k8s-tls-certificate-api">7.3.2 k8s TLS certificate API<a class="headerlink" href="#732-k8s-tls-certificate-api" title="Permanent link">&para;</a></h3>
+<p>The MinIO Operator automatically generates TLS Certificate Signing Requests (CSR) and uses the Kubernetes <code>certificates.k8s.io</code> TLS certificate management API to create signed TLS certificates.</p>
+<p>The MinIO Operator therefore requires that the Kubernetes <strong>kube-controller-manager</strong> configuration include the following configuration settings:</p>
+<ol>
+<li>
+<p><code>--cluster-signing-key-file</code> - Specify the PEM-encoded RSA or ECDSA private key used to sign cluster-scoped certificates.</p>
+</li>
+<li>
+<p><code>--cluster-signing-cert-file</code> - Specify the PEM-encoded x.509 Certificate Authority certificate used to issue cluster-scoped certificates.</p>
+</li>
+</ol>
+<p><strong>The Operator cannot complete initialization if the k8s cluster is not configured to respond to a generated CSR.</strong></p>
+<p>To verify whether the kube-controller-manager has the required settings, use the following command. Replace $CLUSTER-NAME with the name of the Kubernetes cluster:</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>kube-controller-manager-<span class="nv">$CLUSTERNAME</span><span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>-o<span class="w"> </span>yaml
+
+<span class="c1"># for example controlplane1</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>kube-controller-manager-controlplane1<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+
+<p>The output should contain below two lines:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w"> </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w"> </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-controller-manager</span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt</span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--cluster-signing-key-file=/etc/kubernetes/pki/ca.key</span>
+</code></pre></div>
+
+<h3 id="733-install-the-minio-kubernetes-plugin">7.3.3 Install the MinIO Kubernetes Plugin<a class="headerlink" href="#733-install-the-minio-kubernetes-plugin" title="Permanent link">&para;</a></h3>
+<p>The <code>MinIO Kubernetes Plugin</code> provides a command for initializing the MinIO Operator.</p>
+<p><strong>Krew</strong> is a kubectl plugin manager developed by the <code>Kubernetes SIG CLI</code> group. </p>
+<p>Use below command to install Krew (must have git and kubectl)</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Step1 : Install Krew binary</span>
+<span class="o">(</span>
+<span class="w">  </span><span class="nb">set</span><span class="w"> </span>-x<span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>mktemp<span class="w"> </span>-d<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span><span class="nv">OS</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>uname<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span><span class="nv">ARCH</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/x86_64/amd64/&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/\(arm\)\(64\)\?.*/\1\2/&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s/aarch64$/arm64/&#39;</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span><span class="nv">KREW</span><span class="o">=</span><span class="s2">&quot;krew-</span><span class="si">${</span><span class="nv">OS</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">ARCH</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span>curl<span class="w"> </span>-fsSLO<span class="w"> </span><span class="s2">&quot;https://github.com/kubernetes-sigs/krew/releases/latest/download/</span><span class="si">${</span><span class="nv">KREW</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span>tar<span class="w"> </span>zxvf<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KREW</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span>./<span class="s2">&quot;</span><span class="si">${</span><span class="nv">KREW</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>install<span class="w"> </span>krew
+<span class="o">)</span>
+<span class="c1"># Step2 : Add Krew to PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KREW_ROOT</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.krew</span><span class="si">}</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+
+<span class="c1"># Step3 : Verify that Krew&#39;s install is successful by updating the plugin index</span>
+kubectl<span class="w"> </span>krew<span class="w"> </span>update
+</code></pre></div>
+
+<p>For more details, please read the <a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">krew installation documentation</a> for installation.</p>
+<h2 id="74-formatting-disks-with-directpv">7.4 Formatting disks with DirectPV<a class="headerlink" href="#74-formatting-disks-with-directpv" title="Permanent link">&para;</a></h2>
+<p>A <code>StorageClass</code> needs to be prepared to provision the PVCs generated by the MinIO Operator when deploying a Tenant.</p>
+<p><a href="https://github.com/minio/directpv">DirectPV</a> is a <code>CSI driver</code> developed by the MinIO team. At the most basic level, it is a distributed persistent volume manager, and not a storage system like SAN or NAS. DirectPV is used to discover, format, mount, schedule and monitor hard drives across servers.</p>
+<p>For more details about directPV, please visit this <a href="https://blog.min.io/introducing-directpv/">page</a></p>
+<p><strong>Befor you formatting disk, make sure you get the hard drive name right.</strong>
+In Below example, 
+- <code>sda</code> is the system disk.
+- <code>sdb</code> is the hard drive formated by ceph cluster
+- <code>sdc</code> is not used.</p>
+<p>So you can only format <code>sdc</code> in this worker. If you format other disk, you will destroy other service's data.</p>
+<div class="codehilite"><pre><span></span><code>pliu@worker1:~$<span class="w"> </span>lsblk<span class="w"> </span>-f
+NAME<span class="w">   </span>FSTYPE<span class="w">         </span>FSVER<span class="w"> </span>LABEL<span class="w"> </span>UUID<span class="w">                                 </span>FSAVAIL<span class="w"> </span>FSUSE%<span class="w"> </span>MOUNTPOINT
+sda
+├─sda1<span class="w"> </span>vfat<span class="w">           </span>FAT32<span class="w">       </span>B052-39EE<span class="w">                             </span><span class="m">507</span>.6M<span class="w">     </span><span class="m">1</span>%<span class="w"> </span>/boot/efi
+└─sda2<span class="w"> </span>ext4<span class="w">           </span><span class="m">1</span>.0<span class="w">         </span>7bbbaa47-535d-4e32-968d-ea078a0dd460<span class="w">   </span><span class="m">99</span>.6G<span class="w">    </span><span class="m">14</span>%<span class="w"> </span>/
+sdb<span class="w">    </span>ceph_bluestore
+sdc
+</code></pre></div>
+
+<h3 id="741-installing-directpv">7.4.1 Installing DirectPV<a class="headerlink" href="#741-installing-directpv" title="Permanent link">&para;</a></h3>
+<p>Install directPV. Tolerations and selectors are needed to target the object storage nodes and drives:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Step 1: install DirectPV</span>
+kubectl<span class="w"> </span>krew<span class="w"> </span>install<span class="w"> </span>directpv
+
+<span class="c1"># Step 2: setup node-selector and tolerations on directpv deployment</span>
+kubectl<span class="w"> </span>directpv<span class="w"> </span>install<span class="w"> </span>--node-selector<span class="w"> </span><span class="s1">&#39;storage-node=true&#39;</span><span class="w"> </span>--tolerations<span class="w"> </span><span class="s1">&#39;storage-node=true:NoSchedule&#39;</span>
+</code></pre></div>
+
+<p>The above command will create a new <code>namespace</code> called <strong>direct-csi-min-io</strong>. You should see below pods created in this namespace</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>direct-csi-min-io
+NAME<span class="w">                                 </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+direct-csi-min-io-69947d45bb-2cpr4<span class="w">   </span><span class="m">2</span>/2<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>92s
+direct-csi-min-io-69947d45bb-8f5sh<span class="w">   </span><span class="m">2</span>/2<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>92s
+direct-csi-min-io-69947d45bb-989gb<span class="w">   </span><span class="m">2</span>/2<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>92s
+</code></pre></div>
+
+<p>Now lets run below command</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>directpv<span class="w"> </span>drives<span class="w"> </span>ls<span class="w"> </span>--all
+
+<span class="c1"># The output</span>
+<span class="w"> </span>DRIVE<span class="w">  </span>CAPACITY<span class="w">  </span>ALLOCATED<span class="w">  </span>FILESYSTEM<span class="w">  </span>VOLUMES<span class="w">  </span>NODE<span class="w">  </span>ACCESS-TIER<span class="w">  </span>STATUS
+</code></pre></div>
+
+<p>The output is empty, because we have not labeled the workers with <code>storage-node=true</code></p>
+<p>Below command will label the worker</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker1<span class="w"> </span>storage-node<span class="o">=</span><span class="nb">true</span>
+kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>worker2<span class="w"> </span>storage-node<span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+
+<p>Now re-run below command:</p>
+<div class="codehilite"><pre><span></span><code>kubectl<span class="w"> </span>directpv<span class="w"> </span>drives<span class="w"> </span>ls
+
+
+<span class="w"> </span>DRIVE<span class="w">     </span>CAPACITY<span class="w">  </span>ALLOCATED<span class="w">  </span>FILESYSTEM<span class="w">      </span>VOLUMES<span class="w">  </span>NODE<span class="w">     </span>ACCESS-TIER<span class="w">  </span>STATUS
+<span class="w"> </span>/dev/sdb<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>ceph_bluestore<span class="w">  </span>-<span class="w">        </span>worker1<span class="w">  </span>-<span class="w">            </span>Available
+<span class="w"> </span>/dev/sdc<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>-<span class="w">               </span>-<span class="w">        </span>worker1<span class="w">  </span>-<span class="w">            </span>Available
+<span class="w"> </span>/dev/sdb<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>ceph_bluestore<span class="w">  </span>-<span class="w">        </span>worker2<span class="w">  </span>-<span class="w">            </span>Available
+<span class="w"> </span>/dev/sdc<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>-<span class="w">               </span>-<span class="w">        </span>worker2<span class="w">  </span>-<span class="w">            </span>Available
+</code></pre></div>
+
+<p>This time you can see, it detects 4 possible hard drive. As we explained before, <code>/dev/sdb</code> is reserved for ceph cluster. So we can only use <code>/dev/sdc</code></p>
+<h3 id="742-formatting-disks">7.4.2 Formatting disks<a class="headerlink" href="#742-formatting-disks" title="Permanent link">&para;</a></h3>
+<p>Select the drives to be formatted and managed by DirectPV. In our case, the following command selects the right disks:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># format the target disk</span>
+kubectl<span class="w"> </span>directpv<span class="w"> </span>drives<span class="w"> </span>format<span class="w"> </span>--drives<span class="w"> </span><span class="s2">&quot;/dev/sdc&quot;</span>
+
+<span class="c1"># get the hard drives list</span>
+<span class="w"> </span>kubectl<span class="w"> </span>directpv<span class="w"> </span>drives<span class="w"> </span>ls
+
+<span class="c1"># now you can see the status of /dev/sdc is ready. </span>
+<span class="w"> </span>DRIVE<span class="w">     </span>CAPACITY<span class="w">  </span>ALLOCATED<span class="w">  </span>FILESYSTEM<span class="w">      </span>VOLUMES<span class="w">  </span>NODE<span class="w">     </span>ACCESS-TIER<span class="w">  </span>STATUS
+<span class="w"> </span>/dev/sdb<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>ceph_bluestore<span class="w">  </span>-<span class="w">        </span>worker1<span class="w">  </span>-<span class="w">            </span>Available
+<span class="w"> </span>/dev/sdc<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>xfs<span class="w">             </span>-<span class="w">        </span>worker1<span class="w">  </span>-<span class="w">            </span>Ready
+<span class="w"> </span>/dev/sdb<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>ceph_bluestore<span class="w">  </span>-<span class="w">        </span>worker2<span class="w">  </span>-<span class="w">            </span>Available
+<span class="w"> </span>/dev/sdc<span class="w">  </span><span class="m">512</span><span class="w"> </span>GiB<span class="w">   </span>-<span class="w">          </span>xfs<span class="w">             </span>-<span class="w">        </span>worker2<span class="w">  </span>-<span class="w">            </span>Ready
+</code></pre></div>
+
+<p>The hard drives which have status <code>Ready</code> can now be automatically used for PVs and PVCs with MinIO.</p>
+<h2 id="75-install-minio-operator">7.5 Install minio operator<a class="headerlink" href="#75-install-minio-operator" title="Permanent link">&para;</a></h2>
+<p>The <strong>MinIO Operator</strong> installs a <code>Custom Resource Document (CRD)</code> to support describing <code>MinIO tenants</code> as a Kubernetes object. See the MinIO Operator <a href="https://github.com/minio/operator/blob/master/docs/crd.adoc">CRD Reference</a> for complete documentation on the MinIO CRD.</p>
+<p>Run below command to install a minio k8s operator.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># update the plugin list</span>
+kubectl<span class="w"> </span>krew<span class="w"> </span>updata
+
+<span class="c1"># install the minio plugin</span>
+kubectl<span class="w"> </span>krew<span class="w"> </span>install<span class="w"> </span>minio
+
+<span class="c1"># check minio plugin version</span>
+kubectl<span class="w"> </span>minio<span class="w"> </span>version
+
+<span class="c1"># try to get all service in name space minio-operator</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>minio-operator
+NAME<span class="w">                              </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+console-c4cd64b8c-zvp2d<span class="w">           </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>16h
+minio-operator-7d59b88ffb-4bsg6<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>16h
+minio-operator-7d59b88ffb-c9p69<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>16h
+</code></pre></div>
+
+<p>If you want to custom the configuration, you can edit a <code>values.yaml</code>. The official example can be found <a href="https://github.com/minio/operator/blob/master/helm/operator/values.yaml">here</a></p>
+<p>Below <code>operator-values.yaml</code> is a simple configuration example:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Selector and tolerations to deploy the Operator console on storage nodes</span>
+<span class="nt">nodeSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">storage-node</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+<span class="nt">tolerations</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;storage-node&quot;</span>
+<span class="w">    </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Equal&quot;</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+<span class="w">    </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NoSchedule&quot;</span>
+
+<span class="c1"># Exposing the console through an Ingress</span>
+<span class="nt">console</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ingressClassName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nginx&quot;</span>
+<span class="w">    </span><span class="nt">labels</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">      </span><span class="c1"># The following annotation is required to let MinIO communicate with the NGINX Ingress controller</span>
+<span class="w">      </span><span class="c1"># when using external certificates. See Knowledge base: 8dc2998d-5699-4be6-bed0-b2384a87fe9e</span>
+<span class="w">      </span><span class="nt">nginx.ingress.kubernetes.io/backend-protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HTTPS&quot;</span>
+<span class="w">      </span><span class="nt">nginx.ingress.kubernetes.io/proxy-body-size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0&quot;</span>
+<span class="w">    </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio-operator-console.casd.local</span>
+<span class="w">    </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio-operator-console.casd.local</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/</span>
+<span class="w">    </span><span class="nt">pathType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prefix</span>
+</code></pre></div>
+
+<h3 id="751-minio-operator-console">7.5.1 Minio Operator console<a class="headerlink" href="#751-minio-operator-console" title="Permanent link">&para;</a></h3>
+<p>Minio operator provides a console (web GUI), you can use below command to temporarily forward traffic from the MinIO Operator Console service to your local machine:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># this will return an access token which allows you to login to the web page</span>
+<span class="l l-Scalar l-Scalar-Plain">kubectl minio proxy</span>
+</code></pre></div>
+
+<blockquote>
+<p>By default, the operator console does not enable ingress. So if you want to have ingress, you need to enable it with above config.</p>
+</blockquote>
+<p>You can follow this <a href="https://min.io/docs/minio/kubernetes/upstream/operations/install-deploy-manage/deploy-minio-tenant.html#minio-k8s-deploy-minio-tenant">tutorial</a> to creat a minio tenant by using minio proxy. </p>
+<h2 id="76-install-minio-tenant">7.6 Install minio tenant<a class="headerlink" href="#76-install-minio-tenant" title="Permanent link">&para;</a></h2>
+<p>The <code>MinIO Tenant</code> is what supports the actual object storage instance. A MinIO Tenant deploys <code>multiple pool pods</code> on <code>storage nodes</code>, as well as the <code>REST API service</code> to contact the object storage and the <code>console service</code> to access its web UI.</p>
+<p>In the above section, we used the <code>minio proxy</code> to deploy a minio tenant. But <code>GUI</code> configuration is hard to document. So we will use the classic helm chart to deploy a <code>minio tenant</code>.  </p>
+<p>You can find the official default minio tenant config <a href="https://github.com/minio/operator/blob/master/helm/tenant/values.yaml">values.yaml</a></p>
+<p>Below command use the MinIO Tenant Helm Chart and a configuration file <a href="../resources/minio/k8s/tenant-values.yaml">tenant-values.yaml</a>:</p>
+<div class="codehilite"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>minio<span class="w"> </span>https://operator.min.io/
+
+<span class="c1"># install helm chart</span>
+helm<span class="w"> </span>install<span class="w"> </span>minio<span class="w"> </span>--namespace<span class="w"> </span>casd-minio<span class="w"> </span>minio/tenant<span class="w"> </span>--values<span class="w"> </span>tenant-values.yaml
+
+<span class="c1"># update helm chart</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>minio<span class="w"> </span>minio/tenant<span class="w"> </span>-n<span class="w"> </span>casd-minio<span class="w"> </span>--values<span class="w"> </span>tenant-values.yaml<span class="w"> </span>
+</code></pre></div>
+
+<blockquote>
+<p>The MinIO Operator must be installed and running correctlly.</p>
+</blockquote>
+<h3 id="761-tls-ssl-certificate-configuration">7.6.1 TLS SSL certificate configuration<a class="headerlink" href="#761-tls-ssl-certificate-configuration" title="Permanent link">&para;</a></h3>
+<p>With the above configuration, the helm chart will generate a <code>certificate</code> and <code>private key</code>. They are stored in a <code>secret</code>, which has name such as <code>&lt;tenant-name&gt;-tls</code>, in our case, it will be <code>casd-minio-tls</code>.</p>
+<p>The content of the secert looks like below</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">casd-minio-tls</span>
+<span class="w"> </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">casd-minio</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w"> </span><span class="nt">public.crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LS0tLS1CRUdJTiBD...</span>
+<span class="w"> </span><span class="nt">private.key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LS0tLS1CRUdJTiB...</span>
+</code></pre></div>
+
+<p>This secret will be mounted as a volume callded <code>casd-minio-tls</code> on <code>/tmp/certs</code> on each pod(e.g. casd-minio-pool-0-0) of the minio tenant. </p>
+<p>The default minio setting is to put certs under <code>${user-home-who-run-minio}/.minio/certs</code>.
+But the above helm chart will mount it under <code>/tmp/certs</code></p>
+<p>The content of certs folder</p>
+<div class="codehilite"><pre><span></span><code>ls<span class="w"> </span>certs
+
+<span class="c1"># The public.crt is the certificate from the secert</span>
+<span class="c1"># The private.key is the private key from the secert</span>
+<span class="c1"># CAs folder host the root CA certificate which signes the certifcate</span>
+<span class="c1"># By default it assume it&#39;s a autosigned, so it just put the public.crt in CAs.</span>
+CAs<span class="w">  </span>private.key<span class="w">  </span>public.crt
+</code></pre></div>
+
+<p>The official doc says that we could use</p>
+<h4 id="the-work-around">The work around<a class="headerlink" href="#the-work-around" title="Permanent link">&para;</a></h4>
+<p>If you want to use a custom certificate, you need to overwrite the <strong>secret casd-minio</strong>. You need to replace the public.crt and private.key with your own certificate and private key in the <code>casd-minio-tls</code> secret. </p>
+<h3 id="762-sso-keycloak-configuration">7.6.2 SSO (Keycloak) configuration<a class="headerlink" href="#762-sso-keycloak-configuration" title="Permanent link">&para;</a></h3>
+<p>Minio support other OIDC sources, in this tutorial we only focus on the <code>Keycloak</code> configuration.
+For minio to use keycloak, we need to do two things:</p>
+<ul>
+<li>Create a minio auth client in Keycloak (with policy claim)</li>
+<li>Configure minio to use the Keycloak auth client for authentication</li>
+</ul>
+<h4 id="7621-create-minio-auth-client-in-keycloak">7.6.2.1 Create minio auth client in Keycloak<a class="headerlink" href="#7621-create-minio-auth-client-in-keycloak" title="Permanent link">&para;</a></h4>
+<p>The official doc of <a href="https://github.com/minio/minio/blob/master/docs/sts/keycloak.md">Keycloak configuration for minio</a> is not very useful for us, because we will use onyxia to connect to minio. </p>
+<h5 id="step-1-create-a-new-auth-client-for-minio">Step 1 Create a new auth client for minio<a class="headerlink" href="#step-1-create-a-new-auth-client-for-minio" title="Permanent link">&para;</a></h5>
+<ol>
+<li>To create a new auth <strong>client</strong>, you need to log in to keycloak admin console</li>
+<li>Choose a realm (it's better to put it in the same realm of onyxia auth client)</li>
+<li>Click on <code>Clients</code> (on the left side panel), then click on <code>create</code> (right side panel, on top of client list)</li>
+<li>
+<p>In <code>Client ID</code>, you put the name of this auth client. In our case we use <code>minio</code>. In <code>Root URL</code>, you put the url of the service which will use this auth client. In our case, it's <code>https://minio-console.casd.local</code>. Then click on <code>save</code>.</p>
+</li>
+<li>
+<p>Now, you should see a larger form to fill. You need to pay attentions to </p>
+</li>
+<li>Root URL: <code>https://minio-console.casd.local</code></li>
+<li>Valid Redirect URIs: <code>http://minio-console.casd.local/*</code> | <code>https://minio-console.casd.local/*</code></li>
+<li>Web-origins: <code>http://minio-console.casd.local</code>   | <code>https://minio-console.casd.local</code>
+  Don't forget to change the <code>Access Type</code> from <code>public</code> to <code>confidential</code>. After this, you should see a new tab <code>Credentials</code>, in it you will find the <code>secret</code> to access this auth client.</li>
+<li>In <code>advanced settings</code>, you can change the <code>access token lifespan</code>. </li>
+</ol>
+<p>Below figure is an example
+<img alt="keycloak-minio-client.PNG" src="../images/keycloak-minio-client.PNG" /></p>
+<h5 id="step-2-create-a-policy-claim">Step 2 Create a policy claim<a class="headerlink" href="#step-2-create-a-policy-claim" title="Permanent link">&para;</a></h5>
+<p>To make the generated token to contain minio access policy. You need to create a <strong>mapper</strong> inside the minio's auth client which you just created</p>
+<ol>
+<li>To create a new <code>mapper</code>, click on the minio auth client. On the right panel, click on <code>Mappers</code> (on top). Then click on <code>create</code>, it will popup a form which you need to fill.</li>
+<li>Name: <code>policy</code>;   Mapper Type: <code>Hardcoded claim</code>; Token Claim Name: <code>policy</code>; Claim value: <code>stsonly</code></li>
+<li><code>Add to ID Token</code> need to be <code>Enabled</code>     </li>
+<li>Click on <code>save</code>. </li>
+</ol>
+<p>Below figure is an example
+<img alt="keycloak-minio-client-claim-policy.PNG" src="../images/keycloak-minio-client-claim-policy.PNG" /></p>
+<blockquote>
+<p>Note, this claim requires the minio server contains a policy named <code>stsonly</code>. We will show you how in below section.</p>
+</blockquote>
+<h4 id="7622-configure-minio-to-use-the-keycloak">7.6.2.2 Configure minio to use the Keycloak<a class="headerlink" href="#7622-configure-minio-to-use-the-keycloak" title="Permanent link">&para;</a></h4>
+<p>To enable oidc auth in minio, you need to modify below env var of the minio server.</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="nt">Tenant</span><span class="p">:</span>
+<span class="w">  </span><span class="c1">#...</span>
+<span class="w">  </span><span class="c1">#... </span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">     </span><span class="c1"># keycloak url realms name=casd-onyxia</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_IDENTITY_OPENID_CONFIG_URL</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://auth.casd.local/auth/realms/casd-onyxia/.well-known/openid-configuration&quot;</span>
+<span class="w">      </span><span class="c1"># keycloak auth client id for minio</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_IDENTITY_OPENID_CLIENT_ID</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;minio&quot;</span>
+<span class="w">      </span><span class="c1"># secret of the auth client(if it&#39;s confidential)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_IDENTITY_OPENID_CLIENT_SECRET</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;changeMe&quot;</span>
+<span class="w">      </span><span class="c1"># Token Claim Name</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_IDENTITY_OPENID_CLAIM_NAME</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;policy&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_IDENTITY_OPENID_REDIRECT_URI</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://minio-console.casd.local/oauth_callback&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_IDENTITY_OPENID_SCOPES</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;openid,</span><span class="nv"> </span><span class="s">profile,</span><span class="nv"> </span><span class="s">email,</span><span class="nv"> </span><span class="s">roles&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_DOMAIN</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;minio.casd.local&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_BROWSER</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;on&quot;</span><span class="w"> </span><span class="c1"># to turn-off browser</span>
+<span class="w">      </span><span class="c1"># minio consol url</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_BROWSER_REDIRECT_URL</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://minio-console.casd.local&quot;</span>
+<span class="w">      </span><span class="c1"># minio api url</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MINIO_SERVER_URL</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://minio.casd.local&quot;</span>
+</code></pre></div>
+
+<h3 id="763-details-on-minio-tenant-configuration">7.6.3 Details on minio tenant configuration<a class="headerlink" href="#763-details-on-minio-tenant-configuration" title="Permanent link">&para;</a></h3>
+<p>In this tutorial, we only show the details on <code>certificate and SSO</code> configuration. For other configuration, you can visit <a href="./sys_admin/12.Minio_installation_details.md">sys_admin/12.Minio_installation_details.md</a>.</p>
+<p>You can get a baseline of the configuration file by downloading the MinIO Tenant's Helm Chart repository's <a href="https://github.com/minio/operator/blob/master/helm/tenant/values.yaml">default configuration file</a>. Name the file <code>tenant-values.yaml</code>:</p>
+<blockquote>
+<p>Note that the Datalab cluster provides an already-prepared <a href="https://github.com/InseeFrLab/paris-sspcloud/tree/master/apps/minio-datanode">file</a> for the Helm chart.</p>
+</blockquote>
+<h2 id="77-minio-client">7.7 Minio client<a class="headerlink" href="#77-minio-client" title="Permanent link">&para;</a></h2>
+<h3 id="771-the-minio-web-console">7.7.1 The minio web console<a class="headerlink" href="#771-the-minio-web-console" title="Permanent link">&para;</a></h3>
+<p>If you have ingress configured, you should be able to access the minio web console via the configured <a href="https://minio-console.casd.local/">url (e.g. https://minio-console.casd.local)</a>.</p>
+<h3 id="772-the-minio-cli">7.7.2 The minio CLI<a class="headerlink" href="#772-the-minio-cli" title="Permanent link">&para;</a></h3>
+<p>Minio also provide a command line client.</p>
+<h4 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h4>
+<p>Download the <code>mc client</code> and install it to a location on your system PATH such as <code>/usr/local/bin</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># get the minio client bin</span>
+wget<span class="w"> </span>https://dl.min.io/client/mc/release/linux-amd64/mc
+
+<span class="c1"># grant execution right</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>mc
+
+<span class="c1"># move it to local bin</span>
+sudo<span class="w"> </span>mv<span class="w"> </span>mc<span class="w"> </span>/usr/local/bin/mc
+</code></pre></div>
+
+<h4 id="set-server-connection-alias">Set server connection alias<a class="headerlink" href="#set-server-connection-alias" title="Permanent link">&para;</a></h4>
+<p>Use <code>mc alias set</code> to create a new alias associated to your minio deployment. You can run <code>mc</code> commands against this alias:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># general form</span>
+mc<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span>&lt;alias-name&gt;<span class="w"> </span>&lt;cluster-url&gt;<span class="w"> </span>&lt;Access-key&gt;<span class="w"> </span>&lt;Secret-key&gt;
+
+<span class="c1"># below is an example</span>
+mc<span class="w"> </span><span class="nb">alias</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nb">test</span><span class="w"> </span>https://minio-test.casd.local:9000<span class="w"> </span>minio<span class="w"> </span>mypasswd
+
+<span class="c1"># check the alias status, this only works if you have admin rights</span>
+mc<span class="w"> </span>admin<span class="w"> </span>info<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+
+<h4 id="use-minio-client">Use minio client<a class="headerlink" href="#use-minio-client" title="Permanent link">&para;</a></h4>
+<p>The use of minio client can be divided in two parts.
+- minio client: the official doc can be found <a href="https://min.io/docs/minio/linux/reference/minio-mc.html">here</a>
+- minioa admin client: the official doc can be found <a href="https://min.io/docs/minio/linux/reference/minio-mc-admin.html">here</a></p>
+<h5 id="use-minio-admin-client-to-add-access-control-policy">Use minio admin client to add access control policy<a class="headerlink" href="#use-minio-admin-client-to-add-access-control-policy" title="Permanent link">&para;</a></h5>
+<p>Onyxia currently uses a basic <code>userid</code> &lt;&gt; <code>bucketid</code> permissions system. Basically each user has access to the bucket with the id equals to it's <code>userid</code>. Below <code>stsonly.json</code> file is an example of such policy.</p>
+<p>The policy is stored inside a json file. </p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="s2">&quot;s3:*&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="s2">&quot;arn:aws:s3:::${jwt:preferred_username}&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s2">&quot;arn:aws:s3:::${jwt:preferred_username}/*&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>To apply the above policy, you can use below command</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># use mc admin to create a policy, the keycloak claim will use this policy to generate jwt token</span>
+<span class="c1"># with appropriate access rights. Below is a general form</span>
+mc<span class="w"> </span>admin<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>&lt;cluster-alias-name&gt;<span class="w"> </span>&lt;policy-name&gt;<span class="w"> </span>&lt;rule-file-name&gt;
+
+<span class="c1"># below is an example, note the name of the policy is `stsonly`, the keycloak claim value</span>
+<span class="c1"># must have exactly the same value </span>
+mc<span class="w"> </span>admin<span class="w"> </span>policy<span class="w"> </span>add<span class="w"> </span>s3<span class="w"> </span>stsonly<span class="w"> </span>stsonly.json
+</code></pre></div>
+
+<p>If successful, you should be able to login to the minio console and create the bucket that has the same name as your user id.</p>
+<p>Onyxia currently supports <code>id_token</code> but not <code>access_token</code>. This parameter is located in the <code>identity_openid</code> object as <code>claim_userinfo</code>.</p>
+<div class="codehilite"><pre><span></span><code>mc<span class="w"> </span>admin<span class="w"> </span>config<span class="w"> </span>get<span class="w"> </span>s3<span class="w"> </span>identity_openid
+
+<span class="c1"># you should see below output</span>
+<span class="c1"># MINIO_IDENTITY_OPENID_CONFIG_URL=https://auth.casd.local/auth/realms/casd-onyxia/.well-known/openid-configuration</span>
+<span class="c1"># MINIO_IDENTITY_OPENID_CLIENT_ID=minio</span>
+<span class="c1"># MINIO_IDENTITY_OPENID_CLIENT_SECRET=changeMe</span>
+<span class="c1"># MINIO_IDENTITY_OPENID_CLAIM_NAME=policy</span>
+<span class="c1"># MINIO_IDENTITY_OPENID_REDIRECT_URI=https://minio-console.casd.local/oauth_callback</span>
+<span class="c1"># MINIO_IDENTITY_OPENID_SCOPES=openid, profile, email, roles</span>
+identity_openid<span class="w"> </span><span class="nv">enable</span><span class="o">=</span><span class="w"> </span><span class="nv">display_name</span><span class="o">=</span><span class="w"> </span><span class="nv">config_url</span><span class="o">=</span><span class="w"> </span><span class="nv">client_id</span><span class="o">=</span><span class="w"> </span><span class="nv">client_secret</span><span class="o">=</span><span class="w"> </span><span class="nv">claim_name</span><span class="o">=</span>policy<span class="w"> </span><span class="nv">claim_userinfo</span><span class="o">=</span><span class="w"> </span><span class="nv">role_policy</span><span class="o">=</span><span class="w"> </span><span class="nv">claim_prefix</span><span class="o">=</span><span class="w"> </span><span class="nv">redirect_uri</span><span class="o">=</span><span class="w"> </span><span class="nv">redirect_uri_dynamic</span><span class="o">=</span>off<span class="w"> </span><span class="nv">scopes</span><span class="o">=</span><span class="w"> </span><span class="nv">vendor</span><span class="o">=</span><span class="w"> </span><span class="nv">keycloak_realm</span><span class="o">=</span><span class="w"> </span><span class="nv">keycloak_admin_url</span><span class="o">=</span>
+</code></pre></div>
+
+<p>To disable it if it was enabled:</p>
+<div class="codehilite"><pre><span></span><code>mc<span class="w"> </span>admin<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>s3<span class="w"> </span>identity_openid<span class="w"> </span><span class="nv">claim_userinfo</span><span class="o">=</span>off
+mc<span class="w"> </span>admin<span class="w"> </span>service<span class="w"> </span>restart<span class="w"> </span>s3
+</code></pre></div>
+
+<h2 id="78-integrate-minio-in-onyxia">7.8 Integrate minIO in onyxia<a class="headerlink" href="#78-integrate-minio-in-onyxia" title="Permanent link">&para;</a></h2>
+<p>Onyxia provide an integrated minio console which allows you to upload, download files. To make this console works, we need to set two <strong>mappers</strong> inside <code>onyxia's keycloak auth client</code>:
+- Audience: for minio authentication
+- Policy claim: for minio access control policy</p>
+<p><code>onyxia-client</code></p>
+<p>### 7.8.1 Set up an audience</p>
+<p>To create an <strong>audience</strong> :
+1. click on the <code>onyxia auth client</code>, in our case the name is <code>onyxia-client</code>. On the right panel, click on <code>Mappers</code> (on top). Then click on <code>create</code>, it will popup a form which you need to fill.
+2. Name: <code>audience-minio</code>;   Mapper Type: <code>Audience</code>; Included Client Audience: <code>minio</code>
+3. <code>Add to ID Token</code> need to be <code>Enabled</code>   <br />
+4. Click on <code>save</code>.</p>
+<blockquote>
+<p>Note if you named your minio auth client other than <code>minio</code>, you should change the <code>Included Client Audience</code> value accordingly.</p>
+</blockquote>
+<p>Below figure is an example</p>
+<p><img alt="kc-onyxia-audience-minio.PNG" src="../images/kc-onyxia-audience-minio.PNG" /></p>
+<h3 id="782-set-up-policy-claim">7.8.2 Set up policy claim<a class="headerlink" href="#782-set-up-policy-claim" title="Permanent link">&para;</a></h3>
+<p>To create a <strong>hardcoded claim</strong> 
+1. click on the <code>onyxia auth client</code>, in our case the name is <code>onyxia-client</code>. On the right panel, click on <code>Mappers</code> (on top). Then click on <code>create</code>, it will popup a form which you need to fill.
+2. Name: <code>policy</code>;   Mapper Type: <code>Hardcoded claim</code>; Token Claim Name: <code>policy</code>; Claim value: <code>stsonly</code>
+3. <code>Add to ID Token</code> need to be <code>Enabled</code>   <br />
+4. Click on <code>save</code>. </p>
+<p>Below figure is an exampl</p>
+<p><img alt="kc-onyxia-policy-claim.PNG" src="../images/kc-onyxia-policy-claim.PNG" /></p>
+<ul>
+<li>You probably want to <strong>extend token's duration</strong> as the <code>5 minutes</code> default value is not enough for users to use the token inside their services. This can be done either <code>realm wide</code> (realm settings =&gt; tokens =&gt; access_token_lifespan) or <code>per client</code> (settings =&gt; advanced settings).</li>
+<li>If you intend to use <strong>groups</strong> or want to work around this bug : https://github.com/InseeFrLab/onyxia-web/issues/263, you may want to add a <code>groups</code> client scope with a <code>Group membership</code> mapper.</li>
+</ul>
+<h3 id="783-link-minio-to-onyxia">7.8.3 Link minio to Onyxia<a class="headerlink" href="#783-link-minio-to-onyxia" title="Permanent link">&para;</a></h3>
+<p>To link minio server with Onyxia minio consol, we need to modify the Onyxia's UI configuration. The most important thing is to set <code>MINIO_URL: https://minio.casd.local</code>.</p>
+<p>The complete configuration file <code>minio.yaml</code> can be found <a href="../resources/onyxia/minio.yaml">here</a> </p>
+<p>To apply the new configuration, you need to run</p>
+<div class="codehilite"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>onyxia<span class="w"> </span>inseefrlab/onyxia<span class="w"> </span>-f<span class="w"> </span>minio.yaml
+</code></pre></div>
+
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/minio/operator/tree/master/helm">MinIO Operator repository Helm charts folder, for both operator and tenant</a></li>
+<li><a href="https://github.com/minio/operator/blob/master/helm/tenant/README.md">MinIO Tenant Helm chart's README.md</a></li>
+<li><a href="https://github.com/minio/operator/blob/master/helm/tenant/values.yaml">MinIO Tenant Helm chart default values file</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-minio-object-storage-server-in-standalone-mode-on-ubuntu-20-04">Install mimio on debian</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
