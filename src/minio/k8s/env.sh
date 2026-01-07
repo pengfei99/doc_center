@@ -1,0 +1,4 @@
+export MINIO_ROOT_USER="minio"
+export MINIO_ROOT_PASSWORD="changeMe"
+export MINIO_STORAGE_CLASS_STANDARD="EC:2"
+export MINIO_BROWSER="on"

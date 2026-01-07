@@ -1,0 +1,4 @@
+{
+    "allowed_origins": "https://datalab.casd.local",
+    "allowed_headers": "X-Custom-Header"
+}

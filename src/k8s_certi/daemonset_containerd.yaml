@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trusted-ca
+  namespace: kube-system
+data:
+  ca.crt: |+
+    -----BEGIN CERTIFICATE-----
+    MIICGDCCAb6gAwIBAgIUEBGTVbGL5johNO8jXwYeCI5SH7cwCgYIKoZIzj0EAwIw
+    WDELMAkGA1UEBhMCRlIxETAPBgNVBAcTCE1hbGFrb2ZmMRswGQYDVQQKExJDQVNE
+    IFRydXN0IFNlcnZpY2UxGTAXBgNVBAMTEENBU0QgazhzIFJPT1QgQ0EwHhcNMjIx
+    MDEyMDcyMDAwWhcNMjcxMDExMDcyMDAwWjBYMQswCQYDVQQGEwJGUjERMA8GA1UE
+    BxMITWFsYWtvZmYxGzAZBgNVBAoTEkNBU0QgVHJ1c3QgU2VydmljZTEZMBcGA1UE
+    AxMQQ0FTRCBrOHMgUk9PVCBDQTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABEVz
+    2wmHEdIIpAYm3dSg/p8PThC3cASDrbsX0qTpcAEeU8JYtkxhhT1WQJp5XMlD2YDe
+    zCWq2xrcw2sjofcRQ1ujZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG
+    AQH/AgECMB0GA1UdDgQWBBSPMq1t72FePGfHaSWG66FAirMADDAfBgNVHSMEGDAW
+    gBSPMq1t72FePGfHaSWG66FAirMADDAKBggqhkjOPQQDAgNIADBFAiAVnUzppLzH
+    IICTW127nI/RgU2Us9FZKAWNzZa7PiseKQIhALu+UcPN1KXL4EfuLsgZFOcmPMBH
+    m6gYOKog2jghWFSz
+    -----END CERTIFICATE-----
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: setup-script
+  namespace: kube-system
+data:
+  setup.sh: |
+    echo "$TRUSTED_CERT" > /usr/local/share/ca-certificates/ca.crt && update-ca-certificates && systemctl restart containerd
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: kube-system
+  name: custom-ca-manager
+  labels:
+    k8s-app: custom-ca-manager
+spec:
+  selector:
+    matchLabels:
+      k8s-app: custom-ca-manager
+  template:
+    metadata:
+      labels:
+        k8s-app: custom-ca-manager
+    spec:
+      hostPID: true
+      hostNetwork: true
+      initContainers:
+      - name: init-node
+        command: ["nsenter"]
+        args: ["--mount=/proc/1/ns/mnt", "--", "sh", "-c", "$(SETUP_SCRIPT)"]
+        image: debian
+        env:
+        - name: TRUSTED_CERT
+          valueFrom:
+            configMapKeyRef:
+              name: trusted-ca
+              key: ca.crt
+        - name: SETUP_SCRIPT
+          valueFrom:
+            configMapKeyRef:
+              name: setup-script
+              key: setup.sh
+        securityContext:
+          privileged: true
+      containers:
+      - name: wait
+        image: k8s.gcr.io/pause:3.1

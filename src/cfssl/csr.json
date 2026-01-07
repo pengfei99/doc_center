@@ -1,0 +1,18 @@
+{
+    "CN": "CASD k8s ROOT CA",
+    "hosts": [
+        "casd.local",
+        "www.casd.local"
+    ],
+    "key": {
+        "algo": "ecdsa",
+        "size": 256
+    },
+    "names": [
+        {
+            "C": "FR",
+            "L": "Malakoff",
+            "O": "CASD Trust Service"
+        }
+    ]
+}

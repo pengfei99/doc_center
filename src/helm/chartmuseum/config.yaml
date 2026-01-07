@@ -1,0 +1,8 @@
+debug: true
+port: 8080
+storage.backend: local
+storage.local.rootdir: /reg/casd
+basicauth.user: pliu
+basicauth.pass: changeMe
+authanonymousget: true
+depth: 2

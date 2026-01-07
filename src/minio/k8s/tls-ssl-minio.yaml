@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+ name: casd-minio-tls
+ namespace: casd-minio
+data:
+ public.crt: LS0tLS1CRUdJTiBD...
+ private.key: LS0tLS1CRUdJTiB...

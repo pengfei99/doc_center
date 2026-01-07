@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-operator-console
+  namespace: minio-operator
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$binary_remote_addr"
+spec:
+  tls:
+    - hosts:
+        - minio-operator-console.casd.local
+  rules:
+    - host: minio-operator-console.casd.local
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: console
+                port:
+                  number: 9443
+

@@ -1,0 +1,47 @@
+controller:
+  watchIngressWithoutClass: true
+  allowSnippetAnnotations: false
+  # for installing nginx on the specific worker
+  # all workers that have label public:"true" will have a replicas of the nginx 
+  nodeSelector:
+    public: "true"
+  config:
+    error-log-level: "info"
+    ignore-invalid-headers: "false"
+    proxy-request-buffering: "off"
+    proxy-body-size: "0"
+    large-client-header-buffers: "4 16k"
+
+  hostNetwork: true
+  extraEnvs:
+    - name: MY_POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+  kind: DaemonSet
+  service:
+    enabled: true
+    type: ClusterIP
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: true
+    controllerValue: "k8s.io/ingress-nginx"
+
+    # Parameters is a link to a custom resource containing additional
+    # configuration for the controller. This is optional if the controller
+    # does not require extra parameters.
+    parameters: {}
+  # add a default certificate for all ingress
+  # no need to use  `- secretName: casd-test-tls-secret` to specify a custom certificate
+  # the default certificate should be a wildcard which covers your domain
+  extraArgs:
+     # here, it requires the secret name of the private key of the certificate, not the certificate name 
+    default-ssl-certificate: "ingress-nginx/casd-wildcard-tls-secret"
+    time-buckets: "0.005,0.01,0.025,0.05,0.1,0.25,0.5,1,2.5,5,10"
+    length-buckets: "10,20,30,40,50,60,70,80,90,100"
+    size-buckets: "10,100,1000,10000,100000,1e+06,1e+07"
+rbac:
+  create: true
+podSecurityPolicy:
+  enabled: false

@@ -1,0 +1,9 @@
+MINIO_VOLUMES="http://minio-{1...3}.casd.local:9000/mnt/data"
+
+MINIO_OPTS="--console-address :9001"
+
+MINIO_ROOT_USER=admin
+
+MINIO_ROOT_PASSWORD=RKPKhwWC1vGkHDzz6WsY
+
+MINIO_SERVER_URL="https://datalake.casd.local:9000"

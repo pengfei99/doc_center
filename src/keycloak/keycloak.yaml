@@ -1,0 +1,258 @@
+# The number of replicas to create (has no effect if autoscaling enabled)
+replicas: 1
+
+image:
+  # The Keycloak image repository
+  repository: quay.io/keycloak/keycloak
+  # Overrides the Keycloak image tag whose default is the chart appVersion
+  tag: "19.0.1-legacy"
+  # The Keycloak image pull policy
+  pullPolicy: IfNotPresent
+
+# Image pull secrets for the Pod
+imagePullSecrets: []
+# - name: myRegistrKeySecretName
+
+
+# Indicates whether information about services should be injected into Pod's environment variables, matching the syntax of Docker links
+enableServiceLinks: true
+
+# Pod management policy. One of `Parallel` or `OrderedReady`
+podManagementPolicy: Parallel
+
+# Pod restart policy. One of `Always`, `OnFailure`, or `Never`
+restartPolicy: Always
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "keycloak-sa"
+  # Additional annotations for the ServiceAccount
+  annotations: {}
+  # Additional labels for the ServiceAccount
+  labels: {}
+  # Image pull secrets that are attached to the ServiceAccount
+  imagePullSecrets: []
+
+
+# SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this)
+podSecurityContext:
+  fsGroup: 1000
+
+# SecurityContext for the Keycloak container
+securityContext:
+  runAsUser: 1000
+  runAsNonRoot: true
+
+# When using service meshes which rely on a sidecar, it may be necessary to skip init containers altogether,
+# since the sidecar doesn't start until the init containers are done, and the sidecar may be required
+# for network access.
+# For example, Istio in strict mTLS mode prevents the pgchecker init container from ever completing
+skipInitContainers: false
+
+# Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
+extraContainers: ""
+
+# Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance
+terminationGracePeriodSeconds: 60
+
+# The internal Kubernetes cluster domain
+clusterDomain: cluster.local
+
+# Additional environment variables for Keycloak
+extraEnv: |
+  - name : KEYCLOAK_HTTP_PORT 
+    value : "80"
+  - name: KEYCLOAK_HTTPS_PORT
+    value: "443"
+  - name : KEYCLOAK_HOSTNAME
+    value : auth.casd.local
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: JGROUPS_DISCOVERY_PROTOCOL
+    value: kubernetes.KUBE_PING
+  - name: KUBERNETES_NAMESPACE
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.namespace
+  - name: CACHE_OWNERS_COUNT
+    value: "2"
+  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+    value: "2"
+  - name: KEYCLOAK_USER_FILE
+    value: /secrets/kc-creds/user
+  - name: KEYCLOAK_PASSWORD_FILE
+    value: /secrets/kc-creds/password
+  - name: X509_CA_BUNDLE
+    value: /etc/x509/https/ca.crt
+  - name: DB_VENDOR
+    value: postgres
+  - name: DB_ADDR
+    value: keycloak-postgres-postgresql
+  - name: DB_PORT
+    value: "5432"
+  - name: DB_DATABASE
+    value: keycloak
+  - name: DB_USER_FILE
+    value: /secrets/db-creds/user
+  - name: DB_PASSWORD_FILE
+    value: /secrets/db-creds/password
+
+# Pod affinity
+affinity: |
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            {{- include "keycloak.selectorLabels" . | nindent 10 }}
+          matchExpressions:
+            - key: app.kubernetes.io/component
+              operator: NotIn
+              values:
+                - test
+        topologyKey: kubernetes.io/hostname
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              {{- include "keycloak.selectorLabels" . | nindent 12 }}
+            matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: NotIn
+                values:
+                  - test
+          topologyKey: failure-domain.beta.kubernetes.io/zone
+
+# Topology spread constraints template
+topologySpreadConstraints:
+
+# Node labels for Pod assignment
+nodeSelector: {}
+
+# Node taints to tolerate
+tolerations: []
+
+# Additional Pod labels
+podLabels: {}
+
+# Additional Pod annotations
+podAnnotations: {}
+
+# Liveness probe configuration
+livenessProbe: |
+  httpGet:
+    path: /auth/
+    port: http
+  initialDelaySeconds: 0
+  timeoutSeconds: 5
+
+# Readiness probe configuration
+readinessProbe: |
+  httpGet:
+    path: /auth/realms/master
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+
+# Startup probe configuration
+startupProbe: |
+  httpGet:
+    path: /auth/
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+  failureThreshold: 60
+  periodSeconds: 5
+
+# Pod resource requests and limits
+resources: 
+  requests:
+    cpu: "500m"
+    memory: "1024Mi"
+  limits:
+    cpu: "800m"
+    memory: "2048Mi"
+
+# Startup scripts to run before Keycloak starts up
+startupScripts:
+  # WildFly CLI script for configuring the node-identifier
+  keycloak.cli: |
+    {{- .Files.Get "scripts/keycloak.cli" }}
+  # mystartup.sh: |
+  #   #!/bin/sh
+  #
+  # echo 'Hello from my custom startup script!'
+
+# Add additional volumes, e. g. for custom themes
+extraVolumes: |
+  - name: certs
+    secret:
+      secretName: casd-ca
+  - name: db-creds
+    secret:
+      secretName: postgresql-creds
+  - name: kc-creds
+    secret:
+      secretName: keycloak-admin-creds
+
+# Add additional volumes mounts, e. g. for custom themes
+extraVolumeMounts: |
+  - name: certs
+    mountPath: /etc/x509/https
+    readOnly: true
+  - name: db-creds
+    mountPath: /secrets/db-creds
+    readOnly: true
+  - name: kc-creds
+    mountPath: /secrets/kc-creds
+    readOnly: true
+
+
+
+pgchecker:
+  image:
+    # Docker image used to check Postgresql readiness at startup
+    repository: docker.io/busybox
+    # Image tag for the pgchecker image
+    tag: 1.32
+    # Image pull policy for the pgchecker image
+    pullPolicy: IfNotPresent
+  # SecurityContext for the pgchecker container
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+  # Resource requests and limits for the pgchecker container
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "32Mi"
+    limits:
+      cpu: "20m"
+      memory: "32Mi"
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+    kubernetes.io/ingress.class: nginx
+  rules:
+    - host: "auth.casd.local"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - "auth.casd.local"
+
+postgresql:
+  enabled: false
+
+
+
+

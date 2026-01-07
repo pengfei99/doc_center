@@ -1,0 +1,20 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - host: datalab.casd.local
+ui:
+  image:
+    name: inseefrlab/onyxia-web
+  env:
+    KEYCLOAK_REALM: casd-onyxia
+    KEYCLOAK_CLIENT_ID: onyxia-client
+    KEYCLOAK_URL: https://keycloak.datalab.casd.local/auth
+api:
+  env:
+    keycloak.realm: casd-onyxia
+    keycloak.disable-trust-manager: "true"
+    keycloak.auth-server-url: https://keycloak.datalab.casd.local/auth
+    authentication.mode: "openidconnect"
+    springdoc.swagger-ui.oauth.clientId: onyxia-client

@@ -1,0 +1,14 @@
+{
+    "signing": {
+        "default": {
+            "usages": [
+                "digital signature",
+                "key encipherment"
+            ],
+            "expiry": "26280h",
+            "ca_constraint": {
+                "is_ca": false
+            }
+        }
+    }
+}

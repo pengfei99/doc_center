@@ -1,0 +1,27 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: casd-wildcard-certificate
+  namespace: ingress-nginx
+spec:
+  secretName: casd-wildcard-tls-secret
+  privateKey:
+    rotationPolicy: Always
+    algorithm: RSA
+    encoding: PKCS1
+    size: 4096
+  duration: 8760h # 1 Year
+  renewBefore: 2208h #9 months
+  subject:
+    organizations:
+      - CASD
+  # commonName: datalab
+  isCA: false
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - "*.casd.local"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
