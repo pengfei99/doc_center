@@ -1,0 +1,297 @@
+# CephFS with Rook
+
+### What is Ceph? 
+
+**Ceph** is a highly scalable distributed-storage solution offering object, block, and file storage. Ceph clusters are designed to run on any hardware using the so-called `CRUSH algorithm` (Controlled Replication Under Scalable Hashing). The Ceph architecture can be pretty neatly broken into two key layers:
+1. **Reliable Autonomic Distributed Object Stores (aka. RADOS)**: is a reliable autonomic distributed object store, which provides an extremely scalable storage service for variably sized objects.
+
+2. **The Ceph file system**: is built on top of RADOS. Files are striped over objects, and the `MDS (metadata server)` cluster provides distributed access to a POSIX file system namespace (directory hierarchy) that’s ultimately backed by more objects.
+ 
+ The `RADOS` contains many components, the following components are the most important:
+
+- **Ceph Monitors (aka. MONs)**: are responsible for maintaining the maps of the cluster required for the Ceph daemons to coordinate with each other. There should always be more than one MON running to increase the reliability and availability of your storage service.
+
+- **Ceph Managers (aka. MGRs)**: are runtime daemons responsible for keeping track of runtime metrics and the current state of your Ceph cluster. They run alongside your monitoring daemons (MONs) to provide additional monitoring and an interface to external monitoring and management systems.
+
+- **Ceph Object Store Devices (aka. OSDs)**: are responsible for storing objects on a local file system and providing access to them over the network. These are usually tied to one physical disk of your cluster. Ceph clients interact with OSDs directly.
+
+### What is rook?
+
+[Rook](https://rook.io/docs/rook/v1.10/Getting-Started/quickstart/) is a set of `storage Operators` for Kubernetes that turn distributed storage systems into `self-managing, self-scaling, self-healing storage services`. It automates tasks such as `deployment, configuration, scaling, upgrading, monitoring, resource management` for distributed storage like Ceph on top of Kubernetes. It has support for multiple storage providers like **Ceph, EdgeFS, Cassandra, NFS, Yugabyte DB, and CockroachDB** – via a Kubernetes Operator for each one.
+
+
+## 5.1 Prerequisites for Rook
+
+Rook can be installed on any existing Kubernetes cluster as long as it meets the minimum version and Rook is granted the required privileges
+
+### 5.1.1 CPU Architecture
+
+Supported CPU Architectures are `amd64 / x86_64 and arm64`.
+
+### 5.1.2 <a name="5.1.2">Hard drive check</a>
+
+In order to configure the Ceph storage cluster, at least one of these local storage options are required:
+
+- Raw devices (no partitions or formatted filesystems)
+- Raw partitions (no formatted filesystem)
+- LVM Logical Volumes (no formatted filesystem)
+- Persistent Volumes available from a storage class in **block** mode
+
+Use below command to check your hard drive status
+
+```shell
+lsblk -f
+NAME   FSTYPE FSVER LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+sda
+├─sda1 vfat   FAT32       B052-39EE                             507.6M     1% /boot/efi
+└─sda2 ext4   1.0         7bbbaa47-535d-4e32-968d-ea078a0dd460  110.4G     5% /
+sdb
+
+```
+If the **FSTYPE field is not empty**, there is a filesystem on top of the corresponding device. In the above example, you can only use the `sdb` device.
+
+### 5.1.3 Admission Controller
+
+Enabling the `Rook admission controller` is recommended to provide an additional level of validation that Rook is configured correctly with the custom resource (CR) settings. An admission controller intercepts requests to the Kubernetes API server prior to persistence of the object, but after the request is authenticated and authorized.
+
+To deploy the Rook admission controllers, install the `cert manager` before Rook is installed.
+
+Run below command to install cert manager
+
+```shell
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.1/cert-manager.yaml
+
+```
+
+### 5.1.4 LVM package
+
+Base on your installation scenario you may need to install the lvm package
+
+```shell
+# centos
+sudo yum install -y lvm2
+
+# debian
+sudo apt install -y lvm2
+```
+
+### 5.1.5 Linux Kernel
+
+The recommended minimum kernel version is **4.17**, and the kernel must be built with the **RBD module**
+
+
+## 5.2 Detailed installation
+
+
+### 5.2.1 Step1 : Installing Rook operator
+
+The base Rook operator and resources must first be installed in the cluster. Two install methods exist:
+
+- applying manifests (kubectl apply -f *.yaml)
+- applying Helm chart (helm install .)
+
+In this tutorial we use the manifest option. 
+The Onyxia repository can be found [here](https://github.com/InseeFrLab/paris-sspcloud/tree/master/storage/rook-ceph)
+
+There are four important files:
+- [crds.yaml](../resources/rook-ceph/crds.yaml) : resource for creating the rook CustomResourceDefinition
+- [common.yaml](../resources/rook-ceph/common.yaml) # resource for creating prerequisites of rook operator (e.g. roles) 
+- [operator.yaml](../resources/rook-ceph/operator.yaml) # resource for deploying rook operator
+- [cluster.yaml](../resources/rook-ceph/cluster-test.yaml) # create a ceph cluster by using rook operator
+
+You can download the latest ones from the [git repository](https://github.com/rook/rook.git).
+
+Below command will get the v1.10.1
+
+```bash
+git clone --single-branch --branch v1.10.1 https://github.com/rook/rook.git
+
+# you can find all *.yaml in rook/deploy/examples
+ls rook/deploy/examples
+```
+
+You need to edit these four files to adapt your own system. For example, the [cluster-test.yaml](../resources/rook-ceph/cluster-test.yaml) will create a test rook cluster(1 node is enough). The [cluster.yaml](../resources/rook-ceph/cluster.yaml) will create a production ready rook cluster(3 node minimun).
+
+```bash
+# create the rook operator
+kubectl apply -f crds.yaml  -f common.yaml -f operator.yaml
+
+```
+
+### 5.2.2 Step2 : Creating a Ceph cluster
+
+You can find a complete example for production [cluster.yaml](../resources/rook-ceph/cluster.yaml) (requires 3 node). 
+For test purporse, you can use [cluster-test.yaml](../resources/rook-ceph/cluster-test.yaml) (requires 1 node only).
+
+To deploy a Ceph cluster with an appropriate manifest, run below command
+
+```shell
+# deploy a ceph cluster by using rook operator
+kubectl apply -f cluster.yaml
+```
+
+As this manifest is the core of the ceph cluster, We will explain the manifest line by line.
+
+#### 5.2.2.1 Header
+In k8s, every manifest must have a header which contains:
+- apiVersion: The version of k8s culster that the manifest is designed to run with
+- kind: the object type which the k8s mantifest will deploy
+- metadata: It specifies the name and namespace 
+
+Below is an example
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+```
+
+#### 5.2.2.2 Spec
+
+##### Image version
+
+```yaml
+dataDirHostPath: /var/lib/rook # specify the data directory where configuration files will be persisted
+cephVersion:
+  image: quay.io/ceph/ceph:v17 # the ceph version that will be deployed
+  allowUnsupported: true # allow unsupported Ceph version
+```
+
+##### basic Component
+
+```yaml
+mon:
+  count: 1 # configure the number of Ceph Monitors should be 3 for production
+  allowMultiplePerNode: true
+mgr:
+  count: 1 # configure the number of Ceph manager 
+  allowMultiplePerNode: true
+dashboard: # enable the ceph dashboard
+  enabled: true
+  # serve the dashboard under a subpath (useful when you are accessing the dashboard via a reverse proxy)
+  # urlPrefix: /ceph-dashboard
+  # serve the dashboard at the given port.
+  # port: 8443
+  # serve the dashboard using SSL
+  ssl: false 
+```
+
+The `storage` key lets you define the cluster level storage options; for example, which node and devices to use, the database size, and how many OSDs to create per device:
+```yaml
+storage:
+  useAllNodes: true
+  useAllDevices: true
+  config:
+    # metadataDevice: "md0" # specify a non-rotational storage so ceph-volume will use it as block db device of bluestore.
+    # databaseSizeMB: "1024" # uncomment if the disks are smaller than 100 GB
+    # journalSizeMB: "1024"  # uncomment if the disks are 20 GB or smaller
+```
+
+The `disruptionManagement` key to manage daemon disruptions during upgrade or fencing:
+```yaml
+disruptionManagement:
+  managePodBudgets: false
+  osdMaintenanceTimeout: 30
+  manageMachineDisruptionBudgets: false
+  machineDisruptionBudgetNamespace: openshift-machine-api
+```
+
+##### Advance component
+
+`RDB` stands for **RADOS (Reliable Autonomic Distributed Object Store)** block device, which are thin-provisioned and resizable Ceph block devices that store data on multiple nodes.
+
+`RBD images` can be asynchronously shared between two Ceph clusters by enabling rbdMirroring. Since we’re working with one cluster in this tutorial, this isn’t necessary. The number of workers is therefore set to 0
+```yaml
+rbdMirroring:
+  workers: 0
+crashCollector: # enable the crash collector for the Ceph daemons
+  disable: false
+cleanupPolicy: # The cleanup policy is only important if you want to delete your cluster. That is why this option has to be left empty:
+  deleteDataDirOnHosts: ""
+removeOSDsIfOutAndSafeToRemove: false
+```
+### 5.2.3 Installing Storage on top of the rook-ceph cluster
+
+Ceph provide three types fo storage:
+
+- Block: Create block storage to be consumed by a pod (RWO)
+- Shared Filesystem (CephFs): Create a filesystem to be shared across multiple pods (RWX)
+- Object: Create an object store that is accessible inside or outside the Kubernetes cluster
+
+#### 5.2.3.1 Block (default for onyxia)
+
+To deploy a Ceph block storage, you can use the two example manifest:
+- for proudction: [cephblock_storageclass.yaml](../resources/rook-ceph/cephblock_storageclass.yaml)
+- for test: [cephblock_test_storageclass.yaml](../resources/rook-ceph/cephblock_test_storageclass.yaml)
+
+
+The version that Onyxia uses can be found [here](https://github.com/InseeFrLab/paris-sspcloud/tree/master/storage/rook-ceph)
+
+These two manifest will create a `CephBlockPool` and a **rook-ceph-block StorageClass**. 
+
+**Must set the ceph-block StorageClass as default for onyxia to use it**
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true" # this line is essential for Onyxia to work
+  name: rook-ceph-block
+```
+
+#### 5.2.3.2 CephFs
+
+To deploy a CephFs storage, you can use the two example manifest:
+- [filesystem.yaml](../resources/rook-ceph/filesystem.yaml) will create a production level cephFS (requires 3 Ceph Object Storage Daemons (OSDs)).
+- [filesystem-test.yaml](../resources/rook-ceph/filesystem-test.yaml) will create a test cephFS( 1 osd is enough).
+
+
+Apply this file's content with the following command:
+
+```bash
+kubectl apply -f filesystem-test.yaml
+```
+
+You can check if the pods are created correctly with below command
+
+```shell
+# To confirm the filesystem is configured, wait for the mds pods to start
+kubectl -n rook-ceph get pod -l app=rook-ceph-mds
+
+# You should see below output if everything is ok
+NAME                                    READY   STATUS    RESTARTS   AGE
+rook-ceph-mds-myfs-a-7bdbb9c64f-78pnj   1/1     Running   0          5m26s
+rook-ceph-mds-myfs-b-6c7b84897c-rn9kx   1/1     Running   0          5m24s
+```
+
+#####  Creat a StorageClass based on cephfs 
+
+Now, we have a CephFS, but pods can't use it directly. We need to create a **StorageClass**, which is needed for Kubernetes to interoperate with the CSI driver to create persistent volumes.
+
+You can use [cephfs_storageclass.yaml](../resources/rook-ceph/cephfs_storageclass.yaml) as example to creat a storage class for cephfs.
+
+```bash
+kubectl apply -f cephfs_storageclass.yaml
+```
+
+## 5.3 Test your installation.
+
+You can use the ceph toolbox to test your ceph cluster.
+
+For more details, please visit [06.Rook_Ceph_toolbox_and_dashboard.md](sys_admin/06.Rook_Ceph_toolbox_and_dashboard.md).
+
+## 5.4 Add new node
+
+To add a new osd node inside the ceph cluster:
+1. Prepare the physical disk on the host as we described in [section 5.1.2](#5.1.2)
+2. Restart the rook-ceph-operator pod. 
+
+I was expecting `rook-ceph operator` to automatically add/remove ceph osds if we have set `useAllNodes: true` in `cluster.yaml`. But no, view this [issue](https://github.com/rook/rook/issues/4392). So you need to restart the pod to add new nodes.
+
+Below command is an example on how to restart the rook-ceph operator
+```text
+kubectl rollout restart deployment rook-ceph-operator -n rook-ceph
+```
