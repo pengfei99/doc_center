@@ -20,13 +20,28 @@ nav:
   - Home: index.md
   - admin_sys:
       - core:
+          - debian_admin_cheat_sheet: adminsys/core/debian_admin_cheat_sheet.md
+          - cron_jobs: adminsys/core/Cron_jobs.md
           - systemd(serviced) in linux: adminsys/core/Systemd(serviced).md
+          - time_synchronization_in_debian: adminsys/core/Time_Synchronization_in_Debian.md
       - db_management:
           - mariadb:
               - installation: adminsys/db_management/mariadb/Installation.md
               - configuration: adminsys/db_management/mariadb/Management.md
           - postgres:
-              - installation: adminsys/db_management/postgres/Install_postgresql.md
+              - installation bare_metal: adminsys/db_management/postgres/Install_postgresql.md
+              - installation on k8s: adminsys/db_management/postgres/Install_postgres_via_helm_chart.md
+      - fs:
+          - Minio:
+              - introduction: adminsys/fs/Minio/01.Introduction.md
+              - installation bare_metal: adminsys/fs/Minio/02.Install_minio_bare_metal.md
+              - install_and config minio client: adminsys/fs/Minio/03.Install_and_config_minio_client.md
+              - minio_installation_details: adminsys/fs/Minio/04.Minio_installation_details.md
+          - NFS:
+              - Installation: adminsys/fs/NFS/Install_nfs_server_client.md
+          - Rook_Ceph:
+              - rook_ceph_installation: adminsys/fs/Rook_Ceph/rook_ceph_Installation.md
+              - dashboard: adminsys/fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard.md
       - os_setup:
           - server language support: adminsys/os_setup/01.Lang_support.md
           - debian backports repo: adminsys/os_setup/02.Add_debian_backports_repo.md
@@ -38,9 +53,12 @@ nav:
           - Use postfix to sendmail: adminsys/os_setup/Install_configure_Postfix_to_sendmail.md
           - auto_config:
               - ansible:
-                   - ansible roles: adminsys/os_setup/auto_config/ansible/ansible_roles.md
+                  - install_ansible: adminsys/os_setup/auto_config/ansible/Install_ansible_debian.md
+                  - ansible roles: adminsys/os_setup/auto_config/ansible/ansible_roles.md
           - package_management:
               - install package via deb files: adminsys/os_setup/package_management/01.Install_deb_files.md
+              - build private package mirrors with aptly: adminsys/os_setup/package_management/02.Install_aptly_to_build_debian_repo_server.md
+              - config aptly: adminsys/os_setup/package_management/03.Configure_aptly.md
               - use private package repo in debian: adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md
           - security:
               - Summary: adminsys/os_setup/security/README.md
@@ -68,17 +86,27 @@ nav:
           - Use docker compose: container/Docker/03.Use_docker_compose.md
       - helm chart registry: container/Helm_chart_registry/01.Deploy_a_helm_chart_registry.md
       - container image registry:
+          - Docker:
+              - Docker engine installation: container/Image_registry/Docker/02.Docker_engine_installation.md
+              - Docker common commands: container/Image_registry/Docker/03.Docker_common_commands.md
           - harbor:
               - Introduction: container/Image_registry/harbor/01.Introduction.md
               - Harbor installation: container/Image_registry/harbor/02.Harbor_installation.md
               - Harbor helm chart management: container/Image_registry/harbor/03.Harbor_helm_chart_management.md
+              - Harbor export import image: container/Image_registry/harbor/Harbor_export_import_image.md
+          - Introduction of private image registry: container/Image_registry/Introduction_of_private_image_registry.md
           - Configure container runtime to use private image registry: container/Image_registry/04.Use_private_image_registry.md
+          - Image_secu_inspection: container/Image_registry/Image_secu_inspection.md
+          - Image_vulnerability_scanner: container/Image_registry/Trivy_image_scanner.md
       - k8s:
           - deploy_k8s_with_kubeadm:
               - Introduction of kubeadm: container/k8s/deploy_k8s_with_kubeadm/01.Introduction_of_Kubeadm.md
               - Deploy k8s with kubeadm: container/k8s/deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online.md
               - Manage k8s with kubeadm: container/k8s/deploy_k8s_with_kubeadm/03.K8s_cluster_management.md
               - Post installation config: container/k8s/deploy_k8s_with_kubeadm/04.Post_k8s_cluster_installation.md
+          - deploy_k8s_offline:
+              - Prepare server: container/k8s/deploy_k8s_offline/02.Prepare_env_for_installing_k8s_offline.md
+              - install k8s offline: container/k8s/deploy_k8s_offline/03.Install_k8s_offline.md
           - k8s_client_setup:
               - Install kubectl and helm: container/k8s/k8s_client_setup/01.Install_kubectl_and_helm.md
               - Introduction of helm: container/k8s/k8s_client_setup/02.Helm_introduction.md
@@ -91,8 +119,6 @@ nav:
           - K8s_cluster_supervision: container/k8s/05.k8s_cluster_supervision.md
           - Debug_deployed_app_in_k8s: container/k8s/Debug_application_in_cluster_k8s.md
           - k8s_cluster_upgrade: container/k8s/k8s_cluster_upgrade.md
-
-
   - data_management:
       - Tuning: data_management/tuning.md
       - FAQ: data_management/faq.md
@@ -101,6 +127,12 @@ nav:
       - Configuration: devops/config.md
   - hadoop:
       - Integrate kerberos in hadoop cluster: hadoop/Integrate_kerberos_in_hadoop_cluster.md
+  - Onyxia:
+      - Install onyxia: Onyxia/03.Install_onyxia.md
+  - python:
+      - pypi_mirror:
+          - introduction: python/pypi_server/01.introduction.md
+      - install python interpreter in debian: python/04.Install_python_debian.md
   - security:
       - Kerberos:
           - 01.Introduction: security/kerberos/01.Introduction.md
