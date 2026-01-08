@@ -3,7 +3,7 @@
 
 **Cron** is a time-based job scheduling daemon found in Unix-like operating systems, including Linux distributions. Cron runs in the background and operations scheduled with cron, referred to as "cron jobs", are executed automatically, making cron useful for automating maintenance-related tasks.
 
- ## Installation 
+## Installation 
 
 
 ```shell
@@ -17,7 +17,7 @@ sudo yum install cronie
 sudo emerge -av sys-process/cronie
 ```
 
- ## Understanding How Cron Works 
+## Understanding How Cron Works 
 
 Cron jobs are recorded and managed in a special file known as a crontab. Each user profile on the system can have their own crontab where they can schedule jobs, which is stored under /var/spool/cron/crontabs/.
 
@@ -49,14 +49,14 @@ mm hh jj MMM JJJ [user] task > log
 
 > Each line you add in the crontab will be transformed into a cronjob
 
- ## Configuration 
+## Configuration 
 
- ### Managing Cron Job Output 
+### Managing Cron Job Output 
 
 Because cron jobs are executed in the background, it isn’t always apparent that they’ve run successfully. So redirecting the output of cron jobs to help you track that they’ve been executed successfully.
 
 
- #### send mail 
+#### send mail 
 
 If you have a mail transfer agent, such as `Sendmail`, installed and properly configured on your server, you can set it up in your crontab
 
@@ -72,7 +72,7 @@ HOME=/
 * * * * * echo 'Run this command every minute'
 ```
 
- #### Redirect to a log file 
+#### Redirect to a log file 
 
 To append a scheduled command’s output to a log file, add >> to the end of the command followed by the name and location of a log file of your choosing, like this:
 
@@ -116,7 +116,7 @@ crontab -e
 
 ```
 
- ## Cron job scheduler syntaxes 
+## Cron job scheduler syntaxes 
 
 In each column, you can use numbers and acronyms such as `JAN-DEC` and `SUN-SAT`. There are also a few special characters you can include in the schedule component of a cron expression to streamline scheduling tasks:
 
@@ -130,7 +130,7 @@ For each time column, we can use the three below expressions:
   * start/step: This operator means every step from the start. For example, if 2/15 is in the `mm` column, this task will be executed every 15 mins starting at the 2nd min after every hour. if */8 is in the `hh` column, this task will be executed every 8 hours of every day.
   * time1,time2,time3,...: This operator means run task at time1, time2 and time3, etc. 
 
- ### Some examples 
+### Some examples 
 
 Here are some more examples of how to use cron’s scheduling component:
 
@@ -142,7 +142,7 @@ Here are some more examples of how to use cron’s scheduling component:
   - 0 4 * * 2-4 - Run the command every Tuesday, Wednesday, and Thursday at 4:00 AM.
   - 20,40 */8 * 7-12 * - Run the command on the 20th and 40th minute of every 8th hour every day of the last 6 months of the year.
 
- ### Special Syntax 
+### Special Syntax 
 
 There are also several shorthand commands you can use in your crontab file to help streamline job scheduling. They are essentially shortcuts for the equivalent numeric schedule specified:
 

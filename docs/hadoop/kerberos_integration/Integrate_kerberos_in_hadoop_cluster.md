@@ -123,13 +123,13 @@ Normally, when the linux servers have joined the AD/Krb realm, their AD/DNS conf
 Just to make sure, you can open the DNS manager on the `Domain controller` where AD/Krb is located.
 Below figure is an example of the `DNS manager GUI`
 
-![ad_dns_manager.png](../assets/ad_dns_manager.png)
+![ad_dns_manager.png](../../../images/ad_dns_manager.png)
 
 You need to check the `value of FQDN and ip` for each server in `forward and reverse lookup zones`.
 
 Below figure is an example for the Forward loopup zone definition of a server
 
-![ad_dns_server_spec.png](../assets/ad_dns_server_spec.png)
+![ad_dns_server_spec.png](../../../images/ad_dns_server_spec.png)
 
 ## 1.4. Check kerberos client
 
