@@ -14,7 +14,8 @@ markdown_extensions:
   - admonition
   - toc:
       permalink: true
-  - codehilite
+  - pymdownx.highlight
+  - pymdownx.superfences
 
 nav:
   - Home: index.md
@@ -126,7 +127,19 @@ nav:
       - Installation: devops/install.md
       - Configuration: devops/config.md
   - hadoop:
-      - Integrate kerberos in hadoop cluster: hadoop/Integrate_kerberos_in_hadoop_cluster.md
+      - basic:
+          - hdfs introduction: hadoop/basic/01.hdfs_introduction.md
+          - yarn introduction: hadoop/basic/02.yarn_introduction.md
+      - installation:
+          - install hdfs yarn: hadoop/Installation/01.Install_hdfs_yarn.md
+          - install spark on yarn: hadoop/Installation/02.Install_spark_on_yarn.md
+      - kerberos integration:
+          - Integrate kerberos in hadoop cluster: hadoop/Integrate_kerberos_in_hadoop_cluster.md
+          - Configure spark on kerberos hadoop: hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md
+      - cluster clients:
+          - hdfs client: hadoop/cluster_clients/01.Install_hdfs_clients.md
+          - rstudio desktop: hadoop/cluster_clients/02.Install_R_studio_desktop.md
+          - rstudio server: hadoop/cluster_clients/03.Install_R_studio_server.md
   - Onyxia:
       - Install onyxia: Onyxia/03.Install_onyxia.md
   - python:
