@@ -5689,7 +5689,7 @@ into separate daemons. The idea is to have a global ResourceManager (RM) and per
                   the <code>NodeManager(s)</code> to execute and monitor the tasks.
 - <strong>Container</strong>: It is a collection of physical resources such as RAM, CPU cores, and disks on a single node (like a vm in a hypervisor).
              It is supervised by the NodeManager and scheduled by the ResourceManager. Container can have different</p>
-<p><img alt="yarn_concepts.png" src="../../../images/yarn_concepts.png" /></p>
+<p><img alt="yarn_concepts.png" src="../../../assets/yarn_concepts.png" /></p>
 <h3 id="resource-manager">Resource manager<a class="headerlink" href="#resource-manager" title="Permanent link">&para;</a></h3>
 <p>The ResourceManager has two main components: 
 - <strong>Scheduler</strong>: The Scheduler is responsible for allocating resources to the various running applications subject to 
@@ -5730,7 +5730,7 @@ into separate daemons. The idea is to have a global ResourceManager (RM) and per
 <li><code>ReduceTask Container</code> will ask <code>MapTask Container</code> to send their data.</li>
 <li>After all tasks are executed, <code>MRAppmaster Container</code> will ask RM to clean.</li>
 </ol>
-<p><img alt="yarn_mr_workflow.png" src="../../../images/yarn_mr_workflow.png" /></p>
+<p><img alt="yarn_mr_workflow.png" src="../../../assets/yarn_mr_workflow.png" /></p>
 <h2 id="useful-commands">Useful commands<a class="headerlink" href="#useful-commands" title="Permanent link">&para;</a></h2>
 <h3 id="general-commands">General commands<a class="headerlink" href="#general-commands" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># list all available node of the cluster</span>

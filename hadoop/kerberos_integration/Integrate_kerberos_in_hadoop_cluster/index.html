@@ -5473,7 +5473,8 @@ naming conventions strongly depends on the cluster architecture.</p>
 - spark-m03.casdds.casd: data-node(hdfs), node-manager(yarn)</p>
 <blockquote>
 <p>We suppose you already join these machines into the AD/krb realm. For more details, you can check this 
-<a href="https://github.com/pengfei99/LinuxAdminSys/blob/main/docs/debian_server/os_setup/security/05.Configure_ssh_sssd_AD.md">doc</a> </p>
+<a href="../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/">doc</a>. 
+We also provide a version in French <a href="../../../adminsys/os_setup/security/fr/02.Configure_ssh_pam_sssd_ad_fr/">here</a> </p>
 </blockquote>
 <h3 id="11-prepare-service-account-and-their-keytab">1.1 Prepare service account and their keytab<a class="headerlink" href="#11-prepare-service-account-and-their-keytab" title="Permanent link">&para;</a></h3>
 <p>By convention, we recommend you to create <code>a dedicated AD/Ldap account and kerberos principal for each service</code>. 
@@ -5643,10 +5644,10 @@ q
 <p>Normally, when the linux servers have joined the AD/Krb realm, their AD/DNS configuration are done automatically.</p>
 <p>Just to make sure, you can open the DNS manager on the <code>Domain controller</code> where AD/Krb is located.
 Below figure is an example of the <code>DNS manager GUI</code></p>
-<p><img alt="ad_dns_manager.png" src="../../../images/ad_dns_manager.png" /></p>
+<p><img alt="ad_dns_manager.png" src="../../../assets/ad_dns_manager.png" /></p>
 <p>You need to check the <code>value of FQDN and ip</code> for each server in <code>forward and reverse lookup zones</code>.</p>
 <p>Below figure is an example for the Forward loopup zone definition of a server</p>
-<p><img alt="ad_dns_server_spec.png" src="../../../images/ad_dns_server_spec.png" /></p>
+<p><img alt="ad_dns_server_spec.png" src="../../../assets/ad_dns_server_spec.png" /></p>
 <h2 id="14-check-kerberos-client">1.4. Check kerberos client<a class="headerlink" href="#14-check-kerberos-client" title="Permanent link">&para;</a></h2>
 <p>Normally, you should have a valid krb5 client and config on each hadoop node.</p>
 <p>Below is an example of the krb5 client conf(<code>/etc/krb5.conf</code>).</p>
