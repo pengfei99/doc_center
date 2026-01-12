@@ -1,14 +1,23 @@
-# Configure debian server to use AD/Krb for sshd authentication
+# Integrate kerberos in hadoop client
 
-In this tutorial, we show how to configure sshd, pam, sssd, to allow a `debian 11` server to use **AD/Krb** as 
-authentication server. We will follow the below steps:
+In this tutorial, we suppose the user identity is managed inside an `AD server`, which delivers `Krb tickets`. 
 
 We suppose we have :
 
-- `AD/Krb` : The ip address is `10.50.5.64`, ad domain name `casdds.casd`, krb realm name `CASDDS.CASD`, hostname `auth`, fqdn is `auth.casdds.casd`
-- `debian 11`: ip address is `10.50.5.199`, hostname is `hadoop-client`, fqdn is `hadoop-client.casdds.casd`
+- `AD/Krb` server: The ip address is `10.50.5.64`, ad domain name `casdds.casd`, krb realm name `CASDDS.CASD`, hostname `auth`, fqdn is `auth.casdds.casd`
+- `debian server`: ip address is `10.50.5.199`, hostname is `pengfei-hclient`, fqdn is `pengfei-hclient.casdds.casd`
 
-## Step 1: Prerequisite
+To integrate kerberos in hadoop client, we need to follow the below steps:
+- configure debian server to use AD/Krb for sshd authentication
+- install hadoop client
+- configure hadoop client to use krb ticket as authentication mechanism.
+
+## 1. Configure debian server to use AD/Krb for sshd authentication
+
+The full doc on how to config debian to use AD/Krb for sshd authentication can be found [here](../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md)
+
+Here we just show a shorter version.
+
 
 ### 1.1 Reset hostname of hadoop-client
 
@@ -17,18 +26,14 @@ is set correctly. Follow the below steps:
 - set system hostname
 - update /etc/hosts
 
-```shell
-# general form
-sudo hostnamectl set-hostname <custom-hostname>
-
-# for example 
-sudo hostnamectl set-hostname hadoop-client
+```shell 
+sudo hostnamectl set-hostname pengfei-hclient.casdds.casd
 
 # check the new hostname with below command
 hostname
 
 # expected output
-hadoop-client
+pengfei-hclient
 ```
 
 > you can also directly edit the hostname config file(not recommended) by using `sudo vim /etc/hostname`
@@ -42,6 +47,8 @@ sudo vim /etc/hosts
 10.50.5.199	hadoop-client.casdds.casd	hadoop-client
 
 ```
+> This config is essential, if the host name is not correct, the linux server will join the AD REALM with a bad name
+
 
 ### 1.2 Update system packages in hadoop-client
 
@@ -58,6 +65,7 @@ Edit the `/etc/resolv.conf` :
 
 ```shell
 search casdds.casd
+# the ip of the AD/krb server, because it's also the dns
 nameserver 10.50.5.64
 nameserver 8.8.8.8
 ```
@@ -68,17 +76,16 @@ nameserver 8.8.8.8
 sudo apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin krb5-user oddjob oddjob-mkhomedir packagekit -y
 ```
 
-## Step 2 : Join the debian server(hadoop-client) to the AD domain
 
-### 2.1. Check if the domain can be reached or not
+### 1.5 Check if the AD domain can be reached or not
 
 ```shell
-realm discover CASDDS.CASD
+sudo realm discover CASDDS.CASD
 ```
 > - If the error message is realm command is unknown, open a new shell.
 > - If the error message is CASDDS.CASD is unknown, check the dns server ip is reachable, and dns server name setup is correct.
 
-### 2.2. Join the server(hadoop-client) to the AD domain
+### 1.6 Join the server(pengfei-hclient.casdds.casd) to the AD domain
  
 To execute the below command, you must have an account with `domain administrator` privilege :
 
@@ -86,107 +93,74 @@ To execute the below command, you must have an account with `domain administrato
 sudo realm join --user=Administrateur CASDDS.CASD
 ```
 
-If there is no error message, it means your server has joined the domain.
+> The join action will:
+> 1. create related accounts in `computer` section of AD(AD server side)
+> 2. create a keytab file for the linux krb client to connect to the AD/krb server
+> If there is no error message, it means your server has joined the domain.
+> 
+By default, the keytab file is located at `/etc/krb5.keytab`. You can check the content with the below command
 
-### 2.3 Configure the linux server(hadoop-client) account in AD
+```shell
+# as the keytab file is protected, so you need sudo right
+sudo klist -k /etc/krb5.keytab
 
-If the `hadoop-client` has success joined the AD domain, you should see the server appears in the `Computer` section in
-the AD manager GUI. Check the below figure
+# expected output
+Keytab name: FILE:/etc/krb5.keytab
+KVNO Principal
+---- --------------------------------------------------------------------------
+   2 PENGFEI-HCLIENT$@CASDDS.CASD
+   2 PENGFEI-HCLIENT$@CASDDS.CASD
+   2 host/PENGFEI-HCLIENT@CASDDS.CASD
+   2 host/PENGFEI-HCLIENT@CASDDS.CASD
+   2 host/pengfei-hclient.casdds.casd@CASDDS.CASD
+   2 host/pengfei-hclient.casdds.casd@CASDDS.CASD
+   2 RestrictedKrbHost/PENGFEI-HCLIENT@CASDDS.CASD
+   2 RestrictedKrbHost/PENGFEI-HCLIENT@CASDDS.CASD
+   2 RestrictedKrbHost/pengfei-hclient.casdds.casd@CASDDS.CASD
+   2 RestrictedKrbHost/pengfei-hclient.casdds.casd@CASDDS.CASD
+```
 
-![ad_user_computer_gui.png](../../../assets/ad_user_computer_gui.png)
+### 1.7 Configure the linux server(pengfei-hclient) account in AD
 
-To check, you need to connect to the `Windows Server` -> Open `AD manager` -> In `Users and Computers` subfolder of 
-Active Directory. You should find a line of `HADOOP-CLIENT`. Right Click on it, and select `properties`, you should
-see the below pop-up window
+If the `pengfei-hclient` has success joined the AD domain, you should see the server appears in the `Computer` section in
+the AD manager GUI. 
 
-![computer_in_ad_config_trust_delegation.png](../../../assets/computer_in_ad_config_trust_delegation.png)
+Then right-click on the server->properties-> Select the `Trust this computer for delegation to any service` option in `Delegation`. 
 
+Click on the `Static IP address` option in `Dial-in`, then put the address ip of the `hadoop-client`.
 
-Select the `Trust this computer for delegation to any service` option in `Delegation`. 
+> You can add a new computer in AD manually, but we don't recommend that.
 
-Click on the `Static IP address` option in `Dial-in`, then put the address ip of the `hadoop-client`. 
-![computer_in_ad_config_ip.png](../../../assets/computer_in_ad_config_ip.png)
-> You can add a new computer in AD manually, but we don't recommend that. Try to use the `realm join`
+### 1.8 Configure AD/krb, dns 
 
-## Step 3: Config AD/Krb, DNS server to well integrate hadoop-client
-
-To make the debian server (hadoop-client) fqdn `recognizable` and `reachable` by the other servers in the domain,
+To make the debian server (pengfei-hclient) fqdn `recognizable` and `reachable` by the other servers in the domain,
 we need to configure the dns server 
 
-### 3.1. Check the dns entries in windows server
+Check `Step 3: Config AD/Krb, DNS server to well integrate ...` in [here](../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md)
 
-Open the `dns manager` in the Windows server (`auth.casdds.casd`). Check the forward lookup and reverse lookup.
-You need to make sure the `hostname, fqdn and ip address` are correct. The two below figures are examples
-of the `hadoop-client` config.
 
-![dns_config_foward_lookup.png](../../../assets/dns_config_foward_lookup.png)
-
-![dns_config_reverse_lookup.png](../../../assets/dns_config_reverse_lookup.png)
-
-> Normally, these entries are created automatically by the `realm join` command. If they are not created correcly, you 
-> need to create them manually.
-
-### 3.2. Check the SPN (Service Principal Name) in Windows server   
+#### 1.8.1 Check the SPN (Service Principal Name) in Windows server   
 
 Every registered computer in the domain should have a `valid SPN (Service Principal Name)`. You can check the name by 
 using the below command. You can open a `powershell prompt` in the `AD/krb` server.
 
  
 ```powershell
-setspn -L hadoop-client
+setspn -L pengfei-hclient
 
 # expected output
-Registered ServicePrincipalNames for CN=HADOOP-CLIENT,CN=Computers,DC=casdds,DC=casd:
-        RestrictedKrbHost/hadoop-client.casdds.casd
-        RestrictedKrbHost/HADOOP-CLIENT
-        host/hadoop-client.casdds.casd
-        host/HADOOP-CLIENT
+Registered ServicePrincipalNames for CN=PENGFEI-HCLIENT,CN=Computers,DC=casdds,DC=casd:
+        RestrictedKrbHost/pengfei-hclient.casdds.casd
+        RestrictedKrbHost/PENGFEI-HCLIENT
+        host/pengfei-hclient.casdds.casd
+        host/PENGFEI-HCLIENT
+
 ```
 
-If you don't see any outputs, you can create a `SPN (Service Principal Name)` manually. Below is the command to do so.
+> If you don't see any outputs, something went wrong, you should leave and rejoin the realm.
 
-```shell
-# create a new spn and link it to the hadoop-client(AD account)
-# The -S option adds an SPN only if it does not already exist (avoids duplicates).
-setspn -S host/hadoop-client.casdds.casd hadoop-client
 
-# generate a keytab for principal  host/hadoop-client.casdds.casd@CASDDS.CASD
-ktpass -princ host/hadoop-client.casdds.casd@CASDDS.CASD -mapuser HADOOP-CLIENT$ -pass * -ptype KRB5_NT_PRINCIPAL -crypto AES256-SHA1 -out hadoop-client.keytab
-```
-Below lines are the explanation of the commands:
-- The `ktpass` command can generate a keytab file for Kerberos authentication. 
-- `-princ host/hadoop-client.casdds.casd@CASDDS.CASD` defines the Kerberos principal name.
-- `-mapuser HADOOP-CLIENT$` maps the Kerberos principal to the account (HADOOP-CLIENT) in Active Directory (AD). The `$` indicates it's a computer account (not a user).
-- `-crypto AES256-SHA1` specifies that only the `AES256-SHA1` crypto algo is supported. You can replace it with `ALL` to specify all available cryptographic algorithms should be supported for encryption.
-- `-ptype KRB5_NT_PRINCIPAL` specifies the principal type as KRB5_NT_PRINCIPAL, which is used for standard Kerberos authentication(for services, use KRB5_NT_SRV_HST).
-- `-pass *` prompts the user to enter the password manually. Typically, computer accounts in AD have auto-generated passwords.
-- `-out hadoop-client.keytab` saves the keytab file, which will be used by the linux server(hadoop-client) for authentication.
-
-> The `hadoop-client.keytab` file is copied to the hadoop-client, so it can use this keytab for Kerberos authentication.
-> `hadoop-client` can use the kerberos ticket to prove the identity of `hadoop-client`.
-
-After coping the `hadoop-client.keytab` file to `hadoop-client`, you can use the below command to check keytab contents:
-
-```shell
-klist -k /tmp/hadoop-client.keytab  
-
-# you should see outputs like
-"host/hadoop-client.casdds.casd"
-```
-
-### 3.3 Rename the keytab file in linux(hadoop-client)
-
-In linux, many Kerberos-aware applications (e.g. kinit, Hadoop, etc.) expect the keytab file to be named `krb5.keytab` 
-and located in `/etc/` by default. We can use the below commands
-
-```shell
-sudo mv hadoop-client.keytab /etc/krb5.keytab
-
-# Ensures only root can read it (for security).
-sudo chmod 600 /etc/krb5.keytab
-```
-
-### 3.4 Leave and rejoin the realm
+#### 1.8.2 Leave and rejoin the realm
 
 If there are errors that you can't resolve, you can always leave the realm and rejoin
 
@@ -197,32 +171,8 @@ sudo realm join --user=Administrateur CASDDS.CASD
 ```
 
 
-### 3.5. Create a service account in AD for sssd daemon.
 
-As we explained before, the linux server relies on `sssd` daemon to get the `user id and groups` from the AD server.
-This requires sssd to have an account that allows him to access AD.
-
-You need to create a service account `sssd` in `Active Directory manager`. Then use the below command to
-create a `principal` and the `keytab` file.
-
-```shell
-ktpass -princ sssd@CASDDS.CASD -mapuser sssd -crypto AES256-SHA1 -ptype KRB5_NT_PRINCIPAL -pass * -out sssd.keytab
-```
-
-Copie the keytab file to the debian server(hadoop-client):
-```shell
-scp sssd.keytab sssd@debian.casdds.casd:/tmp/
-```
-Put the keytab file in /etc
-
-```shell
-sudo cp /tmp/sssd.keytab /etc/
-# need to check the acl of the file, 644 is too open for me
-sudo chmod 644 /etc/sssd.keytab
-sudo chown root:root /etc/sssd.keytab
-```
-
-## Step 4 : Configuration of SSSD, PAM and Kerberos
+### 1.9 Configuration of SSSD, PAM and Kerberos
 
 We will follow the below order to configure each component:
 - kerberos client: configure krb client to connect to the target krb Realm
@@ -230,7 +180,7 @@ We will follow the below order to configure each component:
 - pam/sssd: configure pam to use sssd as backend
 - sssd/krb: configure sssd to use krb plugin
 
-### 4.1 Configure kerberos client in debian(hadoop-client) server 
+#### 1.9.1 Configure kerberos client in debian(hadoop-client) server 
 
 ```shell
 # install the required package
@@ -266,22 +216,12 @@ Put the below content in the file `/etc/krb5.conf`
                 kdc = 10.50.5.64
                 admin_server = 10.50.5.64
         }
-…..
+
 [domain_realm]
-….
         .casdds.casd = CASDDS.CASD
         casdds.casd = CASDDS.CASD
 ```
 
-To check the krb client, use the below command
-
-```shell
-# ask a ticket kerberos
-kinit host/hadoop-client.casdds.casd
-
-# the short version should work if the keytab is in place, if not you can specify the path of keytab
-kinit -kt /etc/krb5.keytab host/hadoop-client.casdds.casd
-```
 
 ### 4.2. Configure sshd to use pam 
 
@@ -418,27 +358,6 @@ In windows, there are many ssh clients:
 - powershell+openssh
 - PuTTY
 
-Below is the instruction on how to install and configure openssh via PowerShell
-
-```shell
-Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
-Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
-Start-Service sshd
-Set-Service -Name sshd -StartupType 'Automatic'
-```
-
-In windows, all the configuration file for openssh is located in `C:\ProgramData\ssh`
-If you want to setup the config for ssh server, you can edit the file in `C:\ProgramData\ssh\sshd_config`.
-
-To restart ssh service in windows
-
-```shell
-# start sshd service
-Start-Service sshd
-
-# restart sshd service 
-Restart-Service sshd
-```
 
 Configure ssh client 
 
@@ -456,8 +375,8 @@ Host *
 You can also define the behaviors host by host, below is an example
 
 ```shell
-Host hadoop-client
-    HostName hadoop-client.casdds.casd
+Host pengfei-hclient
+    HostName pengfei-hclient.casdds.casd
     User pengfei@casdds.casd
     Port 22
     GSSAPIAuthentication yes

@@ -12,6 +12,7 @@ Before we start, we need to clarify the hadoop cluster context. Because the `AD/
 naming conventions strongly depends on the cluster architecture.
 
 Suppose we have three servers, in each server we run different services:
+
 - spark-m01.casdds.casd: name-node(hdfs), resource-manager(yarn), history-server(spark)
 - spark-m02.casdds.casd: data-node(hdfs), node-manager(yarn)
 - spark-m03.casdds.casd: data-node(hdfs), node-manager(yarn)
@@ -60,6 +61,7 @@ ktpass -princ nn/spark-m01.casdds.casd@CASDDS.CASD -mapuser hdfs-nn -crypto ALL 
 
 After you generate the required keytab files for all principals, you need to copy them to the target server.
 For example, for server `spark-m01.casdds.casd@CASDDS.CASD`, you need to copy the keytab file for principals:
+
 - nn/spark-m01.casdds.casd@CASDDS.CASD
 - HTTP/spark-m01.casdds.casd@CASDDS.CASD
 - rm/spark-m01.casdds.casd@CASDDS.CASD
