@@ -134,7 +134,7 @@ nav:
           - install hdfs yarn: hadoop/Installation/01.Install_hdfs_yarn.md
           - install spark on yarn: hadoop/Installation/02.Install_spark_on_yarn.md
       - kerberos integration:
-          - Integrate kerberos in hadoop cluster: hadoop/Integrate_kerberos_in_hadoop_cluster.md
+          - Integrate kerberos in hadoop cluster: hadoop/kerberos_integration/Integrate_kerberos_in_hadoop_cluster.md
           - Configure spark on kerberos hadoop: hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md
       - cluster clients:
           - hdfs client: hadoop/cluster_clients/01.Install_hdfs_clients.md
