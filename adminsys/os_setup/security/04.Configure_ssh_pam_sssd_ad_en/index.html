@@ -5952,9 +5952,11 @@
 <h1 id="configure-debian-server-to-use-adkrb-for-sshd-authentication">Configure debian server to use AD/Krb for sshd authentication<a class="headerlink" href="#configure-debian-server-to-use-adkrb-for-sshd-authentication" title="Permanent link">&para;</a></h1>
 <p>In this tutorial, we show how to configure sshd, pam, sssd, to allow a <code>debian 11</code> server to use <strong>AD/Krb</strong> as 
 authentication server. We will follow the below steps:</p>
-<p>We suppose we have :
-- <code>AD/Krb</code> : The ip address is <code>10.50.5.64</code>, ad domain name <code>casdds.casd</code>, krb realm name <code>CASDDS.CASD</code>, hostname <code>auth</code>, fqdn is <code>auth.casdds.casd</code>
-- <code>debian 11</code>: ip address is <code>10.50.5.199</code>, hostname is <code>hadoop-client</code>, fqdn is <code>hadoop-client.casdds.casd</code></p>
+<p>We suppose we have :</p>
+<ul>
+<li><code>AD/Krb</code> : The ip address is <code>10.50.5.64</code>, ad domain name <code>casdds.casd</code>, krb realm name <code>CASDDS.CASD</code>, hostname <code>auth</code>, fqdn is <code>auth.casdds.casd</code></li>
+<li><code>debian 11</code>: ip address is <code>10.50.5.199</code>, hostname is <code>hadoop-client</code>, fqdn is <code>hadoop-client.casdds.casd</code></li>
+</ul>
 <h2 id="step-1-prerequisite">Step 1: Prerequisite<a class="headerlink" href="#step-1-prerequisite" title="Permanent link">&para;</a></h2>
 <h3 id="11-reset-hostname-of-hadoop-client">1.1 Reset hostname of hadoop-client<a class="headerlink" href="#11-reset-hostname-of-hadoop-client" title="Permanent link">&para;</a></h3>
 <p>The hostname is essential for the server to have a valid FQDN in the domain, so we need to make sure the hostname
