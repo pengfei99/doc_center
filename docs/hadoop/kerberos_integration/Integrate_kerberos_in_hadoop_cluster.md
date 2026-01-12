@@ -17,7 +17,8 @@ Suppose we have three servers, in each server we run different services:
 - spark-m03.casdds.casd: data-node(hdfs), node-manager(yarn)
 
 > We suppose you already join these machines into the AD/krb realm. For more details, you can check this 
-> [doc](https://github.com/pengfei99/LinuxAdminSys/blob/main/docs/debian_server/os_setup/security/05.Configure_ssh_sssd_AD.md) 
+> [doc](../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md). 
+> We also provide a version in French [here](../../adminsys/os_setup/security/fr/02.Configure_ssh_pam_sssd_ad_fr.md) 
 
 ### 1.1 Prepare service account and their keytab
 
@@ -123,13 +124,13 @@ Normally, when the linux servers have joined the AD/Krb realm, their AD/DNS conf
 Just to make sure, you can open the DNS manager on the `Domain controller` where AD/Krb is located.
 Below figure is an example of the `DNS manager GUI`
 
-![ad_dns_manager.png](../../../images/ad_dns_manager.png)
+![ad_dns_manager.png](../../assets/ad_dns_manager.png)
 
 You need to check the `value of FQDN and ip` for each server in `forward and reverse lookup zones`.
 
 Below figure is an example for the Forward loopup zone definition of a server
 
-![ad_dns_server_spec.png](../../../images/ad_dns_server_spec.png)
+![ad_dns_server_spec.png](../../assets/ad_dns_server_spec.png)
 
 ## 1.4. Check kerberos client
 
