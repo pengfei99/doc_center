@@ -1,4 +1,4 @@
-# Integrate kerberos in hadoop client
+# Integrate kerberos in debian server
 
 In this tutorial, we suppose the user identity is managed inside an `AD server`, which delivers `Krb tickets`. 
 
@@ -7,24 +7,40 @@ We suppose we have :
 - `AD/Krb` server: The ip address is `10.50.5.64`, ad domain name `casdds.casd`, krb realm name `CASDDS.CASD`, hostname `auth`, fqdn is `auth.casdds.casd`
 - `debian server`: ip address is `10.50.5.199`, hostname is `pengfei-hclient`, fqdn is `pengfei-hclient.casdds.casd`
 
-To integrate kerberos in hadoop client, we need to follow the below steps:
+To integrate kerberos in debian server, we need to follow the below steps:
+- Reset hostname
 - configure debian server to use AD/Krb for sshd authentication
-- install hadoop client
-- configure hadoop client to use krb ticket as authentication mechanism.
 
-## 1. Configure debian server to use AD/Krb for sshd authentication
 
-The full doc on how to config debian to use AD/Krb for sshd authentication can be found [here](../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md)
+The doc with more details on how to config debian to use AD/Krb for sshd authentication can be found [here](../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md)
 
 Here we just show a shorter version.
 
 
-### 1.1 Reset hostname of hadoop-client
+## 1. Reset hostname of debian server
 
-The hostname is essential for the server to have a valid FQDN in the domain, so we need to make sure the hostname
-is set correctly. Follow the below steps:
+`The hostname is essential` for the server to have a `valid FQDN in the domain`. And the ticket kerberos use FQDN as principal name, so we need to make sure the hostname
+is set up correctly. Follow the below steps:
 - set system hostname
 - update /etc/hosts
+
+Here, we suppose the hostname is called `pengfei-hclient`, but it's recommended to use the full FQDN `pengfei-hclient.casdds.casd`.
+Because the Kerberos does not authenticate `machines`, It authenticates `service principals`.
+Typically, a machine can have multiple services:
+```shell
+# for ssh
+host/pengfei-hclient.casdds.casd@CASDDS.CASD
+# for http
+http/pengfei-hclient.casdds.casd@CASDDS.CASD
+# for yarn
+yarn/pengfei-hclient.casdds.casd@CASDDS.CASD
+# for hdfs
+hdfs/pengfei-hclient.casdds.casd@CASDDS.CASD
+
+```
+Kerberos matches this exact string against `SPNs stored in AD`, if any mismatch, the authentication fails.
+
+The short name without domain will cause `Ambiguous across DNS zones`.
 
 ```shell 
 sudo hostnamectl set-hostname pengfei-hclient.casdds.casd
@@ -43,21 +59,21 @@ Update `/etc/hosts`:
 ```shell
 sudo vim /etc/hosts 
 
-127.0.1.1 hadoop-client.casdds.casd hadoop-client
-10.50.5.199	hadoop-client.casdds.casd	hadoop-client
+127.0.1.1 pengfei-hclient.casdds.casd pengfei-hclient
+10.50.5.199	pengfei-hclient.casdds.casd	pengfei-hclient
 
 ```
-> This config is essential, if the host name is not correct, the linux server will join the AD REALM with a bad name
+> **This config is essential**, if the host name is not correct, the linux server will join the AD REALM with a bad FQDN
 
 
-### 1.2 Update system packages in hadoop-client
+## 2 Update system packages in debian server
 
 ```shell
 sudo apt update 
 sudo apt upgrade
 ```
 
-### 1.3 Change dns server settings in hadoop-client
+## 3 Change dns server settings in debian server
 
 To join the server into an AD domain, you must use the AD as dns server.
 
@@ -70,14 +86,16 @@ nameserver 10.50.5.64
 nameserver 8.8.8.8
 ```
 
-### 1.4 Install the required packages in hadoop-client
+## 4. Install the required packages in debian server
 
 ```shell
 sudo apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin krb5-user oddjob oddjob-mkhomedir packagekit -y
 ```
 
+> The realmd is not essential, when we call realm join, there is a list of actions will be done automatically. If you
+> don't want to use realm join, you can execute these actions manually.
 
-### 1.5 Check if the AD domain can be reached or not
+## 5. Check if the AD domain can be reached from the debian server or not
 
 ```shell
 sudo realm discover CASDDS.CASD
@@ -85,7 +103,7 @@ sudo realm discover CASDDS.CASD
 > - If the error message is realm command is unknown, open a new shell.
 > - If the error message is CASDDS.CASD is unknown, check the dns server ip is reachable, and dns server name setup is correct.
 
-### 1.6 Join the server(pengfei-hclient.casdds.casd) to the AD domain
+## 6. Join the server(pengfei-hclient.casdds.casd) to the AD domain
  
 To execute the below command, you must have an account with `domain administrator` privilege :
 
@@ -98,7 +116,7 @@ sudo realm join --user=Administrateur CASDDS.CASD
 > 2. create a keytab file for the linux krb client to connect to the AD/krb server
 > If there is no error message, it means your server has joined the domain.
 > 
-By default, the keytab file is located at `/etc/krb5.keytab`. You can check the content with the below command
+By default, the keytab file is located at `/etc/krb5.keytab`. You can check the content with the below command.
 
 ```shell
 # as the keytab file is protected, so you need sudo right
@@ -120,7 +138,7 @@ KVNO Principal
    2 RestrictedKrbHost/pengfei-hclient.casdds.casd@CASDDS.CASD
 ```
 
-### 1.7 Configure the linux server(pengfei-hclient) account in AD
+## 7 Configure the linux server(pengfei-hclient) account in AD
 
 If the `pengfei-hclient` has success joined the AD domain, you should see the server appears in the `Computer` section in
 the AD manager GUI. 
@@ -131,7 +149,7 @@ Click on the `Static IP address` option in `Dial-in`, then put the address ip of
 
 > You can add a new computer in AD manually, but we don't recommend that.
 
-### 1.8 Configure AD/krb, dns 
+## 8 Configure AD/krb, dns 
 
 To make the debian server (pengfei-hclient) fqdn `recognizable` and `reachable` by the other servers in the domain,
 we need to configure the dns server 
@@ -139,7 +157,7 @@ we need to configure the dns server
 Check `Step 3: Config AD/Krb, DNS server to well integrate ...` in [here](../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en.md)
 
 
-#### 1.8.1 Check the SPN (Service Principal Name) in Windows server   
+### 8.1 Check the SPN (Service Principal Name) in Windows server   
 
 Every registered computer in the domain should have a `valid SPN (Service Principal Name)`. You can check the name by 
 using the below command. You can open a `powershell prompt` in the `AD/krb` server.
@@ -160,7 +178,7 @@ Registered ServicePrincipalNames for CN=PENGFEI-HCLIENT,CN=Computers,DC=casdds,D
 > If you don't see any outputs, something went wrong, you should leave and rejoin the realm.
 
 
-#### 1.8.2 Leave and rejoin the realm
+### 8.2 Leave and rejoin the realm
 
 If there are errors that you can't resolve, you can always leave the realm and rejoin
 
@@ -172,7 +190,7 @@ sudo realm join --user=Administrateur CASDDS.CASD
 
 
 
-### 1.9 Configuration of SSSD, PAM and Kerberos
+## 9. Configuration of SSSD, PAM and Kerberos
 
 We will follow the below order to configure each component:
 - kerberos client: configure krb client to connect to the target krb Realm
@@ -180,7 +198,7 @@ We will follow the below order to configure each component:
 - pam/sssd: configure pam to use sssd as backend
 - sssd/krb: configure sssd to use krb plugin
 
-#### 1.9.1 Configure kerberos client in debian(hadoop-client) server 
+### 9.1 Configure kerberos client in debian(hadoop-client) server 
 
 ```shell
 # install the required package
@@ -223,7 +241,7 @@ Put the below content in the file `/etc/krb5.conf`
 ```
 
 
-### 4.2. Configure sshd to use pam 
+### 9.2 Configure sshd to use pam 
 
 We need to edit two files:
 - `/etc/ssh/sshd_config` (configuration for the ssh server)
@@ -283,7 +301,7 @@ In the `/etc/ssh/ssh_config`, you need to add the below line
 > 
 
 
-### 4.3 Configure pam
+### 9.3 Configure pam
 
 All the configuration files for pam are located in `/etc/pam.d/`. The below is the minimum config for the pam
 to use sssd daemon as authentication backend.
@@ -317,7 +335,7 @@ session   optional    pam_sss.so
 session   required    pam_mkhomedir.so skel=/etc/skel/ umask=0022
 ```
 
-### 4.4 Configure sssd
+### 9.4 Configure sssd
 
 Now we need to configure the sssd daemon. The main config file is in `/etc/sssd/sssd.conf`
 
@@ -350,7 +368,7 @@ ldap_group_nesting_level = 2
 
 ```
 
-## 5.configure ssh client on Windows
+## 9.5 Configure ssh client on Windows
 
 In windows, there are many ssh clients:
 - MobaXterm:
@@ -383,16 +401,16 @@ Host pengfei-hclient
     GSSAPIDelegateCredentials yes 
 ```
 
-## Step 6 : Test the solution
+## 10. Test the solution
 
 In our scenario, the user follow the below steps:
 1. first login to a Windows server, the first ticket kerberos is generated in the Windows server.
 2. user ssh to hadoop-client with the ticket kerberos with option forward ticket
 3. user try to access hdfs cluster with the forward kerberos ticket
 
-Suppose you have an account `user` in AD with the privilege to connect to `hadoop client` 
-\
-### 6.1. Understand the ticket
+Suppose you have an account `user` in AD with the privilege to connect to `pengfei-hclient` 
+
+### 10.1. Understand the ticket
 
 In linux, you can ask a ticket and check the ticket with the below command
 
@@ -421,7 +439,7 @@ Valid starting       Expires              Service principal
         Etype (skey, tkt): aes256-cts-hmac-sha1-96, aes256-cts-hmac-sha1-96
         Addresses: 192.168.1.100
 ```
-A kerberos ticket has the below properites:
+A kerberos ticket has the below properties:
 
  - Ticket cache: Location of the ticket. 
  - Default principal: Your Kerberos identity (user@EXAMPLE.COM).
