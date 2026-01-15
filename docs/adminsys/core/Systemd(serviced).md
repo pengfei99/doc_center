@@ -49,6 +49,7 @@ systemctl is-enabled ssh
 ## Why we use systemd
 
 Compared to a bash script, the systemd has the below advantages:
+
 - **Automatic management**: Starts at boot, restarts if it fails.
 - **Dependency awareness**: Can wait for network/storage service before starting.
 - **Logging integration**: Logs go to journalctl -u postgresql.
@@ -57,6 +58,7 @@ Compared to a bash script, the systemd has the below advantages:
 - **Unified interface**: Consistent commands across all services.
 
 It has few disadvantages:
+
 - Less transparent: Logic hidden inside systemd unit file, not just a simple script.
 - Steeper learning curve: You need to learn how to write `unit files` and systemd internals.
 - Systemd dependency: If OS does not have it, the unit file won’t work.
@@ -68,14 +70,16 @@ There is a more detailed doc on unit file [here](https://www.digitalocean.com/co
 
 A systemd unit file is structured into `sections`. The three most common are **[Unit], [Service], and [Install]**. 
 Each has a distinct purpose:
+
 - [Unit]: metadata + dependencies. When and under what conditions should this service start?
 - [Service]: execution details. How do we start, stop, restart, and monitor this process?
 - [Install]: startup integration. Should this run automatically at boot, and in which boot mode?
 
-### [Unit] section
+### The Unit section
 
 The unit section defines `metadata and dependencies` for the service.
 Below are the most common attributes of this section:
+
 - Description: Human-readable description of the service.
 - Documentation: Optional links to docs.
 - After: Order dependency (start this service after something else, e.g. network.target).
@@ -83,6 +87,7 @@ Below are the most common attributes of this section:
 - Wants: Soft dependency (preferred, but doesn’t stop if missing).
 
 For example, the below conf means:
+
 - The `OpenMetadata Service` starts after the network stack is ready.
 - It needs `PostgreSQL and elasticsearch`; if PostgreSQL or elasticsearch fails, OpenMetadata stops too.
 
@@ -93,7 +98,7 @@ After=network.target
 Requires=postgresql.service, elasticsearch.service
 ```
 
-### [Service] section
+### The Service section
 
 The service section defines how the actual service runs.
 
@@ -137,7 +142,7 @@ sudo groupadd --system openmeta
 sudo useradd --system --no-create-home --shell /usr/sbin/nologin --gid openmeta openmeta
 ```
 
-### [Install] section
+### The Install section
 
 The install section defines how the service integrates into system startup.
 - **WantedBy**: Which target this service should be part of when enabled.
