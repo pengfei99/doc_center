@@ -5519,9 +5519,10 @@ kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="
 <span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">user</span><span class="o">=</span>admin<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">password</span><span class="o">=</span>YVqs7p4bJaim3rQ2FSI8
 </code></pre></div>
-<p>The root CA certifcate and wildcard may not be in the same namespace of the keycloak. So you may need to sync/copy them from other namespace. You can use this <a href="./sys_admin/11.Copy_secret_between_name_space.md">doc</a> as a guid. </p>
+<p>The root CA certificate and wildcard may not be in the same namespace of the keycloak. So you may need to sync/copy them from other namespace. 
+You can use this <a href="../../container/k8s/11.Copy_secret_between_name_space/">doc</a> as a guide. </p>
 <h2 id="63-keycloak-installation">6.3 Keycloak Installation<a class="headerlink" href="#63-keycloak-installation" title="Permanent link">&para;</a></h2>
-<p>We use the codecentric Helm chart to deploy a keycloak instance, with the provided configuration in <a href="../resources/keycloak/keycloak.yaml">keycloak.yaml</a>. Below are the commands:</p>
+<p>We use the <code>codecentric Helm chart</code> to deploy a keycloak instance, with the provided configuration in <a href="../../src/keycloak/keycloak.yaml">keycloak.yaml</a>. Below are the commands:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># create a namespace for keycloak</span>
 kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>keycloak
 
@@ -5646,7 +5647,7 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>keycloak<span class="
 <p>The url is the host name in the <code>values.yaml</code>. In our case, it should be https://keycloak.datalab.casd.local/</p>
 <h3 id="step-2-create-a-realm">Step 2. Create a realm<a class="headerlink" href="#step-2-create-a-realm" title="Permanent link">&para;</a></h3>
 <p>A realm in Keycloak is the equivalent of a tenant. It allows creating isolated groups of applications and users. 
-By default there is a single realm in Keycloak called master. This is dedicated to manage Keycloak and should not be 
+By default, there is a single realm in Keycloak called master. This is dedicated to manage Keycloak and should not be 
 used for your own applications.</p>
 <p>Let’s create our first realm. Open the Keycloak Admin Console</p>
 <ol>
@@ -5703,7 +5704,7 @@ used for your own applications.</p>
 </li>
 </ol>
 <h3 id="step-5-login-to-account-console">Step 5. Login to account console<a class="headerlink" href="#step-5-login-to-account-console" title="Permanent link">&para;</a></h3>
-<p>Let’s now try to login to the account console to verify the user is configured correctly.</p>
+<p>Let’s now try to log in to the account console to verify the user is configured correctly.</p>
 <ol>
 <li>
 <p>Open the Keycloak Account Console(https://keycloak.datalab.casd.local/realms/casd-onyxia/account/#/)</p>
@@ -5715,7 +5716,7 @@ used for your own applications.</p>
 <p>You should now be logged-in to the account console where users can manage their accounts.</p>
 <h3 id="step-6-create-a-client-for-onyxia">Step 6. Create a client for onyxia<a class="headerlink" href="#step-6-create-a-client-for-onyxia" title="Permanent link">&para;</a></h3>
 <p>To secure onyxia with keycloak, we need to create a specific client in our realm, as shown in below Figure. 
-<img alt="kc-create-client" src="../images/kc-create-client.png" /></p>
+<img alt="kc-create-client" src="../../assets/kc-create-client.png" /></p>
 <p><strong>A client in Keycloak represents a resource that particular users can access, whether for authenticating a user, 
 requesting identity information, or validating an access token.</strong></p>
 <p>Follow below step to register a new client :</p>
@@ -5753,7 +5754,7 @@ requesting identity information, or validating an access token.</strong></p>
 <h4 id="clients-access-type">Clients Access Type<a class="headerlink" href="#clients-access-type" title="Permanent link">&para;</a></h4>
 <p><strong>The access type of onyxia-client must be public</strong>.</p>
 <p>For other client, you can set the access type to <code>confidential</code>. You can see a more detailed form as shown in below figure.</p>
-<p><img alt="kc-create-client-detail" src="../images/kc-create-client-detail.png" /></p>
+<p><img alt="kc-create-client-detail" src="../../assets/kc-create-client-detail.png" /></p>
 <ul>
 <li>
 <p>Change <strong>Access Type</strong>: set its value to <strong>confidential</strong>.</p>
@@ -5762,15 +5763,15 @@ requesting identity information, or validating an access token.</strong></p>
 <p><strong>Advance settings</strong>: Set access token lifeSpan </p>
 </li>
 </ul>
-<p><img alt="kc-client-advance-setting" src="../images/kc-client-advance-setting.png" /></p>
+<p><img alt="kc-client-advance-setting" src="../../assets/kc-client-advance-setting.png" /></p>
 <ul>
 <li><strong>Authentication flow overrides</strong>: set <code>Direct Grant Flow</code> value to <strong>direct grant</strong>.</li>
 </ul>
-<p><img alt="kc-client-auth-flow" src="../images/kc-client-auth-flow.png" /></p>
+<p><img alt="kc-client-auth-flow" src="../../assets/kc-client-auth-flow.png" /></p>
 <ul>
 <li>update the client's credentials: Use <strong>Client Id and Secret</strong> for <code>Client Authenticator field</code>.</li>
 </ul>
-<p><img alt="kc-client-creds" src="../images/kc-client-creds.png" /></p>
+<p><img alt="kc-client-creds" src="../../assets/kc-client-creds.png" /></p>
 <h3 id="step-7-test-the-created-client">Step 7. Test the created client<a class="headerlink" href="#step-7-test-the-created-client" title="Permanent link">&para;</a></h3>
 <p>Note there is modification for the endpoint that generate the JWT token. </p>
 <div class="highlight"><pre><span></span><code># For keycloak &gt;= 17.0. The new endpoint is:

@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../Cron_jobs/">
-      
-      
-        <link rel="next" href="../Time_Synchronization_in_Debian/">
       
       
         
@@ -23,7 +19,7 @@
     
     
       
-        <title>systemd(serviced) in linux - Pengfei Documentation</title>
+        <title>Integrate kerberos in debian server - Pengfei Documentation</title>
       
     
     
@@ -64,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#systemd-in-linux" class="md-skip">
+        <a href="#integrate-kerberos-in-debian-server" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              systemd(serviced) in linux
+              Integrate kerberos in debian server
             
           </span>
         </div>
@@ -222,20 +218,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -256,7 +250,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -271,20 +265,18 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
         
           
           <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
@@ -305,7 +297,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -323,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debian_admin_cheat_sheet/" class="md-nav__link">
+      <a href="../../../adminsys/core/debian_admin_cheat_sheet/" class="md-nav__link">
         
   
   
@@ -351,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Cron_jobs/" class="md-nav__link">
+      <a href="../../../adminsys/core/Cron_jobs/" class="md-nav__link">
         
   
   
@@ -376,37 +368,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    systemd(serviced) in linux
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
         
   
   
@@ -422,137 +387,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-a-service-in-linux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is a service in linux
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#useful-systemd-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Useful systemd commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-we-use-systemd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why we use systemd
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-unit-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Systemd Unit file
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Systemd Unit file">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-unit-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Unit section
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-service-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Service section
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="The Service section">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run-service-with-dedicated-user-and-group" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run service with dedicated user and group
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-install-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Install section
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#full-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full example
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -565,7 +399,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Time_Synchronization_in_Debian/" class="md-nav__link">
+      <a href="../../../adminsys/core/Time_Synchronization_in_Debian/" class="md-nav__link">
         
   
   
@@ -695,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/mariadb/Installation/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
         
   
   
@@ -723,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/mariadb/Management/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
         
   
   
@@ -806,7 +640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/postgres/Install_postgresql/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
         
   
   
@@ -834,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
         
   
   
@@ -972,7 +806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/01.Introduction/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/01.Introduction/" class="md-nav__link">
         
   
   
@@ -1000,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
         
   
   
@@ -1028,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
         
   
   
@@ -1056,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/04.Minio_installation_details/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/04.Minio_installation_details/" class="md-nav__link">
         
   
   
@@ -1139,7 +973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/NFS/Install_nfs_server_client/" class="md-nav__link">
+      <a href="../../../adminsys/fs/NFS/Install_nfs_server_client/" class="md-nav__link">
         
   
   
@@ -1222,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
         
   
   
@@ -1250,7 +1084,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
         
   
   
@@ -1341,7 +1175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/01.Lang_support/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
         
   
   
@@ -1369,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
         
   
   
@@ -1397,7 +1231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
         
   
   
@@ -1425,7 +1259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
         
   
   
@@ -1453,7 +1287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
         
   
   
@@ -1481,7 +1315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/07.Setup_shared_folder/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
         
   
   
@@ -1509,7 +1343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/08.Debian_upgrade/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
         
   
   
@@ -1537,7 +1371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
         
   
   
@@ -1659,7 +1493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
         
   
   
@@ -1687,7 +1521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
         
   
   
@@ -1778,7 +1612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
         
   
   
@@ -1806,7 +1640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
         
   
   
@@ -1834,7 +1668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
         
   
   
@@ -1862,7 +1696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
         
   
   
@@ -1945,7 +1779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/" class="md-nav__link">
         
   
   
@@ -1973,7 +1807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
         
   
   
@@ -2001,7 +1835,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
         
   
   
@@ -2029,7 +1863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
         
   
   
@@ -2057,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
         
   
   
@@ -2085,7 +1919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
         
   
   
@@ -2113,7 +1947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
         
   
   
@@ -2204,7 +2038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/build_openssl_tool/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
         
   
   
@@ -2232,7 +2066,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/install_gitlab_ce/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
         
   
   
@@ -2260,7 +2094,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/install_vscode_server/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
         
   
   
@@ -2335,7 +2169,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
         
   
   
@@ -2363,7 +2197,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
         
   
   
@@ -2391,7 +2225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
         
   
   
@@ -4256,7 +4090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/basic/01.hdfs_introduction/" class="md-nav__link">
+      <a href="../../basic/01.hdfs_introduction/" class="md-nav__link">
         
   
   
@@ -4284,7 +4118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/basic/02.yarn_introduction/" class="md-nav__link">
+      <a href="../../basic/02.yarn_introduction/" class="md-nav__link">
         
   
   
@@ -4367,7 +4201,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/Installation/01.Install_hdfs_yarn/" class="md-nav__link">
+      <a href="../../Installation/01.Install_hdfs_yarn/" class="md-nav__link">
         
   
   
@@ -4395,7 +4229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/Installation/02.Install_spark_on_yarn/" class="md-nav__link">
+      <a href="../../Installation/02.Install_spark_on_yarn/" class="md-nav__link">
         
   
   
@@ -4478,7 +4312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/kerberos_integration/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
         
   
   
@@ -4506,7 +4340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
+      <a href="../Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
         
   
   
@@ -4589,7 +4423,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
+      <a href="../../cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
         
   
   
@@ -4617,7 +4451,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
+      <a href="../../cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
         
   
   
@@ -4645,7 +4479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
+      <a href="../../cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
         
   
   
@@ -5398,10 +5232,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-a-service-in-linux" class="md-nav__link">
+  <a href="#1-reset-hostname-of-debian-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is a service in linux
+        1. Reset hostname of debian server
       
     </span>
   </a>
@@ -5409,10 +5243,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-systemd-commands" class="md-nav__link">
+  <a href="#2-update-system-packages-in-debian-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Useful systemd commands
+        2 Update system packages in debian server
       
     </span>
   </a>
@@ -5420,10 +5254,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-we-use-systemd" class="md-nav__link">
+  <a href="#3-change-dns-server-settings-in-debian-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why we use systemd
+        3 Change dns server settings in debian server
       
     </span>
   </a>
@@ -5431,22 +5265,66 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#systemd-unit-file" class="md-nav__link">
+  <a href="#4-install-the-required-packages-in-debian-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Systemd Unit file
+        4. Install the required packages in debian server
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Systemd Unit file">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-check-if-the-ad-domain-can-be-reached-from-the-debian-server-or-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Check if the AD domain can be reached from the debian server or not
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-join-the-serverpengfei-hclientcasddscasd-to-the-ad-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Join the server(pengfei-hclient.casdds.casd) to the AD domain
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-configure-the-linux-serverpengfei-hclient-account-in-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7 Configure the linux server(pengfei-hclient) account in AD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-configure-adkrb-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8 Configure AD/krb, dns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8 Configure AD/krb, dns">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-unit-section" class="md-nav__link">
+  <a href="#81-check-the-spn-service-principal-name-in-windows-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Unit section
+        8.1 Check the SPN (Service Principal Name) in Windows server
       
     </span>
   </a>
@@ -5454,22 +5332,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-service-section" class="md-nav__link">
+  <a href="#82-leave-and-rejoin-the-realm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Service section
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="The Service section">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run-service-with-dedicated-user-and-group" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run service with dedicated user and group
+        8.2 Leave and rejoin the realm
       
     </span>
   </a>
@@ -5480,12 +5346,24 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#the-install-section" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#9-configuration-of-sssd-pam-and-kerberos" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Install section
+        9. Configuration of SSSD, PAM and Kerberos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Configuration of SSSD, PAM and Kerberos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-configure-kerberos-client-in-debianhadoop-client-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Configure kerberos client in debian(hadoop-client) server
       
     </span>
   </a>
@@ -5493,10 +5371,110 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#full-example" class="md-nav__link">
+  <a href="#92-configure-sshd-to-use-pam" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Full example
+        9.2 Configure sshd to use pam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-configure-pam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Configure pam
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-configure-sssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Configure sssd
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-configure-ssh-client-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Configure ssh client on Windows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-test-the-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Test the solution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Test the solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-understand-the-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1. Understand the ticket
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-connexion-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Connexion SSH
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix :
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix :">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#acl-for-etcsssdsssdconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACL for /etc/sssd/sssd.conf
       
     </span>
   </a>
@@ -5525,186 +5503,384 @@
 
 
 
-<h1 id="systemd-in-linux">Systemd in Linux<a class="headerlink" href="#systemd-in-linux" title="Permanent link">&para;</a></h1>
-<p>In Debian (and other Linux distributions), we use <strong>systemd</strong> to manage services which should run as <code>background process</code>
-We use a <code>unit file</code> to define how the service should be start/stop/restart, and how to monitor the service status. 
-After editing and enabling the <code>unit</code> file, these services can be controlled by using the <strong>systemctl</strong> command.</p>
-<blockquote>
-<p>Systemd is developed to replace the old <strong>SysV init</strong>. </p>
-</blockquote>
-<h2 id="what-is-a-service-in-linux">What is a service in linux<a class="headerlink" href="#what-is-a-service-in-linux" title="Permanent link">&para;</a></h2>
-<p>A <strong>service</strong> is usually a <code>long running daemon (background program) process</code> like nginx, postgresql, or ssh.</p>
-<p>Each service has a corresponding <code>unit file</code> that tells <code>systemd</code> how to <code>start, stop, restart, or monitor it</code>.</p>
-<p>The Unit files live in:</p>
+<h1 id="integrate-kerberos-in-debian-server">Integrate kerberos in debian server<a class="headerlink" href="#integrate-kerberos-in-debian-server" title="Permanent link">&para;</a></h1>
+<p>In this tutorial, we suppose the user identity is managed inside an <code>AD server</code>, which delivers <code>Krb tickets</code>. </p>
+<p>We suppose we have :</p>
 <ul>
-<li><code>/lib/systemd/system/</code>: (packaged services)</li>
-<li><code>/etc/systemd/system/</code>: (local overrides/custom services)</li>
+<li><code>AD/Krb</code> server: The ip address is <code>10.50.5.64</code>, ad domain name <code>casdds.casd</code>, krb realm name <code>CASDDS.CASD</code>, hostname <code>auth</code>, fqdn is <code>auth.casdds.casd</code></li>
+<li><code>debian server</code>: ip address is <code>10.50.5.199</code>, hostname is <code>pengfei-hclient</code>, fqdn is <code>pengfei-hclient.casdds.casd</code></li>
 </ul>
-<h2 id="useful-systemd-commands">Useful systemd commands<a class="headerlink" href="#useful-systemd-commands" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># list all active services</span>
-systemctl<span class="w"> </span>list-units<span class="w"> </span>--type<span class="o">=</span>service
-
-<span class="c1"># list all service(active and inactive)</span>
-systemctl<span class="w"> </span>list-units<span class="w"> </span>--type<span class="o">=</span>service<span class="w"> </span>--all
-
-<span class="c1"># start a service immediately</span>
-systemctl<span class="w"> </span>start<span class="w"> </span>ssh
-
-<span class="c1"># stop immediately</span>
-systemctl<span class="w"> </span>stop<span class="w"> </span>ssh
-
-<span class="c1"># restart </span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>ssh
-
-<span class="c1"># check service status</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>ssh
-
-<span class="c1"># Enable/disable a service at boot</span>
-systemctl<span class="w"> </span>enable/disable<span class="w"> </span>ssh
-
-<span class="c1"># check if a service is enabled at boot</span>
-systemctl<span class="w"> </span>is-enabled<span class="w"> </span>ssh
+<p>To integrate kerberos in debian server, we need to follow the below steps:
+- Reset hostname
+- configure debian server to use AD/Krb for sshd authentication</p>
+<p>The doc with more details on how to config debian to use AD/Krb for sshd authentication can be found <a href="../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/">here</a></p>
+<p>Here we just show a shorter version.</p>
+<h2 id="1-reset-hostname-of-debian-server">1. Reset hostname of debian server<a class="headerlink" href="#1-reset-hostname-of-debian-server" title="Permanent link">&para;</a></h2>
+<p><code>The hostname is essential</code> for the server to have a <code>valid FQDN in the domain</code>. And the ticket kerberos use FQDN as principal name, so we need to make sure the hostname
+is set up correctly. Follow the below steps:
+- set system hostname
+- update /etc/hosts</p>
+<p>Here, we suppose the hostname is called <code>pengfei-hclient</code>, but it's recommended to use the full FQDN <code>pengfei-hclient.casdds.casd</code>.
+Because the Kerberos does not authenticate <code>machines</code>, It authenticates <code>service principals</code>.
+Typically, a machine can have multiple services:
+<div class="highlight"><pre><span></span><code><span class="c1"># for ssh</span>
+host/pengfei-hclient.casdds.casd@CASDDS.CASD
+<span class="c1"># for http</span>
+http/pengfei-hclient.casdds.casd@CASDDS.CASD
+<span class="c1"># for yarn</span>
+yarn/pengfei-hclient.casdds.casd@CASDDS.CASD
+<span class="c1"># for hdfs</span>
+hdfs/pengfei-hclient.casdds.casd@CASDDS.CASD
 </code></pre></div>
-<h2 id="why-we-use-systemd">Why we use systemd<a class="headerlink" href="#why-we-use-systemd" title="Permanent link">&para;</a></h2>
-<p>Compared to a bash script, the systemd has the below advantages:</p>
-<ul>
-<li><strong>Automatic management</strong>: Starts at boot, restarts if it fails.</li>
-<li><strong>Dependency awareness</strong>: Can wait for network/storage service before starting.</li>
-<li><strong>Logging integration</strong>: Logs go to journalctl -u postgresql.</li>
-<li><strong>Resource control</strong>: Built-in cgroups support (limit memory, CPU, I/O).</li>
-<li><strong>Monitoring tools</strong>: systemctl status postgresql shows PID, uptime, logs.</li>
-<li><strong>Unified interface</strong>: Consistent commands across all services.</li>
-</ul>
-<p>It has few disadvantages:</p>
-<ul>
-<li>Less transparent: Logic hidden inside systemd unit file, not just a simple script.</li>
-<li>Steeper learning curve: You need to learn how to write <code>unit files</code> and systemd internals.</li>
-<li>Systemd dependency: If OS does not have it, the unit file won’t work.</li>
-<li>Overhead for simple cases – For a single local process, systemd may feel like “overkill.”</li>
-</ul>
-<h2 id="systemd-unit-file">Systemd Unit file<a class="headerlink" href="#systemd-unit-file" title="Permanent link">&para;</a></h2>
-<p>There is a more detailed doc on unit file <a href="https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files">here</a></p>
-<p>A systemd unit file is structured into <code>sections</code>. The three most common are <strong>[Unit], [Service], and [Install]</strong>. 
-Each has a distinct purpose:</p>
-<ul>
-<li>[Unit]: metadata + dependencies. When and under what conditions should this service start?</li>
-<li>[Service]: execution details. How do we start, stop, restart, and monitor this process?</li>
-<li>[Install]: startup integration. Should this run automatically at boot, and in which boot mode?</li>
-</ul>
-<h3 id="the-unit-section">The Unit section<a class="headerlink" href="#the-unit-section" title="Permanent link">&para;</a></h3>
-<p>The unit section defines <code>metadata and dependencies</code> for the service.
-Below are the most common attributes of this section:</p>
-<ul>
-<li>Description: Human-readable description of the service.</li>
-<li>Documentation: Optional links to docs.</li>
-<li>After: Order dependency (start this service after something else, e.g. network.target).</li>
-<li>Requires: Hard dependency (if required service fails, this one stops too).</li>
-<li>Wants: Soft dependency (preferred, but doesn’t stop if missing).</li>
-</ul>
-<p>For example, the below conf means:</p>
-<ul>
-<li>The <code>OpenMetadata Service</code> starts after the network stack is ready.</li>
-<li>It needs <code>PostgreSQL and elasticsearch</code>; if PostgreSQL or elasticsearch fails, OpenMetadata stops too.</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Unit<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>OpenMetadata<span class="w"> </span>Service
-<span class="nv">After</span><span class="o">=</span>network.target
-<span class="nv">Requires</span><span class="o">=</span>postgresql.service,<span class="w"> </span>elasticsearch.service
-</code></pre></div>
-<h3 id="the-service-section">The Service section<a class="headerlink" href="#the-service-section" title="Permanent link">&para;</a></h3>
-<p>The service section defines how the actual service runs.</p>
-<ul>
-<li>ExecStart: The actual command to start the service.</li>
-<li>ExecStop: Command to stop it.</li>
-<li>ExecReload: Command to reload config without restart.</li>
-<li>WorkingDirectory: Where the service runs.</li>
-<li>User=/Group: Run as specific user/group (not root).</li>
-<li>Restart: Restart policy (no, on-failure, always).</li>
-<li>RestartSec: Delay before restart.</li>
-<li>Environment: Set environment variables.</li>
-<li>StandardOutput=/StandardError: Where logs go (journal, file, etc.).</li>
-<li>Type: How the service runs:
-         - simple: Default, process runs in foreground.
-         - forking: For daemons that fork themselves (e.g. old scripts). 
-         - oneshot: For short-lived tasks (runs once, exits).</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">User</span><span class="o">=</span>openmeta
-<span class="nv">Group</span><span class="o">=</span>openmeta
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/opt/openmetadata
-<span class="nv">ExecStart</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>start
-<span class="nv">ExecStop</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>stop
-<span class="nv">Restart</span><span class="o">=</span>on-failure
-<span class="nv">RestartSec</span><span class="o">=</span><span class="m">5</span>
-<span class="nv">StandardOutput</span><span class="o">=</span>journal
-<span class="nv">StandardError</span><span class="o">=</span>journal
+Kerberos matches this exact string against <code>SPNs stored in AD</code>, if any mismatch, the authentication fails.</p>
+<p>The short name without domain will cause <code>Ambiguous across DNS zones</code>.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>pengfei-hclient.casdds.casd
+
+<span class="c1"># check the new hostname with below command</span>
+hostname
+
+<span class="c1"># expected output</span>
+pengfei-hclient
 </code></pre></div>
 <blockquote>
-<p>The user openmeta must exist, otherwise the service will not start.
-</p>
+<p>you can also directly edit the hostname config file(not recommended) by using <code>sudo vim /etc/hostname</code></p>
 </blockquote>
-<h4 id="run-service-with-dedicated-user-and-group">Run service with dedicated user and group<a class="headerlink" href="#run-service-with-dedicated-user-and-group" title="Permanent link">&para;</a></h4>
-<p>If we don't specify <code>User/group</code>, <strong>systemd</strong> will run the service as <strong>root</strong> with the user default group(e.g. root). 
-This can cause serious security problems. The best practice is that we always create a dedicated system user account and group.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># create a system group</span>
-sudo<span class="w"> </span>groupadd<span class="w"> </span>--system<span class="w"> </span>openmeta
-<span class="c1"># create a system user with no login shell, no home dir.</span>
-sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--no-create-home<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>--gid<span class="w"> </span>openmeta<span class="w"> </span>openmeta
+<p>Update <code>/etc/hosts</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>vim<span class="w"> </span>/etc/hosts<span class="w"> </span>
+
+<span class="m">127</span>.0.1.1<span class="w"> </span>pengfei-hclient.casdds.casd<span class="w"> </span>pengfei-hclient
+<span class="m">10</span>.50.5.199<span class="w"> </span>pengfei-hclient.casdds.casd<span class="w"> </span>pengfei-hclient
 </code></pre></div>
-<h3 id="the-install-section">The Install section<a class="headerlink" href="#the-install-section" title="Permanent link">&para;</a></h3>
-<p>The install section defines how the service integrates into system startup.
-- <strong>WantedBy</strong>: Which target this service should be part of when enabled.
-    - multi-user.target: Typical for servers (like runlevel 3 in SysV).
-    - graphical.target: For desktop services (like runlevel 5).</p>
+<blockquote>
+<p><strong>This config is essential</strong>, if the host name is not correct, the linux server will join the AD REALM with a bad FQDN</p>
+</blockquote>
+<h2 id="2-update-system-packages-in-debian-server">2 Update system packages in debian server<a class="headerlink" href="#2-update-system-packages-in-debian-server" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>
+sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</code></pre></div>
+<h2 id="3-change-dns-server-settings-in-debian-server">3 Change dns server settings in debian server<a class="headerlink" href="#3-change-dns-server-settings-in-debian-server" title="Permanent link">&para;</a></h2>
+<p>To join the server into an AD domain, you must use the AD as dns server.</p>
+<p>Edit the <code>/etc/resolv.conf</code> :</p>
+<div class="highlight"><pre><span></span><code>search<span class="w"> </span>casdds.casd
+<span class="c1"># the ip of the AD/krb server, because it&#39;s also the dns</span>
+nameserver<span class="w"> </span><span class="m">10</span>.50.5.64
+nameserver<span class="w"> </span><span class="m">8</span>.8.8.8
+</code></pre></div>
+<h2 id="4-install-the-required-packages-in-debian-server">4. Install the required packages in debian server<a class="headerlink" href="#4-install-the-required-packages-in-debian-server" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>realmd<span class="w"> </span>sssd<span class="w"> </span>sssd-tools<span class="w"> </span>libnss-sss<span class="w"> </span>libpam-sss<span class="w"> </span>adcli<span class="w"> </span>samba-common-bin<span class="w"> </span>krb5-user<span class="w"> </span>oddjob<span class="w"> </span>oddjob-mkhomedir<span class="w"> </span>packagekit<span class="w"> </span>-y
+</code></pre></div>
+<blockquote>
+<p>The realmd is not essential, when we call realm join, there is a list of actions will be done automatically. If you
+don't want to use realm join, you can execute these actions manually.</p>
+</blockquote>
+<h2 id="5-check-if-the-ad-domain-can-be-reached-from-the-debian-server-or-not">5. Check if the AD domain can be reached from the debian server or not<a class="headerlink" href="#5-check-if-the-ad-domain-can-be-reached-from-the-debian-server-or-not" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>realm<span class="w"> </span>discover<span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+<blockquote>
 <ul>
-<li><strong>RequiredBy</strong>: Like WantedBy, but hard dependency.</li>
+<li>If the error message is realm command is unknown, open a new shell.</li>
+<li>If the error message is CASDDS.CASD is unknown, check the dns server ip is reachable, and dns server name setup is correct.</li>
 </ul>
-<p>For example, the below config means: When you run systemctl enable openmetadata.service, systemd creates symlinks 
-so the service starts automatically in multi-user mode (normal boot without GUI).</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</blockquote>
+<h2 id="6-join-the-serverpengfei-hclientcasddscasd-to-the-ad-domain">6. Join the server(pengfei-hclient.casdds.casd) to the AD domain<a class="headerlink" href="#6-join-the-serverpengfei-hclientcasddscasd-to-the-ad-domain" title="Permanent link">&para;</a></h2>
+<p>To execute the below command, you must have an account with <code>domain administrator</code> privilege :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>Administrateur<span class="w"> </span>CASDDS.CASD
 </code></pre></div>
-<h3 id="full-example">Full example<a class="headerlink" href="#full-example" title="Permanent link">&para;</a></h3>
-<p>The below unit file shows how to run openmetadata as systemd service
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Unit<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>OpenMetadata<span class="w"> </span>Service
-<span class="nv">After</span><span class="o">=</span>network.target
-<span class="nv">Wants</span><span class="o">=</span>network.target
-<span class="nv">Requires</span><span class="o">=</span>postgresql.service<span class="w"> </span>elasticsearch.service
+<blockquote>
+<p>The join action will:
+1. create related accounts in <code>computer</code> section of AD(AD server side)
+2. create a keytab file for the linux krb client to connect to the AD/krb server
+If there is no error message, it means your server has joined the domain.</p>
+<p>By default, the keytab file is located at <code>/etc/krb5.keytab</code>. You can check the content with the below command.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c1"># as the keytab file is protected, so you need sudo right</span>
+sudo<span class="w"> </span>klist<span class="w"> </span>-k<span class="w"> </span>/etc/krb5.keytab
 
-<span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">Type</span><span class="o">=</span>forking
-<span class="c1"># Run as non-root user</span>
-<span class="nv">User</span><span class="o">=</span>openmeta
-<span class="nv">Group</span><span class="o">=</span>openmeta
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/opt/
+<span class="c1"># expected output</span>
+Keytab<span class="w"> </span>name:<span class="w"> </span>FILE:/etc/krb5.keytab
+KVNO<span class="w"> </span>Principal
+----<span class="w"> </span>--------------------------------------------------------------------------
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>PENGFEI-HCLIENT<span class="nv">$@</span>CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>PENGFEI-HCLIENT<span class="nv">$@</span>CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>host/PENGFEI-HCLIENT@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>host/PENGFEI-HCLIENT@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>host/pengfei-hclient.casdds.casd@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>host/pengfei-hclient.casdds.casd@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>RestrictedKrbHost/PENGFEI-HCLIENT@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>RestrictedKrbHost/PENGFEI-HCLIENT@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>RestrictedKrbHost/pengfei-hclient.casdds.casd@CASDDS.CASD
+<span class="w">   </span><span class="m">2</span><span class="w"> </span>RestrictedKrbHost/pengfei-hclient.casdds.casd@CASDDS.CASD
+</code></pre></div>
+<h2 id="7-configure-the-linux-serverpengfei-hclient-account-in-ad">7 Configure the linux server(pengfei-hclient) account in AD<a class="headerlink" href="#7-configure-the-linux-serverpengfei-hclient-account-in-ad" title="Permanent link">&para;</a></h2>
+<p>If the <code>pengfei-hclient</code> has success joined the AD domain, you should see the server appears in the <code>Computer</code> section in
+the AD manager GUI. </p>
+<p>Then right-click on the server-&gt;properties-&gt; Select the <code>Trust this computer for delegation to any service</code> option in <code>Delegation</code>. </p>
+<p>Click on the <code>Static IP address</code> option in <code>Dial-in</code>, then put the address ip of the <code>hadoop-client</code>.</p>
+<blockquote>
+<p>You can add a new computer in AD manually, but we don't recommend that.</p>
+</blockquote>
+<h2 id="8-configure-adkrb-dns">8 Configure AD/krb, dns<a class="headerlink" href="#8-configure-adkrb-dns" title="Permanent link">&para;</a></h2>
+<p>To make the debian server (pengfei-hclient) fqdn <code>recognizable</code> and <code>reachable</code> by the other servers in the domain,
+we need to configure the dns server </p>
+<p>Check <code>Step 3: Config AD/Krb, DNS server to well integrate ...</code> in <a href="../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/">here</a></p>
+<h3 id="81-check-the-spn-service-principal-name-in-windows-server">8.1 Check the SPN (Service Principal Name) in Windows server<a class="headerlink" href="#81-check-the-spn-service-principal-name-in-windows-server" title="Permanent link">&para;</a></h3>
+<p>Every registered computer in the domain should have a <code>valid SPN (Service Principal Name)</code>. You can check the name by 
+using the below command. You can open a <code>powershell prompt</code> in the <code>AD/krb</code> server.</p>
+<div class="highlight"><pre><span></span><code><span class="n">setspn</span> <span class="n">-L</span> <span class="n">pengfei-hclient</span>
 
-<span class="c1"># load env var</span>
-<span class="nv">EnvironmentFile</span><span class="o">=</span>-/opt/openmetadata/conf/openmetadata-env.sh
+<span class="c"># expected output</span>
+<span class="n">Registered</span> <span class="n">ServicePrincipalNames</span> <span class="k">for</span> <span class="n">CN</span><span class="p">=</span><span class="n">PENGFEI-HCLIENT</span><span class="p">,</span><span class="n">CN</span><span class="p">=</span><span class="n">Computers</span><span class="p">,</span><span class="n">DC</span><span class="p">=</span><span class="n">casdds</span><span class="p">,</span><span class="n">DC</span><span class="p">=</span><span class="n">casd</span><span class="p">:</span>
+        <span class="n">RestrictedKrbHost</span><span class="p">/</span><span class="n">pengfei-hclient</span><span class="p">.</span><span class="n">casdds</span><span class="p">.</span><span class="n">casd</span>
+        <span class="n">RestrictedKrbHost</span><span class="p">/</span><span class="n">PENGFEI-HCLIENT</span>
+        <span class="n">host</span><span class="p">/</span><span class="n">pengfei-hclient</span><span class="p">.</span><span class="n">casdds</span><span class="p">.</span><span class="n">casd</span>
+        <span class="n">host</span><span class="p">/</span><span class="n">PENGFEI-HCLIENT</span>
+</code></pre></div>
+<blockquote>
+<p>If you don't see any outputs, something went wrong, you should leave and rejoin the realm.</p>
+</blockquote>
+<h3 id="82-leave-and-rejoin-the-realm">8.2 Leave and rejoin the realm<a class="headerlink" href="#82-leave-and-rejoin-the-realm" title="Permanent link">&para;</a></h3>
+<p>If there are errors that you can't resolve, you can always leave the realm and rejoin</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>realm<span class="w"> </span>leave<span class="w"> </span>CASDDS.CASD
 
-<span class="c1"># How to start and stop</span>
-<span class="nv">ExecStart</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>start
-<span class="nv">ExecStop</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>stop
+sudo<span class="w"> </span>realm<span class="w"> </span>join<span class="w"> </span>--user<span class="o">=</span>Administrateur<span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+<h2 id="9-configuration-of-sssd-pam-and-kerberos">9. Configuration of SSSD, PAM and Kerberos<a class="headerlink" href="#9-configuration-of-sssd-pam-and-kerberos" title="Permanent link">&para;</a></h2>
+<p>We will follow the below order to configure each component:
+- kerberos client: configure krb client to connect to the target krb Realm
+- sshd/pam: configure sshd server to use pam as authentication backend
+- pam/sssd: configure pam to use sssd as backend
+- sssd/krb: configure sssd to use krb plugin</p>
+<h3 id="91-configure-kerberos-client-in-debianhadoop-client-server">9.1 Configure kerberos client in debian(hadoop-client) server<a class="headerlink" href="#91-configure-kerberos-client-in-debianhadoop-client-server" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># install the required package</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>krb5-user
 
-<span class="c1"># checking service health.</span>
-<span class="nv">ExecReload</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>status
-<span class="c1"># Optional: status and clean hooks</span>
-<span class="nv">ExecStartPre</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>clean
+<span class="c1"># edit the config file `/etc/krb5.conf`  </span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/krb5.conf
+</code></pre></div>
+Put the below content in the file <code>/etc/krb5.conf</code> </p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="o">[</span>libdefaults<span class="o">]</span>
+<span class="w">        </span><span class="nv">default_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
 
-<span class="c1"># Restart policy if the service crashes</span>
-<span class="nv">Restart</span><span class="o">=</span>on-failure
-<span class="nv">RestartSec</span><span class="o">=</span><span class="m">5</span>
+<span class="w">        </span><span class="nv">default_tkt_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>aes256-cts-hmac-sha1-96<span class="w"> </span>aes128-cts-hmac-sha1-96
+<span class="w">        </span><span class="nv">default_tgs_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>aes256-cts-hmac-sha1-96<span class="w"> </span>aes128-cts-hmac-sha1-96
+<span class="w">        </span><span class="nv">permitted_enctypes</span><span class="w">   </span><span class="o">=</span><span class="w"> </span>aes256-cts-hmac-sha1-96<span class="w"> </span>aes128-cts-hmac-sha1-96
+<span class="w">        </span><span class="nv">kdc_timesync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="nv">ccache_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span>
+<span class="w">        </span><span class="nv">forwardable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="c1"># Fadoua said this must be removed from, otherwise the ticket will not be forwad to the target host </span>
+<span class="w">        </span><span class="c1"># proxiable = true</span>
+<span class="w">        </span><span class="nv">ticket_lifetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>24h
+<span class="w">        </span><span class="nv">dns_lookup_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">dns_lookup_kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span><span class="nv">dns_canonicalize_hostname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span><span class="nv">rdns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span>
+<span class="w">         </span><span class="nv">allow_weak_crypto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
 
-<span class="c1"># Logging: send stdout/stderr to systemd journal</span>
-<span class="nv">StandardOutput</span><span class="o">=</span>journal
-<span class="nv">StandardError</span><span class="o">=</span>journal
 
-<span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+<span class="o">[</span>realms<span class="o">]</span>
+<span class="w">        </span>CASDDS.CASD<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span>
+<span class="w">                </span><span class="nv">kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.50.5.64
+<span class="w">                </span><span class="nv">admin_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>.50.5.64
+<span class="w">        </span><span class="o">}</span>
+
+<span class="o">[</span>domain_realm<span class="o">]</span>
+<span class="w">        </span>.casdds.casd<span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+<span class="w">        </span>casdds.casd<span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+</code></pre></div>
+<h3 id="92-configure-sshd-to-use-pam">9.2 Configure sshd to use pam<a class="headerlink" href="#92-configure-sshd-to-use-pam" title="Permanent link">&para;</a></h3>
+<p>We need to edit two files:
+- <code>/etc/ssh/sshd_config</code> (configuration for the ssh server)
+- <code>/etc/ssh/ssh_config</code> (configuration for the ssh client)</p>
+<p>In <code>/etc/ssh/sshd_config</code>, enable the below lines
+<div class="highlight"><pre><span></span><code><span class="c1"># disable other authentication methods</span>
+ChallengeResponseAuthentication<span class="w"> </span>no
+PasswordAuthentication<span class="w"> </span>no
+
+<span class="c1"># use pam as authentication backend</span>
+UsePAM<span class="w"> </span>yes
+
+<span class="c1"># GSSAPI options for sshd server to accept GSSAPI, it&#39;s required for the server to accept krb ticket as </span>
+<span class="c1"># credentials</span>
+<span class="c1"># </span>
+GSSAPIAuthentication<span class="w"> </span>yes
+<span class="c1"># Cleans up the Kerberos credentials after the session.</span>
+GSSAPICleanupCredentials<span class="w"> </span>yes
+<span class="c1"># Ensures that the SSH client does not strictly check for a valid acceptor name in the Kerberos tickets.</span>
+GSSAPIStrictAcceptorCheck<span class="w"> </span>no
+<span class="c1"># Allows the exchange of Kerberos keys for stronger encryption.</span>
+GSSAPIKeyExchange<span class="w"> </span>yes
+
+
+X11Forwarding<span class="w"> </span>yes
+
+PrintMotd<span class="w"> </span>no
+
+
+<span class="c1"># Allow client to pass locale environment variables</span>
+AcceptEnv<span class="w"> </span>LANG<span class="w"> </span>LC_*
+
+<span class="c1"># override default of no subsystems</span>
+Subsystem<span class="w">       </span>sftp<span class="w">    </span>/usr/lib/openssh/sftp-server
 </code></pre></div></p>
 <blockquote>
-<p>We suppose the openmetadata app is installed under <code>/opt/openmetadata</code></p>
+<p>You need to restart the sshd service to enable the new config
+</p>
 </blockquote>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>sshd
+</code></pre></div>
+<p>In the <code>/etc/ssh/ssh_config</code>, you need to add the below line 
+<div class="highlight"><pre><span></span><code><span class="w">   </span>Host<span class="w"> </span>*
+<span class="w">       </span>GSSAPIAuthentication<span class="w"> </span>yes
+<span class="w">       </span>GSSAPIDelegateCredentials<span class="w"> </span>yes
+<span class="w">       </span>PasswordAuthentication<span class="w"> </span>no
+</code></pre></div></p>
+<blockquote>
+<p>For hadoop-client, the <code>ssh_config</code> is not required, because it defines the behaviour of the ssh client.
+It needs to be configured in the ssh client which wants to connect to the hadoop-client ssh server.
+</p>
+</blockquote>
+<h3 id="93-configure-pam">9.3 Configure pam<a class="headerlink" href="#93-configure-pam" title="Permanent link">&para;</a></h3>
+<p>All the configuration files for pam are located in <code>/etc/pam.d/</code>. The below is the minimum config for the pam
+to use sssd daemon as authentication backend.</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1">### /etc/pam.d/common-auth</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+auth<span class="w">      </span>sufficient<span class="w">  </span>pam_unix.so<span class="w"> </span>try_first_pass
+auth<span class="w">      </span>sufficient<span class="w">  </span>pam_sss.so<span class="w"> </span>use_first_pass
+auth<span class="w">      </span>required<span class="w">    </span>pam_deny.so
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">### /etc/pam.d/common-account</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+account<span class="w">   </span>required<span class="w">    </span>pam_unix.so
+account<span class="w">   </span>sufficient<span class="w">  </span>pam_sss.so
+account<span class="w">   </span>required<span class="w">    </span>pam_permit.so
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">### /etc/pam.d/common-password</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+password<span class="w">  </span>sufficient<span class="w">  </span>pam_unix.so
+password<span class="w">  </span>sufficient<span class="w">  </span>pam_sss.so
+password<span class="w">  </span>required<span class="w">    </span>pam_deny.so
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">### /etc/pam.d/common-session</span>
+sudo:<span class="w"> </span>unable<span class="w"> </span>to<span class="w"> </span>resolve<span class="w"> </span>host<span class="w"> </span>debian118:<span class="w"> </span>Name<span class="w"> </span>or<span class="w"> </span>service<span class="w"> </span>not<span class="w"> </span>known
+session<span class="w">   </span>required<span class="w">    </span>pam_unix.so
+session<span class="w">   </span>optional<span class="w">    </span>pam_sss.so
+session<span class="w">   </span>required<span class="w">    </span>pam_mkhomedir.so<span class="w"> </span><span class="nv">skel</span><span class="o">=</span>/etc/skel/<span class="w"> </span><span class="nv">umask</span><span class="o">=</span><span class="m">0022</span>
+</code></pre></div></p>
+<h3 id="94-configure-sssd">9.4 Configure sssd<a class="headerlink" href="#94-configure-sssd" title="Permanent link">&para;</a></h3>
+<p>Now we need to configure the sssd daemon. The main config file is in <code>/etc/sssd/sssd.conf</code></p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>sssd<span class="o">]</span>
+<span class="nv">services</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>nss,<span class="w"> </span>pam
+<span class="nv">domains</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>casdds.casd
+<span class="nv">config_file_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+
+<span class="o">[</span>nss<span class="o">]</span>
+<span class="nv">homedir_substring</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/home
+
+<span class="o">[</span>pam<span class="o">]</span>
+
+<span class="o">[</span>domain/casdds.casd<span class="o">]</span>
+<span class="nv">ldap_sasl_authid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>sssd@CASDDS.CASD
+<span class="nv">krb5_keytab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/etc/sssd.keytab
+<span class="nv">default_shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/bin/bash
+<span class="nv">krb5_store_password_if_offline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">cache_credentials</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">krb5_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>CASDDS.CASD
+<span class="nv">realmd_tags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>manages-system<span class="w"> </span>joined-with-adcli
+<span class="nv">id_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ad
+<span class="nv">fallback_homedir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>/home/%u@%d
+<span class="nv">ad_domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>casdds.casd
+<span class="nv">use_fully_qualified_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
+<span class="nv">ldap_id_mapping</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">access_provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ad
+<span class="nv">ldap_group_nesting_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+<h2 id="95-configure-ssh-client-on-windows">9.5 Configure ssh client on Windows<a class="headerlink" href="#95-configure-ssh-client-on-windows" title="Permanent link">&para;</a></h2>
+<p>In windows, there are many ssh clients:
+- MobaXterm:
+- tabby: https://tabby.sh/
+- powershell+openssh
+- PuTTY</p>
+<p>Configure ssh client </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># open a notepad</span>
+notepad<span class="w"> </span><span class="nv">$env</span>:USERPROFILE<span class="se">\.</span>ssh<span class="se">\c</span>onfig
+
+<span class="c1"># add the below lines</span>
+<span class="c1"># * means for all hosts</span>
+Host<span class="w"> </span>*
+<span class="w">    </span>GSSAPIAuthentication<span class="w"> </span>yes
+<span class="w">    </span>GSSAPIDelegateCredentials<span class="w"> </span>yes<span class="w"> </span>
+</code></pre></div>
+<p>You can also define the behaviors host by host, below is an example</p>
+<div class="highlight"><pre><span></span><code>Host<span class="w"> </span>pengfei-hclient
+<span class="w">    </span>HostName<span class="w"> </span>pengfei-hclient.casdds.casd
+<span class="w">    </span>User<span class="w"> </span>pengfei@casdds.casd
+<span class="w">    </span>Port<span class="w"> </span><span class="m">22</span>
+<span class="w">    </span>GSSAPIAuthentication<span class="w"> </span>yes
+<span class="w">    </span>GSSAPIDelegateCredentials<span class="w"> </span>yes<span class="w"> </span>
+</code></pre></div>
+<h2 id="10-test-the-solution">10. Test the solution<a class="headerlink" href="#10-test-the-solution" title="Permanent link">&para;</a></h2>
+<p>In our scenario, the user follow the below steps:
+1. first login to a Windows server, the first ticket kerberos is generated in the Windows server.
+2. user ssh to hadoop-client with the ticket kerberos with option forward ticket
+3. user try to access hdfs cluster with the forward kerberos ticket</p>
+<p>Suppose you have an account <code>user</code> in AD with the privilege to connect to <code>pengfei-hclient</code> </p>
+<h3 id="101-understand-the-ticket">10.1. Understand the ticket<a class="headerlink" href="#101-understand-the-ticket" title="Permanent link">&para;</a></h3>
+<p>In linux, you can ask a ticket and check the ticket with the below command</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># ask a new ticket, you need to provide a password associated with the provided principal</span>
+kinit<span class="w"> </span>user@CASDDS.CASD<span class="w">  </span>
+
+<span class="c1"># check the ticket contents</span>
+klist<span class="w"> </span>-5fea<span class="w">   </span>
+</code></pre></div>
+The option:
+- <strong>5</strong>: Show only Kerberos 5 tickets (modern Kerberos version).
+- <strong>f</strong>: Show ticket flags (like FORWARDABLE, RENEWABLE, etc.).
+- <strong>e</strong>: Display encryption type used for the ticket.
+- <strong>a</strong> Show addresses associated with the ticket (if address-restriction of the ticket is activated).</p>
+<p>You should see the below output as the ticket content</p>
+<p><div class="highlight"><pre><span></span><code>Ticket<span class="w"> </span>cache:<span class="w"> </span>FILE:/tmp/krb5cc_1000
+Default<span class="w"> </span>principal:<span class="w"> </span>user@CASDDS.CASD
+
+Valid<span class="w"> </span>starting<span class="w">       </span>Expires<span class="w">              </span>Service<span class="w"> </span>principal
+<span class="m">03</span>/31/25<span class="w"> </span><span class="m">10</span>:00:00<span class="w">  </span><span class="m">03</span>/31/25<span class="w"> </span><span class="m">20</span>:00:00<span class="w">  </span>krbtgt/CASDDS.CASD@CASDDS.CASD
+<span class="w">        </span>Flags:<span class="w"> </span>FRI
+<span class="w">        </span>Etype<span class="w"> </span><span class="o">(</span>skey,<span class="w"> </span>tkt<span class="o">)</span>:<span class="w"> </span>aes256-cts-hmac-sha1-96,<span class="w"> </span>aes256-cts-hmac-sha1-96
+<span class="w">        </span>Addresses:<span class="w"> </span><span class="m">192</span>.168.1.100
+</code></pre></div>
+A kerberos ticket has the below properties:</p>
+<ul>
+<li>Ticket cache: Location of the ticket. </li>
+<li>Default principal: Your Kerberos identity (user@EXAMPLE.COM).</li>
+<li>Valid starting / Expires: Time range for which the ticket is valid.</li>
+<li>Service principal: The Kerberos service this ticket is for. (krbtgt/CASDDS.CASD@CASDDS.CASD is a tgt issued by CASDDS.CASD the kdc server)</li>
+<li>Flags (-f option): F = Forwardable (Can be forwarded to another machine). R = Renewable (Can be extended before expiration). I = Initial (Freshly obtained).</li>
+<li>Encryption type (-e option): aes256-cts-hmac-sha1-96, means AES-256 encryption with SHA-1 HMAC.</li>
+<li>Addresses (-a option): Shows the IP addresses associated with the ticket (if address-restricted).</li>
+</ul>
+<p>You can ask ticket with special options:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># below command ask a Forwardable, Renewable for a 7 day validity</span>
+kinit<span class="w"> </span>-f<span class="w"> </span>-r<span class="w"> </span>7d
+</code></pre></div>
+<blockquote>
+<p>Based on the kdc configuration, it may or may not generate the ticket.</p>
+</blockquote>
+<h3 id="62-connexion-ssh">6.2. Connexion SSH<a class="headerlink" href="#62-connexion-ssh" title="Permanent link">&para;</a></h3>
+<p>From windows, if the server has joined the domain, windows will generate a kerberos ticket after user logon:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># check the user ticket</span>
+klist<span class="w"> </span>-5fea
+
+<span class="c1"># for windows ssh client</span>
+<span class="c1"># -K active la délégation Kerberos</span>
+ssh<span class="w"> </span>-K<span class="w"> </span>user@debian.casdds.casd<span class="w">  </span>
+
+<span class="c1"># for linux ssh client</span>
+ssh<span class="w"> </span>-o<span class="w"> </span><span class="nv">GSSAPIDelegateCredentials</span><span class="o">=</span>yes<span class="w"> </span>user@debian.casdds.casd
+</code></pre></div>
+<h2 id="appendix">Appendix :<a class="headerlink" href="#appendix" title="Permanent link">&para;</a></h2>
+<h3 id="acl-for-etcsssdsssdconf">ACL for /etc/sssd/sssd.conf<a class="headerlink" href="#acl-for-etcsssdsssdconf" title="Permanent link">&para;</a></h3>
+<p>The Permissions for <code>/etc/sssd/sssd.conf</code> must be <code>600</code> :</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>/etc/sssd/sssd.conf
+</code></pre></div>
 
 
 

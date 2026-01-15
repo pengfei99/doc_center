@@ -9,10 +9,6 @@
       
       
       
-        <link rel="prev" href="../Cron_jobs/">
-      
-      
-        <link rel="next" href="../Time_Synchronization_in_Debian/">
       
       
         
@@ -23,7 +19,7 @@
     
     
       
-        <title>systemd(serviced) in linux - Pengfei Documentation</title>
+        <title>Kerberos integration in cluster hadoop spark - Pengfei Documentation</title>
       
     
     
@@ -64,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#systemd-in-linux" class="md-skip">
+        <a href="#kerberos-integration-in-cluster-hadoop-spark" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              systemd(serviced) in linux
+              Kerberos integration in cluster hadoop spark
             
           </span>
         </div>
@@ -222,20 +218,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -256,7 +250,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -271,20 +265,18 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
         
           
           <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
@@ -305,7 +297,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -323,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debian_admin_cheat_sheet/" class="md-nav__link">
+      <a href="../../../adminsys/core/debian_admin_cheat_sheet/" class="md-nav__link">
         
   
   
@@ -351,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Cron_jobs/" class="md-nav__link">
+      <a href="../../../adminsys/core/Cron_jobs/" class="md-nav__link">
         
   
   
@@ -376,37 +368,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    systemd(serviced) in linux
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
         
   
   
@@ -422,137 +387,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-a-service-in-linux" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is a service in linux
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#useful-systemd-commands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Useful systemd commands
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-we-use-systemd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why we use systemd
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-unit-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Systemd Unit file
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Systemd Unit file">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-unit-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Unit section
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-service-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Service section
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="The Service section">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run-service-with-dedicated-user-and-group" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run service with dedicated user and group
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-install-section" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Install section
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#full-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Full example
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -565,7 +399,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Time_Synchronization_in_Debian/" class="md-nav__link">
+      <a href="../../../adminsys/core/Time_Synchronization_in_Debian/" class="md-nav__link">
         
   
   
@@ -695,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/mariadb/Installation/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
         
   
   
@@ -723,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/mariadb/Management/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
         
   
   
@@ -806,7 +640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/postgres/Install_postgresql/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
         
   
   
@@ -834,7 +668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
+      <a href="../../../adminsys/db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
         
   
   
@@ -972,7 +806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/01.Introduction/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/01.Introduction/" class="md-nav__link">
         
   
   
@@ -1000,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
         
   
   
@@ -1028,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
         
   
   
@@ -1056,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Minio/04.Minio_installation_details/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Minio/04.Minio_installation_details/" class="md-nav__link">
         
   
   
@@ -1139,7 +973,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/NFS/Install_nfs_server_client/" class="md-nav__link">
+      <a href="../../../adminsys/fs/NFS/Install_nfs_server_client/" class="md-nav__link">
         
   
   
@@ -1222,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
         
   
   
@@ -1250,7 +1084,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
+      <a href="../../../adminsys/fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
         
   
   
@@ -1341,7 +1175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/01.Lang_support/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
         
   
   
@@ -1369,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
         
   
   
@@ -1397,7 +1231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
         
   
   
@@ -1425,7 +1259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
         
   
   
@@ -1453,7 +1287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
         
   
   
@@ -1481,7 +1315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/07.Setup_shared_folder/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
         
   
   
@@ -1509,7 +1343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/08.Debian_upgrade/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
         
   
   
@@ -1537,7 +1371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
         
   
   
@@ -1659,7 +1493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
         
   
   
@@ -1687,7 +1521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
         
   
   
@@ -1778,7 +1612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
         
   
   
@@ -1806,7 +1640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
         
   
   
@@ -1834,7 +1668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
         
   
   
@@ -1862,7 +1696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
         
   
   
@@ -1945,7 +1779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/" class="md-nav__link">
         
   
   
@@ -1973,7 +1807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
         
   
   
@@ -2001,7 +1835,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
         
   
   
@@ -2029,7 +1863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
         
   
   
@@ -2057,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
         
   
   
@@ -2085,7 +1919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
         
   
   
@@ -2113,7 +1947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+      <a href="../../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
         
   
   
@@ -2204,7 +2038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/build_openssl_tool/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
         
   
   
@@ -2232,7 +2066,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/install_gitlab_ce/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
         
   
   
@@ -2260,7 +2094,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/install_vscode_server/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
         
   
   
@@ -2335,7 +2169,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
         
   
   
@@ -2363,7 +2197,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
         
   
   
@@ -2391,7 +2225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+      <a href="../../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
         
   
   
@@ -4256,7 +4090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/basic/01.hdfs_introduction/" class="md-nav__link">
+      <a href="../../basic/01.hdfs_introduction/" class="md-nav__link">
         
   
   
@@ -4284,7 +4118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/basic/02.yarn_introduction/" class="md-nav__link">
+      <a href="../../basic/02.yarn_introduction/" class="md-nav__link">
         
   
   
@@ -4367,7 +4201,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/Installation/01.Install_hdfs_yarn/" class="md-nav__link">
+      <a href="../../Installation/01.Install_hdfs_yarn/" class="md-nav__link">
         
   
   
@@ -4395,7 +4229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/Installation/02.Install_spark_on_yarn/" class="md-nav__link">
+      <a href="../../Installation/02.Install_spark_on_yarn/" class="md-nav__link">
         
   
   
@@ -4478,7 +4312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/kerberos_integration/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
         
   
   
@@ -4506,7 +4340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
+      <a href="../Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
         
   
   
@@ -4589,7 +4423,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
+      <a href="../../cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
         
   
   
@@ -4617,7 +4451,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
+      <a href="../../cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
         
   
   
@@ -4645,7 +4479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
+      <a href="../../cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
         
   
   
@@ -5398,10 +5232,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-a-service-in-linux" class="md-nav__link">
+  <a href="#general-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What is a service in linux
+        General steps
       
     </span>
   </a>
@@ -5409,10 +5243,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-systemd-commands" class="md-nav__link">
+  <a href="#1-design-the-cluster-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Useful systemd commands
+        1. Design the cluster architecture
       
     </span>
   </a>
@@ -5420,33 +5254,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-we-use-systemd" class="md-nav__link">
+  <a href="#2-configure-ad-for-service-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why we use systemd
+        2. Configure AD for service account
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#systemd-unit-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Systemd Unit file
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Systemd Unit file">
+    <nav class="md-nav" aria-label="2. Configure AD for service account">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-unit-section" class="md-nav__link">
+  <a href="#21-create-a-gmsa-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Unit section
+        2.1 Create a gMSA account
       
     </span>
   </a>
@@ -5454,22 +5277,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-service-section" class="md-nav__link">
+  <a href="#22-setup-dns" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Service section
+        2.2 Setup dns
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="The Service section">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#run-service-with-dedicated-user-and-group" class="md-nav__link">
+  <a href="#23-set-up-the-hostname-in-the-linux-server" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Run service with dedicated user and group
+        2.3 Set up the hostname in the linux server
       
     </span>
   </a>
@@ -5480,12 +5302,24 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#the-install-section" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#24-create-a-daemon-to-sync-gmsa-account-credentialgmsad" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The Install section
+        2.4 Create a daemon to sync gMSA account credential(gMSAd)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 Create a daemon to sync gMSA account credential(gMSAd)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#241-create-local-account-to-run-gmsad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4.1 Create local account to run gMSAd
       
     </span>
   </a>
@@ -5493,10 +5327,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#full-example" class="md-nav__link">
+  <a href="#242-install-the-gmsa-binary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Full example
+        2.4.2 Install the gMSA binary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#243-configure-gmsad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4.3 Configure gMSAd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#244-create-a-systemd-serice-for-gmsad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4.4 Create a systemd serice for gmsad
       
     </span>
   </a>
@@ -5505,6 +5361,39 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-hadoop-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup hadoop master
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-hadoop-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup hadoop worker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-hadoop-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup hadoop client
+      
+    </span>
+  </a>
   
 </li>
       
@@ -5525,186 +5414,163 @@
 
 
 
-<h1 id="systemd-in-linux">Systemd in Linux<a class="headerlink" href="#systemd-in-linux" title="Permanent link">&para;</a></h1>
-<p>In Debian (and other Linux distributions), we use <strong>systemd</strong> to manage services which should run as <code>background process</code>
-We use a <code>unit file</code> to define how the service should be start/stop/restart, and how to monitor the service status. 
-After editing and enabling the <code>unit</code> file, these services can be controlled by using the <strong>systemctl</strong> command.</p>
-<blockquote>
-<p>Systemd is developed to replace the old <strong>SysV init</strong>. </p>
-</blockquote>
-<h2 id="what-is-a-service-in-linux">What is a service in linux<a class="headerlink" href="#what-is-a-service-in-linux" title="Permanent link">&para;</a></h2>
-<p>A <strong>service</strong> is usually a <code>long running daemon (background program) process</code> like nginx, postgresql, or ssh.</p>
-<p>Each service has a corresponding <code>unit file</code> that tells <code>systemd</code> how to <code>start, stop, restart, or monitor it</code>.</p>
-<p>The Unit files live in:</p>
-<ul>
-<li><code>/lib/systemd/system/</code>: (packaged services)</li>
-<li><code>/etc/systemd/system/</code>: (local overrides/custom services)</li>
-</ul>
-<h2 id="useful-systemd-commands">Useful systemd commands<a class="headerlink" href="#useful-systemd-commands" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># list all active services</span>
-systemctl<span class="w"> </span>list-units<span class="w"> </span>--type<span class="o">=</span>service
+<h1 id="kerberos-integration-in-cluster-hadoop-spark">Kerberos integration in cluster hadoop spark<a class="headerlink" href="#kerberos-integration-in-cluster-hadoop-spark" title="Permanent link">&para;</a></h1>
+<p>The objective of kerberos integration is to enforce user authentication and access control.</p>
+<h2 id="general-steps">General steps<a class="headerlink" href="#general-steps" title="Permanent link">&para;</a></h2>
+<p>In this tutorial, we use AD/krb as the authentication server. </p>
+<ol>
+<li>Design the cluster architecture, for each server <code>define a hostname</code></li>
+<li>Configure AD for service account(e.g. hdfs, yarn, ssh, http) which runs inside linux server</li>
+<li>Configure DNS for the linux server</li>
+<li>Define different group for common-user, and admin user for different server access(namenode, datanode open to admin only)</li>
+<li>Setup hadoop master </li>
+<li>Setup hadoop worker </li>
+<li>Setup hadoop client</li>
+</ol>
+<h2 id="1-design-the-cluster-architecture">1. Design the cluster architecture<a class="headerlink" href="#1-design-the-cluster-architecture" title="Permanent link">&para;</a></h2>
+<p>In this tutorial, the cluster has 4 servers. 
+1. hadoop-client: allow user to submit spark jobs, view job status, view data in hdfs.
+2. hadoop-master: hdfs namenode, spark master node.
+3. hadoop-worker1: hdfs datanode, spark worker node.
+4. hadoop-worker2: hdfs datanode, spark worker node.</p>
+<h2 id="2-configure-ad-for-service-account">2. Configure AD for service account<a class="headerlink" href="#2-configure-ad-for-service-account" title="Permanent link">&para;</a></h2>
+<p>AD provides different types of account, we choose to use <code>gMSA</code>. So the first step is to create gMSA account for the 3 servers.</p>
+<p>For each host in the hadoop cluster(master and worker), we need a <code>gMSA</code> account. And the account must have the below attributes:
+<div class="highlight"><pre><span></span><code><span class="c1"># servicePrincipalName</span>
+├──<span class="w"> </span>hdfs/nom_de_host.exemple.com@EXEMPLE.COM<span class="w">      </span><span class="c1"># Service YARN &amp; hdfs</span>
+├──<span class="w"> </span>host/nom_de_host.exemple.com@EXEMPLE.COM<span class="w">      </span><span class="c1"># Service ssh </span>
+└──<span class="w"> </span>HTTP/nom_de_host.exemple.com@EXEMPLE.COM<span class="w">      </span><span class="c1"># Interface Web</span>
 
-<span class="c1"># list all service(active and inactive)</span>
-systemctl<span class="w"> </span>list-units<span class="w"> </span>--type<span class="o">=</span>service<span class="w"> </span>--all
-
-<span class="c1"># start a service immediately</span>
-systemctl<span class="w"> </span>start<span class="w"> </span>ssh
-
-<span class="c1"># stop immediately</span>
-systemctl<span class="w"> </span>stop<span class="w"> </span>ssh
-
-<span class="c1"># restart </span>
-systemctl<span class="w"> </span>restart<span class="w"> </span>ssh
-
-<span class="c1"># check service status</span>
-systemctl<span class="w"> </span>status<span class="w"> </span>ssh
-
-<span class="c1"># Enable/disable a service at boot</span>
-systemctl<span class="w"> </span>enable/disable<span class="w"> </span>ssh
-
-<span class="c1"># check if a service is enabled at boot</span>
-systemctl<span class="w"> </span>is-enabled<span class="w"> </span>ssh
+<span class="c1"># userPrincipalName</span>
+hdfs/nom_de_host.exemple.com@EXEMPLE.COM
 </code></pre></div>
-<h2 id="why-we-use-systemd">Why we use systemd<a class="headerlink" href="#why-we-use-systemd" title="Permanent link">&para;</a></h2>
-<p>Compared to a bash script, the systemd has the below advantages:</p>
-<ul>
-<li><strong>Automatic management</strong>: Starts at boot, restarts if it fails.</li>
-<li><strong>Dependency awareness</strong>: Can wait for network/storage service before starting.</li>
-<li><strong>Logging integration</strong>: Logs go to journalctl -u postgresql.</li>
-<li><strong>Resource control</strong>: Built-in cgroups support (limit memory, CPU, I/O).</li>
-<li><strong>Monitoring tools</strong>: systemctl status postgresql shows PID, uptime, logs.</li>
-<li><strong>Unified interface</strong>: Consistent commands across all services.</li>
-</ul>
-<p>It has few disadvantages:</p>
-<ul>
-<li>Less transparent: Logic hidden inside systemd unit file, not just a simple script.</li>
-<li>Steeper learning curve: You need to learn how to write <code>unit files</code> and systemd internals.</li>
-<li>Systemd dependency: If OS does not have it, the unit file won’t work.</li>
-<li>Overhead for simple cases – For a single local process, systemd may feel like “overkill.”</li>
-</ul>
-<h2 id="systemd-unit-file">Systemd Unit file<a class="headerlink" href="#systemd-unit-file" title="Permanent link">&para;</a></h2>
-<p>There is a more detailed doc on unit file <a href="https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files">here</a></p>
-<p>A systemd unit file is structured into <code>sections</code>. The three most common are <strong>[Unit], [Service], and [Install]</strong>. 
-Each has a distinct purpose:</p>
-<ul>
-<li>[Unit]: metadata + dependencies. When and under what conditions should this service start?</li>
-<li>[Service]: execution details. How do we start, stop, restart, and monitor this process?</li>
-<li>[Install]: startup integration. Should this run automatically at boot, and in which boot mode?</li>
-</ul>
-<h3 id="the-unit-section">The Unit section<a class="headerlink" href="#the-unit-section" title="Permanent link">&para;</a></h3>
-<p>The unit section defines <code>metadata and dependencies</code> for the service.
-Below are the most common attributes of this section:</p>
-<ul>
-<li>Description: Human-readable description of the service.</li>
-<li>Documentation: Optional links to docs.</li>
-<li>After: Order dependency (start this service after something else, e.g. network.target).</li>
-<li>Requires: Hard dependency (if required service fails, this one stops too).</li>
-<li>Wants: Soft dependency (preferred, but doesn’t stop if missing).</li>
-</ul>
-<p>For example, the below conf means:</p>
-<ul>
-<li>The <code>OpenMetadata Service</code> starts after the network stack is ready.</li>
-<li>It needs <code>PostgreSQL and elasticsearch</code>; if PostgreSQL or elasticsearch fails, OpenMetadata stops too.</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Unit<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>OpenMetadata<span class="w"> </span>Service
-<span class="nv">After</span><span class="o">=</span>network.target
-<span class="nv">Requires</span><span class="o">=</span>postgresql.service,<span class="w"> </span>elasticsearch.service
+For example, if we have 3 hosts(1 master, 2 workers) in the cluster, we need to have <code>three gMSA</code> accounts.</p>
+<p>As we need to synchronize the <code>keytab file</code> with <code>gMSAd</code>, we need a static user account which allows us to do the refresh</p>
+<h3 id="21-create-a-gmsa-account">2.1 Create a gMSA account<a class="headerlink" href="#21-create-a-gmsa-account" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># create a gMSA account</span>
+<span class="nb">New-ADServiceAccount</span> <span class="n">-Name</span> <span class="s2">&quot;gMSA-hclient&quot;</span> <span class="n">-DNSHostName</span> <span class="s2">&quot;gMSA-hclient.casdds.casd&quot;</span>
+
+<span class="c"># setup a policy to allow another account to retrive password</span>
+<span class="nb">Set-ADServiceAccount</span> <span class="p">`</span>
+  <span class="n">-Identity</span> <span class="s2">&quot;gMSA-hclient&quot;</span> <span class="p">`</span>
+  <span class="n">-PrincipalsAllowedToRetrieveManagedPassword</span> <span class="s2">&quot;Linux$&quot;</span> <span class="p">`</span>
+  <span class="n">-Verbose</span>
 </code></pre></div>
-<h3 id="the-service-section">The Service section<a class="headerlink" href="#the-service-section" title="Permanent link">&para;</a></h3>
-<p>The service section defines how the actual service runs.</p>
-<ul>
-<li>ExecStart: The actual command to start the service.</li>
-<li>ExecStop: Command to stop it.</li>
-<li>ExecReload: Command to reload config without restart.</li>
-<li>WorkingDirectory: Where the service runs.</li>
-<li>User=/Group: Run as specific user/group (not root).</li>
-<li>Restart: Restart policy (no, on-failure, always).</li>
-<li>RestartSec: Delay before restart.</li>
-<li>Environment: Set environment variables.</li>
-<li>StandardOutput=/StandardError: Where logs go (journal, file, etc.).</li>
-<li>Type: How the service runs:
-         - simple: Default, process runs in foreground.
-         - forking: For daemons that fork themselves (e.g. old scripts). 
-         - oneshot: For short-lived tasks (runs once, exits).</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">User</span><span class="o">=</span>openmeta
-<span class="nv">Group</span><span class="o">=</span>openmeta
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/opt/openmetadata
-<span class="nv">ExecStart</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>start
-<span class="nv">ExecStop</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>stop
-<span class="nv">Restart</span><span class="o">=</span>on-failure
-<span class="nv">RestartSec</span><span class="o">=</span><span class="m">5</span>
-<span class="nv">StandardOutput</span><span class="o">=</span>journal
-<span class="nv">StandardError</span><span class="o">=</span>journal
+<h3 id="22-setup-dns">2.2 Setup dns<a class="headerlink" href="#22-setup-dns" title="Permanent link">&para;</a></h3>
+<p>In the dns manager:
+- create a host with hostname:<code>gMSA-hclient.casdds.casd</code> and it's associate IP.
+- create a Pointer(PTR) with hostname:<code>gMSA-hclient.casdds.casd</code> and it's associate IP.</p>
+<h3 id="23-set-up-the-hostname-in-the-linux-server">2.3 Set up the hostname in the linux server<a class="headerlink" href="#23-set-up-the-hostname-in-the-linux-server" title="Permanent link">&para;</a></h3>
+<p>The hostname in the linux server must match the AD and dns setup hostname</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># change hostname</span>
+sudo<span class="w"> </span>hostnamectl<span class="w"> </span>set-hostname<span class="w"> </span>gMSA-hclient.casdds.casd
+
+<span class="c1"># change /etc/hosts with the below lines</span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/hosts<span class="w"> </span>
+<span class="m">127</span>.0.0.1<span class="w">       </span>localhost
+<span class="m">10</span>.50.5.224<span class="w">     </span>gMSA-hclient.casdds.casd<span class="w">    </span>gMSA-hclient
+
+<span class="c1"># edit resolv to setup AD as dns</span>
+sudo<span class="w"> </span>vim<span class="w"> </span>/etc/resolv.conf<span class="w"> </span>
+
+<span class="c1"># add the below lines</span>
+search<span class="w"> </span>casdds.casd
+nameserver<span class="w"> </span>&lt;ad-ip&gt;
+</code></pre></div>
+<h2 id="24-create-a-daemon-to-sync-gmsa-account-credentialgmsad">2.4 Create a daemon to sync gMSA account credential(gMSAd)<a class="headerlink" href="#24-create-a-daemon-to-sync-gmsa-account-credentialgmsad" title="Permanent link">&para;</a></h2>
+<p>You can find the project github page <a href="https://github.com/cea-sec/gmsad/tree/main">here</a></p>
+<h3 id="241-create-local-account-to-run-gmsad">2.4.1 Create local account to run gMSAd<a class="headerlink" href="#241-create-local-account-to-run-gmsad" title="Permanent link">&para;</a></h3>
+<p>It's recommended to run the gMSA daemon with a specific service account</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># create group</span>
+addgroup<span class="w"> </span>--system<span class="w"> </span>gmsa
+
+<span class="c1"># create service account</span>
+adduser<span class="w"> </span>--system<span class="w"> </span>--no-create-home<span class="w"> </span>--shell<span class="o">=</span>/usr/sbin/nologin<span class="w"> </span>--ingroup<span class="o">=</span>gmsa<span class="w"> </span>gmsa
+</code></pre></div>
+<h3 id="242-install-the-gmsa-binary">2.4.2 Install the gMSA binary<a class="headerlink" href="#242-install-the-gmsa-binary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv<span class="w"> </span>libkrb5-dev<span class="w"> </span>krb5-user<span class="w"> </span>sssd-ad<span class="w"> </span>sssd-tools
+
+<span class="c1"># create a virtual env</span>
+python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>gmsad-venv
+
+<span class="c1"># activate the venv</span>
+<span class="nb">source</span><span class="w"> </span>gmsad-venv/bin/activate
+
+<span class="c1"># install the gmsad via .wheel files inside the venv</span>
+pip<span class="w"> </span>install<span class="w"> </span>--no-index<span class="w"> </span>--break-system-packages<span class="w"> </span>-f<span class="w"> </span>./<span class="w"> </span>gmsad-0.2.0-py3-none-any.whl
+
+<span class="c1"># or via repo pypi</span>
+pip<span class="w"> </span>install<span class="w"> </span>--break-system-packages<span class="w"> </span>gmsad
+
+<span class="c1"># check the gmsad version</span>
+which<span class="w"> </span>gmsad
+
+pip<span class="w"> </span>show<span class="w"> </span>gmsad
 </code></pre></div>
 <blockquote>
-<p>The user openmeta must exist, otherwise the service will not start.
+<p>we recommend you to install the gmsad inside a venv
 </p>
 </blockquote>
-<h4 id="run-service-with-dedicated-user-and-group">Run service with dedicated user and group<a class="headerlink" href="#run-service-with-dedicated-user-and-group" title="Permanent link">&para;</a></h4>
-<p>If we don't specify <code>User/group</code>, <strong>systemd</strong> will run the service as <strong>root</strong> with the user default group(e.g. root). 
-This can cause serious security problems. The best practice is that we always create a dedicated system user account and group.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># create a system group</span>
-sudo<span class="w"> </span>groupadd<span class="w"> </span>--system<span class="w"> </span>openmeta
-<span class="c1"># create a system user with no login shell, no home dir.</span>
-sudo<span class="w"> </span>useradd<span class="w"> </span>--system<span class="w"> </span>--no-create-home<span class="w"> </span>--shell<span class="w"> </span>/usr/sbin/nologin<span class="w"> </span>--gid<span class="w"> </span>openmeta<span class="w"> </span>openmeta
-</code></pre></div>
-<h3 id="the-install-section">The Install section<a class="headerlink" href="#the-install-section" title="Permanent link">&para;</a></h3>
-<p>The install section defines how the service integrates into system startup.
-- <strong>WantedBy</strong>: Which target this service should be part of when enabled.
-    - multi-user.target: Typical for servers (like runlevel 3 in SysV).
-    - graphical.target: For desktop services (like runlevel 5).</p>
-<ul>
-<li><strong>RequiredBy</strong>: Like WantedBy, but hard dependency.</li>
-</ul>
-<p>For example, the below config means: When you run systemctl enable openmetadata.service, systemd creates symlinks 
-so the service starts automatically in multi-user mode (normal boot without GUI).</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
-</code></pre></div>
-<h3 id="full-example">Full example<a class="headerlink" href="#full-example" title="Permanent link">&para;</a></h3>
-<p>The below unit file shows how to run openmetadata as systemd service
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Unit<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>OpenMetadata<span class="w"> </span>Service
-<span class="nv">After</span><span class="o">=</span>network.target
-<span class="nv">Wants</span><span class="o">=</span>network.target
-<span class="nv">Requires</span><span class="o">=</span>postgresql.service<span class="w"> </span>elasticsearch.service
+<h3 id="243-configure-gmsad">2.4.3 Configure gMSAd<a class="headerlink" href="#243-configure-gmsad" title="Permanent link">&para;</a></h3>
+<p>The main configuration file of gMSAd is located at <code>/etc/gmsad.conf</code>
+<div class="highlight"><pre><span></span><code><span class="k">[global]</span>
+<span class="na">realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+<span class="na">domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">casdds.casd</span>
+<span class="na">gMSA_domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
 
-<span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">Type</span><span class="o">=</span>forking
-<span class="c1"># Run as non-root user</span>
-<span class="nv">User</span><span class="o">=</span>openmeta
-<span class="nv">Group</span><span class="o">=</span>openmeta
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/opt/
+<span class="c1"># Configuration LDAP</span>
+<span class="na">ldaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ldaps://10.50.5.64:636</span>
 
-<span class="c1"># load env var</span>
-<span class="nv">EnvironmentFile</span><span class="o">=</span>-/opt/openmetadata/conf/openmetadata-env.sh
+<span class="c1"># Authentification</span>
+<span class="na">principal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Linux@CASDDS.CASD</span>
+<span class="na">keytab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/Linux.keytab</span>
 
-<span class="c1"># How to start and stop</span>
-<span class="nv">ExecStart</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>start
-<span class="nv">ExecStop</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>stop
+<span class="c1"># Configuration gMSA</span>
+<span class="na">gmsa_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gMSA-hclient</span>
+<span class="na">gmsa_dn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CN=gMSA-hclient,CN=Managed Service Accounts,DC=casdds,DC=casd</span>
+<span class="na">gMSA_sAMAccountName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">gMSA-hclient</span>
+<span class="na">gMSA_keytab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/krb5.keytab</span>
 
-<span class="c1"># checking service health.</span>
-<span class="nv">ExecReload</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>status
-<span class="c1"># Optional: status and clean hooks</span>
-<span class="nv">ExecStartPre</span><span class="o">=</span>/opt/openmetadata/openmetadata.sh<span class="w"> </span>clean
+<span class="na">gMSA_servicePrincipalNames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">host/gMSA-hclient.CASDDS.CASD,HTTP/NOM_HOST.EXEMPLE.COM,hdfs/NOM_HOST.EXEMPLE.COM</span>
 
-<span class="c1"># Restart policy if the service crashes</span>
-<span class="nv">Restart</span><span class="o">=</span>on-failure
-<span class="nv">RestartSec</span><span class="o">=</span><span class="m">5</span>
+<span class="c1"># Où écrire le keytab</span>
+<span class="na">target_keytab</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">/etc/krb5.keytab</span>
+<span class="na">post_renew_cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">systemctl restart sssd.service</span>
 
-<span class="c1"># Logging: send stdout/stderr to systemd journal</span>
-<span class="nv">StandardOutput</span><span class="o">=</span>journal
-<span class="nv">StandardError</span><span class="o">=</span>journal
-
-<span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+<span class="c1"># Logging</span>
+<span class="na">log_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">INFO</span>
 </code></pre></div></p>
 <blockquote>
-<p>We suppose the openmetadata app is installed under <code>/opt/openmetadata</code></p>
+<p>the ownership of  <code>/etc/Linux.keytab</code> should be gmsa:root
+the permission of <code>/etc/Linux.keytab</code> should be 640
+the ownership of  <code>/etc/krb5.keytab</code> should be root:gmsa
+the permission of <code>/etc/krb5.keytab</code> should be 640</p>
 </blockquote>
+<p>As the gmsa account must have the right to restart sssd, we need to add a line in sudoer</p>
+<div class="highlight"><pre><span></span><code>gmsa<span class="w"> </span><span class="nv">ALL</span><span class="o">=(</span>root<span class="o">)</span><span class="w"> </span>NOPASSWD:systemctl<span class="w"> </span>restart<span class="w"> </span>sssd.service
+</code></pre></div>
+<h3 id="244-create-a-systemd-serice-for-gmsad">2.4.4 Create a systemd serice for gmsad<a class="headerlink" href="#244-create-a-systemd-serice-for-gmsad" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">gMSA daemon (gmsad)</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+<span class="na">Environment</span><span class="o">=</span><span class="s">PATH=/opt/gmsad_venv/bin:/usr/local/bin:/usr/bin:/bin</span>
+<span class="na">ExecStartPre</span><span class="o">=</span><span class="s">/bin/bash -c &quot;if [ -f /etc/krb5.keytabs/gMSA-01.keytab ]</span><span class="c1">; then echo &#39;Suppression de l ancien keytab...&#39;; rm -f /etc/krb5.keytabs/gMSA-01.keytab; fi&quot;</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/opt/gmsad_venv/bin/gmsad --config /etc/gmsad.conf</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="na">RestartSec</span><span class="o">=</span><span class="s">10</span>
+<span class="na">User</span><span class="o">=</span><span class="s">gmsa</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">gmsa</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+<h2 id="setup-hadoop-master">Setup hadoop master<a class="headerlink" href="#setup-hadoop-master" title="Permanent link">&para;</a></h2>
+<p>Setup krb client and sssd, pam, ssh for user access of the linux server</p>
+<h2 id="setup-hadoop-worker">Setup hadoop worker<a class="headerlink" href="#setup-hadoop-worker" title="Permanent link">&para;</a></h2>
+<h2 id="setup-hadoop-client">Setup hadoop client<a class="headerlink" href="#setup-hadoop-client" title="Permanent link">&para;</a></h2>
 
 
 
