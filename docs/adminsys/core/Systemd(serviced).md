@@ -27,6 +27,9 @@ systemctl list-units --type=service
 # list all service(active and inactive)
 systemctl list-units --type=service --all
 
+# reload the service list if a new service file has been added
+systemctl daemon-reload
+
 # start a service immediately
 systemctl start ssh
 
@@ -144,7 +147,7 @@ sudo useradd --system --no-create-home --shell /usr/sbin/nologin --gid openmeta 
 
 ### The Install section
 
-The install section defines how the service integrates into system startup.
+The `install` section defines how the service integrates into system startup.
 - **WantedBy**: Which target this service should be part of when enabled.
     - multi-user.target: Typical for servers (like runlevel 3 in SysV).
     - graphical.target: For desktop services (like runlevel 5).
