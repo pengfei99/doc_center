@@ -25,3 +25,18 @@ It provides the below features:
 - Multiple SPNs(service principal name) for one gMSA account
 
 > gMSA has specific rules on SPNs, for example
+> 
+
+## Debug sssd
+
+```shell
+# check config validity
+sudo sssctl config-check
+
+# check domain status
+sudo sssctl domain-status casd.fr
+
+
+
+
+```
