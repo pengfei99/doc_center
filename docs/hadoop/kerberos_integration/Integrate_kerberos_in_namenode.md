@@ -1,6 +1,73 @@
 # Integrate kerberos in name node
+In this tutorial, we will show how to integrate kerberos into the hadoop cluster.
 
-## Pre-requis Kerberos (Authentication)
+## Pre-requis hadoop cluster
+We suppose the cluster has three nodes:
+- namenode: 10.50.5.203 deb13-spark1
+- datanode: 10.50.5.204 deb13-spark2
+- datanode: 10.50.5.205 deb13-spark3
+
+### set server hostname
+The server hostname is very important if you want to use kerberos, it will be used by the KDC server to authenticate
+the server.
+
+To set the hostname on each server, you can use below command
+```shell
+# the general form is 
+sudo hostnamectl set-hostname <new-hostname>
+
+# in our case
+sudo hostnamectl set-hostname deb13-spark1
+
+# set the value for /etc/hosts
+vim /etc/hosts
+# remove the default host config if there are any, it may cause the datanode unable to connect to the namenode 
+127.0.0.1 localhost
+
+# add the below lines
+10.50.6.203	    deb13-spark1.casdds.casd	deb13-spark1
+10.50.6.204     deb13-spark2.casdds.casd    deb13-spark2
+10.50.6.205     deb13-spark3.casdds.casd    deb13-spark3
+
+# test the hostname, run below command on each server
+hostname 
+
+# test the connectivity, run below command on each server
+ping deb13-spark1.casdds.casd
+```
+
+### change dns setting
+
+As we will use AD as our dns, so we need to change the dns setting too. Suppose the AD runs at 10.50.5.64.
+You need to configure `/etc/resolv.conf` as below.
+```shell
+sudo vim /etc/resolv.conf
+
+# add below lines
+nameserver 10.50.5.64
+# google dns for internet
+nameserver 8.8.8.8
+```
+## Pre-requis DNS
+
+As we use DNS(AD) as our DNS, we need to create the `dns forward lookup entries` and the `reverse lookup entries(PTR)`
+
+The below figure shows the DNS config interface:
+![ad_dns_example.png](../../assets/ad_dns_example.png)
+
+The below figure shows the `dns forward lookup entries` example:
+![ad_forward_lookup_host.png](../../assets/ad_forward_lookup_host.png)
+
+The below figure shows the `reverse lookup entries` example:
+![ad_reverse_lookup.png](../../assets/ad_reverse_lookup.png)
+
+
+> The objective of this step is to make the three server recognizable by the AD, and KDC.
+
+## Pre-requis AD
+
+Account creation in AD is essential for KDC to generate the `right ticket kerberos` for the `right host` with right `SPN(service 
+principal name)`
 
 ### Service Principal Name definition
 In the kerberos best practice, each service should have its own SPN. For the namenode, we should have at least three

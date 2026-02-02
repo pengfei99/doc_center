@@ -1,6 +1,6 @@
-# gMSA under Linux
+# gMSA accounts in AD
 
-## AD accounts
+## 1. AD accounts introduction
 
 In AD, we have three different types of accounts:
 - a user account
@@ -13,7 +13,7 @@ Each account can have one or multiple SPN, but the `SPN ownership model are diff
 - User account:	One user account has one SPN(One service on a specific host).
 - gMSA:	One gMSA account has multiple SPN(One service on multiple hosts).
 
-## What is gMSA?
+## 2. What is gMSA?
 
 `gMSA (Group Managed Service Account)` is a service account inside AD where the AD will manage the password(e.g. password expiration, regeneration, etc.) automatically.
 
@@ -25,7 +25,79 @@ It provides the below features:
 - Multiple SPNs(service principal name) for one gMSA account
 
 > gMSA has specific rules on SPNs, for example
-> 
+
+## 3. How to create a gMSA account?
+
+To create a gMSA account in AD, we need three steps:
+- a KDS root key (one-time per forest)
+- a security group that is allowed to retrieve the password
+- the gMSA account itself
+
+### 3.1 Create the KDS root key (run once per domain)
+
+The `KDS root key` is the cryptographic foundation that lets Active Directory generate and rotate gMSA passwords 
+without storing them. **Without it, gMSA cannot exist.**
+
+You only create it once in your domain. After creation, it becomes part of AD’s cryptographic state. All domain 
+controllers replicate it and use it forever to generate gMSA credentials.
+
+> Creating multiple root keys is allowed but unnecessary unless:
+> - you are rotating cryptographic infrastructure 
+> - recovering from compromise 
+> - doing advanced lifecycle management 
+> For most environments, one root key per forest for years
+
+```powershell
+# Run on a domain controller:
+Add-KdsRootKey -EffectiveImmediately
+
+
+# In production you normally wait 10 hours for replication. For lab/testing, you can skip the 10 hours policy
+Add-KdsRootKey -EffectiveTime ((Get-Date).AddHours(-10))
+# AD waits ~10 hours before allowing gMSA creation. Because, the key must replicate to all domain controllers. 
+# If a DC doesn’t have it yet, it cannot compute passwords consistently.
+# The 10 hours delay ensures cryptographic consensus.
+
+# Verify:
+Get-KdsRootKey
+
+# expected output
+AttributeOfWrongFormat :
+KeyValue               : {210, 221, 233, 90...}
+EffectiveTime          : 11/11/2025 14:39:54
+CreationTime           : 12/11/2025 14:39:54
+IsFormatValid          : True
+DomainController       : CN=VTL,OU=Domain Controllers,DC=casdds,DC=casd
+ServerConfiguration    : Microsoft.KeyDistributionService.Cmdlets.KdsServerConfiguration
+KeyId                  : c5a2a047-edbc-d3c7-67d0-d22dece421d6
+VersionNumber          : 1
+
+```
+
+### 3.2 Create security group for Linux hosts
+
+This group controls which machines are allowed to use the gMSA. If Linux servers are not domain joined, you still 
+need a group placeholder. Later you grant retrieval permissions explicitly.
+
+```powershell
+New-ADGroup `
+  -Name "gmsa-hadoop-hosts" `
+  -GroupScope Global `
+  -Path "CN=Users,DC=example,DC=com"
+```
+
+### 3.3 Create gMSA account
+
+```powershell
+# 
+New-ADServiceAccount `
+  -Name "deb13-spark1" `
+  -DNSHostName "deb13-spark1.casdds.casd" `
+  -PrincipalsAllowedToRetrieveManagedPassword "gmsa-hadoop-hosts" `
+  -KerberosEncryptionType AES256,AES128
+```
+
+
 
 ## Debug sssd
 

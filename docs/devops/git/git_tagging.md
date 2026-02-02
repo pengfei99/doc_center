@@ -127,5 +127,5 @@ state without impacting any branches by performing another checkout.
 > commit won’t belong to any branch and will be unreachable, except by the exact commit hash. Thus, if you need to 
 > make changes--say you’re fixing a bug on an older version, for instance--you will generally want to create a branch:
 >  `git checkout -b version2 v2.0.0`
-> If you do this and make a commit, your version2 branch will be slightly different than your v2.0.0 tag since it 
+> If you do this and make a commit, your version2 branch will be slightly different from your v2.0.0 tag since it 
 > will move forward with your new changes, so do be careful.
