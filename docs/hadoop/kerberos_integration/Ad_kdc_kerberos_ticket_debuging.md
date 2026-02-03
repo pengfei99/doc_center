@@ -141,7 +141,7 @@ If this succeeds, it means:
 
 ## 6. Check DC event logs
 
-If you have unkonw problems, you can check the dc event logs.
+If you have unknown problems, you can check the dc event logs.
 
 On domain controller:
 ```powershell

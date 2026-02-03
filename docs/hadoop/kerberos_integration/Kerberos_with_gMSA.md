@@ -83,7 +83,7 @@ need a group placeholder. Later you grant retrieval permissions explicitly.
 New-ADGroup `
   -Name "gmsa-hadoop-hosts" `
   -GroupScope Global `
-  -Path "CN=Users,DC=example,DC=com"
+  -Path "CN=Users,DC=casdds,DC=casd"
 ```
 
 ### 3.3 Create gMSA account
@@ -97,8 +97,56 @@ New-ADServiceAccount `
   -KerberosEncryptionType AES256,AES128
 ```
 
+### 3.4 Add spn to each gMSA account
+
+For each gMSA account
+```powershell
+# the general form to add a spn to a gMSA account
+# don't forget the $ at the end
+setspn -S <SPN> <gMSA-account-name>
+
+# for example
+setspn -S hdfs/deb13-spark1.casdds.casd deb13-spark1$
+setspn -S HTTP/deb13-spark1.casdds.casd deb13-spark1$
+setspn -S host/deb13-spark1.casdds.casd deb13-spark1$
+
+# you can check the spn existence of a gMSA account
+setspn -L deb13-spark1$
+
+# check spn registration
+setspn -Q hdfs/deb13-spark1.casdds.casd
+
+# check if a gMSA account exist
+Get-ADServiceAccount -Identity deb13-spark1
+```
+
+### 3.5 Generate keytab from gMSA
+
+We **can not** generate keytab file for the SPNs with the below command, because gMSA forbid the password modification 
+by users. The password is auto managed by AD.
+
+```powershell
+# you will see error message `can't change password`
+ktpass `
+ /princ hdfs/deb13-spark1.casdds.casd@CASDDS.CASD `
+ /mapuser deb13-spark1$@CASDDS.CASD `
+ /crypto ALL `
+ /ptype KRB5_NT_PRINCIPAL `
+ /out hdfs_deb13-spark1.keytab `
+ /pass "deb13-spark1"
+
+```
+
+The right way to generate the keytab file is to use a static service account to run gMSAd, or allow a Windows server 
 
 
+```powershell
+# get server name
+$env:COMPUTERNAME
+
+# add server to allow group
+Add-ADGroupMember gmsa-hadoop-hosts VTL$
+```
 ## Debug sssd
 
 ```shell
@@ -135,8 +183,6 @@ adduser --system --no-create-home --shell=/usr/sbin/nologin --ingroup=gmsa gmsa
 ### 2.4.2 Install the gMSA binary
 
 ```shell
-sudo apt-get install -y python3 python3-pip python3-venv libkrb5-dev krb5-user sssd-ad sssd-tools
-
 # create a virtual env
 python3 -m venv gmsad-venv
 
@@ -197,6 +243,15 @@ log_level = INFO
 > 
 > We also need to check if the account `Linux@CASDDS.CASD` exists in AD. If existed, generate the `Linux.keytab` file.
 > Don't forget to create the init `krb5.keytab` file sudo touch `/etc/krb5.keytab`.
+
+## Add certificate to enable Ldaps
+```shell
+# copy root ca of ad to the local server
+mv root-ca.crt /usr/local/share/ca-certificates/.
+
+# ask debian to load the new certificate
+sudo update-ca-certificates
+```
 
 ```shell
 $SamAccountName = "Linux"
