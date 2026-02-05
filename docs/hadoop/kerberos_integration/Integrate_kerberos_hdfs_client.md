@@ -24,9 +24,12 @@ ChallengeResponseAuthentication no
 GSSAPIAuthentication yes
 GSSAPICleanupCredentials yes
 GSSAPIStrictAcceptorCheck no
-GSSAPIKeyExchange yes
+AllowTcpForwarding yes
+AllowAgentForwarding yes
+GssapiKeyExchange yes
 
 UsePAM yes
+UseDNS yes
 
 X11Forwarding yes
 
@@ -37,8 +40,67 @@ AcceptEnv LANG LC_*
 
 ```
 
-### Configure Pam
+### Configure Pam (Pluggable Authentication Modules) 
 
+
+ `pam` has a list of configuration files(located in `/etc/pam.d/`):
+- **common-auth**: user authentication 
+- **common-account**: User account management
+- **common-password**: Allow user to modify password.
+- **common-session**: user session settings
+
+The goal is to configure Pam to use sssd as authentication backend
+
+#### common-auth
+
+The simplest config example :
+
+```shell
+auth      sufficient  pam_unix.so
+auth      sufficient  pam_sss.so use_first_pass
+auth      required    pam_deny.so
+```
+pam_unix.so: Uses local account to authenticate users
+pam_sss.so use_first_pass: Uses SSSD as first method to authenticate users.
+pam_deny.so: Denies access if all the above authentication method fails.
+pam_permit.so: Allows authentication if all previous steps succeed.
+
+#### common-account
+
+This controls how the user account can interact with the system. 
+Below is a simple config example. 
+```shell
+account   required    pam_unix.so
+account   sufficient  pam_sss.so
+account   required    pam_permit.so
+```
+
+> **don't** add `account requisite  pam_deny.so` in the config, otherwise you can no longer become root with sudoers right.
+
+####  common-password: 
+
+Allow user to modify password.
+
+```shell
+password  sufficient  pam_unix.so nullok md5 shadow use_authtok
+password  sufficient  pam_sss.so try_first_pass
+password  required    pam_deny.so
+
+```
+
+> This configuration is not enough for user to change password. You need to change sssd, ldap/kerberos config to 
+> allow users to change their passwords through sssd, Kerberos/LDAP.
+ 
+####  common-session
+
+```shell
+session   required    pam_unix.so
+session   optional    pam_sss.so
+session   required    pam_mkhomedir.so skel=/etc/skel/ umask=0022
+
+```
+- pam_mkhomedir.so: Create a home directory on first login if it doesn’t exist with umask=0022.
+- pam_sss.so: Ensures SSSD session modules are applied.
 
 ### Configure SSSD (System Security Service Daemon)
 The main config file of SSSD is located at `/etc/sssd/sssd.conf`
