@@ -8,7 +8,7 @@ ChallengeResponseAuthentication no
 
 # GSSAPI options
 GSSAPIAuthentication yes
-GSSAPICleanupCredentials yes
+GSSAPICleanupCredentials no
 GSSAPIStrictAcceptorCheck no
 AllowAgentForwarding yes
 AllowTcpForwarding yes

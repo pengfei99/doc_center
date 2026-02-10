@@ -1,0 +1,24 @@
+Include /etc/ssh/sshd_config.d/*.conf
+
+PermitRootLogin no
+
+ChallengeResponseAuthentication no
+
+# GSSAPI options
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials yes
+GSSAPIStrictAcceptorCheck no
+AllowTcpForwarding yes
+AllowAgentForwarding yes
+GssapiKeyExchange yes
+
+UsePAM yes
+UseDNS yes
+
+X11Forwarding yes
+
+PrintMotd no
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
