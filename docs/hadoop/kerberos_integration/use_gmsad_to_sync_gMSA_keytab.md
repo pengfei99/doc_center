@@ -111,6 +111,7 @@ recommended to store them in a single folder `/etc/security/keytabs/`
 
 ```ini
 [global]
+
 realm = CASDDS.CASD
 domain = casdds.casd
 gMSA_domain = CASDDS.CASD
@@ -130,7 +131,8 @@ gMSA_sAMAccountName = deb13-spark1$
 gMSA_keytab = /etc/security/keytabs/deb13-spark1.keytab
 
 gMSA_servicePrincipalNames = host/deb13-spark1.casdds.casd,HTTP/deb13-spark1.casdds.casd,hdfs/deb13-spark1.casdds.casd
-
+# this line is important, without it the generated .keybab will not contain all the information for the server to get ticket
+gMSA_upn_in_keytab = yes
 # Où écrire le keytab
 target_keytab = /etc/security/keytabs/deb13-spark1.keytab
 post_renew_cmd = systemctl restart sssd.service

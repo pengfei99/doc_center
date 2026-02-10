@@ -1,0 +1,28 @@
+Include /etc/ssh/sshd_config.d/*.conf
+# To disable tunneled clear text passwords, change to "no" here!
+PasswordAuthentication yes
+
+PermitRootLogin no
+
+ChallengeResponseAuthentication no
+
+# GSSAPI options
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials yes
+GSSAPIStrictAcceptorCheck no
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+GSSAPIKeyExchange yes
+
+UsePAM yes
+UseDNS yes
+
+X11Forwarding yes
+
+PrintMotd no
+
+# Allow client to pass locale and color environment variables
+AcceptEnv LANG LC_* COLORTERM NO_COLOR
+
+# override default of no subsystems
+Subsystem       sftp    /usr/lib/openssh/sftp-server

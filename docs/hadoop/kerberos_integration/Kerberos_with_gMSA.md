@@ -149,6 +149,36 @@ Add-ADGroupMember gmsa-hadoop-hosts <sAMAccountName>
 
 
 ```
+
+## 4. Allow the kerberos ticket delegation on target server
+
+By default, the gMSA account does not allow delegation of the user credential(ticket).
+You can check your default gMSA account properties with the below command
+
+```shell
+# general form
+Get-ADServiceAccount <gmsa-principal-name> -Properties *
+
+# for example 
+Get-ADServiceAccount 'gMSA-hclient' -Properties *
+
+# you should see many lines, but the below line is essential
+TrustedForDelegation                       : False
+```
+
+> With the default value False, Kerberos will refuse ticket delegation(generate a ticket on target server) even if SSH ticket forwarding works.
+> So we need to change this value to True.
+
+```shell
+# after the below command, you can test the new value of property TrustedForDelegation 
+Set-ADServiceAccount -Identity 'gMSA-hclient' -TrustedForDelegation $true
+```
+
+> In ad, gMSA account has many identifiers such as cn, name and sAMAccountName. Beware, they are not the same value. Some
+> command uses cn(powershell), some uses sAMAccountName(i.e. gmsad)
+> cn/name = gMSA-hclient
+> sAMAccountName = gMSA-hclient$
+
 ## Debug sssd
 
 ```shell
@@ -156,10 +186,10 @@ Add-ADGroupMember gmsa-hadoop-hosts <sAMAccountName>
 sudo sssctl config-check
 
 # check domain status
-sudo sssctl domain-status casd.fr
+sudo sssctl domain-status casdds.casd
 
-
-
+# check krb cache template
+sssctl user-checks user@xxxxxxxxx
 
 ```
 

@@ -207,6 +207,7 @@ cache_credentials = True
 krb5_realm = CASDDS.CASD
 #realmd_tags = manages-system joined-with-adcli
 id_provider = ad
+access_provider = ad
 fallback_homedir = /home/%u
 ad_domain = CASDDS.CASD
 use_fully_qualified_names = False
@@ -216,6 +217,32 @@ ldap_user_gid_number = gidNumber
 ldap_group_nesting_level = 2
 ldap_sasl_authid = deb13-spark1$@CASDDS.CASD
 krb5_keytab = /etc/security/keytabs/deb13-spark1.keytab
+```
+> the owner and group of `/etc/sssd/sssd.conf` must be root:root
+```shell
+sudo chown root:root /etc/sssd/sssd.conf
+sudo chmod 640 /etc/sssd/sssd.conf
+```
+
+```shell
+krb5_ccname_template = FILE:/tmp/krb5cc_%U
+krb5_lifetime = 24h
+krb5_renewable_lifetime = 7d
+krb5_forwardable = True
+krb5_validate = True
+```
+
+Clean sssd cache
+
+```shell
+# auto clean
+sudo sss_cache -E 
+sudo systemctl restart sssd
+
+# manual clean
+systemctl stop sssd
+rm -rf /var/lib/sss/db/*
+systemctl start sssd
 ```
 
 ### Configure krb client
@@ -238,8 +265,8 @@ default_realm = CASDDS.CASD
         dns_lookup_kdc = true
         dns_canonicalize_hostname = false
         rdns = false
-         allow_weak_crypto = true
-udp_preference_limit = 0
+         # allow_weak_crypto = true
+         udp_preference_limit = 0
 
 
 [realms]
@@ -292,3 +319,19 @@ getent group <group-name/gid>
 
 > NSS is essential for Kerberos authentication. Because Linux must map `user@REALM → UID/GID → local session`, If
 > user is unknown, the authentication fails
+> 
+> 
+## Debug
+
+### Client 'host/deb13-spark1.casdds.casd@CASDDS.CASD' not found in Kerberos database.
+
+```shell
+# check your keytab
+```
+
+
+### hdfs client
+
+```shell
+hdfs dfs -whoami
+```
