@@ -6,7 +6,7 @@ ChallengeResponseAuthentication no
 
 # GSSAPI options
 GSSAPIAuthentication yes
-GSSAPICleanupCredentials yes
+GSSAPICleanupCredentials no
 GSSAPIStrictAcceptorCheck no
 AllowTcpForwarding yes
 AllowAgentForwarding yes
@@ -21,4 +21,3 @@ PrintMotd no
 
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
-Subsystem       sftp    /usr/lib/openssh/sftp-server
