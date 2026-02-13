@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-     <property>
+    <property>
         <name>dfs.replication</name>
         <value>2</value>
     </property>
@@ -46,11 +46,42 @@
         <name>dfs.web.authentication.kerberos.keytab</name>
         <value>/etc/krb5.keytab</value>
     </property>
+    <!-- SASL encryption for block transfer -->
+    <property>
+        <name>dfs.data.transfer.protection</name>
+        <value>authentication</value>
+    </property>
+
+    <!-- Non privileged ports -->
+    <property>
+        <name>dfs.https.server.keystore.resource</name>
+        <value>ssl-server.xml</value>
+    </property>
+
+    <property>
+        <name>dfs.https.port</name>
+        <value>50470</value>
+    </property>
+
+    <property>
+        <name>dfs.secondary.https.port</name>
+        <value>50490</value>
+        <description>Port HTTPS pour le secondary-namenode.</description>
+    </property>
+    <property>
+        <name>dfs.https.address</name>
+        <value>deb13-spark1.casdds.casd:50470</value>
+        <description>Adresse HTTPS d’écoute du Namenode.</description>
+    </property>
+    <property>
+        <name>dfs.encrypt.data.transfer</name>
+        <value>true</value>
+    </property>
 
     <!-- Explicitly force HTTP -->
     <property>
         <name>dfs.http.policy</name>
-        <value>HTTP_ONLY</value>
+        <value>HTTPS_ONLY</value>
     </property>
 
     <!-- Superuser group -->

@@ -6,6 +6,7 @@ PermitRootLogin no
 
 ChallengeResponseAuthentication no
 
+# LogLevel DEBUG3
 # GSSAPI options
 GSSAPIAuthentication yes
 GSSAPICleanupCredentials no
@@ -13,9 +14,7 @@ GSSAPIStrictAcceptorCheck no
 AllowAgentForwarding yes
 AllowTcpForwarding yes
 GSSAPIKeyExchange yes
-
 UsePAM yes
-UseDNS yes
 
 X11Forwarding yes
 

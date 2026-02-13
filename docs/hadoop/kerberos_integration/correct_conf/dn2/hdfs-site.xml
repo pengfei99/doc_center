@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///home/hadoop/hdfs/datanode</value>
+    </property>
+
+    <!-- Enable block security -->
+    <property>
+        <name>dfs.block.access.token.enable</name>
+        <value>true</value>
+    </property>
+
+    <!-- HDFS permissions -->
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>true</value>
+    </property>
+
+    <!-- NameNode Kerberos identity -->
+    <property>
+        <name>dfs.namenode.kerberos.principal</name>
+        <value>hdfs/deb13-spark1.casdds.casd@CASDDS.CASD</value>
+        <description>The principal the NameNode uses to login. _HOST automatically resolves to the FQDN.</description>
+    </property>
+
+    <property>
+        <name>dfs.namenode.keytab.file</name>
+        <value>/etc/security/keytabs/deb13-spark1.keytab</value>
+    </property>
+
+    <!-- DataNode Kerberos identity -->
+    <property>
+        <name>dfs.datanode.kerberos.principal</name>
+        <value>hdfs/_HOST@CASDDS.CASD</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.keytab.file</name>
+        <value>/etc/krb5.keytab</value>
+    </property>
+
+    <!-- SPNEGO authentication for Web UI -->
+    <property>
+        <name>dfs.web.authentication.kerberos.principal</name>
+        <value>HTTP/_HOST@CASDDS.CASD</value>
+    </property>
+
+    <property>
+        <name>dfs.web.authentication.kerberos.keytab</name>
+        <value>/etc/krb5.keytab</value>
+    </property>
+    <!-- SASL encryption for block transfer -->
+    <property>
+        <name>dfs.data.transfer.protection</name>
+        <value>authentication</value>
+    </property>
+
+    <!-- Non privileged ports -->
+    <property>
+        <name>dfs.https.server.keystore.resource</name>
+        <value>ssl-server.xml</value>
+    </property>
+
+    <property>
+        <name>dfs.https.port</name>
+        <value>50470</value>
+    </property>
+
+    <property>
+        <name>dfs.secondary.https.port</name>
+        <value>50490</value>
+        <description>Port HTTPS pour le secondary-namenode.</description>
+    </property>
+    <property>
+        <name>dfs.https.address</name>
+        <value>deb13-spark1.casdds.casd:50470</value>
+        <description>Adresse HTTPS d’écoute du Namenode.</description>
+    </property>
+    <property>
+        <name>dfs.encrypt.data.transfer</name>
+        <value>true</value>
+    </property>
+
+    <!-- Explicitly force HTTP -->
+    <property>
+        <name>dfs.http.policy</name>
+        <value>HTTPS_ONLY</value>
+    </property>
+    <!-- Superuser group -->
+    <property>
+        <name>dfs.permissions.superusergroup</name>
+        <value>hadoop</value>
+    </property>
+</configuration>

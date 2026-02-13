@@ -2,12 +2,18 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
 <configuration>
-
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://spark1.casdds.casd:9000</value>
+        <value>hdfs://deb13-spark1.casdds.casd:9000</value>
     </property>
-
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>file:///home/hadoop/tmp</value>
+    </property>
+    <property>
+        <name>io.file.buffer.size</name>
+        <value>16384</value>
+    </property>
     <!-- Enable hadoop kerberos authentication -->
     <property>
         <name>hadoop.security.authentication</name>
@@ -52,5 +58,11 @@
             RULE:[2:$1@$0](.*@CASDDS\.CASD)s/@CASDDS\.CASD// RULE:[1:$1] DEFAULT
         </value>
         <description>Mapping du principal Kerberos vers le nom d’utilisateur local.</description>
+    </property>
+
+    <!-- enable sasl rpc -->
+    <property>
+        <name>hadoop.ssl.server.conf</name>
+        <value>ssl-server.xml</value>
     </property>
 </configuration>
