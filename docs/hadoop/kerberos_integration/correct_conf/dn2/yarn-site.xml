@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- basic config for yarn to run -->
     <property>
         <name>yarn.resourcemanager.hostname</name>
         <value>deb13-spark1.casdds.casd</value>
@@ -27,28 +28,49 @@
     <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>2048</value>
-        <description>Total memory for NodeManager (if master also acts as worker; adjust if not).</description>
+        <description>Total memory available to NodeManager (12GB).</description>
+    </property>
+    <property>
+        <name>yarn.nodemanager.vmem-pmem-ratio</name>
+        <value>2.1</value>
+        <description>Virtual memory ratio.</description>
     </property>
 
-    <!-- kerberos config: ResourceManager identity -->
+    <!-- kerberos config: NodeManager identity -->
     <property>
-        <name>yarn.resourcemanager.principal</name>
+        <name>yarn.nodemanager.principal</name>
         <value>hdfs/_HOST@CASDDS.CASD</value>
     </property>
 
     <property>
-        <name>yarn.resourcemanager.keytab</name>
+        <name>yarn.nodemanager.keytab</name>
         <value>/etc/krb5.keytab</value>
     </property>
-
-    <!-- kerberos config: Web UI SPNEGO -->
+    <!-- kerberos config: ResourceManager identity -->
     <property>
-        <name>yarn.resourcemanager.webapp.spnego-principal</name>
+        <name>yarn.resourcemanager.principal</name>
+        <value>hdfs/deb13-spark1.casdds.casd@CASDDS.CASD</value>
+    </property>
+
+    <!-- kerberos config: Secure container executor -->
+    <property>
+        <name>yarn.nodemanager.container-executor.class</name>
+        <value>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor</value>
+    </property>
+    <!-- this group must match the group in container-executor.cfg -->
+    <property>
+        <name>yarn.nodemanager.linux-container-executor.group</name>
+        <value>hadoop</value>
+    </property>
+
+    <!-- Web UI SPNEGO -->
+    <property>
+        <name>yarn.nodemanager.webapp.spnego-principal</name>
         <value>HTTP/_HOST@CASDDS.CASD</value>
     </property>
 
     <property>
-        <name>yarn.resourcemanager.webapp.spnego-keytab</name>
+        <name>yarn.nodemanager.webapp.spnego-keytab</name>
         <value>/etc/krb5.keytab</value>
     </property>
 
@@ -57,7 +79,5 @@
         <name>yarn.http.policy</name>
         <value>HTTPS_ONLY</value>
     </property>
+
 </configuration>
-
-
-

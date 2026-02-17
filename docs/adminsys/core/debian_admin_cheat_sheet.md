@@ -141,3 +141,12 @@ sudo update-ca-certificates
 
 # you can force the refresh of the trusted ca store
 ```
+
+## User account and group
+
+```shell
+# general form
+sudo usermod -a -G groupName userName
+
+sudo usermod -a -G hadoop hadoop
+```
