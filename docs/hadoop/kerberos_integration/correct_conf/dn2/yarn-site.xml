@@ -79,12 +79,12 @@
         <name>yarn.http.policy</name>
         <value>HTTPS_ONLY</value>
     </property>
-
+    <!-- specify the root dir of yarn container log -->
     <property>
         <name>yarn.nodemanager.log-dirs</name>
         <value>/var/log/hadoop-yarn/containers</value>
     </property>
-
+    <!-- specify the root dir of yarn to store temporary and intermediate data during job execution -->
     <property>
         <name>yarn.nodemanager.local-dirs</name>
         <value>/var/lib/hadoop-yarn/local</value>
