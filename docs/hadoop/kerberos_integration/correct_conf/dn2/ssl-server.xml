@@ -5,7 +5,7 @@
 
     <property>
         <name>ssl.server.truststore.location</name>
-        <value>/etc/security/ssl/keystore-nn.p12</value>
+        <value>/etc/security/ssl/keystore-dn2.p12</value>
         <description>Truststore to be used by NN and DN. Must be specified.
         </description>
     </property>
@@ -13,7 +13,8 @@
     <property>
         <name>ssl.server.truststore.password</name>
         <value>changeMe</value>
-        <description>Optional. Default value is "".</description>
+        <description>Optional. Default value is "".
+        </description>
     </property>
 
     <property>
@@ -33,20 +34,23 @@
 
     <property>
         <name>ssl.server.keystore.location</name>
-        <value>/etc/security/ssl/keystore-nn.p12</value>
-        <description>Keystore to be used by NN and DN. Must be specified.</description>
+        <value>/etc/security/ssl/keystore-dn2.p12</value>
+        <description>Keystore to be used by NN and DN. Must be specified.
+        </description>
     </property>
 
     <property>
         <name>ssl.server.keystore.password</name>
         <value>changeMe</value>
-        <description>Must be specified.</description>
+        <description>Must be specified.
+        </description>
     </property>
 
     <property>
         <name>ssl.server.keystore.keypassword</name>
         <value>changeMe</value>
-        <description>Must be specified.</description>
+        <description>Must be specified.
+        </description>
     </property>
 
     <property>
@@ -62,7 +66,8 @@
             SSL_RSA_EXPORT_WITH_RC4_40_MD5,SSL_RSA_EXPORT_WITH_DES40_CBC_SHA,
             SSL_RSA_WITH_RC4_128_MD5
         </value>
-        <description>Optional. The weak security cipher suites that you want excluded from SSL communication.
+        <description>Optional. The weak security cipher suites that you want excluded
+            from SSL communication.
         </description>
     </property>
 

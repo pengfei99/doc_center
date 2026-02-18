@@ -59,8 +59,8 @@
         </value>
         <description>Mapping du principal Kerberos vers le nom d’utilisateur local.</description>
     </property>
-
     <!-- enable sasl rpc -->
+
     <property>
         <name>hadoop.ssl.server.conf</name>
         <value>ssl-server.xml</value>

@@ -12,7 +12,7 @@
 
     <property>
         <name>ssl.server.truststore.password</name>
-        <value>casd2026</value>
+        <value>changeMe</value>
         <description>Optional. Default value is "".
         </description>
     </property>
@@ -41,14 +41,14 @@
 
     <property>
         <name>ssl.server.keystore.password</name>
-        <value>casd2026</value>
+        <value>changeMe</value>
         <description>Must be specified.
         </description>
     </property>
 
     <property>
         <name>ssl.server.keystore.keypassword</name>
-        <value>casd2026</value>
+        <value>changeMe</value>
         <description>Must be specified.
         </description>
     </property>

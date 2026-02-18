@@ -80,4 +80,13 @@
         <value>HTTPS_ONLY</value>
     </property>
 
+    <property>
+        <name>yarn.nodemanager.log-dirs</name>
+        <value>/var/log/hadoop-yarn/containers</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.local-dirs</name>
+        <value>/var/lib/hadoop-yarn/local</value>
+    </property>
 </configuration>
