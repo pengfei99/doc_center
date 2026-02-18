@@ -95,7 +95,6 @@
         <name>dfs.http.policy</name>
         <value>HTTPS_ONLY</value>
     </property>
-
     <!-- Superuser group -->
     <property>
         <name>dfs.permissions.superusergroup</name>

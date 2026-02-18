@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
     <property>
         <name>yarn.resourcemanager.hostname</name>
@@ -14,43 +15,20 @@
         <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
         <value>org.apache.hadoop.mapred.ShuffleHandler</value>
     </property>
-    <property>
-        <name>yarn.scheduler.minimum-allocation-mb</name>
-        <value>128</value>
-        <description>Minimum container memory allocation.</description>
-    </property>
-    <property>
-        <name>yarn.scheduler.maximum-allocation-mb</name>
-        <value>2048</value>
-        <description>Maximum container memory (12GB per worker).</description>
-    </property>
-    <property>
-        <name>yarn.nodemanager.resource.memory-mb</name>
-        <value>2048</value>
-        <description>Total memory for NodeManager (if master also acts as worker; adjust if not).</description>
-    </property>
 
     <!-- kerberos config: ResourceManager identity -->
     <property>
         <name>yarn.resourcemanager.principal</name>
-        <value>hdfs/_HOST@CASDDS.CASD</value>
+        <value>hdfs/deb13-spark1.casdds.casd@CASDDS.CASD</value>
     </property>
 
-    <property>
-        <name>yarn.resourcemanager.keytab</name>
-        <value>/etc/krb5.keytab</value>
-    </property>
 
     <!-- kerberos config: Web UI SPNEGO -->
     <property>
         <name>yarn.resourcemanager.webapp.spnego-principal</name>
-        <value>HTTP/_HOST@CASDDS.CASD</value>
+        <value>HTTP/deb13-spark1.casdds.casd@CASDDS.CASD</value>
     </property>
 
-    <property>
-        <name>yarn.resourcemanager.webapp.spnego-keytab</name>
-        <value>/etc/krb5.keytab</value>
-    </property>
 
     <!-- HTTPS -->
     <property>

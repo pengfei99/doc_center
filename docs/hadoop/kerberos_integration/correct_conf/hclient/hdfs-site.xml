@@ -1,51 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
-    <property>
-        <name>dfs.replication</name>
-        <value>2</value>
-    </property>
 
-    <property>
-        <name>dfs.datanode.data.dir</name>
-        <value>file:///home/hadoop/hdfs/datanode</value>
-    </property>
-
+    <!-- HDFS permissions -->
     <property>
         <name>dfs.permissions.enabled</name>
         <value>true</value>
     </property>
 
-    <property>
-        <name>dfs.block.access.token.enable</name>
-        <value>true</value>
-    </property>
-
+    <!-- NameNode Kerberos identity -->
     <property>
         <name>dfs.namenode.kerberos.principal</name>
         <value>hdfs/deb13-spark1.casdds.casd@CASDDS.CASD</value>
     </property>
 
-    <!-- DataNode Kerberos identity -->
-    <property>
-        <name>dfs.datanode.kerberos.principal</name>
-        <value>hdfs/deb13-spark2.casdds.casd@CASDDS.CASD</value>
-    </property>
-
-    <property>
-        <name>dfs.datanode.keytab.file</name>
-        <value>/etc/krb5.keytab</value>
-    </property>
-
     <!-- SPNEGO authentication for Web UI -->
     <property>
         <name>dfs.web.authentication.kerberos.principal</name>
-        <value>HTTP/deb13-spark2.casdds.casd@CASDDS.CASD</value>
+        <value>HTTP/deb13-spark1.casdds.casd@CASDDS.CASD</value>
     </property>
 
-    <property>
-        <name>dfs.web.authentication.kerberos.keytab</name>
-        <value>/etc/krb5.keytab</value>
-    </property>
     <!-- SASL encryption for block transfer -->
     <property>
         <name>dfs.data.transfer.protection</name>
@@ -53,11 +27,6 @@
     </property>
 
     <!-- Non privileged ports -->
-    <property>
-        <name>dfs.https.server.keystore.resource</name>
-        <value>ssl-server.xml</value>
-    </property>
-
     <property>
         <name>dfs.https.port</name>
         <value>50470</value>
@@ -82,10 +51,5 @@
     <property>
         <name>dfs.http.policy</name>
         <value>HTTPS_ONLY</value>
-    </property>
-    <!-- Superuser group -->
-    <property>
-        <name>dfs.permissions.superusergroup</name>
-        <value>hadoop</value>
     </property>
 </configuration>
