@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- basic HDFS name node conf -->
     <property>
         <name>dfs.replication</name>
         <value>2</value>

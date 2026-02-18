@@ -10,9 +10,15 @@
 ├── mapred/
 └── containers/
 
+# create folder for log
 mkdir -p /var/log/hadoop/{hdfs,yarn,mapred,containers}
 chown -R hadoop:hadoop /var/log/hadoop
 chmod -R 750 /var/log/hadoop
+
+# creat folder for pid
+sudo mkdir -p /var/run/hadoop
+sudo chown hadoop:hadoop /var/run/hadoop
+sudo chmod 755 /var/run/hadoop
 ```
 
 ## 2. Config hadoop to use the new log dir
@@ -24,11 +30,13 @@ export HADOOP_LOG_DIR=/var/log/hadoop
 export HADOOP_PID_DIR=/var/run/hadoop
 ```
 
-Edit `yarn-env.sh`, 
+> In hadoop 3.3.6, `YARN_LOG_DIR` and `YARN_PID_DIR` are deprecated, just use  `HADOOP_LOG_DIR` and `HADOOP_PID_DIR`
+> for all hadoop daemons
 
 ```shell
-export YARN_LOG_DIR=/var/log/hadoop/yarn
-export YARN_PID_DIR=/var/run/hadoop
+# if you have old env var, you can remove them 
+unset YARN_LOG_DIR
+unset YARN_PID_DIR
 ```
 
 > You need to restart the cluster to enable the new conf
@@ -41,14 +49,21 @@ export YARN_PID_DIR=/var/run/hadoop
 sudo vim $HADOOP_HOME/etc/hadoop/log4j2.properties
 
 # add the below lines
+# define appenders, here I only have rolling file, if you want console, you can add console
+appenders = rolling 
+# RollingFile appender definition
 appender.rolling.type = RollingFile
 appender.rolling.name = RollingFile
 appender.rolling.fileName = ${sys:hadoop.log.dir}/${sys:hadoop.log.file}
 appender.rolling.filePattern = ${sys:hadoop.log.dir}/${sys:hadoop.log.file}.%d{yyyy-MM-dd}.%i.gz
 
+appender.rolling.layout.type = PatternLayout
+appender.rolling.layout.pattern = %d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n%ex
+
 appender.rolling.policies.type = Policies
 appender.rolling.policies.time.type = TimeBasedTriggeringPolicy
 appender.rolling.policies.time.interval = 1
+appender.rolling.policies.time.modulate = true
 appender.rolling.policies.size.type = SizeBasedTriggeringPolicy
 appender.rolling.policies.size.size = 256MB
 

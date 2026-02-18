@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- basic HDFS data node conf -->
     <property>
         <name>dfs.replication</name>
         <value>2</value>
@@ -9,7 +10,7 @@
         <name>dfs.datanode.data.dir</name>
         <value>file:///home/hadoop/hdfs/datanode</value>
     </property>
-
+    <!-- Enable Kerberos authentication -->
     <property>
         <name>dfs.permissions.enabled</name>
         <value>true</value>
@@ -19,7 +20,7 @@
         <name>dfs.block.access.token.enable</name>
         <value>true</value>
     </property>
-
+    <!-- NameNode Kerberos identity -->
     <property>
         <name>dfs.namenode.kerberos.principal</name>
         <value>hdfs/deb13-spark1.casdds.casd@CASDDS.CASD</value>
@@ -52,15 +53,23 @@
         <value>authentication</value>
     </property>
 
-    <!-- Non privileged ports -->
+    <!-- enable sasl rpc  -->
     <property>
         <name>dfs.https.server.keystore.resource</name>
         <value>ssl-server.xml</value>
     </property>
 
+    <!-- specify the name node https url and ports  -->
     <property>
         <name>dfs.https.port</name>
         <value>50470</value>
+    </property>
+
+
+    <property>
+        <name>dfs.https.address</name>
+        <value>deb13-spark1.casdds.casd:50470</value>
+        <description>Adresse HTTPS d’écoute du Namenode.</description>
     </property>
 
     <property>
@@ -68,15 +77,12 @@
         <value>50490</value>
         <description>Port HTTPS pour le secondary-namenode.</description>
     </property>
-    <property>
-        <name>dfs.https.address</name>
-        <value>deb13-spark1.casdds.casd:50470</value>
-        <description>Adresse HTTPS d’écoute du Namenode.</description>
-    </property>
+
     <property>
         <name>dfs.encrypt.data.transfer</name>
         <value>true</value>
     </property>
+
 
     <!-- Explicitly force HTTP -->
     <property>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- basic data node config -->
     <property>
         <name>dfs.replication</name>
         <value>2</value>
@@ -27,11 +28,6 @@
         <name>dfs.namenode.kerberos.principal</name>
         <value>hdfs/deb13-spark1.casdds.casd@CASDDS.CASD</value>
         <description>The principal the NameNode uses to login. _HOST automatically resolves to the FQDN.</description>
-    </property>
-
-    <property>
-        <name>dfs.namenode.keytab.file</name>
-        <value>/etc/security/keytabs/deb13-spark1.keytab</value>
     </property>
 
     <!-- DataNode Kerberos identity -->
@@ -67,9 +63,16 @@
         <value>ssl-server.xml</value>
     </property>
 
+    <!-- Name node https url and ports -->
     <property>
         <name>dfs.https.port</name>
         <value>50470</value>
+    </property>
+
+    <property>
+        <name>dfs.https.address</name>
+        <value>deb13-spark1.casdds.casd:50470</value>
+        <description>Adresse HTTPS d’écoute du Namenode.</description>
     </property>
 
     <property>
@@ -77,11 +80,7 @@
         <value>50490</value>
         <description>Port HTTPS pour le secondary-namenode.</description>
     </property>
-    <property>
-        <name>dfs.https.address</name>
-        <value>deb13-spark1.casdds.casd:50470</value>
-        <description>Adresse HTTPS d’écoute du Namenode.</description>
-    </property>
+
     <property>
         <name>dfs.encrypt.data.transfer</name>
         <value>true</value>
