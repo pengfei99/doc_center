@@ -25,6 +25,6 @@ This group can be local or in AD. If this group is a local group, you need to ad
 on all nodes of the cluster(e.g. namenode and datanodes).
 
 ```shell
-# for exampl, pliu-ad
+# for example, pliu-ad
 usermod -aG hadoop pliu-ad
 ```
