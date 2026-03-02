@@ -1,5 +1,5 @@
 export JAVA_HOME=/opt/java/jdk-11.0.2
-export LD_LIBRARY_PATH=$HADOOP_HOME/lib/native
+
 export HADOOP_OS_TYPE=${HADOOP_OS_TYPE:-$(uname -s)}
 export HDFS_NAMENODE_USER=hadoop
 export HDFS_DATANODE_USER=hadoop
