@@ -28,7 +28,7 @@
     <!-- Group resolution via OS / SSSD -->
     <property>
         <name>hadoop.security.group.mapping</name>
-        <value>org.apache.hadoop.security.ShellBasedUnixGroupsMapping</value>
+        <value>org.apache.hadoop.security.JniBasedUnixGroupsMappingWithFallback</value>
     </property>
 
     <!-- Enable hadoop SPNEGO for Web UIs -->
