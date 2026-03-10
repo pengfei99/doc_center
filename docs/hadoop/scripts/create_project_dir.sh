@@ -67,7 +67,8 @@ elif [[ -n "$FILE_PATH" ]]; then
         while IFS=',' read -r f_project f_group || [[ -n "$f_project" ]]; do
             # Strip whitespace and carriage returns
             p_clean=$(echo "$f_project" | tr -d '\r' | xargs)
-            g_clean=$(echo "$f_group" | tr -d '\r' | xargs)
+            g_clean=$(echo "$f_group" | tr -d '\r'
+            | xargs)
 
             # Skip comments or empty project names
             [[ -z "$p_clean" || "$p_clean" =~ ^# ]] && continue

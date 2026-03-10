@@ -26,7 +26,10 @@ on all nodes of the cluster(e.g. namenode and datanodes).
 
 ```shell
 # for example, pliu-ad
-usermod -aG hadoop pliu-ad
+sudo usermod -aG hadoop pliu-ad
+
+# to remove a group from user account
+sudo gpasswd -d pliu-ad hadoop
 ```
 
 ## Home folders for users
