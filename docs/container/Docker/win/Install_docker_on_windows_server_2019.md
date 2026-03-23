@@ -93,3 +93,30 @@ Get-Service docker
 # start it 
 Start-Service docker   # if stopped
 ```
+
+## 6. Run docker as non-admin users
+
+```powershell
+# create a new local group
+New-LocalGroup -Name "docker-users" -Description "Users allowed to use Docker"
+
+# add users to the new group
+Add-LocalGroupMember -Group "docker-users" -Member "pliu-ad"
+
+```
+
+Create the docker config file `C:\ProgramData\docker\config\daemon.json`
+
+, then add the below content in it.
+
+```json
+{
+  "group": "docker-users"
+}
+```
+
+You need to restart the docker service 
+
+```powershell
+Restart-Service docker
+```

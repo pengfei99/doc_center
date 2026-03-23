@@ -108,7 +108,7 @@ RUN powershell Copy-Item -Recurse -Path 'C:\Program Files\Git' -Destination C:\G
 RUN powershell git clone https://github.com/microsoft/vcpkg.git \
     && cd vcpkg \
     && git fetch --all \
-    && git checkout 2025.03.19 \
+    && git checkout 2026.03.18 \
     && .\bootstrap-vcpkg.bat
 
 ADD vcpkg/vcpkg.json .
@@ -260,7 +260,7 @@ configure the bit-ness of the build, and set several optional components.
 
 ### 5.3 Handle the native lib requirements 
 
-In the above `docker file`, you can notice that We use `vcpkg (https://github.com/microsoft/vcpkg.git)` for installing Boost, Protocol buffers,
+In the above `docker file`, you can notice that We use `vcpkg (https://github.com/microsoft/vcpkg.git)` for installing `Boost`, `Protocol buffers`,
 OpenSSL and Zlib dependencies.
 
 ```DockerFile
@@ -275,7 +275,21 @@ ADD vcpkg/vcpkg.json .
 RUN powershell .\vcpkg\vcpkg.exe install --x-install-root .\vcpkg\installed
 ```
 
+> All the required packages and their version are specified in the `vcpkg.json` file. As the one who write the docker file
+> does not check the compatibility between actual supported version in `vcpkg` database and specified version in `vcpkg.json`,
+> You may have error such as `Can't find protobuf 3.25.5`
+> This is due to the vcpkg does not have all the protobuf versions. You can do two things:
+> - git checkout <latest release>, in our case is `2026.03.18`. So replace `2025.03.19` by `2026.03.18`
+> - in the `vcpkg.json` file replace `3.25.5` by `3.21.12` or `4.25.1` 
 > Based on how the dependencies are installed, you need to set up the `environment variables` accordingly.
+
+
+Hadoop uses Shading. When Hadoop compiles, it takes the Protobuf classes and moves them into a new package name: `org.apache.hadoop.thirdparty.protobuf`.
+
+Because of this "shading," as long as your `protoc` (the compiler you are building now in Docker) can generate code that 
+the hadoop-thirdparty library understands, the exact patch version (like .5 vs .12) rarely breaks the build.
+
+### 5.4 Set up env vars
 
 ```powershell
 # to avoid maven oom, you can increase the heap memory
@@ -295,14 +309,14 @@ set ZLIB_HOME=C:\zlib-1.2.7
 # the zlib 1.2.7 source tree.
 ```
 
-> All Maven goals are the same as described above with the exception that
-native code is built by enabling the 'native-win' Maven profile. -Pnative-win
-is enabled by default when building on Windows since the native components
-are required (not optional) on Windows.
-```text
+
+### 5.5 Build command
+
+All Maven goals are the same as in linux OS. There is one exception in linux the native code is built by enabling 
+the `native-win` Maven profile. But on Windows the `-Pnative-win` is enabled by default since `the native components
+are required (not optional) on Windows`.
 
 
-Build command:
 The following command builds all the modules in the Hadoop project and generates the tar.gz file in
 hadoop-dist/target upon successful build. Run these commands from an
 "x64 Native Tools Command Prompt for VS 2019" which can be found under "Visual Studio 2019" in the
@@ -311,36 +325,49 @@ logged into "x64 Native Tools Command Prompt for VS 2019" automatically when you
 container. The Docker image does not have a full VS install, so you need to add the
 -Dskip.platformToolsetDetection option (already included below in the examples).
 
-> set classpath=
-> set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
-> mvn clean package -Dhttps.protocols=TLSv1.2 -DskipTests -DskipDocs -Pnative-win,dist -Dskip.platformToolsetDetection^
+
+```powershell
+set classpath=
+
+set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
+
+mvn clean package -Dhttps.protocols=TLSv1.2 -DskipTests -DskipDocs -Pnative-win,dist -Dskip.platformToolsetDetection^
     -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe^
     -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows^
     -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows^
     -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo^
     -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
 
-Building the release tarball:
+```
+
+
+#### 5.5.1 Building the release tarball:
+
 Assuming that we're still running in the Docker container hadoop-windows-10-builder, run the
-following command to create the Apache Hadoop release tarball -
+following command to create the Apache Hadoop release tarball:
 
-> set IS_WINDOWS=1
-> set MVN_ARGS="-Dshell-executable=C:\Git\bin\bash.exe -Dhttps.protocols=TLSv1.2 -Pnative-win -Dskip.platformToolsetDetection -Drequire.openssl -Dopenssl.prefix=C:\vcpkg\installed\x64-windows -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo -Dwindows.build.hdfspp.dll=off -Duse.platformToolsetVersion=v142 -Dwindows.no.sasl=on -DskipTests -DskipDocs -Drequire.test.libhadoop"
-> C:\Git\bin\bash.exe C:\hadoop\dev-support\bin\create-release --mvnargs=%MVN_ARGS%
+```powershell
+set IS_WINDOWS=1
 
-Note:
-If the building fails due to an issue with long paths, rename the Hadoop root directory to just a
-letter (like 'h') and rebuild -
+set MVN_ARGS="-Dshell-executable=C:\Git\bin\bash.exe -Dhttps.protocols=TLSv1.2 -Pnative-win -Dskip.platformToolsetDetection -Drequire.openssl -Dopenssl.prefix=C:\vcpkg\installed\x64-windows -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo -Dwindows.build.hdfspp.dll=off -Duse.platformToolsetVersion=v142 -Dwindows.no.sasl=on -DskipTests -DskipDocs -Drequire.test.libhadoop"
 
-> C:\Git\bin\bash.exe C:\h\dev-support\bin\create-release --mvnargs=%MVN_ARGS%
+C:\Git\bin\bash.exe C:\hadoop\dev-support\bin\create-release --mvnargs=%MVN_ARGS%
+```
 
-----------------------------------------------------------------------------------
+> If the building fails due to an issue with long paths, rename the Hadoop root directory to just a letter (like 'h') and rebuild
+> `C:\Git\bin\bash.exe C:\h\dev-support\bin\create-release --mvnargs=%MVN_ARGS%`
+> 
+
+```text
+
+
 Building distributions:
 
  * Build distribution with native code    : mvn package [-Pdist][-Pdocs][-Psrc][-Dtar][-Dmaven.javadoc.skip=true]
 
-----------------------------------------------------------------------------------
-Running compatibility checks with checkcompatibility.py
+```
+
+### 5.6 Running compatibility checks
 
 Invoke `./dev-support/bin/checkcompatibility.py` to run Java API Compliance Checker
 to compare the public Java APIs of two git objects. This can be used by release
@@ -348,16 +375,16 @@ managers to compare the compatibility of a previous and current release.
 
 As an example, this invocation will check the compatibility of interfaces annotated as Public or LimitedPrivate:
 
+```powershell
 ./dev-support/bin/checkcompatibility.py --annotation org.apache.hadoop.classification.InterfaceAudience.Public --annotation org.apache.hadoop.classification.InterfaceAudience.LimitedPrivate --include "hadoop.*" branch-2.7.2 trunk
+```
 
-----------------------------------------------------------------------------------
-Changing the Hadoop version declared returned by VersionInfo
+
+
+### 5.7 Changing the Hadoop version declared returned by VersionInfo
 
 If for compatibility reasons the version of Hadoop has to be declared as a 2.x release in the information returned by
 org.apache.hadoop.util.VersionInfo, set the property declared.hadoop.version to the desired version.
 For example: mvn package -Pdist -Ddeclared.hadoop.version=2.11
 
 If unset, the project version declared in the POM file is used.
-```
-
-## Use 
