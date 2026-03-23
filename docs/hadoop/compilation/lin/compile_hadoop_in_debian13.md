@@ -232,17 +232,14 @@ mvn clean package \
   -Pdist,native \
   -DskipTests \
   -Dtar \
-  -Dmaven.javadoc.skip=true \
-  -Djava.home=$JAVA_HOME \
-  -Djavacpp.include=$JAVA_HOME/include \
-  -Djavacpp.platform.include=$JAVA_HOME/include/linux
+  -Dmaven.javadoc.skip=true 
 ```
 
 > You are likely to fail the build at hadoop-common build step. The error message is cmake failed. 
-> The real error message is located in hadoop-common-project/hadoop-common/target/native/CMakeFiles/CMakeConfigureLog.yaml
+> The real error message is located in `path/to/hadoop/hadoop-common-project/hadoop-common/target/native/CMakeFiles/CMakeConfigureLog.yaml`
 > /opt/java/jdk11.0.30/include/jni.h:45:10: fatal error: jni_md.h: No such file or directory
 > This bug is because cmake cannot find the platform-specific JNI header `jni_md.h`
-> The below fix indicates the `jni_md.h` location is `$JAVA_HOME/include/linux`
+> The below fix indicates the `jni_md.h` location is in `$JAVA_HOME/include/linux`
 
 ```shell
 # build the hadoop with cmake include fix
