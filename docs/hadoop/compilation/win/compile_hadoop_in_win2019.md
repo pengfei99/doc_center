@@ -9,9 +9,16 @@ a bare metal installation. If you want to have a portal build env, you can check
 
 Git is the center of build environment, so pay extra attention of this section.
 
-```powershell
+Here we recommend you to use the [git official Winodws installer](https://git-scm.com/install/windows).
+You can not choose where you install the git binaries, it's automatically installed at `C:\Program Files\Git\`.
 
-```
+But for some hadoop maven build target, it uses `git bash` and it only searches git bash at `C:\Git\bin\bash`. If it 
+does not exist, the maven build will fail. So the simplest solution is to finish all the git installation and copy  
+`C:\Program Files\Git\` to `C:\Git\`
+
+> You just follow the Windows installer to finish the installation. Note the installation of git is not finished yet
+> We will add more libs into Git folder. You will see how in the following sections.
+
 ## Install Visual studio
 
 ```powershell
@@ -25,10 +32,10 @@ curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.e
 # add plugins
 vs_buildtools.exe --quiet --wait --norestart --nocache --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools" --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.ASAN --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041
 
-
-# install git
 ```
+
 ## Install vcpkg
+
 `vcpkg` is a free and open-source C/C++ package manager maintained by Microsoft and the C++ community. You can find their
 repo git [here](https://github.com/microsoft/vcpkg)
 
@@ -44,6 +51,10 @@ git checkout 2026.03.18
 .\bootstrap-vcpkg.bat -disableMetrics
 
 ```
+
+### Install the c++ packages and headers via vcpkg
+To avoid installing these libs one by one, we can use a `vcpkg.json` file to specify all the required packages
+
 Copy the `vcpkg.json` file into `C:\Users\pliu.CASDDS.000\Documents\temp`
 
 ```json
@@ -71,6 +82,17 @@ Now you can install
 cd C:\Users\pliu.CASDDS.000\Documents\temp
 # 
 .\vcpkg\vcpkg.exe install --x-install-root .\vcpkg\installed
+```
+### Setup env vars
+
+After the vcpkg installed all the libs, you need to set up env vars. For example the `HDFS native client` requires 
+`vcpkg` to be fully "integrated" so that `msbuild` can find the `headers for OpenSSL and Protobuf`.
+
+```powershell
+set VCPKG_ROOT="C:\vcpkg"
+set OPENSSL_ROOT_DIR="C:\vcpkg\installed\x64-windows"
+set PROTOBUF_LIBRARY="C:\vcpkg\installed\x64-windows\lib\libprotobuf.lib"
+set PROTOBUF_INCLUDE_DIR="C:\vcpkg\installed\x64-windows\include"
 ```
 
 ## Install java
@@ -136,6 +158,7 @@ zstd --version
 
 
 ## Install rsync and its dependencies for git
+
 Download the below libs
 https://repo.msys2.org/msys/x86_64/libopenssl-3.5.2-1-x86_64.pkg.tar.zst
 ```powershell
@@ -200,12 +223,33 @@ vcvars64.bat
 
 cd C:\hadoop
 ```
+Check dependencies before long maven run
+```powershell
+# check if msbuild exists
+where msbuild
+# expected output
+C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe
+
+# check version
+msbuild -version
+
+# expected
+# check cmake
+where cmake 
+
+# check protobuf
+where protoc
+
+     
+    cmake --version && ^
+    protoc --version
+```
 
 ```powershell
 set classpath=
 
 set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
 
-mvn clean package -Dhttps.protocols=TLSv1.2 -DskipTests -DskipDocs -Pnative-win,dist -Dskip.platformToolsetDetection -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
-    -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
+mvn clean package -e -X -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Dskip.native.tests=true -Dhadoop.test.skip.output=true -Dhttps.protocols=TLSv1.2  -Pnative-win,dist -Dskip.platformToolsetDetection -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
+    -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo "-Dopenssl.prefix=C:\vcpkg\installed\x64-windows" "-Dopenssl.include=C:\vcpkg\installed\x64-windows\include" "-Dopenssl.lib=C:\vcpkg\installed\x64-windows\lib" -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
 ```
