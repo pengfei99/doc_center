@@ -74,6 +74,7 @@ docker run --rm -it hadoop-windows-builder
 
 hadoop does provide a docker file for building hadoop in windows. You can find the origin [DockerFile](https://github.com/apache/hadoop/blob/trunk/dev-support/docker/Dockerfile_windows_10).
 
+We need to do many modification for the docker file to work properly.
 ```shell
 FROM mcr.microsoft.com/windows:ltsc2019
 
@@ -84,7 +85,7 @@ RUN powershell $Global:ProgressPreference = 'SilentlyContinue'
 # Restore the default Windows shell for correct batch processing.
 SHELL ["cmd", "/S", "/C"]
 
-# Install Visual Studio 2019 Build Tools.
+# 1.Install Visual Studio 2019 Build Tools.
 RUN curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.exe \
     && (start /w vs_buildtools.exe --quiet --wait --norestart --nocache \
     --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools" \
@@ -95,15 +96,15 @@ RUN curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtoo
     || IF "%ERRORLEVEL%"=="3010" EXIT 0) \
     && del /q vs_buildtools.exe
 
-# Install Chocolatey.
+# 2. Install Chocolatey.
 ENV chocolateyVersion=1.4.0
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
-# Install git.
+# 3. Install git.
 RUN choco install git.install -y
 RUN powershell Copy-Item -Recurse -Path 'C:\Program Files\Git' -Destination C:\Git
 
-# Install vcpkg.
+# 4. Install vcpkg.
 # hadolint ignore=DL3003
 RUN powershell git clone https://github.com/microsoft/vcpkg.git \
     && cd vcpkg \
@@ -115,7 +116,7 @@ ADD vcpkg/vcpkg.json .
 
 RUN powershell .\vcpkg\vcpkg.exe install --x-install-root .\vcpkg\installed
 
-# Install Azul Java 8 JDK.
+# 5. Install Azul Java 8 JDK.
 RUN powershell Invoke-WebRequest -URI https://cdn.azul.com/zulu/bin/zulu8.62.0.19-ca-jdk8.0.332-win_x64.zip -OutFile $Env:TEMP\zulu8.62.0.19-ca-jdk8.0.332-win_x64.zip
 RUN powershell Expand-Archive -Path $Env:TEMP\zulu8.62.0.19-ca-jdk8.0.332-win_x64.zip -DestinationPath "C:\Java"
 
@@ -241,7 +242,7 @@ We noticed `no build issues` when the Maven repository from the host filesystem 
 into the container. This can greatly reduce the build time.
 
 ```powershell
-docker run --rm -v D:\Maven\Repository:C:\Users\ContainerAdministrator\.m2\repository -it hadoop-windows-10-builder
+docker run --rm -v /c/Users/pliu.CASDDS.000/Documents/git/mvn-repo:C:\.m2\repository -it hadoop-windows-10-builder
 ```
 > Assuming that the Maven repository is located at `D:\Maven\Repository` in the host filesystem
 > 
@@ -293,7 +294,7 @@ the hadoop-thirdparty library understands, the exact patch version (like .5 vs .
 
 ```powershell
 # to avoid maven oom, you can increase the heap memory
-set MAVEN_OPTS=-Xmx2048M -Xss128M
+set MAVEN_OPTS=-Xmx4096M -Xss128M
 
 # (Assuming that vcpkg was checked out at C:\vcpkg)
 set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
@@ -302,11 +303,15 @@ set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
 # deployed on the build machine. Set the ZLIB_HOME environment variable to the
 # directory containing the headers.
 
-set ZLIB_HOME=C:\zlib-1.2.7
+set ZLIB_HOME=/c/LibZStd/usr/bin
 
 # At runtime, zlib1.dll must be accessible on the PATH. Hadoop has been tested
 # with zlib 1.2.7, built using Visual Studio 2010 out of contrib\vstudio\vc10 in
 # the zlib 1.2.7 source tree.
+
+# you can test the env var in cmd
+ls %ZLIB_HOME%
+# you should see zstd-1.dll
 ```
 
 
@@ -331,14 +336,45 @@ set classpath=
 
 set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
 
-mvn clean package -Dhttps.protocols=TLSv1.2 -DskipTests -DskipDocs -Pnative-win,dist -Dskip.platformToolsetDetection^
-    -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe^
-    -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows^
-    -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows^
-    -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo^
-    -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
-
+mvn clean package ^
+    -Dhttps.protocols=TLSv1.2 ^
+    -DskipTests ^
+    -DskipDocs ^
+    -Pnative-win,dist ^
+    -Dskip.platformToolsetDetection ^
+    -Drequire.openssl ^
+    -Drequire.test.libhadoop ^
+    -Pyarn-ui ^
+    -Dshell-executable=C:\Git\bin\bash.exe ^
+    -Dtar ^
+    -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
+    -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows ^
+    -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake ^
+    -Dwindows.cmake.build.type=RelWithDebInfo ^
+    -Dwindows.build.hdfspp.dll=off ^
+    -Dwindows.no.sasl=on ^
+    -Duse.platformToolsetVersion=v142
 ```
+- `clean` option: deletes the target directory from previous builds to ensure a fresh start.
+- `package`: compiles the code, runs tests (unless skipped), and bundles the compiled code into its distributable format (like a JAR or ZIP).
+- `Dhttps.protocols=TLSv1.2`: Forces Maven to use TLS 1.2 for downloading dependencies.
+- `-DskipTests`: Skips running the unit tests to speed up the build.
+- `-DskipDocs`:` Skips generating Javadoc documentation.
+- `-Pnative-win,dist`: Activates two specific profiles defined in the project's pom.xml. `native-win` triggers the logic to compile C++ code using `MSVC (Visual Studio)`.
+                      `dist` signals that you want to create a layout ready for distribution.
+- `-Dskip.platformToolsetDetection`: Tells the build script not to try and guess which version of Visual Studio is installed. This is useful when you want to force a specific version (like v142).
+- `-Drequire.openssl`: A check that ensures OpenSSL is present. If the build can't find it, it will fail immediately rather than producing a binary without security features.
+- `-Drequire.test.libhadoop`: Ensures the native Hadoop library is built/present.
+- `-Dshell-executable=C:\Git\bin\bash.exe`: tells Maven exactly where to find a Windows-compatible bash (provided by Git for Windows)
+- `-Dopenssl.prefix=C:\vcpkg\installed\x64-windows`: Points the C++ compiler to the directory where vcpkg installed the OpenSSL headers and libraries.
+- `-Dcmake.prefix.path=C:\vcpkg\installed\x64-windows`: Tells CMake (the build tool Maven calls for C++) where to look for other installed dependencies.
+- `-Dwindows.cmake.toolchain.file=...`: This is the "magic" link for vcpkg. It tells CMake: "Don't look for libraries yourself; ask vcpkg where they are."
+- `-Dwindows.cmake.build.type=RelWithDebInfo`: Short for "Release with Debug Information." It optimizes the code for speed but keeps enough info to debug it if it crashes. 
+- `-Dwindows.build.hdfspp.dll=off`: Specifically disables building the HDFS C++ library component (likely to save time or avoid a complex dependency). 
+- `-Dwindows.no.sasl=on`: Disables SASL (Simple Authentication and Security Layer) for this specific build. 
+- `-Duse.platformToolsetVersion=v142`: Explicitly tells Visual Studio to use the 2019 compiler tools.
+
+
 
 
 #### 5.5.1 Building the release tarball:

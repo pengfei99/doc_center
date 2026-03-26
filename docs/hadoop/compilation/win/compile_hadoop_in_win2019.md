@@ -1,0 +1,211 @@
+# Compile hadoop on Windows server 2019
+
+In this tutorial, we will install all required libs and tools to compile hadoop on a Windows 2019 server. This is
+a bare metal installation. If you want to have a portal build env, you can check the docker image approach.
+
+> With the bare metal approach, you need to have `admin rights` to install certain tools.
+
+## Install git
+
+Git is the center of build environment, so pay extra attention of this section.
+
+```powershell
+
+```
+## Install Visual studio
+
+```powershell
+#
+cd C:\Users\pliu.CASDDS.000\Documents\temp
+
+# download vs_buildtoos
+curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.exe
+
+
+# add plugins
+vs_buildtools.exe --quiet --wait --norestart --nocache --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools" --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.ASAN --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK.19041
+
+
+# install git
+```
+## Install vcpkg
+`vcpkg` is a free and open-source C/C++ package manager maintained by Microsoft and the C++ community. You can find their
+repo git [here](https://github.com/microsoft/vcpkg)
+
+```powershell
+cd C:\Users\pliu.CASDDS.000\Documents\temp
+
+git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+git fetch --all
+# you can replace the current realse by any new release
+git checkout 2026.03.18 
+# init vcpkg and disabe telemetry
+.\bootstrap-vcpkg.bat -disableMetrics
+
+```
+Copy the `vcpkg.json` file into `C:\Users\pliu.CASDDS.000\Documents\temp`
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "dependencies": [
+    "boost",
+    "protobuf",
+    "openssl",
+    "zlib"
+  ],
+  "builtin-baseline": "289a69379604112a433874fe8b9812dad3103341",
+  "overrides": [
+    {
+      "name": "protobuf",
+      "version": "3.21.12"
+    }
+  ]
+}
+```
+
+Now you can install
+
+```powershell
+cd C:\Users\pliu.CASDDS.000\Documents\temp
+# 
+.\vcpkg\vcpkg.exe install --x-install-root .\vcpkg\installed
+```
+
+## Install java
+You can download the required jdk from this website
+https://www.azul.com/downloads/?version=java-11-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu
+Then you need to setup JAVA_HOME and path
+
+```powershell
+# put the java source in this folder
+C:\Java\jdk11.0.30-win_x64
+
+# check java version
+java --version
+
+# check java bin location
+where java
+```
+
+## Install maven
+
+Download maven from this website https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip
+
+Then you need to set up MAVEN_HOME and path
+
+```powershell
+# put the maven source in this folder
+C:\Maven\apache-maven-3.9.11
+
+# check maven version
+mvn --verison
+```
+
+> add new row with %MAVEN_HOME%\bin in path
+
+## Install cmake
+Download cmake from this website https://cmake.org/files/v3.19/cmake-3.19.8-win64-x64.zip
+
+Then you need to set up CMAKE_HOME and path
+
+```powershell
+# put the camke source in this folder
+C:\Cmake\cmake-3.19.8-win64-x64\
+
+# check
+cmake --version
+```
+
+## Install zstd tool
+
+Download zstd tool from this website
+https://github.com/facebook/zstd/releases/download/v1.5.6/zstd-v1.5.6-win64.zip
+
+Then you need to set up ZSTD_HOME and path
+```powershell
+# put the zstd source in this folder
+C:\Zstd\zstd-v1.5.6-win64
+
+# check zstd version
+zstd --version
+```
+
+> add new row with %ZSTD_HOME% in path
+
+
+## Install rsync and its dependencies for git
+Download the below libs
+https://repo.msys2.org/msys/x86_64/libopenssl-3.5.2-1-x86_64.pkg.tar.zst
+```powershell
+# download libopenssl
+Invoke-WebRequest -Uri https://repo.msys2.org/msys/x86_64/libopenssl-3.5.2-1-x86_64.pkg.tar.zst -OutFile $Env:TEMP\libopenssl-3.5.2-1-x86_64.pkg.tar.zst
+# unzip
+zstd -d $Env:TEMP\libopenssl-3.5.2-1-x86_64.pkg.tar.zst -o $Env:TEMP\libopenssl-3.5.2-1-x86_64.pkg.tar
+# untar
+tar -xvf $Env:TEMP\libopenssl-3.5.2-1-x86_64.pkg.tar -C "C:\LibOpenSSL
+```
+
+## Install python and pip
+
+```powershell
+# download and run the installation script
+Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+
+# close and reopen a powershell, check the intalled pyenv version
+pyenv --version
+
+# list available python version
+pyenv install -l
+
+# install a python 3.12
+pyenv install 3.11
+
+# set 3.11 as global python
+pyenv global 3.11
+
+# check python version
+python -V
+
+# check pip
+pip --version
+```
+
+## Install Microsoft Visual C++ 2010 Redistributable
+
+We use Microsoft Visual C++ 2010 Redistributable to link native library.
+
+```powershell
+Invoke-WebRequest -Uri https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe -OutFile vcredist_x64.exe
+
+```
+
+## Open a visuel studio dev prompt
+
+You need to open a 
+```powershell
+# go to the visual studio folder
+cd C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\
+
+# run the bat script
+vcvars64.bat
+
+# you should see something like the visuel studio dev prompt is activate.
+**********************************************************************
+** Visual Studio 2019 Developer Command Prompt v16.11.54
+** Copyright (c) 2021 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+
+cd C:\hadoop
+```
+
+```powershell
+set classpath=
+
+set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
+
+mvn clean package -Dhttps.protocols=TLSv1.2 -DskipTests -DskipDocs -Pnative-win,dist -Dskip.platformToolsetDetection -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
+    -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
+```

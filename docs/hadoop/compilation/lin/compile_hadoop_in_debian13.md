@@ -34,7 +34,11 @@ We need to clone the hadoop source first
 git clone https://github.com/apache/hadoop.git
 cd hadoop
 
+# for example for building release 3.3.6
 git checkout rel/release-3.3.6
+
+# for example for building release 3.4.3
+git checkout rel/release-3.4.3
 ```
 
 ### 2.2 build a custom docker image
