@@ -70,7 +70,8 @@ Copy the `vcpkg.json` file into `C:\Users\pliu.CASDDS.000\Documents\temp`
   "overrides": [
     {
       "name": "protobuf",
-      "version": "3.21.12"
+      "version": "3.21.12",
+      "port-version": 4
     }
   ]
 }
@@ -82,6 +83,8 @@ Now you can install
 cd C:\Users\pliu.CASDDS.000\Documents\temp
 # 
 .\vcpkg\vcpkg.exe install --x-install-root .\vcpkg\installed
+
+.\vcpkg.exe install --x-install-root .\installed
 ```
 ### Setup env vars
 
@@ -89,10 +92,10 @@ After the vcpkg installed all the libs, you need to set up env vars. For example
 `vcpkg` to be fully "integrated" so that `msbuild` can find the `headers for OpenSSL and Protobuf`.
 
 ```powershell
-set VCPKG_ROOT="C:\vcpkg"
-set OPENSSL_ROOT_DIR="C:\vcpkg\installed\x64-windows"
-set PROTOBUF_LIBRARY="C:\vcpkg\installed\x64-windows\lib\libprotobuf.lib"
-set PROTOBUF_INCLUDE_DIR="C:\vcpkg\installed\x64-windows\include"
+set VCPKG_ROOT=C:\vcpkg
+set OPENSSL_ROOT_DIR=C:\vcpkg\installed\x64-windows
+set PROTOBUF_LIBRARY=C:\vcpkg\installed\x64-windows\lib\libprotobuf.lib
+set PROTOBUF_INCLUDE_DIR=C:\vcpkg\installed\x64-windows\include
 ```
 
 ## Install java
@@ -204,7 +207,9 @@ Invoke-WebRequest -Uri https://download.microsoft.com/download/1/6/5/165255E7-10
 
 ```
 
-## Open a visuel studio dev prompt
+## Start the build process
+
+We need to open a visuel studio dev prompt
 
 You need to open a 
 ```powershell
@@ -233,23 +238,74 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\B
 # check version
 msbuild -version
 
-# expected
+# expected output for msvs 2019, if you use other msvs, the ouput may be different
+Microsoft (R) Build Engine version 16.11.6+a918ceb31 for .NET Framework
+Copyright (C) Microsoft Corporation. All rights reserved.
+16.11.6.22506
+
 # check cmake
 where cmake 
+
+cmake --version
+
+# expetecd output
+cmake version 3.19.8
 
 # check protobuf
 where protoc
 
-     
-    cmake --version && ^
-    protoc --version
+protoc --version
+#expected output
+libprotoc 3.21.12
+
+# test cl
+cl
+
+# expected output
+Microsoft (R) C/C++ Optimizing Compiler Version 19.29.30159 for x64
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+usage: cl [ option... ] filename... [ /link linkoption... ]
+
+# test rc
+where rc
+
+# expected output
+C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\rc.exe
+
+# test bash
+bash --version
+
+# you should see
+GNU bash, version 5.2.37(1)-release (x86_64-pc-msys)
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+
+# if you see the below output, it means your bash alias has conflict, you need to use -Dshell-executable=C:\Git\bin\bash.exe
+# in your mvn command to avoid conflict.
+Windows Subsystem for Linux has no installed distributions.
+Distributions can be installed by visiting the Microsoft Store:
+https://aka.ms/wslstore
 ```
 
 ```powershell
 set classpath=
-
+set IS_WINDOWS=1
 set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
 
+# the origin command
 mvn clean package -e -X -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Dskip.native.tests=true -Dhadoop.test.skip.output=true -Dhttps.protocols=TLSv1.2  -Pnative-win,dist -Dskip.platformToolsetDetection -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
     -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo "-Dopenssl.prefix=C:\vcpkg\installed\x64-windows" "-Dopenssl.include=C:\vcpkg\installed\x64-windows\include" "-Dopenssl.lib=C:\vcpkg\installed\x64-windows\lib" -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
+
+# improve
+
+mvn clean package -pl :hadoop-common -am  -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Pnative-win,dist -Dtar -Dskip.native.tests=true ^
+  -Dskip.platformToolsetDetection -Duse.platformToolsetVersion=v142 -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows ^
+  -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dshell-executable=C:\Git\bin\bash.exe
 ```
+
+# for disabling the 
+only build hadoop common
+
+-pl :hadoop-common -am 
