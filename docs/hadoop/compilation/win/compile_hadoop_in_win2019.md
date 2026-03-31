@@ -337,7 +337,24 @@ hadoop checknative -a
 
 # check winutils
 winutils.exe ls
+
+winutils.exe systeminfo
+
+# expected output
+22899888128,19947098112,17060904960,14197358592,4,3400000,77232781,0,0,1324034502,663915712
 ```
+> The Comma separated list of values. 
+> - VirtualMemorySize(bytes)
+> - PhysicalMemorySize(bytes), 
+> - FreeVirtualMemory(bytes),
+> - FreePhysicalMemory(bytes),
+> - NumberOfProcessors,
+> - CpuFrequency(Khz), 
+> - CpuTime(MilliSec,Kernel+User), 
+> - DiskRead(bytes),
+> - DiskWrite(bytes), 
+> - NetworkRead(bytes),
+> - NetworkWrite(bytes)
 
 The hadoop client stack in windows is 
 

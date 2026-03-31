@@ -1,10 +1,14 @@
 #!/bin/bash
 
-# This function first checks if user exist in the AD. If not abort. If exist, it creates a home dir for the given username
-# The it applies the folder acl and default acl
+# This function first checks if the user exists in the AD. If not abort.
+# If the user exists, it checks if the user already have a home folder or not. If not abort.
+# If the user does not have a home dir in the hdfs cluster, it creates a home dir for the user
+# Then it applies the folder acl and default acl on the user home dir
 apply_hdfs_policy() {
     local USER=$1
+    # default home dir path
     local DIR="/users/$USER"
+    # default principal group of the acl
     local GROUP="hadoop"
     # user::rwx (Owner)
     # group::r-x (Hadoop group can browse/read)
@@ -18,25 +22,30 @@ apply_hdfs_policy() {
         return 1
     fi
 
+    # 2. check if the user home directory exist or not
+    if hdfs dfs -test -d "$DIR"; then
+            echo "Error: The user directory '$DIR' exit already. Skipping user home creation for '$USER'"
+            return 1
+    fi
+
     echo "--- Processing User: $USER ---"
 
-    # 2. Create directory
+    # 3. Create directory
     if ! hdfs dfs -mkdir -p "$DIR"; then
         echo "Error: Failed to create HDFS directory $DIR"
         return 1
     fi
 
-    # 3. Set Ownership (User:AdminGroup)
+    # 4. Set Ownership (User:AdminGroup)
     hdfs dfs -chown "$USER:$GROUP" "$DIR"
 
-    # 4. Set Base Permissions (750)
+    # 5. Set Base Permissions (750)
     hdfs dfs -chmod 750 "$DIR"
 
-    # 4. Apply ACLs and Default ACLs
+    # 6. Apply ACLs and Default ACLs
 
     hdfs dfs -setfacl -m "$ACL" "$DIR"
-
-    echo "ACL policy applied successfully for $USER."
+    echo "INFO: ACL policy applied successfully for $USER."
 }
 
 # Parse Arguments

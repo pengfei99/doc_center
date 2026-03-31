@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# This function first checks if the provided group exists in the AD. If not abort. If exist, it creates a
-# project dir with the given project name. Then it sets ownership as hadoop:group.
+# This function takes two arguments, 1st arg is project name, 2nd arg is the project group
+# It first checks if the provided 'project group' exists in the AD. If not abort.
+# If the group exists, it checks if the project directory exists in the hdfs or not. If not abort.
+# If the project dir does not exist, it creates a project dir with the given project name.
+# Then it sets the ownership as admin_user:project_group. to avoid user change acl of the root project dir.
 # Then it applies the folder acl and default acl
 apply_hdfs_policy() {
     local PROJECT=$1
@@ -22,19 +25,25 @@ apply_hdfs_policy() {
 
     echo "--- Provisioning Project: $PROJECT (Group: $GROUP) ---"
 
-    # 2. Create the directory
+    # 2. check if the target directory exist or not
+    if hdfs dfs -test -d "$DIR"; then
+            echo "Error: The target directory '$DIR' exit already. Skipping project '$PROJECT' creation"
+            return 1
+    fi
+
+    # 3. Create the directory
     if ! hdfs dfs -mkdir -p "$DIR"; then
         echo "Error: Failed to create HDFS directory $DIR. Exiting program"
         return 1
     fi
 
-    # 3. Set Ownership (hadoop:project_group)
+    # 4. Set Ownership (hadoop:project_group)
     hdfs dfs -chown "$ADMIN_USER:$GROUP" "$DIR"
 
-    # 4. Set Base Permissions (770)
+    # 5. Set Base Permissions (770)
     hdfs dfs -chmod 770 "$DIR"
 
-    # 5. Apply ACLs and Default ACLs
+    # 6. Apply ACLs and Default ACLs
     if hdfs dfs -setfacl -m "$ACL_SPEC" "$DIR"; then
         echo "Successfully configured $DIR for group $GROUP"
     else
@@ -47,7 +56,13 @@ apply_hdfs_policy() {
 PROJ_NAME=""
 GROUP_NAME=""
 
-# Parse Arguments
+# Main script usage example
+# bash create_project_dir.sh -p project1 -g project1-group
+# bash create_project_dir.sh -f projects.csv
+# in the file projects.csv file, each row is a project entry, the 1st column is the project name, the 2nd column is the
+# project group.
+# if a row has error, the row will be skipped. the script continues with the next row.
+# first step parses arguments
 while getopts "p:g:f:" opt; do
   case $opt in
     p) PROJ_NAME="$OPTARG" ;;
@@ -67,8 +82,7 @@ elif [[ -n "$FILE_PATH" ]]; then
         while IFS=',' read -r f_project f_group || [[ -n "$f_project" ]]; do
             # Strip whitespace and carriage returns
             p_clean=$(echo "$f_project" | tr -d '\r' | xargs)
-            g_clean=$(echo "$f_group" | tr -d '\r'
-            | xargs)
+            g_clean=$(echo "$f_group" | tr -d '\r' | xargs)
 
             # Skip comments or empty project names
             [[ -z "$p_clean" || "$p_clean" =~ ^# ]] && continue
@@ -87,10 +101,3 @@ else
     echo "  Batch:  $0 -f <csv_file> (Format: project,group)"
     exit 1
 fi
-
-# usage example
-# bash create_project_dir.sh -p project1 -g project1-group
-# bash create_project_dir.sh -f projects.csv
-# in the file projects.csv file, each row is a project entry, the 1st column is the project name, the 2nd column is the
-# project group.
-# if a row has error, the row will be skipped. the script continues with the next row.
