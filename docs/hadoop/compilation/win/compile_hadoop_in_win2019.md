@@ -209,9 +209,20 @@ Invoke-WebRequest -Uri https://download.microsoft.com/download/1/6/5/165255E7-10
 
 ## Start the build process
 
-We need to open a visuel studio dev prompt
+### switch to the correct release branch
 
-You need to open a 
+The hadoop project has a default branch called `trunk`, it contains the latest update of the project. To build for 
+a specific release version, we need to switch to the dedicated release branch. The release branch has the general
+form `rel/release-verion`, for example the `release 3.4.3` will be on branch `rel/release-3.4.3`
+
+```powershell
+git checkout rel/release-3.4.3
+```
+
+
+### Open a correct command prompt
+
+You need to open a `Microsoft Visual Studio Developer Command Prompt` to start the build process
 ```powershell
 # go to the visual studio folder
 cd C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\
@@ -228,6 +239,9 @@ vcvars64.bat
 
 cd C:\hadoop
 ```
+
+### Check dependencies in your command prompt
+
 Check dependencies before long maven run
 ```powershell
 # check if msbuild exists
@@ -289,23 +303,52 @@ Distributions can be installed by visiting the Microsoft Store:
 https://aka.ms/wslstore
 ```
 
+### Run maven build command
+
+
 ```powershell
 set classpath=
 set IS_WINDOWS=1
 set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
 
-# the origin command
+# the build command run all maven target
 mvn clean package -e -X -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Dskip.native.tests=true -Dhadoop.test.skip.output=true -Dhttps.protocols=TLSv1.2  -Pnative-win,dist -Dskip.platformToolsetDetection -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
     -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo "-Dopenssl.prefix=C:\vcpkg\installed\x64-windows" "-Dopenssl.include=C:\vcpkg\installed\x64-windows\include" "-Dopenssl.lib=C:\vcpkg\installed\x64-windows\lib" -Dwindows.build.hdfspp.dll=off -Dwindows.no.sasl=on -Duse.platformToolsetVersion=v142
 
-# improve
-
+# the build command run only the target hadoop-common
+# the opition `-pl :hadoop-common` means only run hadoop-common
+# the option ` -am` means run required target of hadoop-common
 mvn clean package -pl :hadoop-common -am  -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Pnative-win,dist -Dtar -Dskip.native.tests=true ^
   -Dskip.platformToolsetDetection -Duse.platformToolsetVersion=v142 -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows ^
   -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dshell-executable=C:\Git\bin\bash.exe
 ```
 
-# for disabling the 
-only build hadoop common
+> Fot the complete build, the generated files can be found at `C:\hadoop\hadoop-dist\target\hadoop-common-3.4.3`
 
--pl :hadoop-common -am 
+> For the hadoop-common build, the generated files can be found at `C:\hadoop\hadoop-common-project\hadoop-common\target\hadoop-common-3.4.3`
+
+### Test the generated winutils and hadoop.dll
+
+After the build, you can test the generated `winutils.exe` and `hadoop.dll`.
+
+```powershell
+# check native build of hadoop, if this failed, it means hadoop.dll has problems
+hadoop checknative -a
+
+# check winutils
+winutils.exe ls
+```
+
+The hadoop client stack in windows is 
+
+```text
+Java Hadoop Client
+        ↓
+JNI (native bridge)
+        ↓
+hadoop.dll
+        ↓
+winutils.exe + Win32 API
+        ↓
+Windows OS
+```
