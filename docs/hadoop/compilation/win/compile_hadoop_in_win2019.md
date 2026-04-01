@@ -309,7 +309,7 @@ https://aka.ms/wslstore
 ```powershell
 set classpath=
 set IS_WINDOWS=1
-set PROTOBUF_HOME=C:\vcpkg\installed\x64-windows
+set HADOOP_PROTOC_PATH=C:\Protobuf\3.25.5\protoc.exe
 
 # the build command run all maven target
 mvn clean package -e -X -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Dskip.native.tests=true -Dhadoop.test.skip.output=true -Dhttps.protocols=TLSv1.2  -Pnative-win,dist -Dskip.platformToolsetDetection -Drequire.openssl -Drequire.test.libhadoop -Pyarn-ui -Dshell-executable=C:\Git\bin\bash.exe -Dtar -Dopenssl.prefix=C:\vcpkg\installed\x64-windows ^
@@ -318,11 +318,11 @@ mvn clean package -e -X -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipD
 # the build command run only the target hadoop-common
 # the opition `-pl :hadoop-common` means only run hadoop-common
 # the option ` -am` means run required target of hadoop-common
-mvn clean package -pl :hadoop-common -am  -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Pnative-win,dist -Dtar -Dskip.native.tests=true ^
+mvn clean package -e -X -pl :hadoop-common -am  -DPlatform=x64 -Dwinutils.bitness=64 -DskipTests -DskipDocs -Pnative-win,dist -Dtar -Dskip.native.tests=true ^
   -Dskip.platformToolsetDetection -Duse.platformToolsetVersion=v142 -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows ^
   -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dshell-executable=C:\Git\bin\bash.exe
 ```
-
+> you can add -e -X for debugging
 > Fot the complete build, the generated files can be found at `C:\hadoop\hadoop-dist\target\hadoop-common-3.4.3`
 
 > For the hadoop-common build, the generated files can be found at `C:\hadoop\hadoop-common-project\hadoop-common\target\hadoop-common-3.4.3`
