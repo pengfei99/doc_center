@@ -1,6 +1,6 @@
 # Project maintenance
 
-## Create user home folder
+## 1. Create user home folder in hdfs
 
 We provide a bash script `create_home_dir.sh` to generate user home folder in hdfs. You can change it to adapt it for your requirements.
 
@@ -157,5 +157,9 @@ bash get_users_of_group.sh -g <group-name> > users.txt
 ```
 
 
-## Create project dir
+## 2. Create project dir in hdfs
+
+## 3. Configure client ssh and scp under windows
+
+## 4. 
 
