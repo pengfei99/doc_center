@@ -326,7 +326,7 @@ mvn clean package -e -X -pl :hadoop-common -am  -DPlatform=x64 -Dwinutils.bitnes
 > Fot the complete build, the generated files can be found at `C:\hadoop\hadoop-dist\target\hadoop-common-3.4.3`
 
 > For the hadoop-common build, the generated files can be found at `C:\hadoop\hadoop-common-project\hadoop-common\target\hadoop-common-3.4.3`
-
+> -Denforcer.skip=true 
 ### Test the generated winutils and hadoop.dll
 
 After the build, you can test the generated `winutils.exe` and `hadoop.dll`.
