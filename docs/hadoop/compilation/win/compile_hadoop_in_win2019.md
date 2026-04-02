@@ -76,7 +76,7 @@ Copy the `vcpkg.json` file into `C:\Users\pliu.CASDDS.000\Documents\temp`
   ]
 }
 ```
-
+> The official hadoop 3.4.3 is compiled with protobuf  `3.23.4`
 Now you can install
 
 ```powershell
