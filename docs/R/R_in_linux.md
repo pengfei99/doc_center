@@ -4,6 +4,7 @@ Current stable R version in production in CASD is `4.2.2`. So in linux we will i
 
 For debian 13, the current R version is `4.5.0`. So we can't use the R from the default apt package repo.
 
+> To install R 4.5.0 on debian 13, you can just run `sudo apt install r-base`
 
 ## Build R from source
 
