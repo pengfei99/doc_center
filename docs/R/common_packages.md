@@ -169,14 +169,120 @@ head(markers, n = 10)
 
 ## dplyr
 
+**dplyr** is one of the most popular and powerful R packages for data manipulation and wrangling. It is part of the 
+`tidyverse` and provides a consistent, readable "grammar of data manipulation" with simple verb functions that make 
+common tasks (filtering rows, selecting columns, creating new variables, grouping, and summarizing) fast and intuitive.
 
+
+```R
+# Install from CRAN (recommended)
+install.packages("dplyr")
+
+# Or install the full tidyverse (includes dplyr + ggplot2, tidyr, etc.)
+install.packages("tidyverse")
+
+# Load the package
+library(dplyr)
+
+# Load example data
+data(starwars)   # or starwars <- dplyr::starwars
+glimpse(starwars)   # nice summary (like str() but better)
+
+# # Filter for humans with brown eyes
+starwars |> 
+  filter(species == "Human", eye_color == "brown")
+
+# Filter using OR (newer way with when_any)
+starwars |> 
+  filter(when_any(hair_color == "none", eye_color == "black"))
+
+# Remove rows with missing height (filter_out is new in recent versions)
+starwars |> 
+  filter_out(is.na(height))
+  
+# Select specific columns
+starwars |> 
+  select(name, height, mass, species)
+
+# Select by patterns (very useful!)
+starwars |> 
+  select(name, ends_with("color"), contains("birth"))
+  
+## Create/modify columns 
+# Add BMI column
+starwars |> 
+  mutate(bmi = mass / ((height / 100)^2),
+         height_m = height / 100) |> 
+  select(name, height_m, mass, bmi)
+  
+## aggregation
+# Average height and mass by species (only species with >5 characters)
+starwars |> 
+  group_by(species) |> 
+  summarise(
+    n = n(),                    # count per group
+    avg_height = mean(height, na.rm = TRUE),
+    avg_mass = mean(mass, na.rm = TRUE)
+  ) |> 
+  filter(n > 5) |> 
+  arrange(desc(avg_height))
+  
+## combining operations
+starwars |> 
+  filter(species == "Human") |> 
+  mutate(bmi = mass / ((height / 100)^2)) |> 
+  select(name, height, mass, bmi, homeworld) |> 
+  arrange(desc(bmi)) |> 
+  slice(1:5)   # take top 5 rows
+```
 ## readr
+`readr` is a core tidyverse package in R designed for fast and friendly reading of rectangular data (flat files) such 
+as `CSV, TSV, delimited files`, and fixed-width files.
 
 ## forcats
 
-stringr 1.5.1
-ggplot2 3.5.2
-tibble 3.2.1
-lubridate 1.9.4
-tidyr 1.3.1
-purrr 1.2.0
+`forcats` is a tidyverse package that makes working with categorical variables (called factors in R) much easier and more intuitive.
+
+## stringr
+
+`stringr` is a core tidyverse package that provides a clean, consistent, and easy-to-use set of functions for string (text) manipulation in R.
+
+## ggplot2
+
+
+## tibble
+
+`tibble` is a modern, tidyverse-style replacement for base R’s `data.frame`.
+It is the central data structure used by dplyr, readr, stringr, forcats, ggplot2, and most tidyverse workflows (including single-cell analysis with Seurat).
+
+Why use tibble instead of `data.frame`?
+
+- Better printing (only shows first 10 rows + first few columns by default)
+- No automatic conversion of character vectors to factors
+- No automatic dropping of dimensions (no more drop = TRUE surprises)
+- Strict subsetting ([ returns a tibble, never a vector)
+- Helpful column name checking and warnings
+- Faster and more consistent behavior with tidyverse functions
+
+## lubridate
+
+`lubridate` is the tidyverse package that makes working with dates and times in R much easier, more intuitive, and less error-prone.
+
+
+## tidyr
+
+`tidyr` is the tidyverse package dedicated to tidying messy data — reshaping it into tidy data format, where:
+
+- Each variable is a column
+- Each observation is a row
+- Each cell contains a single value
+
+It complements dplyr perfectly:
+- dplyr: manipulates data (filter, mutate, summarise, etc.)
+- tidyr: changes the shape of the data (wide ↔ long, nesting, separating values)
+
+## purrr
+
+`purrr` is the tidyverse package for `functional programming in R`. It provides a consistent, readable set of tools to 
+work with functions and vectors/lists, replacing messy for loops and lapply()/sapply() with clean, pipe-friendly code.
+

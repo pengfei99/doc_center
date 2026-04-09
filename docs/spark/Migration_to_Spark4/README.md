@@ -1,7 +1,5 @@
 # Migration from spark 3.5 to spark 4
 
-
-
 ## JDK 
 
 Spark 4 requires `jdk 17 or 21` to run. If you have other packages which needs to run with spark, you may
