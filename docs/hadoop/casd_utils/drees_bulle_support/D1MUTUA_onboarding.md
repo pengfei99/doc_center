@@ -14,7 +14,7 @@ We will follow the below steps in this tutorial.
 
 The below figure shows the general architecture of the cluster
 
-![architecture.png](./imgs/architecture.png)
+![](./imgs/architecture.png "width=70%")
 
 - The `TS-D1MUTUA`: is the main server(Windows) which you connect to via the `SD-BOX`. 
 - The `d1mutua-client`: is the server(debian 13) which allows you to interact with the spark/hdfs cluster.
