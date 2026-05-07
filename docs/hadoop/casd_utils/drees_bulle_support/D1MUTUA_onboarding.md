@@ -87,18 +87,23 @@ Suppose you have data(i.e. test.txt) in `TS-D1MUTUA`(Windows), you want to trans
 - Run the below command
 
 ```powershell
-# general form of the command
-scp -o GSSAPIAuthentication=yes <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
+# go to the test data folder
+cd C:\Users\Public\Documents\hadoop_cluster_onboarding\data
 
-# for example, transfer a file test.txt
-scp -o GSSAPIAuthentication=yes test.txt D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
+# for example, transfer a file test.txt, don't forget to replace D1MUTUA_P_LIU0000 by your username
+scp -o GSSAPIAuthentication=yes t1.txt D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
 
 # for example, transfer a folder, you need to add -r to make the command recursive
-scp -o GSSAPIAuthentication=yes -r data_folder/ D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
+scp -o GSSAPIAuthentication=yes -r folder1/ D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
 ```
 
 > To run the above command in your context, you need to replace the `D1MUTUA_P_LIU0000` by your username(check section 3.1)
-> and you need to create `test.txt` and `data_folder` in `TS-D1MUTUA`(Windows)
+> and you need to have `t1.txt` and `folder1` in `TS-D1MUTUA`(Windows). Below is the general form of the scp command.
+
+```powershell
+# general form of the command
+scp -o GSSAPIAuthentication=yes <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
+```
 
 To check if the data arrived correctly, you can use the terminal opened in step `3.2 Connect to the d1mutua-client server`
 In this terminal, you are in `d1mutua-client`(Linux).
@@ -164,12 +169,13 @@ Reuse the `powershell` terminal opened in section 3.5.1, then enter the below co
 
 ```powershell
 # go to the test data folder
-cd 
+cd C:\Users\Public\Documents\hadoop_cluster_onboarding\data
+
 # copy a single file
-kscp test.txt d1mutua-client.casd.fr
+kscp stats.csv d1mutua-client.casd.fr
 
 # copy a folder 
-kscp -r data_folder d1mutua-client.casd.fr
+kscp -r folder2 d1mutua-client.casd.fr
 ```
 
 If you want to customize the `kscp` command, below shows the general form.
@@ -180,26 +186,46 @@ kscp <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
 
 
 
-After the above commands, the data arrive to the server `d1mutua-client.casd.fr`. If you want to check the data
+After the data transfer, the data arrive to the server `d1mutua-client.casd.fr`. If you want to check the data, you need
+to connect to the `d1mutua-client` server(Linux).
 
 
-```shell
-# upload local data to hdfs
-hdfs dfs -put test.txt /users/$USER/
+```powershell
+# connect to the `d1mutua-client` server
+ssh d1mutua-client.casd.fr
 
-# check the result
-hdfs dfs -ls /users/$USER
+# check the data
+ls 
+
+# disconnect
+exit
 ```
 
-## 4. Config and check the hdfs client access
+> You can close this terminal if everything works well
 
-For now, we only support hdfs client under Linux, so you need to ssh to the `d1mutua-client.casd.fr` server first.
+## 4. Check the hdfs client access
+
+For now, we only support `hdfs client under Linux`, so you need to ssh to the `d1mutua-client.casd.fr` server first.
+
+Open a `powershell` terminal, and run the below command
+
+```powershell
+# connect to the `d1mutua-client` server
+ssh d1mutua-client.casd.fr
+```
+
+> You should see a welcome message from `CASD`.
+> From now on, as you are in the `d1mutua-client` server(Linux). The powershell command will not work anymore.
+
+In `d1mutua-client` server(Linux), you have two different file system.
+- local file system of `d1mutua-client` server.
+- distributed file system of the hdfs cluster.
+
+Run the below command to test your hdfs client.
 
 ```shell
-# check the hdfs root path
+# check the hdfs file system
 hdfs dfs -ls /
-
-# expected output
 
 # check user home folder, $USER will be replaced by the current user name
 hdfs dfs -ls /users/$USER
@@ -219,10 +245,32 @@ hdfs dfs -ls /projects
 # try to access a project 
 hdfs dfs -ls /projects/BCL_EEC
 ```
+### 4.1 transfer data from local file system to hdfs cluster
 
-## 5. Config and check the spark client access
+As `spark` is a framework for distributed computing, the data must be also distributed. That's why `spark` can't use 
+data from the local file system of `d1mutua-client` server. As a result, we must transfer data from `local file system` to `hdfs cluster`
 
-First check if you have spark installed in your environment
+Use the same terminal of section 4. The below commands run inside `d1mutua-client` server. 
+
+```shell
+# go to your home directory of `d1mutua-client` server
+cd
+# check data in the local file system
+ls
+
+# you should see stats.csv in the output. We copied in section 3.5.2
+
+# now upload data  from `local file system` to `hdfs cluster`
+hdfs dfs -put stats.csv /users/$USER/
+
+# check the data in hdfs
+hdfs dfs -ls /users/$USER
+```
+
+## 5. Check the spark client access
+
+First check if you have spark installed in your environment. Use the same terminal of section 4.1. The below commands 
+run inside `d1mutua-client` server. 
 
 ```shell
 # check current spark runtime version
@@ -235,7 +283,7 @@ klist
 nano job1.py
 ```
 
-> Put the below code in the `job1` file
+> Put the below code in the `job1.py` file
 
 ```python
 from pyspark.sql import SparkSession
@@ -276,9 +324,12 @@ spark-submit --name=pengfei_test_job job1.py
 > You can check the status of your job via [yarn web UI](https://d1mutua-m01.casd.fr:8090/cluster).
 >
 
-### 5.1 Use spark cluter in interactive mode
+### 5.1 Use spark cluster in interactive mode
 
-We have seen how to submit job to the cluster. For exploring data, you may want to your spark job interactively(client mode). In this mode the `spark driver` runs on `d1mutua-client.casd.fr`. So we need to install a `python virtual environment and pyspark`
+We have seen how to submit job to the cluster. For exploring data, you may want to your spark job interactively(client mode). 
+In this mode the `spark driver` runs on `d1mutua-client.casd.fr`. So we need to install a `python virtual environment and pyspark`
+
+Use the same terminal of section 5. The below commands run inside `d1mutua-client` server. 
 
 ```shell
 # check your python version
@@ -300,7 +351,8 @@ pip install pyspark==3.5.7
 pip install jupyterlab
 ```
 
-To facilitate the usage of jupyterlab, CASD has developped a launcher to avoid port confict between users. To start a jupyterlab, you can run
+To facilitate the usage of jupyterlab, CASD has developed a launcher to avoid port conflict between users. 
+To start a jupyterlab, you can run
 
 ```shell
 run_jupyterlab
