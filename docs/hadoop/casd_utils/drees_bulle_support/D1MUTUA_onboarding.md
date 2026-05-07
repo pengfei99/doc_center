@@ -41,13 +41,16 @@ the `d1mutua-client` server.
 ### 3.1 Get your username
 
 Get the right username is very important for the rest of this tutorial, it specifies which is your login name for:
+
 - `d1mutua-client` server. 
 - directory and file access control on the hdfs cluster
 - spark job resources control
 
 To get your username:
+
 - open a `powershell` terminal
 - type the below command
+
 ```powershell
 $env:USERNAME
 
@@ -63,6 +66,7 @@ As we mentioned before, to use the spark/hdfs cluster, you need to connect to th
 The server access is done via `ssh` protocol. 
 
 To test the connectivity: 
+
 - open a `powershell` terminal. 
 - type the below command
 
@@ -82,7 +86,8 @@ changed from `` to ``. From now on, all the commands you entered inside this ter
 
 ### 3.3 Transfer data between `TS-D1MUTUA` and `d1mutua-client`  
 
-Suppose you have data(i.e. test.txt) in `TS-D1MUTUA`(Windows), you want to transfer the data to `d1mutua-client`(Linux).
+Suppose you have data(i.e. test.txt) in `TS-D1MUTUA`(Windows), you want to transfer the data to `d1mutua-client`(Linux):
+
 - Open a new `powershell` terminal
 - Run the below command
 
@@ -137,11 +142,11 @@ cd C:\Users\Public\Documents\hadoop_cluster_onboarding\scripts
 
 # expected output example
 # SSH Config created and secured for D1MUTUA_P_LIU0000
-
 ```
+
 > This script creates an ssh config file which allows you to do the ssh without typing your username
-> and a new command `kscp` which allows you to copy data to the `d1mutua-client` server more easily.
-> You can close this terminal now.
+ and a new command `kscp` which allows you to copy data to the `d1mutua-client` server more easily.
+You can close this terminal now.
 
 
 ### 3.5 Test the new command
