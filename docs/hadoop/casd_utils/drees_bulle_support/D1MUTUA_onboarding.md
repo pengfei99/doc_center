@@ -31,6 +31,7 @@ You can visit the following url by using the `Chrome` web browser.
 - https://d1mutua-m01.casd.fr:8090/cluster : is the spark cluster web interface which allows you to view spark jobs and available resources of the cluster. 
 
 > The first connection may take few seconds, because of the ticket and group checking.
+> You may also need to accept the certificat if you see warnings.
   
 ## 3. Check the access of d1mutua-client
 
@@ -81,24 +82,46 @@ changed from `` to ``. From now on, all the commands you entered inside this ter
 
 ### 3.3 Transfer data between `TS-D1MUTUA` and `d1mutua-client`  
 
-To copy data to the d1mutua-client.casd.fr, you can use the below command
+Suppose you have data(i.e. test.txt) in `TS-D1MUTUA`(Windows), you want to transfer the data to `d1mutua-client`(Linux).
+- Open a new `powershell` terminal
+- Run the below command
 
 ```powershell
-# general form
+# general form of the command
 scp -o GSSAPIAuthentication=yes <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
 
-# for example
+# for example, transfer a file test.txt
 scp -o GSSAPIAuthentication=yes test.txt D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
 
-# for a folder, you need to add -r to make the command recursive
+# for example, transfer a folder, you need to add -r to make the command recursive
 scp -o GSSAPIAuthentication=yes -r data_folder/ D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
 ```
 
-### 3.1 Create shortcut for ssh and scp
+> To run the above command in your context, you need to replace the `D1MUTUA_P_LIU0000` by your username(check section 3.1)
+> and you need to create `test.txt` and `data_folder` in `TS-D1MUTUA`(Windows)
 
-To facilitate your ssh connection, CASD have developped a little script which can generate ssh config files to make the ssh command shorter
+To check if the data arrived correctly, you can use the terminal opened in step `3.2 Connect to the d1mutua-client server`
+In this terminal, you are in `d1mutua-client`(Linux).
 
-Open a `powershell` terminal, and type the below command
+```shell
+# go back to your home folder
+cd 
+
+# list all files and directories
+ls 
+
+# disconnect to the `d1mutua-client` server
+exit
+```
+
+> you should see the test.txt and data_folder. If everything is ok, you can close all the terminal now.
+
+### 3.4 Create shortcut for ssh and scp
+
+To facilitate your access to the `d1mutua-client` server(Linux) and data transfer, `CASD` have developed a little 
+script which can generate ssh config files to make the ssh command shorter
+
+Open a new `powershell` terminal, and type the below command
 
 ```powershell
 # goto the script folder
@@ -107,18 +130,23 @@ cd C:\Users\Public\Documents\hadoop_cluster_onboarding\scripts
 # run the script
 .\gen_ssh_conf.ps1
 
-# expected output
-SSH Config created and secured for D1MUTUA_P_LIU0000
+# expected output example
+# SSH Config created and secured for D1MUTUA_P_LIU0000
 
 ```
+> This script creates an ssh config file which allows you to do the ssh without typing your username
+> and a new command `kscp` which allows you to copy data to the `d1mutua-client` server more easily.
+> You can close this terminal now.
 
-> You need to open a new terminal to be able to use the newly installed command.
+
+### 3.5 Test the new command
+
+To test the new command, you need to open a new `powershell` terminal.
 
 ```powershell
 # now you can use the below command to connect to the server via ssh
 ssh d1mutua-client.casd.fr
 
-# This script will also create an alias which allows you to copy data to the d1mutua-client.casd.fr server more easily. 
 # The general form
 kscp <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
 
