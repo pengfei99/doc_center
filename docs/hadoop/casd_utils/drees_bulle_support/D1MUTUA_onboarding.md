@@ -189,11 +189,8 @@ If you want to customize the `kscp` command, below shows the general form.
 kscp <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
 ```
 
-
-
 After the data transfer, the data arrive to the server `d1mutua-client.casd.fr`. If you want to check the data, you need
 to connect to the `d1mutua-client` server(Linux).
-
 
 ```powershell
 # connect to the `d1mutua-client` server
@@ -315,10 +312,10 @@ def main():
 
 if __name__ == "__main__":
     main()
-````
+```
 
 > use `ctrl+o` for saving file. ctrl+x for exiting.
->
+
 Now we can submit the job to the cluster with the below command
 
 ```shell
@@ -327,7 +324,7 @@ spark-submit --name=pengfei_test_job job1.py
 
 > By default, we have configured the spark client in mode cluster. So nothing runs in `d1mutua-client.casd.fr`. As a result, you don't need to install python environment and pyspark
 > You can check the status of your job via [yarn web UI](https://d1mutua-m01.casd.fr:8090/cluster).
->
+
 
 ### 5.1 Use spark cluster in interactive mode
 
