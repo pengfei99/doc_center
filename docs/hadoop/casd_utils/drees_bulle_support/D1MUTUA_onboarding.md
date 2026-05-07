@@ -104,13 +104,13 @@ To check if the data arrived correctly, you can use the terminal opened in step 
 In this terminal, you are in `d1mutua-client`(Linux).
 
 ```shell
-# go back to your home folder
+# go back to your home folder in d1mutua-client
 cd 
 
 # list all files and directories
 ls 
 
-# disconnect to the `d1mutua-client` server
+# disconnect from the `d1mutua-client` server
 exit
 ```
 
@@ -143,20 +143,45 @@ cd C:\Users\Public\Documents\hadoop_cluster_onboarding\scripts
 
 To test the new command, you need to open a new `powershell` terminal.
 
+#### 3.5.1 Connect to the `d1mutua-client` server
+
+Now you can use the below command to connect to the `d1mutua-client` server
+
 ```powershell
-# now you can use the below command to connect to the server via ssh
 ssh d1mutua-client.casd.fr
 
-# The general form
-kscp <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
+# if everything works well, you should see the welcome message of CASD
 
-# the below command will copy the source data in your home of the d1mutua-client server
+# disconnect from the `d1mutua-client` server
+exit
+```
+
+#### 3.5.2 Use kscp to transfer data
+
+The new command `kscp` allows us to transfer data with fewer arguments. 
+
+Reuse the `powershell` terminal opened in section 3.5.1, then enter the below command
+
+```powershell
+# go to the test data folder
+cd 
+# copy a single file
 kscp test.txt d1mutua-client.casd.fr
+
+# copy a folder 
 kscp -r data_folder d1mutua-client.casd.fr
 ```
 
-After the above commands, the data arrive to the server `d1mutua-client.casd.fr`. They are not in the hdfs yet. You need to upload the data to hdfs 
-with the below command
+If you want to customize the `kscp` command, below shows the general form.
+
+```powershell
+kscp <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
+```
+
+
+
+After the above commands, the data arrive to the server `d1mutua-client.casd.fr`. If you want to check the data
+
 
 ```shell
 # upload local data to hdfs
@@ -247,7 +272,7 @@ Now we can submit the job to the cluster with the below command
 spark-submit --name=pengfei_test_job job1.py
 ```
 
-> By default, we have configure the spark client in mode cluster. So nothing runs in `d1mutua-client.casd.fr`. As a result, you don't need to install python environment and pyspark
+> By default, we have configured the spark client in mode cluster. So nothing runs in `d1mutua-client.casd.fr`. As a result, you don't need to install python environment and pyspark
 > You can check the status of your job via [yarn web UI](https://d1mutua-m01.casd.fr:8090/cluster).
 >
 
