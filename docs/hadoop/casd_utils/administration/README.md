@@ -1,3 +1,29 @@
+# D1MUTUA administration
+
+The projet D1MUTUA has a Windows server, users already have groups and associated projet data directory hierarchy. 
+
+The first task is to duplicate user identity and groups of the Windows server to the Linux cluster.
+The second is to create the same projet data directory hierarchy on HDFS and set the same ACL on HDFS as in the Windows server.
+
+## User auth and groups synchronization
+
+The `user authentication` is done via `ticket Kerberos`. For example when user connect to linux server via ssh,
+The authentication process `ssh client -> sshd -> PAM -> sssd -> Kerberos -> AD`
+
+The groups synchronization is done via `sssd` and `Name Service Switch (NSS)`. When a user is connected, a user 
+lookup will be initiated to get user groups. By default, without NSS, the system checks `/etc/passwd` only. With NSS, 
+the system can do `user lookup -> files(/etc/passwd) -> sssd -> ldap/AD -> …`
+
+## HDFS folder setup
+
+In HDFS, we will create two types of folders:
+- user home folder: user personal folder to store private data
+- projet folder: project data folder shared between all users of the project
+
+> For now, we decide all users in group `d1mutua` are allowed to use the hdfs folder (e.g. ssh access, hdfs home folder)
+
+
+```shell
 #!/bin/bash
 
 # This function first checks if the user exists in the AD. If not abort.
@@ -84,3 +110,5 @@ if [ $# -eq 0 ]; then
 fi
 
 
+
+```
