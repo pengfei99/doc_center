@@ -32,7 +32,7 @@ C:\Protobuf\3.25.5\
 ```
 Step 3: Add protoc to System PATH
 
-Right-click This PC → Properties → Advanced system settings → Environment Variables.
+Right-click This PC → Properties → Advanced system settings → Environment Variables.git 
 Under System variables, Create a new variable `PROTO_HOME` with value `C:\Protobuf\3.25.5`
 
 Then find and edit `Path` by adding `%PROTO_HOME%\bin` in it. Click OK on all windows.

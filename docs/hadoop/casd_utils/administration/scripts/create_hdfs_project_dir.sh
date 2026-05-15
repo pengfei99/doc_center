@@ -85,6 +85,8 @@ apply_hdfs_policy() {
     return 0
 }
 
+log_info "---- start the script ------"
+
 # --- Environment Pre-flight Validation ---
 for cmd in getent hdfs; do
     if ! command -v "$cmd" &> /dev/null; then
@@ -115,7 +117,7 @@ done
 # project group.
 # if a row has error, the row will be skipped. the script continues with the next row.
 
-# Scenario A: Single Mode Execution
+# Scenario 1 Single Mode Execution
 if [[ -n "$PROJ_NAME" && -n "$GROUP_NAME" ]]; then
     # Direct input cleanup
     p_clean=$(echo "$PROJ_NAME" | tr -d '[:space:]\r')
@@ -123,41 +125,59 @@ if [[ -n "$PROJ_NAME" && -n "$GROUP_NAME" ]]; then
 
     apply_hdfs_policy "$p_clean" "$g_clean"
 
-# Scenario B: Batch CSV Processing Mode
+# Scenario 2: Batch CSV Processing Mode
 elif [[ -n "$FILE_PATH" ]]; then
     if [[ ! -f "$FILE_PATH" ]]; then
         log_error "Target batch file not found: ${FILE_PATH}"
         exit 1
     fi
 
-    ROW_COUNT=0
-    while IFS=',' read -r raw_project raw_group || [[ -n "$raw_project" ]]; do
-        ((ROW_COUNT++))
+    if [[ ! -s "$FILE_PATH" ]]; then
+        log_error "Target batch file '${FILE_PATH}' is completely empty. Skipping processing."
+        exit 1
+    fi
 
-        # Thoroughly sanitize strings from trailing white spaces, tabs, and Windows CR (\r)
-        p_clean=$(echo "$raw_project" | tr -d '[:space:]\r')
-        g_clean=$(echo "$raw_group"    | tr -d '[:space:]\r')
+    log_info "Beginning stream parsing for file: $FILE_PATH"
 
-        # 1. Skip comments and empty entries safely
-        [[ -z "$p_clean" || "$p_clean" =~ ^# ]] && continue
+    # Read entire file safely into a native Bash array to circumvent the IFS/read EOF pitfalls
+    mapfile -t CSV_ROWS < "$FILE_PATH"
 
-        # 2. Automatically skip standard CSV header rows dynamically
-        if [[ "$ROW_COUNT" -eq 1 && "${p_clean,,}" == "project" && "${g_clean,,}" == "group" ]]; then
+    # Iterate cleanly over the in-memory rows
+    for row in "${CSV_ROWS[@]}"; do
+        # Strip trailing Windows carriage returns (\r) immediately
+        row_clean=$(echo "$row" | tr -d '\r')
+
+        # 1. Skip comments or lines that evaluate to empty safely
+        [[ -z "$row_clean" || "$row_clean" =~ ^# ]] && continue
+
+        # 2. Extract column tokens cleanly using cut boundaries
+        raw_project=$(echo "$row_clean" | cut -d',' -f1)
+        raw_group=$(echo "$row_clean"   | cut -d',' -f2)
+
+        # 3. Thoroughly sanitize strings from outer whitespaces and tabs
+        p_clean=$(echo "$raw_project" | tr -d ' \t')
+        g_clean=$(echo "$raw_group"   | tr -d ' \t')
+
+        # 4. Skip standard CSV header rows dynamically if present (case-insensitive evaluation)
+        if [[ "${p_clean,,}" == "project" && "${g_clean,,}" == "group" ]]; then
             log_info "CSV Header row detected and skipped successfully."
             continue
         fi
 
-        # 3. Protect against malformed data arrays (e.g., missing comma)
-        if [[ -z "$p_clean" || -z "$g_clean" ]]; then
-            log_error "Malformed CSV entry at line ${ROW_COUNT}: Raw='${raw_project},${raw_group}'. Skipping."
+        # 5. Protect against structural data breaks (e.g., missing comma resulting in column matching)
+        if [[ -z "$p_clean" || -z "$g_clean" || "$p_clean" == "$g_clean" ]]; then
+            log_error "Malformed CSV entry discovered: Raw='${row_clean}'. Skipping row."
             continue
         fi
 
-        apply_hdfs_policy "$p_clean" "$g_clean"
-        echo "------------------------------------------------========================"
-    done < "$FILE_PATH"
+        # Execute HDFS core routine securely inside an evaluated check to protect set -e
+        if ! apply_hdfs_policy "$p_clean" "$g_clean"; then
+            log_error "Policy enforcement failed or skipped for entry: ${p_clean}. Moving to next line."
+        fi
+        log_info "----------------------------------------------------------------========"
+    done
 
-# Scenario C: Invalid Usage Options
+# Scenario C: Invalid Usage Options Catch-all
 else
     print_usage
 fi
