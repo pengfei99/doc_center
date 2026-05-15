@@ -9,7 +9,9 @@
 set -euo pipefail
 
 # --- Configuration Constants ---
+# set default owner of the project dir as admin user, to avoid project member change ACL.
 ADMIN_USER="hadoop"
+# root dir of project dir in hdfs
 HDFS_BASE_DIR="/projects"
 
 # --- Structured Logging Helpers ---

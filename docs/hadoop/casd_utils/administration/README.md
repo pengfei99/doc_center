@@ -20,9 +20,16 @@ In HDFS, we will create two types of folders:
 - user home folder: user personal folder to store private data
 - projet folder: project data folder shared between all users of the project
 
-> For now, we decide all users in group `d1mutua` are allowed to use the hdfs folder (e.g. ssh access, hdfs home folder)
+> For now, we decided all users in group `d1mutua` are allowed to use the hdfs folder (e.g. ssh access, hdfs home folder)
 
 
+```shell
+# get members of a given group
+> getent group casd-ds
+
+# output example
+casd-ds:*:300001:toto,pliu-ad,titi,tata
+```
 ```shell
 #!/bin/bash
 
