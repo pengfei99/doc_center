@@ -1,8 +1,11 @@
 # D1MUTUA administration
 
-The projet D1MUTUA has a Windows server, users already have groups and associated projet data directory hierarchy. 
+The projet `D1MUTUA` has a Windows server, users already have groups defined in AD and associated projet data directory
+hierarchy defined in the Windows server. 
 
-The first task is to duplicate user identity and groups of the Windows server to the Linux cluster.
+For the administrator, you have three main tasks:
+1. apply user identity and groups of the Windows server(AD) to the Linux servers.
+2. configure `D1MUTUA` Windows server to allow user to connect and transferring data to the Linux servers
 The second is to create the same projet data directory hierarchy on HDFS and set the same ACL on HDFS as in the Windows server.
 
 ## User auth and groups synchronization

@@ -65,11 +65,13 @@ if (-not (Test-Path $profileDir)) {
 $aliasBlock = @'
 
 # --- configuration CASD ---
-Set-Alias kscp kscpGSSAPI
-function kscpGSSAPI {
+Set-Alias kup kupGSSAPI
+Set-Alias kdown kdownGSSAPI
+
+function kupGSSAPI {
     <#
         .SYNOPSIS
-            create a wrapper for copying a file to a remote server via SCP with GSSAPI authentification.
+            create a wrapper for uploading data(e.g. file or directory) to a remote server via SCP with GSSAPI authentification.
         .EXAMPLE
             kscp document.txt machine.casd.fr
         .EXAMPLE
@@ -86,7 +88,7 @@ function kscpGSSAPI {
 
     # 3. check if user provide all postitional arguments
     if ($positionalArgs.Count -lt 2) {
-        Write-Error "Syntaxe error. Usage example : kscp [options] <Source> <TargetHost>"
+        Write-Error "Syntaxe error. Usage example : kup [options] <Source> <TargetHost>"
         return
     }
 
@@ -111,7 +113,49 @@ function kscpGSSAPI {
     $scpArgs += "${env:USERNAME}@${targetHost}:/home/${env:USERNAME}/"
 
     # 6. run the scp command
-    Write-Host "Transfering data via SCP/GSSAPI to server ${targetHost}..." -ForegroundColor Cyan
+    Write-Host "Uploading data via SCP/GSSAPI to remote server ${targetHost}..." -ForegroundColor Cyan
+    scp @scpArgs
+}
+
+function kdownGSSAPI {
+    <#
+        .SYNOPSIS
+            create a wrapper for downloading data(e.g. file or directory) from a remote server to local filesystem.
+        .EXAMPLE
+            kdown machine.casd.fr:/tmp/rapport.pdf C:\Temp\
+        .EXAMPLE
+            kdown -r machine.casd.fr:/tmp/data_dir .
+    #>
+    $options = $args | Where-Object { $_ -match '^-' }
+    $positionalArgs = $args | Where-Object { $_ -notmatch '^-' }
+
+    if ($positionalArgs.Count -lt 2) {
+        Write-Error "Syntaxe error. Usage : kdown [options] <TargetHost:SourceDistante> <DestinationLocale>"
+        return
+    }
+
+    $remoteSource     = $positionalArgs[0]
+    $localDestination = $positionalArgs[1]
+
+    # complete the remote source path with user name
+    if ($remoteSource -notlike "*@*") {
+        $remoteSource = "${env:USERNAME}@${remoteSource}"
+    }
+
+    # check if target folder exists in the local file system
+    $parentLocal = Split-Path -Path $localDestination -Parent
+    if ($parentLocal -and -not (Test-Path -Path $parentLocal)) {
+        Write-Error "Error : The provided directory path does not exist on the local file system : $parentLocal"
+        return
+    }
+
+    # build the scp command args table
+    $scpArgs = @("-o", "GSSAPIAuthentication=yes")
+    if ($options) { $scpArgs += $options }
+    $scpArgs += $remoteSource
+    $scpArgs += $localDestination
+
+    Write-Host "Downloading data from remote server ${remoteSource} to local file system ..." -ForegroundColor Cyan
     scp @scpArgs
 }
 # --- end of configuration CASD ---
@@ -120,19 +164,24 @@ function kscpGSSAPI {
 # inject the casd config, add the config at the end of the profile file if the file exists
 if (Test-Path $PROFILE) {
     $currentContent = Get-Content $PROFILE -Raw
+
+    # Alerte d'administration si l'ancienne fonction kscp est détectée
+    if ($currentContent -like "*kscpGSSAPI*") {
+        Write-Warning "Warning : The old fonction 'kscp' has been detected in the user profile file. Do not use this function anymore, it's been deprecated."
+    }
     # to avoid duplication, check if profile contains the casd config or not
-    if ($currentContent -notlike "*kscpGSSAPI*") {
+    if ($currentContent -notlike "*kupGSSAPI*") {
         # backup the old version of the profile file
         Copy-Item -Path $PROFILE -Destination "$PROFILE-$timestamp.bak" -Force
         Add-Content -Path $PROFILE -Value "`n$aliasBlock" -Encoding utf8
-        Write-Host "The fonction kscp has been added to your profile" -ForegroundColor Green
+        Write-Host "The fonction kup and kdown have been added to your profile" -ForegroundColor Green
     } else {
-        Write-Host "The fonction kscp already in your profil. skipping" -ForegroundColor Yellow
+        Write-Host "The fonction kup and kdown already in your profil. skipping" -ForegroundColor Yellow
     }
 } else {
     # if the profile file does not exist, we create one
     $aliasBlock | Set-Content $PROFILE -Encoding utf8
-    Write-Host "The fonction kscp has been added to your profile" -ForegroundColor Green
+    Write-Host "The fonction kup and kdown have been added to your profile" -ForegroundColor Green
 }
 
 # Rechargement discret du profil pour la session en cours
