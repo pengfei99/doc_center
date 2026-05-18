@@ -61,29 +61,80 @@ if (-not (Test-Path $profileDir)) {
     New-Item -Path $profileDir -ItemType Directory -Force | Out-Null
 }
 
-if (Test-Path $aliasPath){
-    Rename-Item -Path $aliasPath -NewName "alias-$timestamp" -Force
-}
+# code block to be injected into user ps profile
+$aliasBlock = @'
 
-$configalias = @'
+# --- configuration CASD ---
 Set-Alias kscp kscpGSSAPI
 function kscpGSSAPI {
-    $options = @()
-	$source = $null
-	$hostname = $null
-	foreach ($arg in $args) {
-		if ($arg -match '^-') {
-			$options += $arg
-		} elseif (-not $source) {
-			$source = $arg
-		} elseif (-not $hostname) {
-			$hostname = $arg
-		}
-	}
-	scp -o GSSAPIAuthentication=yes $options $source ${env:USERNAME}@$($hostname):/home/${env:USERNAME}/
+    <#
+        .SYNOPSIS
+            create a wrapper for copying a file to a remote server via SCP with GSSAPI authentification.
+        .EXAMPLE
+            kscp document.txt machine.casd.fr
+        .EXAMPLE
+            kscp -r .\MonDossier machine.casd.fr
+        .EXAMPLE
+            kscp .\MonDossier machine.casd.fr -r -v
+    #>
+
+    # 1. Extraction of the option arguments (all arguments start with -)
+    $options = $args | Where-Object { $_ -match '^-' }
+
+    # 2. Extraction of the main positional arguments (1st:source, and 2nd:target)
+    $positionalArgs = $args | Where-Object { $_ -notmatch '^-' }
+
+    # 3. check if user provide all postitional arguments
+    if ($positionalArgs.Count -lt 2) {
+        Write-Error "Syntaxe error. Usage example : kscp [options] <Source> <TargetHost>"
+        return
+    }
+
+    $source     = $positionalArgs[0]
+    $targetHost = $positionalArgs[1]
+
+    # 4. check if source data exists
+    if (-not (Test-Path -Path $source)) {
+        Write-Error "Error : The provided data source path does not exist : $source"
+        return
+    }
+
+    # 5. clean user input of the target path, remove everything after :
+    $targetHost = $targetHost -replace ':$', ''
+
+    # 6. build the scp command args table
+    $scpArgs = @("-o", "GSSAPIAuthentication=yes")
+    if ($options) {
+        $scpArgs += $options
+    }
+    $scpArgs += $source
+    $scpArgs += "${env:USERNAME}@${targetHost}:/home/${env:USERNAME}/"
+
+    # 6. run the scp command
+    Write-Host "Transfering data via SCP/GSSAPI to server ${targetHost}..." -ForegroundColor Cyan
+    scp @scpArgs
 }
+# --- end of configuration CASD ---
 '@
 
-$configalias | Set-Content $aliasPath -Encoding utf8
+# inject the casd config, add the config at the end of the profile file if the file exists
+if (Test-Path $PROFILE) {
+    $currentContent = Get-Content $PROFILE -Raw
+    # to avoid duplication, check if profile contains the casd config or not
+    if ($currentContent -notlike "*kscpGSSAPI*") {
+        # backup the old version of the profile file
+        Copy-Item -Path $PROFILE -Destination "$PROFILE-$timestamp.bak" -Force
+        Add-Content -Path $PROFILE -Value "`n$aliasBlock" -Encoding utf8
+        Write-Host "The fonction kscp has been added to your profile" -ForegroundColor Green
+    } else {
+        Write-Host "The fonction kscp already in your profil. skipping" -ForegroundColor Yellow
+    }
+} else {
+    # if the profile file does not exist, we create one
+    $aliasBlock | Set-Content $PROFILE -Encoding utf8
+    Write-Host "The fonction kscp has been added to your profile" -ForegroundColor Green
+}
+
+# Rechargement discret du profil pour la session en cours
 . $PROFILE
 
