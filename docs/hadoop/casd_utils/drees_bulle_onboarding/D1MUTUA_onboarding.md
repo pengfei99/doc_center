@@ -144,9 +144,12 @@ cd C:\Users\Public\Documents\hadoop_cluster_onboarding\scripts
 # SSH Config created and secured for D1MUTUA_P_LIU0000
 ```
 
-> This script creates an ssh config file which allows you to do the ssh without typing your username
- and a new command `kscp` which allows you to copy data to the `d1mutua-client` server more easily.
-You can close this terminal now.
+> This script creates an ssh config file which allows you to do the ssh without typing your username.
+> 
+> It also generates two new commands `kup` and `kdown` which allows users to transfer data between the `TS-D1MUTUA`(Windows) and 
+> `d1mutua-client(linux)` server. 
+> 
+>  **You can close this terminal now.**
 
 
 ### 3.5 Test the new command
@@ -166,9 +169,9 @@ ssh d1mutua-client.casd.fr
 exit
 ```
 
-#### 3.5.2 Use kscp to transfer data
+#### 3.5.2 Use kup and kdown to transfer data
 
-The new command `kscp` allows us to transfer data with fewer arguments. 
+The new command `kup` allows us to upload data from `TS-D1MUTUA(Windows)` to `d1mutua-client(linux)` server. 
 
 Reuse the `powershell` terminal opened in section 3.5.1, then enter the below command
 
@@ -176,18 +179,13 @@ Reuse the `powershell` terminal opened in section 3.5.1, then enter the below co
 # go to the test data folder
 cd C:\Users\Public\Documents\hadoop_cluster_onboarding\data
 
-# copy a single file
-kscp stats.csv d1mutua-client.casd.fr
+# upload a single file
+kup stats.csv d1mutua-client.casd.fr
 
-# copy a folder 
-kscp -r folder2 d1mutua-client.casd.fr
+# upload a folder 
+kup -r folder2 d1mutua-client.casd.fr
 ```
 
-If you want to customize the `kscp` command, below shows the general form.
-
-```powershell
-kscp <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
-```
 
 After the data transfer, the data arrive to the server `d1mutua-client.casd.fr`. If you want to check the data, you need
 to connect to the `d1mutua-client` server(Linux).
@@ -196,13 +194,38 @@ to connect to the `d1mutua-client` server(Linux).
 # connect to the `d1mutua-client` server
 ssh d1mutua-client.casd.fr
 
-# check the data
-ls 
+# print your current folder path
+pwd
+# you should see something like /home/<your-username>
 
-# disconnect
+# check the uploaded data
+ls 
+# you should see the stats.csv file and folder2 
+
+# disconnect from the linux server
 exit
+# now you are in the powershell terminal again
 ```
 
+#### 3.5.3 Use kdown to download data
+
+The new command `kdown` allows us to `download` data from `d1mutua-client(linux)` server to `TS-D1MUTUA(Windows)`. 
+
+Reuse the `powershell` terminal opened in section 3.5.2, then enter the below command
+
+```powershell
+# go to the test data folder
+cd C:\Users\<your-username>\Documents\
+
+# download a single file to the windows Dcouments folder
+kdown d1mutua-client.casd.fr:/home/<your-username>/stats.csv .
+
+# download a folder the windows Dcouments folder
+kdown -r folder2 d1mutua-client.casd.fr:/home/<your-username>/folder2 .
+```
+
+> Open a file explorer in `TS-D1MUTUA(Windows)`, and check your Documents, you should see the file `stats.csv` and `folder2`.
+> 
 > You can close this terminal if everything works well
 
 ## 4. Check the hdfs client access
