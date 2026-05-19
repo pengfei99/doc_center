@@ -3,122 +3,210 @@
 The projet `D1MUTUA` has a Windows server, users already have groups defined in AD and associated projet data directory
 hierarchy defined in the Windows server. 
 
-For the administrator, you have three main tasks:
-1. apply user identity and groups of the Windows server(AD) to the Linux servers.
-2. configure `D1MUTUA` Windows server to allow user to connect and transferring data to the Linux servers
-The second is to create the same projet data directory hierarchy on HDFS and set the same ACL on HDFS as in the Windows server.
+For the administrator, you have four main tasks:
+1. synchronize user account and groups of the Windows server(AD) to the Linux servers.
+2. configure ssh client on `D1MUTUA` Windows server to allow user to connect and transferring data to the Linux servers
+3. Create home directory on hdfs and clone the same projet data directory hierarchy of `D1MUTUA` on the HDFS.
+4. Ensure the ACL on all HDFS files and directories as in the Windows server.
 
-## User auth and groups synchronization
+## 1. User account and groups synchronization in Linux server 
 
-The `user authentication` is done via `ticket Kerberos`. For example when user connect to linux server via ssh,
-The authentication process `ssh client -> sshd -> PAM -> sssd -> Kerberos -> AD`
+All the linux servers are connected to the CASD AD/KDC server. All the user accounts and groups information are from
+the AD/KDC.
 
-The groups synchronization is done via `sssd` and `Name Service Switch (NSS)`. When a user is connected, a user 
+The `user authentication` in Linux server is done via SSO `ticket Kerberos`. The first authentication is done inside
+the Windows server, after the authentication the Windows server grant user a `ticket kerberos`. When user connecte to 
+the Linux server, a new TGT is delegated to the linux server. For example when user connect to linux server via ssh,
+The authentication process `ssh client(windows) -> sshd(linux) -> PAM -> sssd -> Kerberos -> AD`
+
+The groups synchronization is done via `sssd` and `Name Service Switch (NSS)`. When a user is connected/authenticated, a user 
 lookup will be initiated to get user groups. By default, without NSS, the system checks `/etc/passwd` only. With NSS, 
 the system can do `user lookup -> files(/etc/passwd) -> sssd -> ldap/AD -> …`
 
-## HDFS folder setup
+The key config file are(to do):
+- /etc/ssh/sshd_config
+- /etc/pam.d/...(six files)
+- /etc/nss.conf
 
-In HDFS, we will create two types of folders:
-- user home folder: user personal folder to store private data
-- projet folder: project data folder shared between all users of the project
+### 1.1 Access control
 
-> For now, we decided all users in group `d1mutua` are allowed to use the hdfs folder (e.g. ssh access, hdfs home folder)
+Even the user has an account in AD and a valid kerberos ticket, it does not mean this user has the right to access the 
+Linux servers. We use RBAC to control user access of the linux servers. So in `sshd_config`, we use `allow group` to
+control which group of the users has access.
+
+> For example, for project `D1MUTUA`, we only allow users of group `D1MUTUA`.
+
+## 2. Configure ssh client on windows side
+
+The minimum configuration of ssh client (C:\Users\<user-name>\.ssh\config) on windows side is shown in the below example 
+
+```powershell
+Host *.casd.fr
+    User                        $env:USERNAME
+    GSSAPIAuthentication        yes
+    GSSAPIDelegateCredentials   yes
+    PreferredAuthentications    gssapi-with-mic
+```
+
+This config allows user to do the below command
+
+```powershell
+ssh -K D1MUTUA_P_LIU0000@d1mutua-client.casd.fr
+```
+
+To allow users to transfer data between windows and linux, we can use scp command.
+
+```powershell
+# for example, transfer a file test.txt, don't forget to replace D1MUTUA_P_LIU0000 by your username
+scp -o GSSAPIAuthentication=yes t1.txt D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
+
+# for example, transfer a folder, you need to add -r to make the command recursive
+scp -o GSSAPIAuthentication=yes -r folder1/ D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
+```
+
+### 2.1 shortcut
+
+To facilitate user's command, we have developed a script to create shortcut for data transferring. You can find the 
+source of the script [gen_win_shortcut.ps1](./scripts/win/gen_win_shortcut.ps1)
+
+
+## 3. HDFS folder setup
+
+For `D1MUTUA`, we will create two types of folders in hdfs:
+- `user home folder`: user personal folder to store private data
+- `projet folder`: project data folder shared between all users of the project
+
+
+### 3.1 Create user home folder
+
+For `D1MUTUA`, we have decided that the root path of the users home folder is `/users/.`. For example, for `user1`, the 
+home folder path will be `/users/user1`.
+
+
+
+### 3.2 Create project folder
+
+For `D1MUTUA`, we have decided that the root path of the users home folder is `/projects/.`. For example, for `project1`, 
+the project folder path will be `/projects/project1`.
+
+The project folder hierarchy is defined in the `D1MUTUA` Windows server file system. The naming convention and 
+associated group information is defined in a file. Here we only give an example
+
+```text
+# in the `D1MUTUA` Windows server file system, you will see:
+V:\
+  BES\
+    COMMUN
+    ENQUETE-URGENCE
+    RPU
+  BCL\
+    COMMUN
+    EEC
+    OLINPE-PRODUCTION
+    PRODUCTION-CSNS
+
+# the corresponding hdfs folder name and associated group will be:
+BES_ENQUETE-URGENCE,G_D1_BES_ENQUETE-URGENCE
+BES_RPU,G_D1_BES_RPU
+BCL_EEC,G_D1_BCL_EEC
+BCL_OLINPE-PRODUCTION,G_D1_BCL_OLINPE-PRODUCTION
+BCL_PRODUCTION-CSNS,G_D1_BCL_PRODUCTION-CSNS
+```
+
+> The groups and group members are defined in AD, the linux server only synchronize these information from AD.
+
+## 4. ACL setup
+
+### 4.1 User home folder acl setup
+
+For now, we have decided the ACL of the user home folder will be 
+
+```text
+user::rwx,group::r-x,other::---,mask::r-x,default:user::rwx,default:group::r-x,default:other::---,default:mask::r-x
+```
+
+> 1. User is the owner of his home folder which has all the right.
+> 2. Group is the admin group which has read and execute right
+> 3. Other has 0 right
+> The mask defines the max right of group and other which the owner can set up.
+> 
+### 4.2 Project folder acl setup
+
+For now, we have decided the ACL of the project folder will be
+
+```text
+user::rwx,group::rwx,other::---,mask::rwx,default:user::rwx,default:group::rwx,default:other::---,default:mask::rwx
+```
+
+>1. The owner of the project folder is the admin user.
+>2. The group is a dedicated group of the target project (You can check section 3.2 for example)
+
+
+## 5 HDFS folder creation Automation
+
+To avoid creating these folder manually, we have created server scripts to automate the process
+
+### 5.1 User home folder creation
+
+For now, we have decided for all users in group `D1MUTUA`, we will create a home folder.
+
+You can use this script [create_hdfs_home_dir.sh](./scripts/lin/create_hdfs_home_dir.sh). 
+
+This script takes three types of argument
+- `-n` :  Process a single `AD username`
+- `-f` :  Process a list of users from a file (one AD username per line)
+- `-g` :  Process all users belonging to a specific `AD group`
+
+```shell
+
+create_home_dir_group.sh [-n username] | [-f filename] | [-g groupname]
+  -n  Process a single OS/AD username
+  -f  Process a list of users from a file (one username per line)
+  -g  Process all users belonging to a specific system/AD group
+
+```
+
+> To run this script, the user must have a valid ticket kerberos and write privilege of `/users` in hdfs.
+> A cron job is recommended to run this script on the background.
+
+### 5.2 Project folder creation
+
+For the project folder, as the origin folder hierarchy is in a Windows server. So the first part is to generate the 
+folder name and associated groups in the Windows server.
+
+We have developed a Powershell script [gen_projet_dir_group_mapping.ps1](./scripts/win/gen_projet_dir_group_mapping.ps1).
+
+> This script runs inside `D1MUTUA` windows server.
+> 
+> Before running this script, don't forget to change the `root project path` in the config section. The default value is `V:\`.
+> 
+> This script generates a csv file without header, it has two columns, 1st column is the `folder name`, 2nd column is the `associated
+> group name`
+
+
+The second part is to create folder in HDFS and setup ACL. You can use this script [create_hdfs_project_dir.sh](./scripts/lin/create_hdfs_project_dir.sh)
+
+This script takes two types of argument:
+- `Single project mode`: create_hdfs_project_dir.sh -p <project_name> -g <group_name>
+- `Batch Mode`    : create_hdfs_project_dir.sh -f <csv_file>     
+
+> For batch mode, the input csv file should be generated by the first script `gen_projet_dir_group_mapping.ps1`. The 
+> csv file format should be project,group without header
+> 
+> 
+## 6. Running a jupyter server
+
+For now, we have not been able to run hdfs client with kerberos on windows, so we launch a jupyter lab server on linux
+for user to do inactive pyspark job.
+
+To avoid port conflict, we have developed a script [launch_jupyter.bash](./scripts/lin/launch_jupyter.bash) which detects
+available ports and run the jupyter server with the first available port.
+
+We also create a shortcut in /usr/local/bin to run this script with below example
 
 
 ```shell
-# get members of a given group
-> getent group casd-ds
-
-# output example
-casd-ds:*:300001:toto,pliu-ad,titi,tata
+run_jupyterlab
 ```
-```shell
-#!/bin/bash
-
-# This function first checks if the user exists in the AD. If not abort.
-# If the user exists, it checks if the user already have a home folder or not. If not abort.
-# If the user does not have a home dir in the hdfs cluster, it creates a home dir for the user
-# Then it applies the folder acl and default acl on the user home dir
-apply_hdfs_policy() {
-    local USER=$1
-    # default home dir path
-    local DIR="/users/$USER"
-    # default principal group of the acl
-    local GROUP="hadoop"
-    # user::rwx (Owner)
-    # group::r-x (Hadoop group can browse/read)
-    # other::--- (Strictly no access for others)
-    # mask::---  (The ceiling for non-owners)
-    local ACL="user::rwx,group::r-x,other::---,mask::---,default:user::rwx,default:group::r-x,default:other::---,default:mask::---"
-
-    # 1. Check if user exists in the system
-    if ! getent passwd "$USER" > /dev/null 2>&1; then
-        echo "Error: User '$USER' does not exist in the AD. Skipping the home directory creation."
-        return 1
-    fi
-
-    # 2. check if the user home directory exist or not
-    if hdfs dfs -test -d "$DIR"; then
-            echo "Error: The user directory '$DIR' exit already. Skipping user home creation for '$USER'"
-            return 1
-    fi
-
-    echo "--- Processing User: $USER ---"
-
-    # 3. Create directory
-    if ! hdfs dfs -mkdir -p "$DIR"; then
-        echo "Error: Failed to create HDFS directory $DIR"
-        return 1
-    fi
-
-    # 4. Set Ownership (User:AdminGroup)
-    hdfs dfs -chown "$USER:$GROUP" "$DIR"
-
-    # 5. Set Base Permissions (750)
-    hdfs dfs -chmod 750 "$DIR"
-
-    # 6. Apply ACLs and Default ACLs
-
-    hdfs dfs -setfacl -m "$ACL" "$DIR"
-    echo "INFO: ACL policy applied successfully for $USER."
-}
-
-# Main script usage example
-# bash create_home_dir.sh -n pengfei
-# bash create_home_dir.sh -f users.txt
-# The users.txt contains only one column which is the user name without header
-# Parse Arguments
-while getopts "n:f:" opt; do
-  case $opt in
-    n)
-      apply_hdfs_policy "$OPTARG"
-      ;;
-    f)
-      if [[ -f "$OPTARG" ]]; then
-        while IFS= read -r line || [[ -n "$line" ]]; do
-          # Skip empty lines or comments
-          [[ -z "$line" || "$line" =~ ^# ]] && continue
-          apply_hdfs_policy "$line"
-        done < "$OPTARG"
-      else
-        echo "Error: File $OPTARG not found."
-        exit 1
-      fi
-      ;;
-    *)
-      echo "Usage: $0 [-n username] [-f filename]"
-      exit 1
-      ;;
-  esac
-done
-
-# If no arguments provided
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 [-n username] [-f filename]"
-    exit 1
-fi
 
 
-
-```
