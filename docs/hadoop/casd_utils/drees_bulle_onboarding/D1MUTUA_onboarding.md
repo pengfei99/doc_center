@@ -151,6 +151,9 @@ cd C:\Users\Public\Documents\hadoop_cluster_onboarding\scripts
 > 
 >  **You can close this terminal now.**
 
+Based on how many times you have run the script the output will be different. Below figure shows some possible output
+
+![outputs_of_the_script_gen_ssh_conf.PNG](./imgs/outputs_of_the_script_gen_ssh_conf.PNG)
 
 ### 3.5 Test the new command
 
@@ -389,4 +392,22 @@ INFO: To stop the JupyterLab, use ctrl+C or close the terminal.
 ```
 
 You need to copy the jupyterlab url and open it with a browser in `TS-D1MUTUA`.
+
+
+## 6. Common problems
+
+### 6.1 Use Firefox to access HDFS web interface
+
+When you try to open the HDFS web interface with Firefox, you will see some error message. This happens because the 
+Firefox does not trust the KDC server by default.
+
+To trust the CASD kdc server, you can type `about:config` in your firefox url input. You will see a confirmation button
+(accept the risk and continue), click on it, you will see the firfox configuration page.
+
+Now, type `network.negotiate-auth`, you will see the below parameters:
+- _network.negotiate-auth.trusted-uris_: casd.fr
+- _network.negotiate-auth.delegation-uris_: casd.fr
+
+
+![firefox_krb_config.PNG](./imgs/firefox_krb_config.PNG)
 
