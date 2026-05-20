@@ -130,7 +130,7 @@ cd C:\Users\<your-username>\Documents\
 kdown d1mutua-client.casd.fr:/home/<your-username>/stats.csv .
 
 # download a folder the windows Dcouments folder
-kdown -r folder2 d1mutua-client.casd.fr:/home/<your-username>/folder2 .
+kdown -r d1mutua-client.casd.fr:/home/<your-username>/folder2 .
 ```
 
 > Open a file explorer in `TS-D1MUTUA(Windows)`, and check your Documents, you should see the file `stats.csv` and `folder2`.
@@ -268,7 +268,7 @@ if __name__ == "__main__":
     main()
 ```
 
-> use `ctrl+o` for saving file. ctrl+x for exiting.
+> use `ctrl+o` for saving file, you need to choose `yes` to confirm. Then use `ctrl+x` for exiting nano.
 
 Now we can submit the job to the cluster with the below command
 
