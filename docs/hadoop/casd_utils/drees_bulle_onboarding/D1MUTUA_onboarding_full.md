@@ -5,47 +5,65 @@ This tutorial aims to help you to be familiar on how to use spark/hdfs cluster i
 We will follow the below steps in this tutorial.
 
 - understand the general architecture of the cluster
-- check web interface access of the cluster
-- check ssh access of the cluster
-- check hdfs client of the cluster
-- check spark client of the cluster
+- check web interface access
+- config and check ssh access
+- config and check hdfs client access
+- config and check spark client access
 
 ## 1. Architecture of the cluster
 
 The below figure shows the general architecture of the cluster
 
-![architecture.png](./imgs/architecture.png "width=70%")
+![](./imgs/architecture.png "width=70%")
 
 - The `TS-D1MUTUA`: is the main server(Windows) which you connect to via the `SD-BOX`. 
 - The `d1mutua-client`: is the server(debian 13) which allows you to interact with the spark/hdfs cluster.
 - The `d1mutua-m01, d1mutua-w01/w02/w03`: are the servers which form the spark/hdfs cluster. The end users can not access 
     them directly, but through spark/hdfs client which are installed/configured on `d1mutua-client`.
 
-## 2. Check web interface access of the cluster
+## 2. Check web interface (TS-D1MUTUA)
 
-This step happens inside the `TS-D1MUTUA` server (Windows).
+This steps happens inside the `TS-D1MUTUA` server(Windows).
 
-You can visit the following url by using the `Firefox` web browser.
+You can visit the following url by using the `Chrome` web browser.
 
-- [hdfs web interface](https://d1mutua-m01.casd.fr:50470/explorer.html) : is the web interface which allows users to view directories and data in the hdfs cluster.
-- [spark web interface](https://d1mutua-m01.casd.fr:8090/cluster) : is the web interface which allows users to view spark jobs and available resources of the cluster. 
+- https://d1mutua-m01.casd.fr:50470/explorer.html : is the hdfs cluster web interface which allows you to view directories and data of your projects.
+- https://d1mutua-m01.casd.fr:8090/cluster : is the spark cluster web interface which allows you to view spark jobs and available resources of the cluster. 
 
-> There is a shortcut created in `Bureau`->`Raccourcis`->`Cluster`. You only need to double-click on it. A `Firefox` web browser
-> will be opened automatically.
->
-> The first connection may take few seconds, because of the kerberos ticket and user groups checking.
+> The first connection may take few seconds, because of the ticket and group checking.
 > You may also need to accept the certificat if you see warnings.
   
 ## 3. Check the access of d1mutua-client
 
 This steps happens inside the `TS-D1MUTUA` server(Windows). It allows you to test if you can connect to
-the `d1mutua-client` server with your kerberos ticket via ssh protocol.
+the `d1mutua-client` server.
 
+### 3.1 Get your username
 
-### 3.1 Connect to the `d1mutua-client` server
+Get the right username is very important for the rest of this tutorial, it specifies which is your login name for:
+
+- `d1mutua-client` server. 
+- directory and file access control on the hdfs cluster
+- spark job resources control
+
+To get your username:
+
+- open a `powershell` terminal
+- type the below command
+
+```powershell
+$env:USERNAME
+
+# for example, the output for me
+D1MUTUA_P_LIU0000
+```
+
+> The username must be in `capital letter`.
+
+### 3.2 Connect to the `d1mutua-client` server
 
 As we mentioned before, to use the spark/hdfs cluster, you need to connect to the `d1mutua-client`server(Linux).
-Users can access `d1mutua-client` server(Linux) via `ssh` protocol. 
+The server access is done via `ssh` protocol. 
 
 To test the connectivity: 
 
@@ -53,19 +71,20 @@ To test the connectivity:
 - type the below command
 
 ```powershell
-# ssh is the command
-# d1mutua-client.casd.fr is the target server url
-ssh d1mutua-client.casd.fr
+# general form of the command
+ssh -K <username>@d1mutua-client.casd.fr
+
+# for example, for me the command should be like
+ssh -K D1MUTUA_P_LIU0000@d1mutua-client.casd.fr
 ```
 
-> After the above command, you should see a welcoming message from `CASD`. You should also notice the header of the `powershell` terminal
-changed from `C:\Users\..` to `<user-name>@d1mutua-client`. 
-> 
-> From now on, all the commands you entered inside this terminal will be executed on the `d1mutua-client` server(Linux). 
+After the above command, you should see a welcoming message from `CASD`. You should also notice the header of the `powershell` terminal
+changed from `C:\Users\..` to `...@d1mutua-client`. From now on, all the commands you entered inside this terminal will be executed on the `d1mutua-client` server(Linux). 
+
+> For now, we only allow end users to access `d1mutua-client` server. All the other servers of the cluster are not accessible.
 
 
-
-### 3.2 Transfer data between `TS-D1MUTUA` and `d1mutua-client`  
+### 3.3 Transfer data between `TS-D1MUTUA` and `d1mutua-client`  
 
 Suppose you have data(i.e. test.txt) in `TS-D1MUTUA`(Windows), you want to transfer the data to `d1mutua-client`(Linux):
 
@@ -107,6 +126,51 @@ exit
 
 > you should see the test.txt and data_folder. If everything is ok, you can close all the terminal now.
 
+### 3.4 Create shortcut for ssh and scp
+
+To facilitate your access to the `d1mutua-client` server(Linux) and data transfer, `CASD` have developed a little 
+script which can generate ssh config files to make the ssh command shorter
+
+Open a new `powershell` terminal, and type the below command
+
+```powershell
+# goto the script folder
+cd C:\Users\Public\Documents\hadoop_cluster_onboarding\scripts
+
+# run the script
+.\gen_ssh_conf.ps1
+
+# expected output example
+# SSH Config created and secured for D1MUTUA_P_LIU0000
+```
+
+> This script creates an ssh config file which allows you to do the ssh without typing your username.
+> 
+> It also generates two new commands `kup` and `kdown` which allows users to transfer data between the `TS-D1MUTUA`(Windows) and 
+> `d1mutua-client(linux)` server. 
+> 
+>  **You can close this terminal now.**
+
+Based on how many times you have run the script the output will be different. Below figure shows some possible output
+
+![outputs_of_the_script_gen_ssh_conf.PNG](./imgs/outputs_of_the_script_gen_ssh_conf.PNG)
+
+### 3.5 Test the new command
+
+To test the new command, you need to open a new `powershell` terminal.
+
+#### 3.5.1 Connect to the `d1mutua-client` server
+
+Now you can use the below command to connect to the `d1mutua-client` server
+
+```powershell
+ssh d1mutua-client.casd.fr
+
+# if everything works well, you should see the welcome message of CASD
+
+# disconnect from the `d1mutua-client` server
+exit
+```
 
 #### 3.5.2 Use kup and kdown to transfer data
 
@@ -330,4 +394,20 @@ INFO: To stop the JupyterLab, use ctrl+C or close the terminal.
 You need to copy the jupyterlab url and open it with a browser in `TS-D1MUTUA`.
 
 
+## 6. Common problems
+
+### 6.1 Use Firefox to access HDFS web interface
+
+When you try to open the HDFS web interface with Firefox, you will see some error message. This happens because the 
+Firefox does not trust the KDC server by default.
+
+To trust the CASD kdc server, you can type `about:config` in your firefox url input. You will see a confirmation button
+(accept the risk and continue), click on it, you will see the firfox configuration page.
+
+Now, type `network.negotiate-auth`, you will see the below parameters:
+- _network.negotiate-auth.trusted-uris_: casd.fr
+- _network.negotiate-auth.delegation-uris_: casd.fr
+
+
+![firefox_krb_config.PNG](./imgs/firefox_krb_config.PNG)
 
