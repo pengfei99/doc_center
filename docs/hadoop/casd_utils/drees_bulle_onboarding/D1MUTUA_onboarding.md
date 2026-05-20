@@ -134,9 +134,16 @@ kdown -r folder2 d1mutua-client.casd.fr:/home/<your-username>/folder2 .
 ```
 
 > Open a file explorer in `TS-D1MUTUA(Windows)`, and check your Documents, you should see the file `stats.csv` and `folder2`.
-> 
 
-> 
+If you don't know your username, you can open a new `powershell` terminal and enter the below command
+
+```powershell
+$env:USERNAME
+
+# for example, the output for me
+D1MUTUA_P_LIU0000
+```
+
 #### 3.2.3 Get help
 
 If you want to know more details about the two commands, you can enter the below command
