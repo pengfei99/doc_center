@@ -73,11 +73,11 @@ function kupGSSAPI {
         .SYNOPSIS
             create a wrapper for uploading data(e.g. file or directory) to a remote server via SCP with GSSAPI authentification.
         .EXAMPLE
-            kscp document.txt machine.casd.fr
+            kup document.txt machine.casd.fr
         .EXAMPLE
-            kscp -r .\MonDossier machine.casd.fr
+            kup -r .\MonDossier machine.casd.fr
         .EXAMPLE
-            kscp .\MonDossier machine.casd.fr -r -v
+            kup .\MonDossier machine.casd.fr -r -v
     #>
 
     # 1. Extraction of the option arguments (all arguments start with -)

@@ -63,56 +63,26 @@ changed from `C:\Users\..` to `<user-name>@d1mutua-client`.
 > 
 > From now on, all the commands you entered inside this terminal will be executed on the `d1mutua-client` server(Linux). 
 
-
-
-### 3.2 Transfer data between `TS-D1MUTUA` and `d1mutua-client`  
-
-Suppose you have data(i.e. test.txt) in `TS-D1MUTUA`(Windows), you want to transfer the data to `d1mutua-client`(Linux):
-
-- Open a new `powershell` terminal
-- Run the below command
+To disconnect from the `d1mutua-client`server(Linux), use the below command
 
 ```powershell
-# go to the test data folder
-cd C:\Users\Public\Documents\hadoop_cluster_onboarding\data
-
-# for example, transfer a file test.txt, don't forget to replace D1MUTUA_P_LIU0000 by your username
-scp -o GSSAPIAuthentication=yes t1.txt D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
-
-# for example, transfer a folder, you need to add -r to make the command recursive
-scp -o GSSAPIAuthentication=yes -r folder1/ D1MUTUA_P_LIU0000@d1mutua-client.casd.fr:/home/D1MUTUA_P_LIU0000/
-```
-
-> To run the above command in your context, you need to replace the `D1MUTUA_P_LIU0000` by your username(check section 3.1)
-> and you need to have `t1.txt` and `folder1` in `TS-D1MUTUA`(Windows). Below is the general form of the scp command.
-
-```powershell
-# general form of the command
-scp -o GSSAPIAuthentication=yes <src_data> <USERNAME>@d1mutua-client.casd.fr:/home/<USERNAME>/
-```
-
-To check if the data arrived correctly, you can use the terminal opened in step `3.2 Connect to the d1mutua-client server`
-In this terminal, you are in `d1mutua-client`(Linux).
-
-```shell
-# go back to your home folder in d1mutua-client
-cd 
-
-# list all files and directories
-ls 
-
-# disconnect from the `d1mutua-client` server
 exit
 ```
 
-> you should see the test.txt and data_folder. If everything is ok, you can close all the terminal now.
+> You should see the header of the `powershell` terminal changed from `<user-name>@d1mutua-client` to `C:\Users\..`.
+
+### 3.2 Transfer data between `TS-D1MUTUA` and `d1mutua-client`  
+
+In this section, we will learn hot to transfer data between `TS-D1MUTUA`(Windows) and `d1mutua-client`(Linux):
+
+To facilitate the data transfer, CASD has developed two commands `kup` and `kdown`
 
 
-#### 3.5.2 Use kup and kdown to transfer data
+#### 3.2.1 Use kup to upload data
 
-The new command `kup` allows us to upload data from `TS-D1MUTUA(Windows)` to `d1mutua-client(linux)` server. 
+The command `kup` allows us to upload data from `TS-D1MUTUA(Windows)` to `d1mutua-client(linux)` server. 
 
-Reuse the `powershell` terminal opened in section 3.5.1, then enter the below command
+Open a new `powershell` terminal, then enter the below command
 
 ```powershell
 # go to the test data folder
@@ -127,7 +97,7 @@ kup -r folder2 d1mutua-client.casd.fr
 
 
 After the data transfer, the data arrive to the server `d1mutua-client.casd.fr`. If you want to check the data, you need
-to connect to the `d1mutua-client` server(Linux).
+to connect to the `d1mutua-client` server(Linux). Use the first terminal opened in section 3.1 and enter the commands below
 
 ```powershell
 # connect to the `d1mutua-client` server
@@ -143,14 +113,14 @@ ls
 
 # disconnect from the linux server
 exit
-# now you are in the powershell terminal again
+# now you are in the windows powershell terminal again
 ```
 
-#### 3.5.3 Use kdown to download data
+#### 3.2.2 Use kdown to download data
 
-The new command `kdown` allows us to `download` data from `d1mutua-client(linux)` server to `TS-D1MUTUA(Windows)`. 
+The command `kdown` allows us to `download` data from `d1mutua-client(linux)` server to `TS-D1MUTUA(Windows)`. 
 
-Reuse the `powershell` terminal opened in section 3.5.2, then enter the below command
+Reuse the `powershell` terminal opened in section 3.2.1, then enter the below command
 
 ```powershell
 # go to the test data folder
@@ -165,6 +135,20 @@ kdown -r folder2 d1mutua-client.casd.fr:/home/<your-username>/folder2 .
 
 > Open a file explorer in `TS-D1MUTUA(Windows)`, and check your Documents, you should see the file `stats.csv` and `folder2`.
 > 
+
+> 
+#### 3.2.3 Get help
+
+If you want to know more details about the two commands, you can enter the below command
+
+```powershell
+# get function description
+Get-help kdown
+
+# get function example
+Get-help kdown Examples
+```
+
 > You can close this terminal if everything works well
 
 ## 4. Check the hdfs client access
@@ -183,7 +167,7 @@ ssh d1mutua-client.casd.fr
 
 In `d1mutua-client` server(Linux), you have two different file system.
 - local file system of `d1mutua-client` server.
-- distributed file system of the hdfs cluster.
+- distributed file system of the `hdfs cluster`.
 
 Run the below command to test your hdfs client.
 
@@ -209,6 +193,7 @@ hdfs dfs -ls /projects
 # try to access a project 
 hdfs dfs -ls /projects/BCL_EEC
 ```
+
 ### 4.1 transfer data from local file system to hdfs cluster
 
 As `spark` is a framework for distributed computing, the data must be also distributed. That's why `spark` can't use 
