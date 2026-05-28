@@ -208,8 +208,16 @@ We have installed llama.cpp, downloaded a model. Now we can do some tests with `
 Check version first, because the commands change a lot based on your version
 
 ```shell
- /opt/llama.cpp/build/bin/llama-cli --version
+/opt/llama.cpp/build/bin/llama-cli --version
+ 
+# expected output
+version: 9377 (48e7eae41)
+built with GNU 14.2.0 for Linux x86_64
 ```
+
+> The below llama-client prompt command are tested with this version, if you use older or newer version, the below
+> command may not work.
+
 
 ### 6.1 One-and-Done Inline Prompt
 
@@ -230,28 +238,104 @@ Parameter Breakdown:
 - `-t 4`: Sets execution parallelism constraints to 4 system threads (tune this matching your exact physical CPU core layout).
 
 
-### 6.2 Interactive Chat Mode (Terminal UI Replacement)
-This pattern morphs your standard SSH command line session into a conversational chatbot loop.
+### 6.2 Interactive Chat Mode 
+
+Modern `GGUF models` embed their exact text parsing structure directly into their file metadata 
+(e.g., Llama 3 uses <|im_start|>, while Gemma uses <|start_of_turn|>). Instead of manually typing these system tags, 
+you can tell `llama-cli` to look up and apply the model's native template automatically:
 
 ```shell
 /opt/llama.cpp/build/bin/llama-cli \
   -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
-  -i \
-  -r "User:" \
-  --in-prefix " " \
-  --in-suffix "Assistant:" \
-  -c 4096 \
-  --color
+  -cnv \
+  -p "You are an automated backup validation assistant."
 ```
 
 Parameter Breakdown:
-- `-i`: Toggles Interactive Mode. Rather than terminating after generating a text block, the pipeline pauses execution hooks and waits for keyboard input.
+- `-cnv`: Activates the `Conversation/Chat Template mode`. It triggers an internal Jinja template parser that 
+           automatically detects the structural format needed by the specific GGUF model you loaded.
 
-- `-r "User:"`: Defines the Reverse Prompt. Whenever the engine naturally outputs the word "User:", it safely halts token emission and returns string capture focus back to you.
+- `-p`: Acts as your global System Prompt inside conversation mode, setting the model's behavior and constraints.
 
-- `--in-prefix / --in-suffix`: Automates formatting boundaries. It appends contextual tokens cleanly before and after your raw input typing, keeping the context window structured.
 
-- `--color`: Color-codes terminal text (e.g., matching model output vs. user input) for visual clarity.
+### 6.3 Deterministic JSON Schema Enforcement (Grammar Constraints)
+
+When your infrastructure expects structured configuration file output, you can enforce hard programmatic rules using a 
+`GBNF (GGML Backus-Naur Form) grammar template`. This forces the model's token selection process to only return 
+syntactically valid outputs.
+
+For instance, to ensure the model outputs nothing but a clean, structured JSON tracking array containing integers 
+and strings:
+
+```shell
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  --grammar '
+    root   ::= "{" ws "\"service\":" ws string "," ws "\"port\":" ws number "}" ws
+    ws     ::= [ \t\n\r]*
+    number ::= [0-9]+
+    string ::= "\"" [a-zA-Z0-9_]* "\""
+  ' \
+  -p "User: Output the default SSH configuration schema as JSON."
+```
+
+> The model does not have notions about custom rules like `ws (whitespace), string, or number` inside your root entry.
+> As a result we need to define them with explicite regex definitions.
+
+In modern versioin, you can use `--json-schema` to specify the json structure directly
+
+```shell
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  --json-schema '{"type": "object", "properties": {"service": {"type": "string"}, "port": {"type": "integer"}}, "required": ["service", "port"]}' \
+  -p "Output the default SSH configuration schema."
+
+```
+
+or you can create a schema file, and join the template file in the prompt with the command `-jf`.
+
+```shell
+# create a schema file
+cat << 'EOF' > /tmp/my_schema.json
+{
+  "type": "object",
+  "properties": {
+    "service": { "type": "string" },
+    "port": { "type": "integer" }
+  },
+  "required": ["service", "port"]
+}
+EOF
+
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  -jf /tmp/my_schema.json \
+  -p "Output the default SSH configuration schema." 
+```
+
+### 6.4 Use system command in a query
+
+Suppose you have a log file at `/tmp/syslog`, and you want the llm to analyze the content of the file. The normal way is 
+to copy the content of the file in the prompt. 
+
+```shell
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  -p "$(echo "Analyze this log file for kernel panic warnings:"; cat /tmp/syslog)" \
+  -n 256 \
+  -t 4
+```
+
+Or we can use `tail -n` to replace `cat`
+
+```shell
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  -p "$(echo "Analyze this log file for kernel panic warnings:"; tail -n 10 /tmp/syslog)" \
+  -n 256 \
+  -t 4
+```
+
 
 ## 7. Run llama-server as daemon
 
@@ -349,12 +433,12 @@ sudo nginx -t && sudo systemctl restart nginx
 To check the end point, you can use the below curl commands
 
 ```shell
-curl http://localhost/v1/chat/completions \
+curl http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [
       {"role": "system", "content": "You are a helpful Debian sysadmin."},
-      {"role": "user", "content": "Write a quick command to check memory usage."}
+      {"role": "user", "content": "Write a bash script to check memory usage."}
     ]
   }'
 ```
