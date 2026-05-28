@@ -204,6 +204,55 @@ curl -L -o /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
 
 ## 6. Test llama.cpp with llama-client
 
+We have installed llama.cpp, downloaded a model. Now we can do some tests with ``llama-client`.
+Check version first, because the commands change a lot based on your version
+
+```shell
+ /opt/llama.cpp/build/bin/llama-cli --version
+```
+
+### 6.1 One-and-Done Inline Prompt
+
+```shell
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  -p "System: You are an expert Debian SysAdmin.\nUser: Write a short bash script to check disk alerts.\nAssistant:" \
+  -n 256 \
+  -t 4
+```
+
+Parameter Breakdown:
+- `-m`: specifies the model location
+- `-p`: The explicit structural prompt. It specifies manual separation tags (System:, User:, Assistant:) so the model knows precisely where its text output generation needs to begin.
+
+- `-n 256`: Caps generation at a maximum of 256 tokens to prevent the model from infinitely writing code or looping.
+
+- `-t 4`: Sets execution parallelism constraints to 4 system threads (tune this matching your exact physical CPU core layout).
+
+
+### 6.2 Interactive Chat Mode (Terminal UI Replacement)
+This pattern morphs your standard SSH command line session into a conversational chatbot loop.
+
+```shell
+/opt/llama.cpp/build/bin/llama-cli \
+  -m /var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf \
+  -i \
+  -r "User:" \
+  --in-prefix " " \
+  --in-suffix "Assistant:" \
+  -c 4096 \
+  --color
+```
+
+Parameter Breakdown:
+- `-i`: Toggles Interactive Mode. Rather than terminating after generating a text block, the pipeline pauses execution hooks and waits for keyboard input.
+
+- `-r "User:"`: Defines the Reverse Prompt. Whenever the engine naturally outputs the word "User:", it safely halts token emission and returns string capture focus back to you.
+
+- `--in-prefix / --in-suffix`: Automates formatting boundaries. It appends contextual tokens cleanly before and after your raw input typing, keeping the context window structured.
+
+- `--color`: Color-codes terminal text (e.g., matching model output vs. user input) for visual clarity.
+
 ## 7. Run llama-server as daemon
 
 Create a systemd config file `/etc/systemd/system/llama.service`
@@ -255,6 +304,8 @@ sudo systemctl start/stop/status llama.service
 # enable daemon at reboot
 sudo systemctl enable --now llama.service
 
+# to check daemon journal/log
+sudo journalctl -u llama.service -n 50 --no-pager
 ```
 
 ## 8. Setup reverse Proxy with Nginx 
@@ -267,7 +318,7 @@ safe network mapping, and prepare for TLS encryption certificates.
 sudo apt install -y nginx
 ```
 
-create a configuration file for llama.cpp at `/etc/nginx/sites-available/llama`.
+create a nginx profile configuration file for llama.cpp at `/etc/nginx/sites-available/llama`.
 
 ```shell
 server {
@@ -287,4 +338,23 @@ server {
     }
 }
 ```
+Activate the profile and cycle the Nginx daemon:
 
+```shell
+sudo ln -s /etc/nginx/sites-available/llama /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t && sudo systemctl restart nginx
+```
+
+To check the end point, you can use the below curl commands
+
+```shell
+curl http://localhost/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "system", "content": "You are a helpful Debian sysadmin."},
+      {"role": "user", "content": "Write a quick command to check memory usage."}
+    ]
+  }'
+```
