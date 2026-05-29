@@ -12,7 +12,7 @@
         <link rel="prev" href="../01.Install_hdfs_yarn/">
       
       
-        <link rel="next" href="../../kerberos_integration/Integrate_kerberos_in_hadoop_cluster/">
+        <link rel="next" href="../../../Onyxia/03.Install_onyxia/">
       
       
         
@@ -4495,7 +4495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kerberos_integration/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../../kerberos_integration/Integrate_kerberos_in_hadoop_cluster.md" class="md-nav__link">
         
   
   
@@ -4523,7 +4523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
+      <a href="../../kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md" class="md-nav__link">
         
   
   
@@ -4606,7 +4606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
+      <a href="../../cluster_clients/01.Install_hdfs_clients.md" class="md-nav__link">
         
   
   
@@ -4634,7 +4634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
+      <a href="../../cluster_clients/02.Install_R_studio_desktop.md" class="md-nav__link">
         
   
   
@@ -4662,7 +4662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
+      <a href="../../cluster_clients/03.Install_R_studio_server.md" class="md-nav__link">
         
   
   
@@ -5388,6 +5388,171 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stage_llm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    stage_llm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LLMs/stage_david/1.introduction_ai_llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Introduction_ai_llm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LLMs/stage_david/2.Tokenization_and_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Tokenization_and_embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -5630,6 +5795,7 @@ spark.history.ui.port<span class="w"> </span><span class="m">18080</span>
 you run the spark and hdfs/yarn master.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># submit a job  </span>
 spark-submit<span class="w"> </span>--deploy-mode<span class="w"> </span>cluster<span class="w"> </span>--class<span class="w"> </span>org.apache.spark.examples.SparkPi<span class="w"> </span><span class="nv">$SPARK_HOME</span>/examples/jars/spark-examples_2.12-3.4.1.jar<span class="w"> </span><span class="m">10</span>
+spark-submit<span class="w"> </span>--deploy-mode<span class="w"> </span>cluster<span class="w"> </span>--class<span class="w"> </span>org.apache.spark.examples.SparkPi<span class="w"> </span><span class="nv">$SPARK_HOME</span>/examples/jars/spark-examples_2.13-4.1.1.jar<span class="w"> </span><span class="m">10</span>
 </code></pre></div>
 <h3 id="4-install-a-sparkyarn-client-to-connect-to-remote-spark">4. Install a spark/yarn client to connect to remote spark<a class="headerlink" href="#4-install-a-sparkyarn-client-to-connect-to-remote-spark" title="Permanent link">&para;</a></h3>
 <p>To run spark job on a remote cluster, you need to have spark bin, conf and hadoop conf to do so. Below is the minimum 
@@ -5722,7 +5888,10 @@ spark.history.ui.port<span class="w"> </span><span class="m">18080</span>
 http://&lt;ip-spark-master&gt;:18080
 </code></pre></div>
 <p>Test your client</p>
-<div class="highlight"><pre><span></span><code>spark-submit<span class="w"> </span>--deploy-mode<span class="w"> </span>client<span class="w"> </span>--class<span class="w"> </span>org.apache.spark.examples.SparkPi<span class="w"> </span><span class="nv">$SPARK_HOME</span>/examples/jars/spark-examples_2.12-3.4.1.jar<span class="w"> </span><span class="m">10</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># spark submit needs to write some temporary files on hdfs.</span>
+<span class="c1"># we must provide --conf spark.yarn.stagingDir=hdfs:///users where we can find the home dir of the user.</span>
+
+spark-submit<span class="w"> </span>--deploy-mode<span class="w"> </span>client<span class="w"> </span>--conf<span class="w"> </span>spark.yarn.stagingDir<span class="o">=</span>hdfs:///users<span class="w"> </span>--class<span class="w"> </span>org.apache.spark.examples.SparkPi<span class="w"> </span><span class="nv">$SPARK_HOME</span>/examples/jars/spark-examples_2.12-3.4.1.jar<span class="w"> </span><span class="m">10</span>
 
 <span class="c1"># if we use a particular queue, we need to add an option --queue</span>
 spark-submit<span class="w"> </span>--deploy-mode<span class="w"> </span>client<span class="w"> </span>--queue<span class="w"> </span>prod<span class="w"> </span>--class<span class="w"> </span>org.apache.spark.examples.SparkPi<span class="w"> </span><span class="nv">$SPARK_HOME</span>/examples/jars/spark-examples_2.12-3.4.1.jar<span class="w"> </span><span class="m">10</span>

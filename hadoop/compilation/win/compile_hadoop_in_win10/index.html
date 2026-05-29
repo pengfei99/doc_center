@@ -1,0 +1,6004 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Compile hadoop in Windows 10 - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#compile-hadoop-in-windows-10" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Compile hadoop in Windows 10
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    admin_sys
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    admin_sys
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/debian_admin_cheat_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian_admin_cheat_sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Cron_jobs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cron_jobs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    systemd(serviced) in linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Time_Synchronization_in_Debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    time_synchronization_in_debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    db_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    db_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgres
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgres
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation bare_metal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation on k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Minio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation bare_metal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_and config minio client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/04.Minio_installation_details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minio_installation_details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NFS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    NFS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/NFS/Install_nfs_server_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rook_Ceph
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rook_Ceph
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rook_ceph_installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    os_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian backports repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server rdp access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server security update automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server accept private ca cert
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure a shared folder in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate debian 11 to 13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use postfix to sendmail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_9" id="__nav_2_4_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_9_1" id="__nav_2_4_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_4_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_10" id="__nav_2_4_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    package_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    package_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install package via deb files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build private package mirrors with aptly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config aptly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    use private package repo in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_11" id="__nav_2_4_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_local_account
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_pam_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure ssh sssd ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_ad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static_uid_gid_integration_in_sssd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    other_services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    other_services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build_openssl_tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_gitlab_ce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_vscode_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_4" id="__nav_2_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enable_https_and_auto_redirect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use_nginx_as_load_balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containerd
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containerd
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Containerd/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Containerd/02.Install_config_containerd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker and Docker compose
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker and Docker compose
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Docker/01.Install_docker_dockerCompose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Docker/02.Use_docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Docker/03.Use_docker_compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Helm_chart_registry/01.Deploy_a_helm_chart_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    helm chart registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container image registry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container image registry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_1" id="__nav_3_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Docker/02.Docker_engine_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker engine installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Docker/03.Docker_common_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker common commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_2" id="__nav_3_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    harbor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    harbor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/02.Harbor_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/03.Harbor_helm_chart_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor helm chart management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/Harbor_export_import_image/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor export import image
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Introduction_of_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/04.Use_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure container runtime to use private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Image_secu_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image_secu_inspection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Trivy_image_scanner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image_vulnerability_scanner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_1" id="__nav_3_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_with_kubeadm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_with_kubeadm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/01.Introduction_of_Kubeadm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/03.K8s_cluster_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manage k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/04.Post_k8s_cluster_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post installation config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_2" id="__nav_3_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_offline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_offline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_offline/02.Prepare_env_for_installing_k8s_offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prepare server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_offline/03.Install_k8s_offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install k8s offline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_3" id="__nav_3_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_client_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_client_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_client_setup/01.Install_kubectl_and_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install kubectl and helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_client_setup/02.Helm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_client_setup/03.Helm_use_private_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure helm client to use private repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_4" id="__nav_3_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_security/01.K8s_security_best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s security best practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_security/06.k8s_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s network security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/04.Managing_k8s_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing k8s certificate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/05.k8s_cluster_supervision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    K8s_cluster_supervision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/Debug_application_in_cluster_k8s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debug_deployed_app_in_k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_cluster_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_cluster_upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hadoop
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    hadoop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    basic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    basic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic/01.hdfs_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hdfs introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic/02.yarn_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    yarn introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/01.Install_hdfs_yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install hdfs yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/02.Install_spark_on_yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install spark on yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    kerberos integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    kerberos integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kerberos_integration/Integrate_kerberos_in_hadoop_cluster.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate kerberos in hadoop cluster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure spark on kerberos hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cluster clients
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    cluster clients
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster_clients/01.Install_hdfs_clients.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hdfs client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster_clients/02.Install_R_studio_desktop.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rstudio desktop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster_clients/03.Install_R_studio_server.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rstudio server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Onyxia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Onyxia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Onyxia/03.Install_onyxia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install onyxia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pypi_mirror
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    pypi_mirror
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/pypi_server/01.introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/04.Install_python_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install python interpreter in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kerberos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/02.Install_kerberos_server_client_for_debian_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.Install_kerberos_client_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/03.Configure_kerberos_to_use_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.Configure_kerberos_to_use_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/04.Install_kerberos_server_client_for_windows_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04.Install_kerberos_server_client_for_windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/05.Configure_sssd_to_use_static_uid_gid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05.Configure_sssd_to_use_static_uid_gid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/Keytab_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06.Keytab_introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    keycloak
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    keycloak
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/keycloak/Install_keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_3" id="__nav_9_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ldap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ldap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/ldap/01.install_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stage_llm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    stage_llm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLMs/stage_david/1.introduction_ai_llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Introduction_ai_llm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLMs/stage_david/2.Tokenization_and_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Tokenization_and_embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-hadoop-official-docs-for-building-hadoop-on-windows-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Hadoop official docs for building hadoop on Windows 10
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requirements:
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-building-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Building guidelines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-building-docker-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Building Docker image
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Building Docker image">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-the-official-docker-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 The official docker file
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-use-the-docker-image-to-build-hadoop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Use the docker image to build hadoop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Use the docker image to build hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-mount-the-maven-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Mount the maven repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-keep-the-source-path-short" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Keep the source path short
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-handle-the-native-lib-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Handle the native lib requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-set-up-env-vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Set up env vars
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-build-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Build command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.5 Build command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#551-building-the-release-tarball" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5.1 Building the release tarball:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-running-compatibility-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Running compatibility checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-changing-the-hadoop-version-declared-returned-by-versioninfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Changing the Hadoop version declared returned by VersionInfo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="compile-hadoop-in-windows-10">Compile hadoop in Windows 10<a class="headerlink" href="#compile-hadoop-in-windows-10" title="Permanent link">&para;</a></h1>
+<p>I found this doc is very clear and has many details</p>
+<p>https://kontext.tech/project/hadoop/article/compile-and-build-hadoop-321-on-windows-10-guide</p>
+<h2 id="1-hadoop-official-docs-for-building-hadoop-on-windows-10">1. Hadoop official docs for building hadoop on Windows 10<a class="headerlink" href="#1-hadoop-official-docs-for-building-hadoop-on-windows-10" title="Permanent link">&para;</a></h2>
+<p>Hadoop provides an <a href="https://github.com/apache/hadoop/blob/trunk/BUILDING.txt">official docs</a> on how to build hadoop for different OS.</p>
+<p>The below content is an extraction of 23/03/2026</p>
+<h2 id="2-requirements">2. Requirements:<a class="headerlink" href="#2-requirements" title="Permanent link">&para;</a></h2>
+<p>The below rows shows the build environment requirements:
+- Windows 10 
+- JDK 17 
+- Maven 3.9.11 or later (maven.apache.org, optional, a compatible version is automatically downloaded if using mvnw.cmd)
+- Boost 1.86.0 (boost.org)
+- Protocol Buffers 3.25.5 (https://github.com/protocolbuffers/protobuf/tags)
+- CMake 3.19 or newer (cmake.org)
+- Visual Studio 2019 (visualstudio.com)
+- Windows SDK 8.1 (optional, if building CPU rate control for the container executor. Get this from
+                   http://msdn.microsoft.com/en-us/windows/bg162891.aspx)
+- Zlib (zlib.net, if building native code bindings for zlib)
+- Git (preferably, get this from https://git-scm.com/download/win since the package also contains
+       Unix command-line tools that are needed during packaging). 
+- Python (python.org, for generation of docs using 'mvn site')
+- Internet connection for first build (to fetch all Maven and Hadoop dependencies)</p>
+<h2 id="3-building-guidelines">3. Building guidelines<a class="headerlink" href="#3-building-guidelines" title="Permanent link">&para;</a></h2>
+<p>Hadoop repository provides the Dockerfile for building Hadoop on Windows 10, located at
+dev-support/docker/Dockerfile_windows_10. It is highly recommended to use this and create the
+Docker image for building Hadoop on Windows 10, since you don't have to install anything else
+other than Docker and no additional steps are required in terms of aligning the environment with
+the necessary paths etc.</p>
+<p>However, if you still prefer taking the route of not using Docker, this Dockerfile_windows_10 will
+still be immensely useful as a raw guide for all the steps involved in creating the environment
+needed to build Hadoop on Windows 10.</p>
+<h2 id="4-building-docker-image">4. Building Docker image<a class="headerlink" href="#4-building-docker-image" title="Permanent link">&para;</a></h2>
+<p>We first need to clone the hadoop repository, then build the Docker image for building Hadoop on Windows 10. Run this command from
+the root of the Hadoop repository.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># create a folder for hosting hadoop project source</span>
+<span class="n">mkdir</span> <span class="n">-p</span> <span class="p">/</span><span class="n">c</span><span class="p">/</span><span class="n">Users</span><span class="p">/&lt;</span><span class="n">uid</span><span class="p">&gt;/</span><span class="n">Documents</span><span class="p">/</span><span class="n">git</span><span class="p">/</span><span class="n">hadoop</span>
+<span class="nb">cd </span><span class="p">/</span><span class="n">c</span><span class="p">/</span><span class="n">Users</span><span class="p">/&lt;</span><span class="n">uid</span><span class="p">&gt;/</span><span class="n">Documents</span><span class="p">/</span><span class="n">git</span><span class="p">/</span><span class="n">hadoop</span>
+
+<span class="c"># clone the hadoop repo</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">apache</span><span class="p">/</span><span class="n">hadoop</span><span class="p">.</span><span class="n">git</span>
+
+<span class="c"># path for git bash shell</span>
+<span class="c"># you need to have admin rights on the git bash shell</span>
+<span class="c"># -t option means tag your image with name hadoop-windows-builder</span>
+<span class="c"># -f option indicates where is the docker file</span>
+<span class="c"># the last argument specifies the working directory during docker build, if you have relative path for</span>
+<span class="c"># copying source into docker image in your docker file. You can&#39;t leave it empty.</span>
+<span class="c"># </span>
+<span class="n">docker</span> <span class="n">build</span> <span class="n">-t</span> <span class="n">hadoop-windows-builder</span> <span class="o">-f</span> <span class="p">./</span><span class="n">dev-support</span><span class="p">/</span><span class="n">docker</span><span class="p">/</span><span class="n">Dockerfile_windows_10</span> <span class="p">./</span><span class="n">dev-support</span><span class="p">/</span><span class="n">docker</span><span class="p">/</span>
+
+<span class="c"># test the container with the image that we just built.</span>
+<span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-it</span> <span class="n">hadoop-windows-builder</span>
+</code></pre></div>
+<blockquote>
+<p>here, we use the git bash shell, so the path is for bash shell only, if you use powershell, you need to modify
+the path. You can use this page to install git bash on windows https://git-scm.com/install/windows</p>
+<p>You can now clone the Hadoop repo inside this container and proceed with the build.</p>
+</blockquote>
+<h3 id="41-the-official-docker-file">4.1 The official docker file<a class="headerlink" href="#41-the-official-docker-file" title="Permanent link">&para;</a></h3>
+<p>hadoop does provide a docker file for building hadoop in windows. You can find the origin <a href="https://github.com/apache/hadoop/blob/trunk/dev-support/docker/Dockerfile_windows_10">DockerFile</a>.</p>
+<p>We need to do many modification for the docker file to work properly.
+<div class="highlight"><pre><span></span><code>FROM<span class="w"> </span>mcr.microsoft.com/windows:ltsc2019
+
+<span class="c1"># Need to disable the progress bar for speeding up the downloads.</span>
+<span class="c1"># hadolint ignore=SC2086</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span><span class="nv">$Global</span>:ProgressPreference<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;SilentlyContinue&#39;</span>
+
+<span class="c1"># Restore the default Windows shell for correct batch processing.</span>
+SHELL<span class="w"> </span><span class="o">[</span><span class="s2">&quot;cmd&quot;</span>,<span class="w"> </span><span class="s2">&quot;/S&quot;</span>,<span class="w"> </span><span class="s2">&quot;/C&quot;</span><span class="o">]</span>
+
+<span class="c1"># 1.Install Visual Studio 2019 Build Tools.</span>
+RUN<span class="w"> </span>curl<span class="w"> </span>-SL<span class="w"> </span>--output<span class="w"> </span>vs_buildtools.exe<span class="w"> </span>https://aka.ms/vs/16/release/vs_buildtools.exe<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">(</span>start<span class="w"> </span>/w<span class="w"> </span>vs_buildtools.exe<span class="w"> </span>--quiet<span class="w"> </span>--wait<span class="w"> </span>--norestart<span class="w"> </span>--nocache<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--installPath<span class="w"> </span><span class="s2">&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--add<span class="w"> </span>Microsoft.VisualStudio.Workload.VCTools<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--add<span class="w"> </span>Microsoft.VisualStudio.Component.VC.ASAN<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--add<span class="w"> </span>Microsoft.VisualStudio.Component.VC.Tools.x86.x64<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--add<span class="w"> </span>Microsoft.VisualStudio.Component.Windows10SDK.19041<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">||</span><span class="w"> </span>IF<span class="w"> </span><span class="s2">&quot;%ERRORLEVEL%&quot;</span><span class="o">==</span><span class="s2">&quot;3010&quot;</span><span class="w"> </span>EXIT<span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>del<span class="w"> </span>/q<span class="w"> </span>vs_buildtools.exe
+
+<span class="c1"># 2. Install Chocolatey.</span>
+ENV<span class="w"> </span><span class="nv">chocolateyVersion</span><span class="o">=</span><span class="m">1</span>.4.0
+RUN<span class="w"> </span>powershell<span class="w"> </span>-NoProfile<span class="w"> </span>-ExecutionPolicy<span class="w"> </span>Bypass<span class="w"> </span>-Command<span class="w"> </span><span class="s2">&quot;iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))&quot;</span>
+
+<span class="c1"># 3. Install git.</span>
+RUN<span class="w"> </span>choco<span class="w"> </span>install<span class="w"> </span>git.install<span class="w"> </span>-y
+RUN<span class="w"> </span>powershell<span class="w"> </span>Copy-Item<span class="w"> </span>-Recurse<span class="w"> </span>-Path<span class="w"> </span><span class="s1">&#39;C:\Program Files\Git&#39;</span><span class="w"> </span>-Destination<span class="w"> </span>C:<span class="se">\G</span>it
+
+<span class="c1"># 4. Install vcpkg.</span>
+<span class="c1"># hadolint ignore=DL3003</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/microsoft/vcpkg.git<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>vcpkg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>fetch<span class="w"> </span>--all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span><span class="m">2026</span>.03.18<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>.<span class="se">\b</span>ootstrap-vcpkg.bat
+
+ADD<span class="w"> </span>vcpkg/vcpkg.json<span class="w"> </span>.
+
+RUN<span class="w"> </span>powershell<span class="w"> </span>.<span class="se">\v</span>cpkg<span class="se">\v</span>cpkg.exe<span class="w"> </span>install<span class="w"> </span>--x-install-root<span class="w"> </span>.<span class="se">\v</span>cpkg<span class="se">\i</span>nstalled
+
+<span class="c1"># 5. Install Azul Java 8 JDK.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-URI<span class="w"> </span>https://cdn.azul.com/zulu/bin/zulu8.62.0.19-ca-jdk8.0.332-win_x64.zip<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\z</span>ulu8.62.0.19-ca-jdk8.0.332-win_x64.zip
+RUN<span class="w"> </span>powershell<span class="w"> </span>Expand-Archive<span class="w"> </span>-Path<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\z</span>ulu8.62.0.19-ca-jdk8.0.332-win_x64.zip<span class="w"> </span>-DestinationPath<span class="w"> </span><span class="s2">&quot;C:\Java&quot;</span>
+
+<span class="c1"># Install Apache Maven.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-URI<span class="w"> </span>https://archive.apache.org/dist/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\a</span>pache-maven-3.9.11-bin.zip
+RUN<span class="w"> </span>powershell<span class="w"> </span>Expand-Archive<span class="w"> </span>-Path<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\a</span>pache-maven-3.9.11-bin.zip<span class="w"> </span>-DestinationPath<span class="w"> </span><span class="s2">&quot;C:\Maven&quot;</span>
+
+<span class="c1"># Install CMake 3.19.0.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-URI<span class="w"> </span>https://cmake.org/files/v3.19/cmake-3.19.0-win64-x64.zip<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\c</span>make-3.19.0-win64-x64.zip
+RUN<span class="w"> </span>powershell<span class="w"> </span>Expand-Archive<span class="w"> </span>-Path<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\c</span>make-3.19.0-win64-x64.zip<span class="w"> </span>-DestinationPath<span class="w"> </span><span class="s2">&quot;C:\CMake&quot;</span>
+
+<span class="c1"># Install zstd 1.5.4.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span>https://github.com/facebook/zstd/releases/download/v1.5.4/zstd-v1.5.4-win64.zip<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\z</span>std-v1.5.4-win64.zip
+RUN<span class="w"> </span>powershell<span class="w"> </span>Expand-Archive<span class="w"> </span>-Path<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\z</span>std-v1.5.4-win64.zip<span class="w"> </span>-DestinationPath<span class="w"> </span><span class="s2">&quot;C:\ZStd&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;C:\ZStd&quot;</span>
+
+<span class="c1"># Install libopenssl 3.5.2-1 needed for rsync 3.2.7.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span>https://repo.msys2.org/msys/x86_64/libopenssl-3.5.2-1-x86_64.pkg.tar.zst<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibopenssl-3.5.2-1-x86_64.pkg.tar.zst
+RUN<span class="w"> </span>powershell<span class="w"> </span>zstd<span class="w"> </span>-d<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibopenssl-3.5.2-1-x86_64.pkg.tar.zst<span class="w"> </span>-o<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibopenssl-3.5.2-1-x86_64.pkg.tar
+RUN<span class="w"> </span>powershell<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;C:\LibOpenSSL&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibopenssl-3.5.2-1-x86_64.pkg.tar<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;C:\LibOpenSSL&quot;</span>
+
+<span class="c1"># Install libxxhash 0.8.3 needed for rsync 3.2.7.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span>https://repo.msys2.org/msys/x86_64/libxxhash-0.8.3-1-x86_64.pkg.tar.zst<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibxxhash-0.8.3-1-x86_64.pkg.tar.zst
+RUN<span class="w"> </span>powershell<span class="w"> </span>zstd<span class="w"> </span>-d<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibxxhash-0.8.3-1-x86_64.pkg.tar.zst<span class="w"> </span>-o<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibxxhash-0.8.3-1-x86_64.pkg.tar
+RUN<span class="w"> </span>powershell<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;C:\LibXXHash&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibxxhash-0.8.3-1-x86_64.pkg.tar<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;C:\LibXXHash&quot;</span>
+
+<span class="c1"># Install libzstd 1.5.4 needed for rsync 3.2.7.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span>https://repo.msys2.org/msys/x86_64/libzstd-1.5.5-1-x86_64.pkg.tar.zst<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibzstd-1.5.5-1-x86_64.pkg.tar.zst
+RUN<span class="w"> </span>powershell<span class="w"> </span>zstd<span class="w"> </span>-d<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibzstd-1.5.5-1-x86_64.pkg.tar.zst<span class="w"> </span>-o<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibzstd-1.5.5-1-x86_64.pkg.tar
+RUN<span class="w"> </span>powershell<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;C:\LibZStd&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\l</span>ibzstd-1.5.5-1-x86_64.pkg.tar<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;C:\LibZStd&quot;</span>
+
+<span class="c1"># Install rsync 3.2.7.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span>https://repo.msys2.org/msys/x86_64/rsync-3.2.7-2-x86_64.pkg.tar.zst<span class="w"> </span>-OutFile<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\r</span>sync-3.2.7-2-x86_64.pkg.tar.zst
+RUN<span class="w"> </span>powershell<span class="w"> </span>zstd<span class="w"> </span>-d<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\r</span>sync-3.2.7-2-x86_64.pkg.tar.zst<span class="w"> </span>-o<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\r</span>sync-3.2.7-2-x86_64.pkg.tar
+RUN<span class="w"> </span>powershell<span class="w"> </span>mkdir<span class="w"> </span><span class="s2">&quot;C:\RSync&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span><span class="nv">$Env</span>:TEMP<span class="se">\r</span>sync-3.2.7-2-x86_64.pkg.tar<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;C:\RSync&quot;</span>
+<span class="c1"># Copy the dependencies of rsync 3.2.7.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Copy-Item<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;C:\LibOpenSSL\usr\bin\*.dll&quot;</span><span class="w"> </span>-Destination<span class="w"> </span><span class="s2">&quot;C:\Program` Files\Git\usr\bin&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Copy-Item<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;C:\LibXXHash\usr\bin\*.dll&quot;</span><span class="w"> </span>-Destination<span class="w"> </span><span class="s2">&quot;C:\Program` Files\Git\usr\bin&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Copy-Item<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;C:\LibZStd\usr\bin\*.dll&quot;</span><span class="w"> </span>-Destination<span class="w"> </span><span class="s2">&quot;C:\Program` Files\Git\usr\bin&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Copy-Item<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;C:\RSync\usr\bin\*&quot;</span><span class="w"> </span>-Destination<span class="w"> </span><span class="s2">&quot;C:\Program` Files\Git\usr\bin&quot;</span>
+
+COPY<span class="w"> </span>pkg-resolver<span class="w"> </span>pkg-resolver
+
+<span class="c1">## Install Python 3.11.8.</span>
+<span class="c1"># The Python installation steps below are derived from -</span>
+<span class="c1"># https://github.com/docker-library/python/blob/105d6f34e7d70aad6f8c3e249b8208efa591916a/3.11/windows/windowsservercore-ltsc2022/Dockerfile</span>
+ENV<span class="w"> </span>PYTHONIOENCODING<span class="w"> </span>UTF-8
+ENV<span class="w"> </span>PYTHON_VERSION<span class="w"> </span><span class="m">3</span>.11.8
+ENV<span class="w"> </span>PYTHON_PIP_VERSION<span class="w"> </span><span class="m">24</span>.0
+ENV<span class="w"> </span>PYTHON_SETUPTOOLS_VERSION<span class="w"> </span><span class="m">65</span>.5.1
+ENV<span class="w"> </span>PYTHON_GET_PIP_URL<span class="w"> </span>https://github.com/pypa/get-pip/raw/dbf0c85f76fb6e1ab42aa672ffca6f0a675d9ee4/public/get-pip.py
+ENV<span class="w"> </span>PYTHON_GET_PIP_SHA256<span class="w"> </span>dfe9fd5c28dc98b5ac17979a953ea550cec37ae1b47a5116007395bfacff2ab9
+RUN<span class="w"> </span>powershell<span class="w"> </span>Set-ExecutionPolicy<span class="w"> </span>-ExecutionPolicy<span class="w"> </span>RemoteSigned<span class="w"> </span>-Scope<span class="w"> </span>CurrentUser
+RUN<span class="w"> </span>powershell<span class="w"> </span>pkg-resolver<span class="se">\i</span>nstall-python.ps1
+RUN<span class="w"> </span>powershell<span class="w"> </span>pkg-resolver<span class="se">\i</span>nstall-pip.ps1
+RUN<span class="w"> </span>powershell<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>python-dateutil
+
+<span class="c1">## Install the Microsoft Visual C++ 2010 Redistributable to link leveldbjni native library</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>-Command<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>-Uri<span class="w"> </span>https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe<span class="w"> </span>-OutFile<span class="w"> </span>vcredist_x64.exe
+RUN<span class="w"> </span>powershell<span class="w"> </span>-Command<span class="w"> </span>Start-Process<span class="w"> </span>-FilePath<span class="w"> </span>.<span class="se">\v</span>credist_x64.exe<span class="w"> </span>-ArgumentList<span class="w"> </span><span class="s1">&#39;/quiet&#39;</span>,<span class="w"> </span><span class="s1">&#39;/norestart&#39;</span><span class="w"> </span>-Wait
+RUN<span class="w"> </span>powershell<span class="w"> </span>-Command<span class="w"> </span>Remove-Item<span class="w"> </span>vcredist_x64.exe
+
+<span class="c1"># Create a user HadoopBuilder with basic privileges and use it for building Hadoop on Windows.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>New-LocalUser<span class="w"> </span>-Name<span class="w"> </span><span class="s1">&#39;HadoopBuilder&#39;</span><span class="w"> </span>-Description<span class="w"> </span><span class="s1">&#39;User account for building Apache Hadoop&#39;</span><span class="w"> </span>-Password<span class="w"> </span><span class="o">([</span>securestring<span class="o">]</span>::new<span class="o">())</span><span class="w"> </span>-AccountNeverExpires<span class="w"> </span>-PasswordNeverExpires
+
+<span class="c1"># Grant the privilege to create symbolic links to HadoopBuilder.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>secedit<span class="w"> </span>/export<span class="w"> </span>/cfg<span class="w"> </span><span class="s2">&quot;C:\secpol.cfg&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span><span class="s2">&quot;(Get-Content C:\secpol.cfg).Replace(&#39;SeCreateSymbolicLinkPrivilege = &#39;, &#39;SeCreateSymbolicLinkPrivilege = HadoopBuilder,&#39;) | Out-File C:\secpol.cfg&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>secedit<span class="w"> </span>/configure<span class="w"> </span>/db<span class="w"> </span><span class="s2">&quot;C:\windows\security\local.sdb&quot;</span><span class="w"> </span>/cfg<span class="w"> </span><span class="s2">&quot;C:\secpol.cfg&quot;</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>Remove-Item<span class="w"> </span>-Force<span class="w"> </span><span class="s2">&quot;C:\secpol.cfg&quot;</span><span class="w"> </span>-Confirm:<span class="nv">$false</span>
+
+<span class="c1"># Login as HadoopBuilder and set the necessary environment and PATH variables.</span>
+USER<span class="w"> </span>HadoopBuilder
+ENV<span class="w"> </span>PROTOBUF_HOME<span class="w"> </span><span class="s2">&quot;C:\vcpkg\installed\x64-windows&quot;</span>
+ENV<span class="w"> </span>JAVA_HOME<span class="w"> </span><span class="s2">&quot;C:\Java\zulu8.62.0.19-ca-jdk8.0.332-win_x64&quot;</span>
+ENV<span class="w"> </span>MAVEN_OPTS<span class="w"> </span><span class="s1">&#39;-Xmx2048M -Xss128M&#39;</span>
+ENV<span class="w"> </span>IS_WINDOWS<span class="w"> </span><span class="m">1</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;%ALLUSERSPROFILE%\chocolatey\bin&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;%JAVA_HOME%\bin&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;C:\Maven\apache-maven-3.9.11\bin&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;C:\CMake\cmake-3.19.0-win64-x64\bin&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;C:\ZStd&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;C:\Program Files\Git\usr\bin&quot;</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>PATH<span class="w"> </span><span class="s2">&quot;%PATH%;C:\Python&quot;</span>
+
+<span class="c1"># The mvnsite module runs a bash script and somewhere down in the invocation, it resorts to call</span>
+<span class="c1"># /usr/bin/env python3. Thus, we need to create the following symbolic link to satisfy this need.</span>
+RUN<span class="w"> </span>powershell<span class="w"> </span>New-Item<span class="w"> </span>-ItemType<span class="w"> </span>SymbolicLink<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;C:\Python\python3&quot;</span><span class="w"> </span>-Target<span class="w"> </span><span class="s2">&quot;C:\Python\python.exe&quot;</span>
+
+<span class="c1"># We get strange Javadoc errors without this.</span>
+RUN<span class="w"> </span>setx<span class="w"> </span>classpath<span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="c1"># Setting Git configurations.</span>
+RUN<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.autocrlf<span class="w"> </span><span class="nb">true</span>
+RUN<span class="w"> </span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.longpaths<span class="w"> </span><span class="nb">true</span>
+
+<span class="c1"># Define the entry point for the docker container.</span>
+ENTRYPOINT<span class="w"> </span><span class="o">[</span><span class="s2">&quot;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat&quot;</span>,<span class="w"> </span><span class="s2">&quot;&amp;&amp;&quot;</span>,<span class="w"> </span><span class="s2">&quot;cmd.exe&quot;</span><span class="o">]</span>
+</code></pre></div></p>
+<blockquote>
+<p>You can notice that it uses jdk 8 to build hadoop, this is for compatibility of legacy code in hadoop. 
+Don't worry, even hadoop is build with jdk8, you can run it with jdk 11.</p>
+</blockquote>
+<h2 id="5-use-the-docker-image-to-build-hadoop">5. Use the docker image to build hadoop<a class="headerlink" href="#5-use-the-docker-image-to-build-hadoop" title="Permanent link">&para;</a></h2>
+<p><strong>Do not mount the locally cloned Hadoop on the docker container</strong>. This may cause <code>the build to fail owing to some
+files not being able to be located by Maven</code>. Thus, we suggest cloning the Hadoop repository to a
+non-mounted folder inside the container and proceed with the build. When the build is completed,
+you may use the "docker cp" command to copy the built Hadoop tar.gz file from the docker container
+to the host filesystem. If you still would like to mount the Hadoop codebase, a workaround would
+be to copy the mounted Hadoop codebase into another folder (which doesn't point to a mount) in the
+container's filesystem and use this for building.</p>
+<h3 id="51-mount-the-maven-repository">5.1 Mount the maven repository<a class="headerlink" href="#51-mount-the-maven-repository" title="Permanent link">&para;</a></h3>
+<p>We noticed <code>no build issues</code> when the Maven repository from the host filesystem was mounted
+into the container. This can greatly reduce the build time.</p>
+<div class="highlight"><pre><span></span><code><span class="n">docker</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">-v</span> <span class="p">/</span><span class="n">c</span><span class="p">/</span><span class="n">Users</span><span class="p">/</span><span class="n">pliu</span><span class="p">.</span><span class="n">CASDDS</span><span class="p">.</span><span class="n">000</span><span class="p">/</span><span class="n">Documents</span><span class="p">/</span><span class="n">git</span><span class="p">/</span><span class="n">mvn-repo</span><span class="p">:</span><span class="n">C</span><span class="p">:\.</span><span class="n">m2</span><span class="p">\</span><span class="n">repository</span> <span class="n">-it</span> <span class="n">hadoop-windows</span><span class="p">-</span><span class="n">10-builder</span>
+</code></pre></div>
+<blockquote>
+<p>Assuming that the Maven repository is located at <code>D:\Maven\Repository</code> in the host filesystem</p>
+</blockquote>
+<h3 id="52-keep-the-source-path-short">5.2 Keep the source path short<a class="headerlink" href="#52-keep-the-source-path-short" title="Permanent link">&para;</a></h3>
+<p>Keep the source code tree in a short path to avoid running into problems related
+to Windows maximum path length limitation (for example, C:\hdc).</p>
+<p>There is one support command file located in dev-support called <code>win-paths-eg.cmd</code>.
+It should be copied somewhere convenient and modified to fit your needs.</p>
+<p><code>win-paths-eg.cmd</code> sets up the environment for use. You will need to modify this
+file. It will put all the required components in the command path,
+configure the bit-ness of the build, and set several optional components.</p>
+<h3 id="53-handle-the-native-lib-requirements">5.3 Handle the native lib requirements<a class="headerlink" href="#53-handle-the-native-lib-requirements" title="Permanent link">&para;</a></h3>
+<p>In the above <code>docker file</code>, you can notice that We use <code>vcpkg (https://github.com/microsoft/vcpkg.git)</code> for installing <code>Boost</code>, <code>Protocol buffers</code>,
+OpenSSL and Zlib dependencies.</p>
+<div class="highlight"><pre><span></span><code><span class="k">RUN</span><span class="w"> </span>powershell<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/microsoft/vcpkg.git<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>vcpkg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>fetch<span class="w"> </span>--all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>checkout<span class="w"> </span><span class="m">2025</span>.03.19<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>.<span class="se">\b</span>ootstrap-vcpkg.bat
+
+<span class="k">ADD</span><span class="w"> </span>vcpkg/vcpkg.json<span class="w"> </span>.
+
+<span class="k">RUN</span><span class="w"> </span>powershell<span class="w"> </span>.<span class="se">\v</span>cpkg<span class="se">\v</span>cpkg.exe<span class="w"> </span>install<span class="w"> </span>--x-install-root<span class="w"> </span>.<span class="se">\v</span>cpkg<span class="se">\i</span>nstalled
+</code></pre></div>
+<blockquote>
+<p>All the required packages and their version are specified in the <code>vcpkg.json</code> file. As the one who write the docker file
+does not check the compatibility between actual supported version in <code>vcpkg</code> database and specified version in <code>vcpkg.json</code>,
+You may have error such as <code>Can't find protobuf 3.25.5</code>
+This is due to the vcpkg does not have all the protobuf versions. You can do two things:
+- git checkout <latest release>, in our case is <code>2026.03.18</code>. So replace <code>2025.03.19</code> by <code>2026.03.18</code>
+- in the <code>vcpkg.json</code> file replace <code>3.25.5</code> by <code>3.21.12</code> or <code>4.25.1</code> 
+Based on how the dependencies are installed, you need to set up the <code>environment variables</code> accordingly.</p>
+</blockquote>
+<p>Hadoop uses Shading. When Hadoop compiles, it takes the Protobuf classes and moves them into a new package name: <code>org.apache.hadoop.thirdparty.protobuf</code>.</p>
+<p>Because of this "shading," as long as your <code>protoc</code> (the compiler you are building now in Docker) can generate code that 
+the hadoop-thirdparty library understands, the exact patch version (like .5 vs .12) rarely breaks the build.</p>
+<h3 id="54-set-up-env-vars">5.4 Set up env vars<a class="headerlink" href="#54-set-up-env-vars" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># to avoid maven oom, you can increase the heap memory</span>
+<span class="nb">set </span><span class="n">MAVEN_OPTS</span><span class="p">=</span><span class="n">-Xmx4096M</span> <span class="n">-Xss128M</span>
+
+<span class="c"># (Assuming that vcpkg was checked out at C:\vcpkg)</span>
+<span class="nb">set </span><span class="n">PROTOBUF_HOME</span><span class="p">=</span><span class="n">C</span><span class="p">:\</span><span class="n">vcpkg</span><span class="p">\</span><span class="n">installed</span><span class="p">\</span><span class="n">x64-windows</span>
+
+<span class="c"># If native code bindings for zlib are required, then the zlib headers must be</span>
+<span class="c"># deployed on the build machine. Set the ZLIB_HOME environment variable to the</span>
+<span class="c"># directory containing the headers.</span>
+
+<span class="nb">set </span><span class="n">ZLIB_HOME</span><span class="p">=/</span><span class="n">c</span><span class="p">/</span><span class="n">LibZStd</span><span class="p">/</span><span class="n">usr</span><span class="p">/</span><span class="n">bin</span>
+
+<span class="c"># At runtime, zlib1.dll must be accessible on the PATH. Hadoop has been tested</span>
+<span class="c"># with zlib 1.2.7, built using Visual Studio 2010 out of contrib\vstudio\vc10 in</span>
+<span class="c"># the zlib 1.2.7 source tree.</span>
+
+<span class="c"># you can test the env var in cmd</span>
+<span class="nb">ls </span><span class="k">%</span><span class="n">ZLIB_HOME</span><span class="p">%</span>
+<span class="c"># you should see zstd-1.dll</span>
+</code></pre></div>
+<h3 id="55-build-command">5.5 Build command<a class="headerlink" href="#55-build-command" title="Permanent link">&para;</a></h3>
+<p>All Maven goals are the same as in linux OS. There is one exception in linux the native code is built by enabling 
+the <code>native-win</code> Maven profile. But on Windows the <code>-Pnative-win</code> is enabled by default since <code>the native components
+are required (not optional) on Windows</code>.</p>
+<p>The following command builds all the modules in the Hadoop project and generates the tar.gz file in
+hadoop-dist/target upon successful build. Run these commands from an
+"x64 Native Tools Command Prompt for VS 2019" which can be found under "Visual Studio 2019" in the
+Windows start menu. If you're using the Docker image from Dockerfile_windows_10, you'll be
+logged into "x64 Native Tools Command Prompt for VS 2019" automatically when you start the
+container. The Docker image does not have a full VS install, so you need to add the
+-Dskip.platformToolsetDetection option (already included below in the examples).</p>
+<p><div class="highlight"><pre><span></span><code><span class="nb">set </span><span class="n">classpath</span><span class="p">=</span>
+
+<span class="nb">set </span><span class="n">PROTOBUF_HOME</span><span class="p">=</span><span class="n">C</span><span class="p">:\</span><span class="n">vcpkg</span><span class="p">\</span><span class="n">installed</span><span class="p">\</span><span class="n">x64-windows</span>
+
+<span class="n">mvn</span> <span class="n">clean</span> <span class="n">package</span> <span class="p">^</span>
+    <span class="n">-Dhttps</span><span class="p">.</span><span class="n">protocols</span><span class="p">=</span><span class="n">TLSv1</span><span class="p">.</span><span class="n">2</span> <span class="p">^</span>
+    <span class="n">-DskipTests</span> <span class="p">^</span>
+    <span class="n">-DskipDocs</span> <span class="p">^</span>
+    <span class="n">-Pnative-win</span><span class="p">,</span><span class="n">dist</span> <span class="p">^</span>
+    <span class="n">-Dskip</span><span class="p">.</span><span class="n">platformToolsetDetection</span> <span class="p">^</span>
+    <span class="n">-Drequire</span><span class="p">.</span><span class="n">openssl</span> <span class="p">^</span>
+    <span class="n">-Drequire</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">libhadoop</span> <span class="p">^</span>
+    <span class="n">-Pyarn-ui</span> <span class="p">^</span>
+    <span class="n">-Dshell-executable</span><span class="p">=</span><span class="n">C</span><span class="p">:\</span><span class="n">Git</span><span class="p">\</span><span class="n">bin</span><span class="p">\</span><span class="n">bash</span><span class="p">.</span><span class="n">exe</span> <span class="p">^</span>
+    <span class="n">-Dtar</span> <span class="p">^</span>
+    <span class="n">-Dopenssl</span><span class="p">.</span><span class="n">prefix</span><span class="p">=</span><span class="n">C</span><span class="p">:\</span><span class="n">vcpkg</span><span class="p">\</span><span class="n">installed</span><span class="p">\</span><span class="n">x64-windows</span> <span class="p">^</span>
+    <span class="n">-Dcmake</span><span class="p">.</span><span class="n">prefix</span><span class="p">.</span><span class="n">path</span><span class="p">=</span><span class="n">C</span><span class="p">:\</span><span class="n">vcpkg</span><span class="p">\</span><span class="n">installed</span><span class="p">\</span><span class="n">x64-windows</span> <span class="p">^</span>
+    <span class="n">-Dwindows</span><span class="p">.</span><span class="n">cmake</span><span class="p">.</span><span class="n">toolchain</span><span class="p">.</span><span class="n">file</span><span class="p">=</span><span class="n">C</span><span class="p">:\</span><span class="n">vcpkg</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">buildsystems</span><span class="p">\</span><span class="n">vcpkg</span><span class="p">.</span><span class="n">cmake</span> <span class="p">^</span>
+    <span class="n">-Dwindows</span><span class="p">.</span><span class="n">cmake</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">type</span><span class="p">=</span><span class="n">RelWithDebInfo</span> <span class="p">^</span>
+    <span class="n">-Dwindows</span><span class="p">.</span><span class="n">build</span><span class="p">.</span><span class="n">hdfspp</span><span class="p">.</span><span class="n">dll</span><span class="p">=</span><span class="n">off</span> <span class="p">^</span>
+    <span class="n">-Dwindows</span><span class="p">.</span><span class="n">no</span><span class="p">.</span><span class="n">sasl</span><span class="p">=</span><span class="n">on</span> <span class="p">^</span>
+    <span class="n">-Duse</span><span class="p">.</span><span class="n">platformToolsetVersion</span><span class="p">=</span><span class="n">v142</span>
+</code></pre></div>
+- <code>clean</code> option: deletes the target directory from previous builds to ensure a fresh start.
+- <code>package</code>: compiles the code, runs tests (unless skipped), and bundles the compiled code into its distributable format (like a JAR or ZIP).
+- <code>Dhttps.protocols=TLSv1.2</code>: Forces Maven to use TLS 1.2 for downloading dependencies.
+- <code>-DskipTests</code>: Skips running the unit tests to speed up the build.
+- <code>-DskipDocs</code>:<code>Skips generating Javadoc documentation.
+-</code>-Pnative-win,dist<code>: Activates two specific profiles defined in the project's pom.xml.</code>native-win<code>triggers the logic to compile C++ code using</code>MSVC (Visual Studio)<code>.</code>dist<code>signals that you want to create a layout ready for distribution.
+-</code>-Dskip.platformToolsetDetection<code>: Tells the build script not to try and guess which version of Visual Studio is installed. This is useful when you want to force a specific version (like v142).
+-</code>-Drequire.openssl<code>: A check that ensures OpenSSL is present. If the build can't find it, it will fail immediately rather than producing a binary without security features.
+-</code>-Drequire.test.libhadoop<code>: Ensures the native Hadoop library is built/present.
+-</code>-Dshell-executable=C:\Git\bin\bash.exe<code>: tells Maven exactly where to find a Windows-compatible bash (provided by Git for Windows)
+-</code>-Dopenssl.prefix=C:\vcpkg\installed\x64-windows<code>: Points the C++ compiler to the directory where vcpkg installed the OpenSSL headers and libraries.
+-</code>-Dcmake.prefix.path=C:\vcpkg\installed\x64-windows<code>: Tells CMake (the build tool Maven calls for C++) where to look for other installed dependencies.
+-</code>-Dwindows.cmake.toolchain.file=...<code>: This is the "magic" link for vcpkg. It tells CMake: "Don't look for libraries yourself; ask vcpkg where they are."
+-</code>-Dwindows.cmake.build.type=RelWithDebInfo<code>: Short for "Release with Debug Information." It optimizes the code for speed but keeps enough info to debug it if it crashes. 
+-</code>-Dwindows.build.hdfspp.dll=off<code>: Specifically disables building the HDFS C++ library component (likely to save time or avoid a complex dependency). 
+-</code>-Dwindows.no.sasl=on<code>: Disables SASL (Simple Authentication and Security Layer) for this specific build. 
+-</code>-Duse.platformToolsetVersion=v142`: Explicitly tells Visual Studio to use the 2019 compiler tools.</p>
+<h4 id="551-building-the-release-tarball">5.5.1 Building the release tarball:<a class="headerlink" href="#551-building-the-release-tarball" title="Permanent link">&para;</a></h4>
+<p>Assuming that we're still running in the Docker container hadoop-windows-10-builder, run the
+following command to create the Apache Hadoop release tarball:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">set </span><span class="n">IS_WINDOWS</span><span class="p">=</span><span class="n">1</span>
+
+<span class="nb">set </span><span class="n">MVN_ARGS</span><span class="p">=</span><span class="s2">&quot;-Dshell-executable=C:\Git\bin\bash.exe -Dhttps.protocols=TLSv1.2 -Pnative-win -Dskip.platformToolsetDetection -Drequire.openssl -Dopenssl.prefix=C:\vcpkg\installed\x64-windows -Dcmake.prefix.path=C:\vcpkg\installed\x64-windows -Dwindows.cmake.toolchain.file=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dwindows.cmake.build.type=RelWithDebInfo -Dwindows.build.hdfspp.dll=off -Duse.platformToolsetVersion=v142 -Dwindows.no.sasl=on -DskipTests -DskipDocs -Drequire.test.libhadoop&quot;</span>
+
+<span class="n">C</span><span class="p">:\</span><span class="n">Git</span><span class="p">\</span><span class="n">bin</span><span class="p">\</span><span class="n">bash</span><span class="p">.</span><span class="n">exe</span> <span class="n">C</span><span class="p">:\</span><span class="n">hadoop</span><span class="p">\</span><span class="n">dev-support</span><span class="p">\</span><span class="n">bin</span><span class="p">\</span><span class="n">create-release</span> <span class="p">-</span><span class="n">-mvnargs</span><span class="p">=</span><span class="k">%</span><span class="n">MVN_ARGS</span><span class="p">%</span>
+</code></pre></div>
+<blockquote>
+<p>If the building fails due to an issue with long paths, rename the Hadoop root directory to just a letter (like 'h') and rebuild
+<code>C:\Git\bin\bash.exe C:\h\dev-support\bin\create-release --mvnargs=%MVN_ARGS%</code>
+</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>Building distributions:
+
+ * Build distribution with native code    : mvn package [-Pdist][-Pdocs][-Psrc][-Dtar][-Dmaven.javadoc.skip=true]
+</code></pre></div>
+<h3 id="56-running-compatibility-checks">5.6 Running compatibility checks<a class="headerlink" href="#56-running-compatibility-checks" title="Permanent link">&para;</a></h3>
+<p>Invoke <code>./dev-support/bin/checkcompatibility.py</code> to run Java API Compliance Checker
+to compare the public Java APIs of two git objects. This can be used by release
+managers to compare the compatibility of a previous and current release.</p>
+<p>As an example, this invocation will check the compatibility of interfaces annotated as Public or LimitedPrivate:</p>
+<div class="highlight"><pre><span></span><code><span class="p">./</span><span class="n">dev-support</span><span class="p">/</span><span class="n">bin</span><span class="p">/</span><span class="n">checkcompatibility</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-annotation</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">classification</span><span class="p">.</span><span class="n">InterfaceAudience</span><span class="p">.</span><span class="n">Public</span> <span class="p">-</span><span class="n">-annotation</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">classification</span><span class="p">.</span><span class="n">InterfaceAudience</span><span class="p">.</span><span class="n">LimitedPrivate</span> <span class="p">-</span><span class="n">-include</span> <span class="s2">&quot;hadoop.*&quot;</span> <span class="n">branch</span><span class="p">-</span><span class="n">2</span><span class="p">.</span><span class="n">7</span><span class="p">.</span><span class="n">2</span> <span class="n">trunk</span>
+</code></pre></div>
+<h3 id="57-changing-the-hadoop-version-declared-returned-by-versioninfo">5.7 Changing the Hadoop version declared returned by VersionInfo<a class="headerlink" href="#57-changing-the-hadoop-version-declared-returned-by-versioninfo" title="Permanent link">&para;</a></h3>
+<p>If for compatibility reasons the version of Hadoop has to be declared as a 2.x release in the information returned by
+org.apache.hadoop.util.VersionInfo, set the property declared.hadoop.version to the desired version.
+For example: mvn package -Pdist -Ddeclared.hadoop.version=2.11</p>
+<p>If unset, the project version declared in the POM file is used.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

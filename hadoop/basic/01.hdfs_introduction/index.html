@@ -4158,59 +4158,82 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#namenodemaster-node" class="md-nav__link">
+  <a href="#1-hdfs-client" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Namenode(master node)
+        1. hdfs client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. hdfs client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-default-hdfs-client-via-rpc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Default hdfs client via RPC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Default hdfs client via RPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hdfs-client-workflow-during-data-uploading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hdfs client workflow during data uploading
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#datanodeslaveworker-node" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#hdfs-client-workflow-during-data-downloading" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DataNode(Slave/worker node)
+        HDFS client workflow during data downloading
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#secondary-namenode" class="md-nav__link">
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-webhdfs-vs-httpfs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Secondary NameNode
+        1.2 WebHDFS vs HttpFs
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hdfs-client" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        hdfs client
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#pros-and-cons" class="md-nav__link">
+  <a href="#2-pros-and-cons-of-hdfs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pros and cons
+        2. Pros and cons of hdfs
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pros and cons">
+    <nav class="md-nav" aria-label="2. Pros and cons of hdfs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4241,32 +4264,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#namenode-and-secondary-namenode-corporation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        网络拓扑节点距离计算
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        机架感知（副本存储节点选择）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nn-2nn" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        NN 和 2NN 的工作机制
+        NameNode and Secondary NameNode corporation
       
     </span>
   </a>
@@ -4285,10 +4286,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#datanode-and-namenode-working" class="md-nav__link">
+  <a href="#3-hadoop-port-convention" class="md-nav__link">
     <span class="md-ellipsis">
       
-        datanode and namenode working
+        3. Hadoop Port convention
       
     </span>
   </a>
@@ -4505,7 +4506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kerberos_integration/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../../kerberos_integration/Integrate_kerberos_in_hadoop_cluster.md" class="md-nav__link">
         
   
   
@@ -4533,7 +4534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
+      <a href="../../kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md" class="md-nav__link">
         
   
   
@@ -4616,7 +4617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
+      <a href="../../cluster_clients/01.Install_hdfs_clients.md" class="md-nav__link">
         
   
   
@@ -4644,7 +4645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
+      <a href="../../cluster_clients/02.Install_R_studio_desktop.md" class="md-nav__link">
         
   
   
@@ -4672,7 +4673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
+      <a href="../../cluster_clients/03.Install_R_studio_server.md" class="md-nav__link">
         
   
   
@@ -5398,6 +5399,171 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stage_llm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    stage_llm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LLMs/stage_david/1.introduction_ai_llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Introduction_ai_llm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LLMs/stage_david/2.Tokenization_and_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Tokenization_and_embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -5425,59 +5591,82 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#namenodemaster-node" class="md-nav__link">
+  <a href="#1-hdfs-client" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Namenode(master node)
+        1. hdfs client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. hdfs client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-default-hdfs-client-via-rpc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Default hdfs client via RPC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Default hdfs client via RPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hdfs-client-workflow-during-data-uploading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hdfs client workflow during data uploading
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#datanodeslaveworker-node" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#hdfs-client-workflow-during-data-downloading" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DataNode(Slave/worker node)
+        HDFS client workflow during data downloading
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#secondary-namenode" class="md-nav__link">
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-webhdfs-vs-httpfs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Secondary NameNode
+        1.2 WebHDFS vs HttpFs
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#hdfs-client" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        hdfs client
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#pros-and-cons" class="md-nav__link">
+  <a href="#2-pros-and-cons-of-hdfs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pros and cons
+        2. Pros and cons of hdfs
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pros and cons">
+    <nav class="md-nav" aria-label="2. Pros and cons of hdfs">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -5508,32 +5697,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#namenode-and-secondary-namenode-corporation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        网络拓扑节点距离计算
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        机架感知（副本存储节点选择）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nn-2nn" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        NN 和 2NN 的工作机制
+        NameNode and Secondary NameNode corporation
       
     </span>
   </a>
@@ -5552,10 +5719,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#datanode-and-namenode-working" class="md-nav__link">
+  <a href="#3-hadoop-port-convention" class="md-nav__link">
     <span class="md-ellipsis">
       
-        datanode and namenode working
+        3. Hadoop Port convention
       
     </span>
   </a>
@@ -5580,90 +5747,178 @@
 
 
 <h1 id="hdfs-introduction">Hdfs introduction<a class="headerlink" href="#hdfs-introduction" title="Permanent link">&para;</a></h1>
-<p>Hadoop Distributed File System(i.e. HDFS), is a distributed file system. It has the below components:
-- NameNode：stores metadata(e.g. filename, folder archi, file properties, etc.), and the block list, block distribution
- in datanode of each file</p>
+<p>Hadoop Distributed File System(i.e. HDFS), is a distributed file system. It has the below components:</p>
 <ul>
+<li>
+<p>NameNode：stores metadata(e.g. filename, folder archi, file properties, etc.), and the block list, block distribution
+  in datanode of each file</p>
+</li>
 <li>
 <p>DataNode：stores data blocks of each file, it manages also the checksum of the data blocks</p>
 </li>
 <li>
 <p>Secondary NameNode：It backs up the metadata of the NameNode periodically.</p>
 </li>
-<li>
-<p>Client: </p>
-</li>
 </ul>
-<h2 id="namenodemaster-node">Namenode(master node)<a class="headerlink" href="#namenodemaster-node" title="Permanent link">&para;</a></h2>
-<p>管理 HDFS 的名称空间；
-配置副本策略；
-管理数据块（Block）映射信息；
-处理客户端读写请求。</p>
-<h2 id="datanodeslaveworker-node">DataNode(Slave/worker node)<a class="headerlink" href="#datanodeslaveworker-node" title="Permanent link">&para;</a></h2>
-<p>存储实际的数据块；</p>
-<p>执行数据块的读/写操作。</p>
-<h2 id="secondary-namenode">Secondary NameNode<a class="headerlink" href="#secondary-namenode" title="Permanent link">&para;</a></h2>
-<p>It's not a fail-over NameNode. When <code>NameNode</code> is down, it can't replace NameNode directly and resume service.
-It can help namenode to rebuild and resume service</p>
 <p>It can also share the workload of the NameNode(merge <code>Fsimage</code> and <code>Edits</code> periodically and push them to the NameNode)</p>
-<h2 id="hdfs-client">hdfs client<a class="headerlink" href="#hdfs-client" title="Permanent link">&para;</a></h2>
-<p>It runs on the user's machine. It's main job:</p>
+<h2 id="1-hdfs-client">1. hdfs client<a class="headerlink" href="#1-hdfs-client" title="Permanent link">&para;</a></h2>
+<p>There are four types hdfs clients:</p>
+<ul>
+<li>default hdfs client via RPC</li>
+<li>WebHDFS client via http</li>
+<li>HttpFs client via http</li>
+<li>web UI</li>
+</ul>
+<h3 id="11-default-hdfs-client-via-rpc">1.1 Default hdfs client via RPC<a class="headerlink" href="#11-default-hdfs-client-via-rpc" title="Permanent link">&para;</a></h3>
+<p>The HDFS client interacts with the <code>NameNode (metadata master)</code> primarily via <code>RPC (Remote Procedure Calls)</code> for
+coordination(e.g. ls) and management(e.g. delete, rename, mkdir, etc.).</p>
+<p>The actual data transfer between hdfs client and <code>DataNodes (storage workers)</code> happens directly
+over a <code>separate Data Transfer Protocol (not RPC)</code>.</p>
+<blockquote>
+<p>This design keeps the NameNode lightweight—it never moves data itself.
+</p>
+</blockquote>
+<h4 id="hdfs-client-workflow-during-data-uploading">hdfs client workflow during data uploading<a class="headerlink" href="#hdfs-client-workflow-during-data-uploading" title="Permanent link">&para;</a></h4>
+<p>When a client uploads a file (e.g. <code>hdfs dfs -put</code>), the flow is:</p>
 <ol>
+<li>File Creation request:</li>
+<li>The client triggers an <code>RPC call to the NameNode</code> using the <code>ClientProtocol</code>.</li>
+<li>The NameNode checks: file doesn't exist, client has write permissions, etc.</li>
+<li>If check successful, NameNode creates a metadata entry for the file and returns an <code>FSDataOutputStream</code> to the HDFS
+   client. The underlying DFSOutputStream handles the rest.</li>
+<li>If check failed, stop all and send error message to client</li>
+<li>Block Allocation (RPC to NameNode):</li>
+<li>The client receives the <code>FSDataOutputStream</code> and writes data in chunks. When enough data accumulates for one
+   block (default 128 MB or 256 MB), <code>FSDataOutputStream</code> creates a new thread <code>DataStreamer</code></li>
 <li>
-<p>文件切分。文件上传 HDFS 的时候，Client 将文件切分成一个一个的 Block，然后进行上传;</p>
+<p>The <code>DataStreamer</code> thread makes an RPC call(i.e. <code>addBlock</code>) to the NameNode, this call will request locations
+   for the new block. NameNode returns a <code>list of DataNodes</code> for replicas (based on replication factor, default 3, rack
+   awareness, load, etc.).
+   The list of DataNodes form a pipeline (e.g., DN1 -&gt; DN2 -&gt; DN3).</p>
 </li>
 <li>
-<p>与 NameNode 交互，获取文件的位置信息；</p>
+<p>Data Transfer: The HDFS client streams data block directly to the first DataNode in the pipeline. The first DataNode
+   stores its replica locally then forwards the packet to the next DataNode in the pipeline.</p>
 </li>
 <li>
-<p>与 DataNode 交互，读取或者写入数据；</p>
-</li>
-<li>
-<p>Client 提供一些命令来管理 HDFS，比如 NameNode 格式化命令；</p>
-</li>
-<li>
-<p>Client 可以通过一些命令来访问 HDFS，比如对 HIDFS 增删查改操作；</p>
+<p>Acknowledgment and Completion:</p>
+<ul>
+<li>Acknowledgments of one block flow back in reverse: last DN -&gt; previous -&gt; ... -&gt; first DN -&gt; client (via the data
+  transfer connection).</li>
+<li>Once all packets for a block are acknowledged by the entire pipeline, the HDFS client notifies the NameNode via
+  RPC that the block is complete.</li>
+<li>After client notification NameNode updates metadata with block locations.</li>
+</ul>
 </li>
 </ol>
-<h2 id="pros-and-cons">Pros and cons<a class="headerlink" href="#pros-and-cons" title="Permanent link">&para;</a></h2>
+<p>The step 2,3,4 repeats for every block in the file. When the client calls <code>close()</code> on the stream, a final RPC to
+NameNode finalizes the file (commits metadata, releases lease).</p>
+<blockquote>
+<p>The data block forwarding between the DataNodes in the pipeline reduces latency and network load (data flows in a
+chain rather than client sending to all replicas separately)
+</p>
+</blockquote>
+<h4 id="hdfs-client-workflow-during-data-downloading">HDFS client workflow during data downloading<a class="headerlink" href="#hdfs-client-workflow-during-data-downloading" title="Permanent link">&para;</a></h4>
+<p>When a client downloads a file (e.g. <code>hdfs dfs -get</code>), the flow is:</p>
+<ol>
+<li>Client send <code>open</code> request:</li>
+<li>The client triggers an <code>RPC call to the NameNode</code> via <code>ClientProtocol(e.g. getBlockLocations)</code>.</li>
+<li>NameNode checks permissions if success it returns block metadata(e.g. list of blocks + DataNode locations for each
+   block's replicas.) to hdfs client</li>
+<li>if checks failed, stop all send client error message</li>
+<li>Data Transfer :<ul>
+<li>The client creates <code>DFSInputStream</code> connects directly to the closest DataNode for the first block (Not RPC).</li>
+<li>Data streams from DataNode to client over the Data Transfer Protocol.</li>
+<li>When a block ends, the client closes that connection and moves to the next block (possibly on a different
+  DataNode).</li>
+<li>Reads can be parallelized if the client/application supports it.</li>
+<li>If a DataNode fails during read, the client transparently fails over to another replica (via cached locations or a
+  quick follow-up RPC if needed).</li>
+</ul>
+</li>
+<li>Acknowledgment and Completion: The hdfs client close all connection after the all data block have been transferred.</li>
+</ol>
+<blockquote>
+<p>HDFS data locality: data block locations are sorted by proximity to the client (same rack/node preferred for
+locality).</p>
+</blockquote>
+<h3 id="12-webhdfs-vs-httpfs">1.2 WebHDFS vs HttpFs<a class="headerlink" href="#12-webhdfs-vs-httpfs" title="Permanent link">&para;</a></h3>
+<p>The core difference is the architecture</p>
+<p>For <code>WebHDFS</code>, the client first talks to NameNode to get the block location, then tals to DataNode directly to get the
+data blocs. As a result, the client must have the ability to talk to all nodes in the cluster</p>
+<p>Pros:</p>
+<ul>
+<li>Faster (Direct DataNode transfer)</li>
+<li>No proxy overhead</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Complexe network setups: Must handle redirects + client must reach DataNodes</li>
+<li>Client must support SPNEGO correctly</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Client
+  ↓
+NameNode (metadata)
+  ↓ (redirect client to data nodes)
+DataNode (data transfer)
+</code></pre></div>
+<p>For HttpFS, the client talks to only one <code>gateway</code> server, the <code>gateway</code> server gathers data blocs and send back to the
+client.
+the client never access/see the datanode. In this mode, the client only needs to talk one server, so if you have</p>
+<p>Pros:</p>
+<ul>
+<li>Single entrypoint: no redict</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>Slower: Data goes through proxy</li>
+<li>Adds latency + CPU load</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Client
+  ↓
+HttpFS server
+  ↓
+NameNode + DataNodes (internal)
+</code></pre></div>
+<h2 id="2-pros-and-cons-of-hdfs">2. Pros and cons of hdfs<a class="headerlink" href="#2-pros-and-cons-of-hdfs" title="Permanent link">&para;</a></h2>
 <h3 id="pros">Pros<a class="headerlink" href="#pros" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
-<p>高容错率： 数据自动保存多个副本。它通过增加副本的形式提高容错性。 某一个副本丢失以后，它可以自动恢复。</p>
+<p>Fault tolerance: Multiple copies(block duplication) of the data are automatically saved. For 2N+1 nodes, the cluster
+  can continue to work if N nodes failed.</p>
 </li>
 <li>
-<p>数据规模：能够处理数据规模达到 GB、TB、甚至 PB 级别的数据；</p>
+<p>Data volume: Capable of handling data volumes in the range of <code>gigabytes, terabytes, or even petabytes</code>. Capable of
+  handling millions of files.</p>
 </li>
 <li>
-<p>文件规模：能够处理百万规模以上的文件数量，数量相当之大。</p>
-</li>
-<li>
-<p>可构建在廉价机器上，通过多副本机制，提高可靠性。</p>
+<p>Low-cost: the hadoop cluster does not require high performance servers.</p>
 </li>
 </ul>
 <h3 id="cons">Cons<a class="headerlink" href="#cons" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
-<p>不适合低延时数据访问，比如毫秒级的存储数据，是做不到的。</p>
+<p>Design for HTC (High Throughput Computing), not for HPC(High-Performance Computing): It is not suitable for
+  low-latency data access; for example, it is not capable of handling millisecond-level storage data.</p>
 </li>
 <li>
-<p>无法高效的对大量小文件进行存储: 存储大量小文件的话，它会占用 NameNode 大量的内存来存储文件目录和块信息。这样是不可取的，因为 NameNode 的内存总是有限的；
-小文件存储的寻址时间会超过读取时间，它违反了 HDFS 的设计目标。</p>
+<p>Small file storage: Storing a large number of small files would consume a
+  <code>significant amount of the NameNode’s memory to store file directory and block information</code>.
+  The time taken to locate small files exceeds the time taken to read them.</p>
 </li>
 <li>
-<p>不支持并发写入、文件随机修改: 一个文件只能有一个写，不允许多个线程同时写. 仅支持数据 append(追加)，不支持文件的随机修改。</p>
+<p>Does not support <code>concurrent writes or random file modifications</code>: Only one write operation is permitted per file at a
+  time;
+  multiple threads are not allowed to write simultaneously. Only data appends are supported; random file modifications
+  are not supported.</p>
 </li>
 </ul>
-<h2 id="_1">网络拓扑节点距离计算<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>在 HDFS 写数据的过程中，NameNode 会选择距离待上传数据最近距离的 DataNode 接收数据。节点距离：两个节点到达最近的共同祖先的距离总和。</p>
-<h2 id="_2">机架感知（副本存储节点选择）<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>机架感知官方说明：https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html#Data_Replication</p>
-<p>第一个副本在 Client 所处的节点上。如果客户端在集群外，随机选一个。</p>
-<p>第二个副本在另一个机架的随机一个节点</p>
-<p>第三个副本在第二个副本所在机架的随机节点</p>
-<h2 id="nn-2nn">NN 和 2NN 的工作机制<a class="headerlink" href="#nn-2nn" title="Permanent link">&para;</a></h2>
+<h2 id="namenode-and-secondary-namenode-corporation">NameNode and Secondary NameNode corporation<a class="headerlink" href="#namenode-and-secondary-namenode-corporation" title="Permanent link">&para;</a></h2>
 <h2 id="fsimage-edits">Fsimage 和 Edits 解析<a class="headerlink" href="#fsimage-edits" title="Permanent link">&para;</a></h2>
-<p>NameNode 被格式化之后，将在 ${HAOOP_HOME}/data/dfs/name/current目录中产生如下文件</p>
+<p><code>Secondary NameNode is not a fail-over NameNode</code>. When <code>NameNode</code> is down, <code>Secondary NameNode</code> can't replace
+<code>NameNode</code> directly and resume service. Secondary NameNode can help NameNode to rebuild and resume service.</p>
+<p>When NameNode is down and lose all history，in the directory <code>${HAOOP_HOME}/data/dfs/name/current</code>, you will find the
+below files:</p>
 <div class="highlight"><pre><span></span><code>fsimage_oooooooooooooooooo0
 fsimage_ooo00000ooooo000000.<span class="w"> </span>md5
 seen_txid
@@ -5671,77 +5926,116 @@ VERSION
 </code></pre></div>
 <ol>
 <li>
-<p>Fsimage 文件: HDFS 文件系统元数据的一个永久性的检查点，其中包含 HDFS 文件系统的所有目录和文件 inode 的序列化信息。</p>
+<p><code>Fsimage</code> file: The <code>last persistent checkpoint of the HDFS file system metadata</code> before the NameNode down,
+   containing serialised information
+   about all directories and file inodes in the HDFS file system.</p>
 </li>
 <li>
-<p>Edits 文件：存放 HDFS 文件系统的所有更新操作的路径，文件系统客户端执行的所有写操作首先会被记录到 Edits 文件中。</p>
+<p><code>Edits</code> file: the path where all update operations on the HDFS file system are stored; all write operations performed
+   by the file system client are first recorded in the Edits file.</p>
 </li>
 <li>
-<p>seen_txid文件保存的是一个数字，就是最后一个edits_的数字</p>
-</li>
-<li>
-<p>每次 NameNode 启动的时候都会 将 Fsimage 文件读入内存，加载 Edits 里面的更新操作，保证内存中的元数据信息是最新的、同步的，可以看成 NameNode 启动的时候就将 Fsimage 和 Edits 文件进行了合并。</p>
+<p><code>seen_txid</code> file: contains a number, which is the last number in the <code>edits_</code> field.</p>
 </li>
 </ol>
-<p>Commands to view the fsimage and edits </p>
-<div class="highlight"><pre><span></span><code><span class="c1"># 基本语法</span>
-<span class="c1">## 查看镜像文件</span>
-hdfs<span class="w"> </span>oiv<span class="w"> </span>-p<span class="w"> </span>文件类型<span class="w"> </span>-i<span class="w"> </span>镜像文件<span class="w"> </span>-o<span class="w"> </span>转换后文件输出路径
+<blockquote>
+<p>Each time the NameNode starts up, it reads the <code>Fsimage</code> file into memory and loads the update operations
+contained in the <code>Edits</code> file, ensuring that the metadata in memory is up to date and synchronised.
+This can be viewed as the NameNode merging the Fsimage and Edits files upon startup.</p>
+</blockquote>
+<p>Commands to view the fsimage and edits</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># general form</span>
+<span class="c1">## view the content of the Fsimage file</span>
+hdfs<span class="w"> </span>oiv<span class="w"> </span>-p<span class="w"> </span>&lt;output_format&gt;<span class="w"> </span>-i<span class="w"> </span>&lt;fsimage_src&gt;<span class="w"> </span>-o<span class="w"> </span>&lt;output_path&gt;
 
+<span class="c1"># for example</span>
 <span class="nb">cd</span><span class="w"> </span>/opt/bigdata/hadoop-3.2.3/data/dfs/name/current/
 hdfs<span class="w"> </span>oiv<span class="w"> </span>-p<span class="w"> </span>XML<span class="w"> </span>-i<span class="w"> </span>fsimage_0000000000000000256<span class="w"> </span>-o<span class="w"> </span>/opt/fsimage.xml
 
-<span class="c1">## 查看编辑日志</span>
-hdfs<span class="w"> </span>oev<span class="w"> </span>-p<span class="w"> </span>文件类型<span class="w"> </span>-i<span class="w"> </span>编辑日志<span class="w"> </span>-o<span class="w"> </span>转换后文件输出路径
+<span class="c1">## view the content of the edits file</span>
+hdfs<span class="w"> </span>oev<span class="w"> </span>-p<span class="w"> </span>&lt;output_format&gt;<span class="w"> </span>-i<span class="w"> </span>&lt;edits_src&gt;<span class="w"> </span>-o<span class="w"> </span>&lt;output_path&gt;
 
+<span class="c1"># for example</span>
 <span class="nb">cd</span><span class="w"> </span>/opt/bigdata/hadoop-3.2.3/data/dfs/name/current/
 hdfs<span class="w"> </span>oev<span class="w"> </span>-p<span class="w"> </span>XML<span class="w"> </span>-i<span class="w"> </span>edits_0000000000000000001-0000000000000000154<span class="w"> </span>-o<span class="w"> </span>/opt/edits.xml
 </code></pre></div>
-<h2 id="datanode-and-namenode-working">datanode and namenode working<a class="headerlink" href="#datanode-and-namenode-working" title="Permanent link">&para;</a></h2>
-<p>https://xie.infoq.cn/article/e57aeb4f16ce643a4dfb91ebe</p>
-<div class="highlight"><pre><span></span><code>&lt;!--DN向NN汇报当前解读信息的时间间隔，默认6小时--&gt;
-&lt;property&gt;
-<span class="w">  </span>&lt;name&gt;dfs.blockreport.intervalMsec&lt;/name&gt;
-<span class="w">  </span>&lt;value&gt;21600000&lt;/value&gt;
-<span class="w">  </span>&lt;description&gt;Determines<span class="w"> </span>block<span class="w"> </span>reporting<span class="w"> </span>interval<span class="w"> </span><span class="k">in</span><span class="w"> </span>milliseconds.&lt;/description&gt;
-&lt;/property&gt;
-&lt;!--DN扫描自己节点块信息列表的时间，默认6小时--&gt;
-&lt;property&gt;
-<span class="w">  </span>&lt;name&gt;dfs.datanode.directoryscan.interval&lt;/name&gt;
-<span class="w">  </span>&lt;value&gt;21600&lt;/value&gt;
-<span class="w">  </span>&lt;description&gt;Interval<span class="w"> </span><span class="k">in</span><span class="w"> </span>seconds<span class="w"> </span><span class="k">for</span><span class="w"> </span>Datanode<span class="w"> </span>to<span class="w"> </span>scan<span class="w"> </span>data<span class="w"> </span>directories<span class="w"> </span>and
-<span class="w">  </span>reconcile<span class="w"> </span>the<span class="w"> </span>difference<span class="w"> </span>between<span class="w"> </span>blocks<span class="w"> </span><span class="k">in</span><span class="w"> </span>memory<span class="w"> </span>and<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span>disk.
-<span class="w">  </span>Support<span class="w"> </span>multiple<span class="w"> </span><span class="nb">time</span><span class="w"> </span>unit<span class="w"> </span>suffix<span class="o">(</span><span class="k">case</span><span class="w"> </span>insensitive<span class="o">)</span>,<span class="w"> </span>as<span class="w"> </span>described
-<span class="w">  </span><span class="k">in</span><span class="w"> </span>dfs.heartbeat.interval.If<span class="w"> </span>no<span class="w"> </span><span class="nb">time</span><span class="w"> </span>unit<span class="w"> </span>is<span class="w"> </span>specified<span class="w"> </span><span class="k">then</span><span class="w"> </span>seconds
-<span class="w">  </span>is<span class="w"> </span>assumed.
-<span class="w">  </span>&lt;/description&gt;
-&lt;/property&gt;
+<h2 id="3-hadoop-port-convention">3. Hadoop Port convention<a class="headerlink" href="#3-hadoop-port-convention" title="Permanent link">&para;</a></h2>
+<p>For modern hadoop cluster, the port number has been shifted</p>
+<table>
+<thead>
+<tr>
+<th>server</th>
+<th>port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NameNode RPC</td>
+<td>8020</td>
+</tr>
+<tr>
+<td>NameNode HTTP</td>
+<td>9870</td>
+</tr>
+<tr>
+<td>NameNode HTTPS</td>
+<td>9871</td>
+</tr>
+<tr>
+<td>DataNode HTTP</td>
+<td>9864</td>
+</tr>
+<tr>
+<td>DataNode HTTPS</td>
+<td>9865</td>
+</tr>
+<tr>
+<td>DataNode RPC</td>
+<td>9866</td>
+</tr>
+<tr>
+<td>Secondary NN</td>
+<td>9868</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The DataNode RPC port are never used by HDFS client, so end user does not need to know it.</p>
+</blockquote>
+<p>In <code>hdfs-site.xml</code>, if you want to force HTTPs, you can add the below config</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="cp">&lt;?xml-stylesheet type=&quot;text/xsl&quot; href=&quot;configuration.xsl&quot;?&gt;</span>
 
-&lt;!----&gt;
-&lt;property&gt;
-<span class="w">  </span>&lt;name&gt;dfs.namenode.heartbeat.recheck-interval&lt;/name&gt;
-<span class="w">  </span>&lt;value&gt;300000&lt;/value&gt;
-<span class="w">  </span>&lt;description&gt;
-<span class="w">    </span>This<span class="w"> </span><span class="nb">time</span><span class="w"> </span>decides<span class="w"> </span>the<span class="w"> </span>interval<span class="w"> </span>to<span class="w"> </span>check<span class="w"> </span><span class="k">for</span><span class="w"> </span>expired<span class="w"> </span>datanodes.
-<span class="w">    </span>With<span class="w"> </span>this<span class="w"> </span>value<span class="w"> </span>and<span class="w"> </span>dfs.heartbeat.interval,<span class="w"> </span>the<span class="w"> </span>interval<span class="w"> </span>of
-<span class="w">    </span>deciding<span class="w"> </span>the<span class="w"> </span>datanode<span class="w"> </span>is<span class="w"> </span>stale<span class="w"> </span>or<span class="w"> </span>not<span class="w"> </span>is<span class="w"> </span>also<span class="w"> </span>calculated.
-<span class="w">    </span>The<span class="w"> </span>unit<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>configuration<span class="w"> </span>is<span class="w"> </span>millisecond.
-<span class="w">  </span>&lt;/description&gt;
-&lt;/property&gt;
-&lt;!----&gt;
-&lt;property&gt;
-<span class="w">  </span>&lt;name&gt;dfs.heartbeat.interval&lt;/name&gt;
-<span class="w">  </span>&lt;value&gt;3&lt;/value&gt;
-<span class="w">  </span>&lt;description&gt;
-<span class="w">    </span>Determines<span class="w"> </span>datanode<span class="w"> </span>heartbeat<span class="w"> </span>interval<span class="w"> </span><span class="k">in</span><span class="w"> </span>seconds.
-<span class="w">    </span>Can<span class="w"> </span>use<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>suffix<span class="w"> </span><span class="o">(</span><span class="k">case</span><span class="w"> </span>insensitive<span class="o">)</span>:
-<span class="w">    </span>ms<span class="o">(</span>millis<span class="o">)</span>,<span class="w"> </span>s<span class="o">(</span>sec<span class="o">)</span>,<span class="w"> </span>m<span class="o">(</span>min<span class="o">)</span>,<span class="w"> </span>h<span class="o">(</span>hour<span class="o">)</span>,<span class="w"> </span>d<span class="o">(</span>day<span class="o">)</span>
-<span class="w">    </span>to<span class="w"> </span>specify<span class="w"> </span>the<span class="w"> </span><span class="nb">time</span><span class="w"> </span><span class="o">(</span>such<span class="w"> </span>as<span class="w"> </span>2s,<span class="w"> </span>2m,<span class="w"> </span>1h,<span class="w"> </span>etc.<span class="o">)</span>.
-<span class="w">    </span>Or<span class="w"> </span>provide<span class="w"> </span><span class="nb">complete</span><span class="w"> </span>number<span class="w"> </span><span class="k">in</span><span class="w"> </span>seconds<span class="w"> </span><span class="o">(</span>such<span class="w"> </span>as<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">30</span><span class="w"> </span>seconds<span class="o">)</span>.
-<span class="w">    </span>If<span class="w"> </span>no<span class="w"> </span><span class="nb">time</span><span class="w"> </span>unit<span class="w"> </span>is<span class="w"> </span>specified<span class="w"> </span><span class="k">then</span><span class="w"> </span>seconds<span class="w"> </span>is<span class="w"> </span>assumed.
-<span class="w">  </span>&lt;/description&gt;
-&lt;/property&gt;
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>dfs.http.policy<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>HTTPS_ONLY<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- specify service ports for NameNode  --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>dfs.namenode.http-address<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>0.0.0.0:9870<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>dfs.https.address<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>0.0.0.0:9871<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- specify service ports for DataNode  --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>dfs.datanode.http.address<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>0.0.0.0:9864<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>dfs.datanode.https.address<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>0.0.0.0:9865<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
 </code></pre></div>
+<blockquote>
+<p>When you put dfs.http.policy=HTTPS_ONLY, the http port specification is useless. </p>
+</blockquote>
 
 
 

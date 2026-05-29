@@ -2588,10 +2588,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-install-docker-ce-on-debian-121110" class="md-nav__link">
+  <a href="#2-uninstall-conflicting-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Install Docker CE on Debian 12/11/10
+        2. Uninstall conflicting packages
       
     </span>
   </a>
@@ -2599,22 +2599,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-test-the-docker-and-docker-compose" class="md-nav__link">
+  <a href="#3-install-docker-ce-by-using-apt-repo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Test the docker and docker compose
+        3. Install Docker CE by using apt repo
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. Test the docker and docker compose">
+    <nav class="md-nav" aria-label="3. Install Docker CE by using apt repo">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-run-a-test-docker-container" class="md-nav__link">
+  <a href="#31-install-dependency-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Run a test docker container
+        3.1 Install Dependency packages
       
     </span>
   </a>
@@ -2622,10 +2622,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#32-test-docker-compose" class="md-nav__link">
+  <a href="#32-add-dockers-official-gpg-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.2 Test Docker Compose
+        3.2 Add Docker’s official GPG key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-add-the-docker-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Add the Docker repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-install-docker-and-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Install Docker and Docker Compose
       
     </span>
   </a>
@@ -2638,10 +2660,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-docker-supervisionui" class="md-nav__link">
+  <a href="#4-test-the-docker-and-docker-compose" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Docker supervision(UI)
+        4. Test the docker and docker compose
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Test the docker and docker compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-run-a-test-docker-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Run a test docker container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-test-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Test Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-docker-supervisionui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Docker supervision(UI)
       
     </span>
   </a>
@@ -4467,7 +4528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/kerberos_integration/Integrate_kerberos_in_hadoop_cluster/" class="md-nav__link">
+      <a href="../../../hadoop/kerberos_integration/Integrate_kerberos_in_hadoop_cluster.md" class="md-nav__link">
         
   
   
@@ -4495,7 +4556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster/" class="md-nav__link">
+      <a href="../../../hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md" class="md-nav__link">
         
   
   
@@ -4578,7 +4639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/01.Install_hdfs_clients/" class="md-nav__link">
+      <a href="../../../hadoop/cluster_clients/01.Install_hdfs_clients.md" class="md-nav__link">
         
   
   
@@ -4606,7 +4667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/02.Install_R_studio_desktop/" class="md-nav__link">
+      <a href="../../../hadoop/cluster_clients/02.Install_R_studio_desktop.md" class="md-nav__link">
         
   
   
@@ -4634,7 +4695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../hadoop/cluster_clients/03.Install_R_studio_server/" class="md-nav__link">
+      <a href="../../../hadoop/cluster_clients/03.Install_R_studio_server.md" class="md-nav__link">
         
   
   
@@ -5360,6 +5421,171 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stage_llm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    stage_llm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LLMs/stage_david/1.introduction_ai_llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Introduction_ai_llm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LLMs/stage_david/2.Tokenization_and_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Tokenization_and_embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -5426,10 +5652,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-install-docker-ce-on-debian-121110" class="md-nav__link">
+  <a href="#2-uninstall-conflicting-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Install Docker CE on Debian 12/11/10
+        2. Uninstall conflicting packages
       
     </span>
   </a>
@@ -5437,22 +5663,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-test-the-docker-and-docker-compose" class="md-nav__link">
+  <a href="#3-install-docker-ce-by-using-apt-repo" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Test the docker and docker compose
+        3. Install Docker CE by using apt repo
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="3. Test the docker and docker compose">
+    <nav class="md-nav" aria-label="3. Install Docker CE by using apt repo">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-run-a-test-docker-container" class="md-nav__link">
+  <a href="#31-install-dependency-packages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Run a test docker container
+        3.1 Install Dependency packages
       
     </span>
   </a>
@@ -5460,10 +5686,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#32-test-docker-compose" class="md-nav__link">
+  <a href="#32-add-dockers-official-gpg-key" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.2 Test Docker Compose
+        3.2 Add Docker’s official GPG key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-add-the-docker-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Add the Docker repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-install-docker-and-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Install Docker and Docker Compose
       
     </span>
   </a>
@@ -5476,10 +5724,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-docker-supervisionui" class="md-nav__link">
+  <a href="#4-test-the-docker-and-docker-compose" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Docker supervision(UI)
+        4. Test the docker and docker compose
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Test the docker and docker compose">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-run-a-test-docker-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Run a test docker container
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-test-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Test Docker Compose
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-docker-supervisionui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Docker supervision(UI)
       
     </span>
   </a>
@@ -5504,56 +5791,105 @@
 
 
 <h1 id="docker-and-docker-compose">Docker and Docker Compose<a class="headerlink" href="#docker-and-docker-compose" title="Permanent link">&para;</a></h1>
-<p>In this tutorial, we learn how to install docker and run a docker image(container)</p>
+<p>In this tutorial, we learn how to install docker and run a docker image(container)
+This doc will only work on Debian versions:
+- Debian Trixie 13 (stable)
+- Debian Bookworm 12 (oldstable)
+- Debian Bullseye 11 (oldoldstable)</p>
+<blockquote>
+<p>Docker Engine for Debian is compatible with <code>x86_64 (or amd64)</code>, <code>armhf (arm/v7)</code>, <code>arm64</code>, and <code>ppc64le (ppc64el)</code> architectures.</p>
+<p>You can find the official doc <a href="https://docs.docker.com/engine/install/debian/">here</a></p>
+</blockquote>
 <h2 id="1introduction">1.Introduction<a class="headerlink" href="#1introduction" title="Permanent link">&para;</a></h2>
 <h3 id="docker-editions">Docker Editions<a class="headerlink" href="#docker-editions" title="Permanent link">&para;</a></h3>
 <p>There are two editions of Docker available.</p>
 <ul>
-<li>Community Edition (CE): ideal for individual developers and small teams looking to get started with Docker and 
+<li><code>Community Edition (CE)</code>: ideal for individual developers and small teams looking to get started with Docker and 
   experimenting with container-based apps.</li>
-<li>Enterprise Edition (EE): Designed for enterprise development and IT teams who build, ship, and run business-critical 
+<li><code>Enterprise Edition (EE)</code>: Designed for enterprise development and IT teams who build, ship, and run business-critical 
   applications in production at scale.</li>
 </ul>
 <blockquote>
-<p>This guide will cover installation of Docker CE on Debian Linux. But let’s first look at common docker terminologies.</p>
+<p>This guide will cover installation of <code>Docker CE</code> on Debian Linux. But let’s first look at common docker terminologies.</p>
 </blockquote>
 <h3 id="docker-components-terminologies">Docker Components / Terminologies<a class="headerlink" href="#docker-components-terminologies" title="Permanent link">&para;</a></h3>
 <p>Below are commonly used terminologies in Docker ecosystem.</p>
 <ul>
-<li><strong>Docker daemon</strong>: This is also called Docker Engine, it is a background process which runs on the host system responsible for building and running of containers.</li>
-<li><strong>Docker Client</strong>: This is a command line tool used by the user to interact with the Docker daemon.</li>
+<li><strong>Docker daemon</strong>: This is also called <code>Docker Engine</code>, it is a background process which runs on the host system responsible for building and running of containers.</li>
+<li><strong>Docker Client</strong>: This is a <code>command line tool</code> used by the user to interact with the Docker daemon.</li>
 <li><strong>Docker Image</strong>: An image is an immutable file that’s essentially a snapshot of a container. A docker image has a file system and application dependencies required for running applications.</li>
 <li><strong>Docker container</strong>: This is a running instance of a docker image with an application and its dependencies. Each container has a unique process ID and isolated from other containers. The only thing containers share is the Kernel.</li>
 <li><strong>Docker registry</strong>: This is an application responsible for managing storage and delivery of Docker container images. It can be private or public.</li>
 </ul>
-<h2 id="2-install-docker-ce-on-debian-121110">2. Install Docker CE on Debian 12/11/10<a class="headerlink" href="#2-install-docker-ce-on-debian-121110" title="Permanent link">&para;</a></h2>
-<p>1) Install Dependency packages
-Start the installation by ensuring that all the packages used by docker as dependencies are installed.</p>
-<p><div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
-sudo<span class="w"> </span>apt<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>apt-transport-https<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>gnupg2<span class="w"> </span>software-properties-common
+<h2 id="2-uninstall-conflicting-packages">2. Uninstall conflicting packages<a class="headerlink" href="#2-uninstall-conflicting-packages" title="Permanent link">&para;</a></h2>
+<p>Your Linux distribution may provide unofficial Docker packages, which may conflict with the official packages 
+provided by Docker. You must uninstall these packages before you install the official version of Docker Engine.</p>
+<p>The unofficial packages to uninstall are:</p>
+<ul>
+<li>docker.io</li>
+<li>docker-compose</li>
+<li>docker-doc</li>
+<li>podman-docker</li>
+</ul>
+<blockquote>
+<p>Moreover, Docker Engine depends on <code>containerd</code> and <code>runc</code>. Docker Engine bundles these dependencies as one bundle: <code>containerd.io</code>. 
+If you have installed the <code>containerd</code> or <code>runc</code> previously, uninstall them to avoid conflicts with the versions bundled with <code>Docker Engine</code>.</p>
+</blockquote>
+<p>Run the following command to uninstall all conflicting packages:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>remove<span class="w"> </span><span class="k">$(</span>dpkg<span class="w"> </span>--get-selections<span class="w"> </span>docker.io<span class="w"> </span>docker-compose<span class="w"> </span>docker-doc<span class="w"> </span>podman-docker<span class="w"> </span>containerd<span class="w"> </span>runc<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f1<span class="k">)</span>
 </code></pre></div>
-2) Add Docker’s official GPG key
-Import Docker GPG key used for signing Docker packages.
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/debian/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/trusted.gpg.d/docker-archive-keyring.gpg
+<p>If you have installed an older version of docker, you may have: <code>Images, containers, volumes, and networks</code> stored in <code>/var/lib/docker/</code>.
+The <code>apt</code> command will not remove them. If you want to start with a clean installation, and prefer to clean up 
+any existing data, read the <a href="https://docs.docker.com/engine/install/debian/#uninstall-docker-engine">uninstall Docker Engine section</a>.</p>
+<h2 id="3-install-docker-ce-by-using-apt-repo">3. Install Docker CE by using apt repo<a class="headerlink" href="#3-install-docker-ce-by-using-apt-repo" title="Permanent link">&para;</a></h2>
+<h3 id="31-install-dependency-packages">3.1 Install Dependency packages<a class="headerlink" href="#31-install-dependency-packages" title="Permanent link">&para;</a></h3>
+<p>Start the installation by ensuring that all the packages used by docker as dependencies are installed.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>ca-certificates<span class="w"> </span>curl
+
+<span class="c1"># It creates a directory /etc/apt/keyrings with very specific permissions.</span>
+<span class="c1"># -m 0755 option sets acl to 0755 = rwxr-xr-x</span>
+<span class="c1"># -d option creates directories (like mkdir -p)</span>
+sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span>-d<span class="w"> </span>/etc/apt/keyrings
 </code></pre></div>
-3) Add the Docker repository
-Add Docker repository which contain the latest stable releases of Docker CE.
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>add-apt-repository<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span><span class="s2">&quot;deb [arch=amd64] https://download.docker.com/linux/debian \</span>
-<span class="s2">   </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> \</span>
-<span class="s2">   stable&quot;</span>
+<blockquote>
+<p>install command is safer than mkdir+chmod+chown </p>
+</blockquote>
+<h3 id="32-add-dockers-official-gpg-key">3.2 Add Docker’s official GPG key<a class="headerlink" href="#32-add-dockers-official-gpg-key" title="Permanent link">&para;</a></h3>
+<p>Import Docker GPG key used for signing Docker packages.
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/debian/gpg<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.asc
+sudo<span class="w"> </span>chmod<span class="w"> </span>a+r<span class="w"> </span>/etc/apt/keyrings/docker.asc
+</code></pre></div></p>
+<h3 id="33-add-the-docker-repository">3.3 Add the Docker repository<a class="headerlink" href="#33-add-the-docker-repository" title="Permanent link">&para;</a></h3>
+<p>Add Docker repository which contain the latest stable releases of Docker CE.
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.sources<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">Types: deb</span>
+<span class="s">URIs: https://download.docker.com/linux/debian</span>
+<span class="s">Suites: $(. /etc/os-release &amp;&amp; echo &quot;$VERSION_CODENAME&quot;)</span>
+<span class="s">Components: stable</span>
+<span class="s">Signed-By: /etc/apt/keyrings/docker.asc</span>
+<span class="s">EOF</span>
 </code></pre></div>
-This command will add the line shown in <code>/etc/apt/sources.list</code> file.</p>
-<p>4) Install Docker and Docker Compose</p>
+This command will add the above line in <code>/etc/apt/sources.list.d/docker.sources</code> file.</p>
+<h3 id="34-install-docker-and-docker-compose">3.4 Install Docker and Docker Compose<a class="headerlink" href="#34-install-docker-and-docker-compose" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1">#Update the apt package index.</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 
-<span class="c1"># To install Docker CE on Debian, run the command:</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-compose-plugin<span class="w"> </span>-y
+<span class="c1"># To install the latest Docker CE on Debian, run the command:</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-buildx-plugin<span class="w"> </span>docker-compose-plugin
 
+<span class="c1"># if you want a specific version, you can list existing version with</span>
+apt<span class="w"> </span>list<span class="w"> </span>--all-versions<span class="w"> </span>docker-ce
+
+<span class="c1"># set un a version number</span>
+<span class="nv">VERSION_STRING</span><span class="o">=</span><span class="m">5</span>:29.2.1-1~debian.12~bookworm
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>docker-ce<span class="o">=</span><span class="nv">$VERSION_STRING</span><span class="w"> </span>docker-ce-cli<span class="o">=</span><span class="nv">$VERSION_STRING</span><span class="w"> </span>containerd.io<span class="w"> </span>docker-buildx-plugin<span class="w"> </span>docker-compose-plugin
 
 <span class="c1"># Start and enable docker service:</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>docker
+
+<span class="c1"># check docker daemon status</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>docker
 </code></pre></div>
 <p>This installation will add docker group to the system without any users. Add your user account to the group to run 
 docker commands as non-privileged user.
@@ -5562,14 +5898,18 @@ sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> <
 
 <span class="c1"># you need to re-login to get the updated group </span>
 </code></pre></div></p>
-<h2 id="3-test-the-docker-and-docker-compose">3. Test the docker and docker compose<a class="headerlink" href="#3-test-the-docker-and-docker-compose" title="Permanent link">&para;</a></h2>
+<h2 id="4-test-the-docker-and-docker-compose">4. Test the docker and docker compose<a class="headerlink" href="#4-test-the-docker-and-docker-compose" title="Permanent link">&para;</a></h2>
 <p>Check docker and compose version.</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>version
 
 docker<span class="w"> </span>compose<span class="w"> </span>version
 </code></pre></div>
-<h3 id="31-run-a-test-docker-container">3.1 Run a test docker container<a class="headerlink" href="#31-run-a-test-docker-container" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w">  </span>--name<span class="w"> </span><span class="nb">test</span><span class="w"> </span>alpine:latest<span class="w"> </span>/bin/sh
+<h3 id="41-run-a-test-docker-container">4.1 Run a test docker container<a class="headerlink" href="#41-run-a-test-docker-container" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># run hello-world image </span>
+sudo<span class="w"> </span>docker<span class="w"> </span>run<span class="w"> </span>hello-world
+
+<span class="c1"># run and connect to a container</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w">  </span>--name<span class="w"> </span><span class="nb">test</span><span class="w"> </span>alpine:latest<span class="w"> </span>/bin/sh
 
 <span class="c1"># this will open a shell in the container, you can get the os info with below command</span>
 cat<span class="w"> </span>/etc/os-release
@@ -5580,9 +5920,10 @@ cat<span class="w"> </span>/etc/os-release
 <span class="nv">HOME_URL</span><span class="o">=</span><span class="s2">&quot;https://alpinelinux.org/&quot;</span>
 <span class="nv">BUG_REPORT_URL</span><span class="o">=</span><span class="s2">&quot;https://gitlab.alpinelinux.org/alpine/aports/-/issues&quot;</span>
 
-<span class="c1"># exit the shell</span>
+<span class="c1"># exit the shell of container</span>
+<span class="nb">exit</span>
 </code></pre></div>
-<h3 id="32-test-docker-compose">3.2 Test Docker Compose<a class="headerlink" href="#32-test-docker-compose" title="Permanent link">&para;</a></h3>
+<h3 id="42-test-docker-compose">4.2 Test Docker Compose<a class="headerlink" href="#42-test-docker-compose" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Create a test Docker Compose file.</span>
 vim<span class="w"> </span>docker-compose.yml
 
@@ -5614,7 +5955,7 @@ Are<span class="w"> </span>you<span class="w"> </span>sure?<span class="w"> </sp
 Removing<span class="w"> </span>vagrant_web_1<span class="w"> </span>…<span class="w"> </span><span class="k">done</span>
 Removing<span class="w"> </span>vagrant_php_1<span class="w"> </span>…<span class="w"> </span><span class="k">done</span>
 </code></pre></div>
-<h2 id="4-docker-supervisionui">4. Docker supervision(UI)<a class="headerlink" href="#4-docker-supervisionui" title="Permanent link">&para;</a></h2>
+<h2 id="5-docker-supervisionui">5. Docker supervision(UI)<a class="headerlink" href="#5-docker-supervisionui" title="Permanent link">&para;</a></h2>
 <p>https://computingforgeeks.com/install-docker-ui-manager-portainer/</p>
 
 

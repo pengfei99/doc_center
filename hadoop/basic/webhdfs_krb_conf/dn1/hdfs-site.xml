@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///home/spark/hdfs/datanode</value>
+    </property>
+
+    <!-- Enable Kerberos authentication -->
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>dfs.block.access.token.enable</name>
+        <value>true</value>
+    </property>
+    <!-- NameNode Kerberos identity -->
+    <property>
+        <name>dfs.namenode.kerberos.principal</name>
+        <value>hdfs/spark4-01.casdds.casd@CASDDS.CASD</value>
+    </property>
+
+    <!-- DataNode Kerberos identity -->
+    <property>
+        <name>dfs.datanode.kerberos.principal</name>
+        <value>hdfs/_HOST@CASDDS.CASD</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.keytab.file</name>
+        <value>/etc/krb5.keytab</value>
+    </property>
+
+    <!-- SPNEGO authentication for Web UI -->
+    <property>
+        <name>dfs.web.authentication.kerberos.principal</name>
+        <value>HTTP/_HOST@CASDDS.CASD</value>
+    </property>
+
+    <property>
+        <name>dfs.web.authentication.kerberos.keytab</name>
+        <value>/etc/krb5.keytab</value>
+    </property>
+    <!-- SASL encryption for block transfer -->
+    <property>
+        <name>dfs.data.transfer.protection</name>
+        <value>authentication</value>
+    </property>
+
+    <!-- enable sasl rpc  -->
+    <property>
+        <name>dfs.https.server.keystore.resource</name>
+        <value>ssl-server.xml</value>
+    </property>
+
+    <!-- specify the name node https url and ports  -->
+
+    <property>
+        <name>dfs.secondary.https.port</name>
+        <value>50490</value>
+        <description>Port HTTPS pour le secondary-namenode.</description>
+    </property>
+
+    <property>
+        <name>dfs.https.address</name>
+        <value>0.0.0.0:9871</value>
+        <description>Namenode https port</description>
+    </property>
+    <property>
+        <name>dfs.datanode.https.address</name>
+        <value>0.0.0.0:9865</value>
+        <description>DataNode https port</description>
+    </property>
+
+    <property>
+        <name>dfs.encrypt.data.transfer</name>
+        <value>true</value>
+    </property>
+
+
+    <!-- Explicitly force HTTP -->
+    <property>
+        <name>dfs.http.policy</name>
+        <value>HTTPS_ONLY</value>
+    </property>
+    <!-- Superuser group -->
+    <property>
+        <name>dfs.permissions.superusergroup</name>
+        <value>spark</value>
+    </property>
+</configuration>

@@ -1,0 +1,6370 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Integrate kerberos in hadoop cluster fr - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#integration-de-kerberos-dans-un-cluster-hadoop" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Integrate kerberos in hadoop cluster fr
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    admin_sys
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    admin_sys
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/debian_admin_cheat_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian_admin_cheat_sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Cron_jobs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cron_jobs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    systemd(serviced) in linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/core/Time_Synchronization_in_Debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    time_synchronization_in_debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    db_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    db_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgres
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgres
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation bare_metal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation on k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Minio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation bare_metal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_and config minio client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Minio/04.Minio_installation_details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minio_installation_details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NFS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    NFS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/NFS/Install_nfs_server_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rook_Ceph
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rook_Ceph
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rook_ceph_installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    os_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian backports repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server rdp access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server security update automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server accept private ca cert
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure a shared folder in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate debian 11 to 13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use postfix to sendmail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_9" id="__nav_2_4_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_9_1" id="__nav_2_4_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_4_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_10" id="__nav_2_4_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    package_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    package_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install package via deb files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build private package mirrors with aptly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config aptly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    use private package repo in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_11" id="__nav_2_4_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_local_account
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_pam_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure ssh sssd ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_ad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static_uid_gid_integration_in_sssd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    other_services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    other_services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build_openssl_tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_gitlab_ce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_vscode_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_4" id="__nav_2_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enable_https_and_auto_redirect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use_nginx_as_load_balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containerd
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containerd
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Containerd/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Containerd/02.Install_config_containerd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker and Docker compose
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker and Docker compose
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Docker/01.Install_docker_dockerCompose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Docker/02.Use_docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Docker/03.Use_docker_compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Helm_chart_registry/01.Deploy_a_helm_chart_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    helm chart registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container image registry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container image registry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_1" id="__nav_3_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Docker/02.Docker_engine_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker engine installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Docker/03.Docker_common_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker common commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_2" id="__nav_3_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    harbor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    harbor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/02.Harbor_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/03.Harbor_helm_chart_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor helm chart management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/harbor/Harbor_export_import_image/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor export import image
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Introduction_of_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/04.Use_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure container runtime to use private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Image_secu_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image_secu_inspection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/Image_registry/Trivy_image_scanner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image_vulnerability_scanner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_1" id="__nav_3_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_with_kubeadm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_with_kubeadm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/01.Introduction_of_Kubeadm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/03.K8s_cluster_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manage k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_with_kubeadm/04.Post_k8s_cluster_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post installation config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_2" id="__nav_3_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_offline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_offline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_offline/02.Prepare_env_for_installing_k8s_offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prepare server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/deploy_k8s_offline/03.Install_k8s_offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install k8s offline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_3" id="__nav_3_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_client_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_client_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_client_setup/01.Install_kubectl_and_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install kubectl and helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_client_setup/02.Helm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_client_setup/03.Helm_use_private_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure helm client to use private repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_4" id="__nav_3_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_security/01.K8s_security_best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s security best practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_security/06.k8s_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s network security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/04.Managing_k8s_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing k8s certificate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/05.k8s_cluster_supervision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    K8s_cluster_supervision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/Debug_application_in_cluster_k8s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debug_deployed_app_in_k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../container/k8s/k8s_cluster_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_cluster_upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hadoop
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    hadoop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    basic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    basic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic/01.hdfs_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hdfs introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../basic/02.yarn_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    yarn introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/01.Install_hdfs_yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install hdfs yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Installation/02.Install_spark_on_yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install spark on yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    kerberos integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    kerberos integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Integrate_kerberos_in_hadoop_cluster.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate kerberos in hadoop cluster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Configure_spark_on_kerberosized_hadoop_cluster.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure spark on kerberos hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cluster clients
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    cluster clients
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster_clients/01.Install_hdfs_clients.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hdfs client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster_clients/02.Install_R_studio_desktop.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rstudio desktop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cluster_clients/03.Install_R_studio_server.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rstudio server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Onyxia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Onyxia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Onyxia/03.Install_onyxia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install onyxia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pypi_mirror
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    pypi_mirror
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/pypi_server/01.introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../python/04.Install_python_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install python interpreter in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kerberos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/02.Install_kerberos_server_client_for_debian_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.Install_kerberos_client_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/03.Configure_kerberos_to_use_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.Configure_kerberos_to_use_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/04.Install_kerberos_server_client_for_windows_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04.Install_kerberos_server_client_for_windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/05.Configure_sssd_to_use_static_uid_gid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05.Configure_sssd_to_use_static_uid_gid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/kerberos/Keytab_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06.Keytab_introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    keycloak
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    keycloak
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/keycloak/Install_keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_3" id="__nav_9_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ldap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ldap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../security/ldap/01.install_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stage_llm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    stage_llm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLMs/stage_david/1.introduction_ai_llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Introduction_ai_llm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLMs/stage_david/2.Tokenization_and_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Tokenization_and_embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#integration-de-kerberos-dans-un-cluster-hadoop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intégration de Kerberos dans un cluster Hadoop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Intégration de Kerberos dans un cluster Hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-contexte-et-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Contexte et architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Prérequis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-configuration-kerberos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Configuration Kerberos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Configuration Kerberos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-creation-des-comptes-service-et-keytabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1. Création des comptes service et keytabs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-verification-des-keytabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2. Vérification des keytabs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-fusion-de-plusieurs-keytabs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3. Fusion de plusieurs keytabs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configuration-du-client-kerberos-etckrb5conf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Configuration du client Kerberos (/etc/krb5.conf)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-securisation-ssltls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Sécurisation SSL/TLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Sécurisation SSL/TLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-generation-du-keystore-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1. Génération du keystore Java
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-configuration-ssl-serverxml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2. Configuration ssl-server.xml
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-configuration-hadoop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Configuration Hadoop
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Configuration Hadoop">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-hadoop-envsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1. hadoop-env.sh
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-politiques-de-securite-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2. Politiques de sécurité Java
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-configuration-des-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3. Configuration des services
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3. Configuration des services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#631-namenode-core-sitexml-hdfs-sitexml-yarn-sitexml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.1. NameNode (core-site.xml, hdfs-site.xml, yarn-site.xml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#632-datanode-core-sitexml-hdfs-sitexml-yarn-sitexml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3.2. DataNode (core-site.xml, hdfs-site.xml, yarn-site.xml)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-validation-et-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Validation et tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Références
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-repo-ansible" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Repo Ansible
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Integrate kerberos in hadoop cluster fr</h1>
+
+<h2 id="integration-de-kerberos-dans-un-cluster-hadoop">Intégration de Kerberos dans un cluster Hadoop<a class="headerlink" href="#integration-de-kerberos-dans-un-cluster-hadoop" title="Permanent link">&para;</a></h2>
+<p>Cette documentation décrit les étapes pour sécuriser l’authentification des composants d’un cluster Hadoop (NameNode, DataNode, ResourceManager, etc.) à l’aide de Kerberos et SSL.</p>
+<h3 id="1-contexte-et-architecture">1. Contexte et architecture<a class="headerlink" href="#1-contexte-et-architecture" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Cluster</strong> : 3 nœuds (spark-m01, spark-m02, spark-m03) dans le domaine <strong>CASDDS.CASD</strong></p>
+</li>
+<li>
+<p><em>spark-m01</em> : NameNode, ResourceManager, HistoryServer</p>
+</li>
+<li>
+<p><em>spark-m02</em> &amp; <em>spark-m03</em> : DataNode, NodeManager</p>
+</li>
+<li>
+<p><strong>But</strong> :</p>
+</li>
+<li>
+<p>Authentification forte via Kerberos</p>
+</li>
+<li>Chiffrement des communications via SSL/TLS</li>
+</ul>
+<h3 id="2-prerequis">2. Prérequis<a class="headerlink" href="#2-prerequis" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>AD/Kerberos</strong></p>
+</li>
+<li>
+<p>Les serveurs Linux doivent être joints au domaine AD/Kerberos <code>CASDDS.CASD</code></p>
+</li>
+<li>
+<p>Un contrôleur de domaine (KDC + DNS) configuré pour forward/reverse lookup</p>
+</li>
+<li>
+<p><strong>Logiciels</strong></p>
+</li>
+<li>
+<p>Java 11 (OpenJDK)</p>
+</li>
+<li>Hadoop 3.x</li>
+<li>Utilitaires Kerberos (<code>kinit</code>, <code>klist</code>, <code>ktpass</code>, <code>ktutil</code>)</li>
+<li>Keytool (Java)</li>
+</ol>
+<h3 id="3-configuration-kerberos">3. Configuration Kerberos<a class="headerlink" href="#3-configuration-kerberos" title="Permanent link">&para;</a></h3>
+<h4 id="31-creation-des-comptes-service-et-keytabs">3.1. Création des comptes service et keytabs<a class="headerlink" href="#31-creation-des-comptes-service-et-keytabs" title="Permanent link">&para;</a></h4>
+<p>Pour chaque service, créez un compte AD dédié et générez un fichier <code>.keytab</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Rôle</th>
+<th>FQDN</th>
+<th>Principal Kerberos</th>
+<th>AD User</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HDFS NameNode</td>
+<td>NameNode</td>
+<td>spark-m01.casdds.casd</td>
+<td><code>hdfs/spark-m01.casdds.casd@CASDDS.CASD</code></td>
+<td><code>hdfs-m01</code></td>
+</tr>
+<tr>
+<td>HDFS DataNode</td>
+<td>DataNode</td>
+<td>spark-m02.casdds.casd</td>
+<td><code>hdfs/spark-m02.casdds.casd@CASDDS.CASD</code></td>
+<td><code>hdfs-m02</code></td>
+</tr>
+<tr>
+<td>HDFS DataNode</td>
+<td>DataNode</td>
+<td>spark-m03.casdds.casd</td>
+<td><code>hdfs/spark-m03.casdds.casd@CASDDS.CASD</code></td>
+<td><code>hdfs-m03</code></td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>HTTP Service</td>
+<td>spark-m01.casdds.casd</td>
+<td><code>HTTP/spark-m01.casdds.casd@CASDDS.CASD</code></td>
+<td><code>http-m01</code></td>
+</tr>
+<tr>
+<td>YARN RM</td>
+<td>ResourceManager</td>
+<td>spark-m01.casdds.casd</td>
+<td><code>yarn/spark-m01.casdds.casd@CASDDS.CASD</code></td>
+<td><code>yarn-m01</code></td>
+</tr>
+<tr>
+<td>YARN NM</td>
+<td>NodeManager</td>
+<td>spark-m0X.casdds.casd</td>
+<td><code>yarn/spark-m0X.casdds.casd@CASDDS.CASD</code></td>
+<td><code>yarn-m0x</code></td>
+</tr>
+<tr>
+<td>HOST</td>
+<td>Host principal</td>
+<td>spark-m0X.casdds.casd</td>
+<td><code>host/spark-m0X.casdds.casd@CASDDS.CASD</code></td>
+<td><code>host-m0X</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>Commande Windows (AD) :</em></p>
+<div class="highlight"><pre><span></span><code><span class="nb">New-ADUser</span> <span class="n">-Name</span> <span class="s2">&quot;hdfs-m01&quot;</span> <span class="n">-SamAccountName</span> <span class="s2">&quot;hdfs-m01&quot;</span> <span class="p">\</span>
+  <span class="n">-UserPrincipalName</span> <span class="s2">&quot;hdfs/spark-m01.casdds.casd@CASDDS.CASD&quot;</span> <span class="p">\</span>
+  <span class="n">-Enabled</span> <span class="nv">$true</span> <span class="n">-PasswordNeverExpires</span> <span class="nv">$true</span> <span class="n">-CannotChangePassword</span> <span class="nv">$true</span>
+
+<span class="n">ktpass</span> <span class="n">-princ</span> <span class="n">hdfs</span><span class="p">/</span><span class="n">spark-m01</span><span class="p">.</span><span class="n">casdds</span><span class="p">.</span><span class="n">casd</span><span class="nv">@CASDDS</span><span class="p">.</span><span class="n">CASD</span> <span class="p">\</span>
+  <span class="n">-mapuser</span> <span class="n">hdfs-m01</span> <span class="n">-crypto</span> <span class="n">ALL</span> <span class="n">-ptype</span> <span class="n">KRB5_NT_PRINCIPAL</span> <span class="p">\</span>
+  <span class="n">-pass</span> <span class="s2">&quot;Password!&quot;</span> <span class="n">-out</span> <span class="n">hdfs-m01</span><span class="p">.</span><span class="n">keytab</span>
+
+<span class="n">scp</span> <span class="n">hdfs-m01</span><span class="p">.</span><span class="n">keytab</span> <span class="n">user</span><span class="nv">@spark</span><span class="n">-m0x</span><span class="p">.</span><span class="n">casdds</span><span class="p">.</span><span class="n">casd</span><span class="p">:/</span><span class="n">tmp</span><span class="p">/</span>
+</code></pre></div>
+<blockquote>
+<p>Copiez chaque keytab sous <code>/etc/</code> sur le serveur correspondant, avec permissions <code>root:hadoop</code>, <code>chmod 640</code>.</p>
+</blockquote>
+<h4 id="32-verification-des-keytabs">3.2. Vérification des keytabs<a class="headerlink" href="#32-verification-des-keytabs" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Authentication sans mot de passe</span>
+kinit<span class="w"> </span>-kt<span class="w"> </span>/etc/hdfs-m01.keytab<span class="w"> </span>hdfs/spark-m01.casdds.casd@CASDDS.CASD
+<span class="c1"># Afficher tickets</span>
+klist
+<span class="c1"># Lister contenu d&#39;un keytab</span>
+klist<span class="w"> </span>-e<span class="w"> </span>-k<span class="w"> </span>-t<span class="w"> </span>/etc/hdfs-m01.keytab
+</code></pre></div>
+<h4 id="33-fusion-de-plusieurs-keytabs">3.3. Fusion de plusieurs keytabs<a class="headerlink" href="#33-fusion-de-plusieurs-keytabs" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ktutil
+rkt<span class="w"> </span>/tmp/yarn-m02.keytab
+rkt<span class="w"> </span>/tmp/host-m02.keytab
+wkt<span class="w"> </span>/etc/merged.keytab
+q
+sudo<span class="w"> </span>klist<span class="w"> </span>-k<span class="w"> </span>/etc/merged.keytab
+</code></pre></div>
+<h3 id="4-configuration-du-client-kerberos-etckrb5conf">4. Configuration du client Kerberos (/etc/krb5.conf)<a class="headerlink" href="#4-configuration-du-client-kerberos-etckrb5conf" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">[libdefaults]</span>
+<span class="w">  </span><span class="na">default_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+<span class="w">  </span><span class="na">default_tkt_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96</span>
+<span class="w">  </span><span class="na">default_tgs_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96</span>
+<span class="w">  </span><span class="na">permitted_enctypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">aes256-cts-hmac-sha1-96 aes128-cts-hmac-sha1-96</span>
+<span class="w">  </span><span class="na">kdc_timesync</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1</span>
+<span class="w">  </span><span class="na">ticket_lifetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">24h</span>
+<span class="w">  </span><span class="na">forwardable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="w">  </span><span class="na">dns_lookup_realm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="w">  </span><span class="na">dns_lookup_kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="w">  </span><span class="na">rdns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">false</span>
+<span class="w">  </span><span class="c1">#allow_weak_crypto = true</span>
+
+<span class="k">[realms]</span>
+<span class="w">  </span><span class="na">CASDDS.CASD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">{</span>
+<span class="w">    </span><span class="na">kdc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">@ip</span>
+<span class="w">    </span><span class="na">admin_server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">@ip</span>
+<span class="w">  </span><span class="na">}</span>
+
+<span class="k">[domain_realm]</span>
+<span class="w">  </span><span class="na">.casdds.casd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+<span class="w">  </span><span class="na">casdds.casd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">CASDDS.CASD</span>
+</code></pre></div>
+<blockquote>
+<p>Décommentez <code>allow_weak_crypto = true</code> si nécessaire pour RC4.</p>
+</blockquote>
+<h3 id="5-securisation-ssltls">5. Sécurisation SSL/TLS<a class="headerlink" href="#5-securisation-ssltls" title="Permanent link">&para;</a></h3>
+<h4 id="51-generation-du-keystore-java">5.1. Génération du keystore Java<a class="headerlink" href="#51-generation-du-keystore-java" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>keytool<span class="w"> </span>-genkeypair<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-alias<span class="w"> </span>hadoop<span class="w"> </span>-keyalg<span class="w"> </span>RSA<span class="w"> </span>-keysize<span class="w"> </span><span class="m">2048</span><span class="w"> </span>-validity<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-keystore<span class="w"> </span>/opt/hadoop/keystore.jks<span class="w"> </span>-storepass<span class="w"> </span>changeit
+sudo<span class="w"> </span>keytool<span class="w"> </span>-list<span class="w"> </span>-keystore<span class="w"> </span>/opt/hadoop/keystore.jks<span class="w"> </span>-storepass<span class="w"> </span>changeit
+sudo<span class="w"> </span>keytool<span class="w"> </span>-export<span class="w"> </span>-alias<span class="w"> </span>hadoop<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-file<span class="w"> </span>/opt/hadoop/hadoop-cert.pem<span class="w"> </span>-keystore<span class="w"> </span>/opt/hadoop/keystore.jks<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-storepass<span class="w"> </span>changeit
+</code></pre></div>
+<h4 id="52-configuration-ssl-serverxml">5.2. Configuration <code>ssl-server.xml</code><a class="headerlink" href="#52-configuration-ssl-serverxml" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.location<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/opt/hadoop/keystore.jks<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.password<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>changeit<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.keypassword<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>changeit<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>ssl.server.keystore.type<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>jks<span class="nt">&lt;/value&gt;</span>
+<span class="w">        </span><span class="nt">&lt;description&gt;</span>Optional.<span class="w"> </span>The<span class="w"> </span>keystore<span class="w"> </span>file<span class="w"> </span>format,<span class="w"> </span>default<span class="w"> </span>value<span class="w"> </span>is<span class="w"> </span>&quot;jks&quot;.<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>ssl.server.exclude.cipher.list<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>TLS_ECDHE_RSA_WITH_RC4_128_SHA,SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA,
+<span class="w">        </span>SSL_RSA_WITH_DES_CBC_SHA,SSL_DHE_RSA_WITH_DES_CBC_SHA,
+<span class="w">        </span>SSL_RSA_EXPORT_WITH_RC4_40_MD5,SSL_RSA_EXPORT_WITH_DES40_CBC_SHA,
+<span class="w">        </span>SSL_RSA_WITH_RC4_128_MD5<span class="nt">&lt;/value&gt;</span>
+<span class="w">        </span><span class="nt">&lt;description&gt;</span>Optional.<span class="w"> </span>The<span class="w"> </span>weak<span class="w"> </span>security<span class="w"> </span>cipher<span class="w"> </span>suites<span class="w"> </span>that<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>excludedfrom<span class="w"> </span>SSL<span class="w"> </span>communication.<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>Répétez l’opération sur tous les nœuds.</p>
+</blockquote>
+<h3 id="6-configuration-hadoop">6. Configuration Hadoop<a class="headerlink" href="#6-configuration-hadoop" title="Permanent link">&para;</a></h3>
+<h4 id="61-hadoop-envsh">6.1. <code>hadoop-env.sh</code><a class="headerlink" href="#61-hadoop-envsh" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/java-11-openjdk-amd64
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.net.preferIPv4Stack=true -Djava.security.debug=gssloginconfig,configfile,configparser,logincontext&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_OPTS</span><span class="o">=</span><span class="s2">&quot;-Djava.security.krb5.conf=/etc/krb5.conf </span><span class="nv">$HADOOP_OPTS</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HDFS_NAMENODE_USER</span><span class="o">=</span>hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">HDFS_DATANODE_USER</span><span class="o">=</span>hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">HDFS_SECONDARYNAMENODE_USER</span><span class="o">=</span>hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">JSVC_HOME</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>jsvc<span class="k">))</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_CONF_DIR</span><span class="o">=</span>/opt/hadoop/etc/hadoop
+<span class="nb">export</span><span class="w"> </span><span class="nv">HADOOP_SECURITY_LOGGER</span><span class="o">=</span>INFO,RFAS,console
+<span class="nb">export</span><span class="w"> </span><span class="nv">JAVA_TOOL_OPTIONS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$JAVA_TOOL_OPTIONS</span><span class="s2"> --add-opens=java.base/sun.net.dns=ALL-UNNAMED&quot;</span>
+</code></pre></div>
+<h4 id="62-politiques-de-securite-java">6.2. Politiques de sécurité Java<a class="headerlink" href="#62-politiques-de-securite-java" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># $JAVA_HOME/conf/security/java.security</span>
+<span class="na">crypto.policy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">unlimited</span>
+<span class="na">sun.security.krb5.disableReferrals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="c1"># Retirer RC4 de jdk.jar.disabledAlgorithms / jdk.tls.disabledAlgorithms si besoin</span>
+</code></pre></div>
+<h4 id="63-configuration-des-services">6.3. Configuration des services<a class="headerlink" href="#63-configuration-des-services" title="Permanent link">&para;</a></h4>
+<h5 id="631-namenode-core-sitexml-hdfs-sitexml-yarn-sitexml">6.3.1. NameNode (<code>core-site.xml</code>, <code>hdfs-site.xml</code>, <code>yarn-site.xml</code>)<a class="headerlink" href="#631-namenode-core-sitexml-hdfs-sitexml-yarn-sitexml" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- core-site.xml --&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.ssl.server.conf<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/opt/hadoop/etc/hadoop/ssl-server.xml<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>fs.defaultFS<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hdfs://spark-m01.casdds.casd:9000<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.security.authentication<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>kerberos<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.security.authorization<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;property&gt;</span>
+<span class="w">        </span><span class="nt">&lt;name&gt;</span>hadoop.security.group.mapping<span class="nt">&lt;/name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;value&gt;</span>org.apache.hadoop.security.ShellBasedUnixGroupsMapping<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.http.authentication.type<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>kerberos<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.http.authentication.kerberos.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>HTTP/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.http.authentication.kerberos.keytab<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/http-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.http.filter.initializers<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>org.apache.hadoop.security.AuthenticationFilterInitializer<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.security.auth_to_local<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>
+<span class="w">      </span>RULE:[2:$1@$0](.*@casdds\.casd)s/@casdds\.casd//
+<span class="w">      </span>RULE:[1:$1]
+<span class="w">      </span>DEFAULT
+<span class="w">    </span><span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Mapping<span class="w"> </span>du<span class="w"> </span>principal<span class="w"> </span>Kerberos<span class="w"> </span>vers<span class="w"> </span>le<span class="w"> </span>nom<span class="w"> </span>d’utilisateur<span class="w"> </span>local.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+<span class="cm">&lt;!-- hdfs-site.xml --&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.https.server.keystore.resource<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>ssl-server.xml<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.http.policy<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>HTTPS_ONLY<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.https.port<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>50470<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.data.transfer.protection<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>authentication<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.secondary.https.port<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>50490<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Port<span class="w"> </span>HTTPS<span class="w"> </span>pour<span class="w"> </span>le<span class="w"> </span>secondary-namenode.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.https.address<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>spark-m01.casdds.casd:50470<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Adresse<span class="w"> </span>HTTPS<span class="w"> </span>d’écoute<span class="w"> </span>du<span class="w"> </span>Namenode.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.encrypt.data.transfer<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.name.dir<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>file:///opt/hadoop/hadoop_tmp/hdfs/data<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.datanode.data.dir<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>file:///opt/hadoop/hadoop_tmp/hdfs/data<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.permissions<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Activation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>vérification<span class="w"> </span>des<span class="w"> </span>permissions<span class="w"> </span>sur<span class="w"> </span>HDFS.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.handler.count<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>100<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Augmentation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>file<span class="w"> </span>d’attente<span class="w"> </span>pour<span class="w"> </span>gérer<span class="w"> </span>davantage<span class="w"> </span>de<span class="w"> </span>connexions<span class="w"> </span>clients.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ipc.server.max.response.size<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>5242880<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.permissions.supergroup<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hadoop<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Nom<span class="w"> </span>du<span class="w"> </span>groupe<span class="w"> </span>des<span class="w"> </span>super-utilisateurs.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.cluster.administrators<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hadoop<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>ACL<span class="w"> </span>pour<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>servlets<span class="w"> </span>par<span class="w"> </span>défaut<span class="w"> </span>de<span class="w"> </span>HDFS.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.access.time.precision<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>0<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Désactivation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>mise<span class="w"> </span>à<span class="w"> </span>jour<span class="w"> </span>des<span class="w"> </span>temps<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>les<span class="w"> </span>fichiers<span class="w"> </span>HDFS.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.block.access.token.enable<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Activation<span class="w"> </span>des<span class="w"> </span>tokens<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>sécuriser<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>datanodes.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ipc.server.read.threadpool.size<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>5<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.http-address<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>spark-m01.casdds.casd:9870<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.kerberos.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hdfs/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.keytab.file<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/hdfs-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.secondary.namenode.kerberos.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hdfs/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.secondary.namenode.keytab.file<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/hdfs-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.permissions.enabled<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+<span class="cm">&lt;!-- yarn-site.xml --&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>mapreduce_shuffle<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services.mapreduce.shuffle.class<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>org.apache.hadoop.mapred.ShuffleHandler<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.resourcemanager.hostname<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>spark-m01.casdds.casd<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.resource.cpu-vcores<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>2<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.resource.memory-mb<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>2048<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.scheduler.maximum-allocation-mb<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>2048<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.scheduler.minimum-allocation-mb<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>512<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.resourcemanager.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>yarn/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.resourcemanager.keytab<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/yarn-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.timeline-service.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>yarn/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.timeline-service.keytab<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/yarn-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
+<h5 id="632-datanode-core-sitexml-hdfs-sitexml-yarn-sitexml">6.3.2. DataNode (<code>core-site.xml</code>, <code>hdfs-site.xml</code>, <code>yarn-site.xml</code>)<a class="headerlink" href="#632-datanode-core-sitexml-hdfs-sitexml-yarn-sitexml" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- core-site.xml --&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>fs.defaultFS<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hdfs://spark-m01.casdds.casd:9000<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.security.authentication<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>kerberos<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.security.authorization<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.ssl.server.conf<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>ssl-server.xml<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>hadoop.security.auth_to_local<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>
+<span class="w">      </span>RULE:[2:$1@$0](.*@CASDDS\.CASD)s/@CASDDS\.CASD//
+<span class="w">      </span>RULE:[1:$1]
+<span class="w">      </span>DEFAULT
+<span class="w">    </span><span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Mapping<span class="w"> </span>du<span class="w"> </span>principal<span class="w"> </span>Kerberos<span class="w"> </span>vers<span class="w"> </span>l’utilisateur<span class="w"> </span>local.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+<span class="cm">&lt;!-- hdfs-site.xml --&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.https.server.keystore.resource<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>ssl-server.xml<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.http.policy<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>HTTPS_ONLY<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.https.port<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>50470<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.data.transfer.protection<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>authentication<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.secondary.https.port<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>50490<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Port<span class="w"> </span>HTTPS<span class="w"> </span>pour<span class="w"> </span>le<span class="w"> </span>secondary-namenode.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.https.address<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>ip-x.x.x.x.casdds.casd:50470<span class="nt">&lt;/value&gt;</span><span class="w">  </span><span class="cm">&lt;!-- @ip namdenode --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Adresse<span class="w"> </span>HTTPS<span class="w"> </span>d’écoute<span class="w"> </span>du<span class="w"> </span>Namenode<span class="w"> </span>sur<span class="w"> </span>le<span class="w"> </span>DataNode.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.encrypt.data.transfer<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.replication<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>3<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.name.dir<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>file:///opt/hadoop/hadoop_tmp/hdfs/data<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.datanode.data.dir<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>file:///opt/hadoop/hadoop_tmp/hdfs/data<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.datanode.kerberos.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hdfs/spark-m0x.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.datanode.keytab.file<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/hdfs-m0x.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.kerberos.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hdfs/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.namenode.keytab.file<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/hdfs-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.permissions<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Activation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>vérification<span class="w"> </span>des<span class="w"> </span>permissions<span class="w"> </span>sur<span class="w"> </span>HDFS.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.permissions.supergroup<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hadoop<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Nom<span class="w"> </span>du<span class="w"> </span>groupe<span class="w"> </span>des<span class="w"> </span>super-utilisateurs.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ipc.server.max.response.size<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>5242880<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.block.access.token.enable<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Activation<span class="w"> </span>des<span class="w"> </span>tokens<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>datanodes.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.datanode.data.dir.perm<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>750<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Permissions<span class="w"> </span>requises<span class="w"> </span>sur<span class="w"> </span>les<span class="w"> </span>répertoires<span class="w"> </span>de<span class="w"> </span>données.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.access.time.precision<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>0<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>Désactivation<span class="w"> </span>de<span class="w"> </span>la<span class="w"> </span>mise<span class="w"> </span>à<span class="w"> </span>jour<span class="w"> </span>des<span class="w"> </span>temps<span class="w"> </span>d’accès<span class="w"> </span>pour<span class="w"> </span>les<span class="w"> </span>fichiers<span class="w"> </span>HDFS.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>dfs.cluster.administrators<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>hadoop<span class="nt">&lt;/value&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>ACL<span class="w"> </span>pour<span class="w"> </span>l’accès<span class="w"> </span>aux<span class="w"> </span>servlets<span class="w"> </span>par<span class="w"> </span>défaut<span class="w"> </span>de<span class="w"> </span>HDFS.<span class="nt">&lt;/description&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>ipc.server.read.threadpool.size<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>5<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+<span class="cm">&lt;!-- yarn-site.xml --&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>mapreduce_shuffle<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.aux-services.mapreduce.shuffle.class<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>org.apache.hadoop.mapred.ShuffleHandler<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.hostname<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>spark-m0x.casdds.casd<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.resourcemanager.hostname<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>spark-m01.casdds.casd<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.resource.cpu-vcores<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>2<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.resource.memory-mb<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>2048<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.scheduler.maximum-allocation-mb<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>2048<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.scheduler.minimum-allocation-mb<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>512<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.resourcemanager.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>yarn/spark-m01.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.resourcemanager.keytab<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/yarn-m01.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.timeline-service.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>yarn/spark-m0x.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.timeline-service.keytab<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/yarn-m0x.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.principal<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>yarn/spark-m0x.casdds.casd@CASDDS.CASD<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.keytab<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>/etc/yarn-m0x.keytab<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.timeline-service.http-authentication.type<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>kerberos<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="w">  </span><span class="nt">&lt;property&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;value&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
+<h3 id="7-validation-et-tests">7. Validation et tests<a class="headerlink" href="#7-validation-et-tests" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Tester kinit</strong> sur chaque nœud/service</li>
+<li><strong>Démarrer Hadoop</strong> en mode sécurisé </li>
+<li><strong>Vérifier</strong> que les services écoutent en HTTPS et que <code>klist</code> montre les tickets actifs</li>
+<li><strong>Rafraîchir</strong> les mappings utilisateurs-groupes :</li>
+</ol>
+<div class="highlight"><pre><span></span><code>hdfs<span class="w"> </span>dfsadmin<span class="w"> </span>-refreshUserToGroupsMappings
+</code></pre></div>
+<h3 id="8-references">8. Références<a class="headerlink" href="#8-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SecureMode.html">https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SecureMode.html</a></p>
+</li>
+<li>
+<p><a href="http://docs.cloudera.com.s3-website-us-east-1.amazonaws.com/HDPDocuments/HDP3/HDP-3.1.5/security-reference/content/kerberos_nonambari_adding_security_information_to_configuration_files.html">http://docs.cloudera.com.s3-website-us-east-1.amazonaws.com/HDPDocuments/HDP3/HDP-3.1.5/security-reference/content/kerberos_nonambari_adding_security_information_to_configuration_files.html</a></p>
+</li>
+</ul>
+<h3 id="9-repo-ansible">9. Repo Ansible<a class="headerlink" href="#9-repo-ansible" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://github.com/CASD-EU/admin_sys/tree/test/dev/roles">https://github.com/CASD-EU/admin_sys/tree/test/dev/roles</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

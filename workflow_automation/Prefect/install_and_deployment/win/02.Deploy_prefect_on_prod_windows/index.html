@@ -1,0 +1,6384 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Deploy prefect on prod on windows - Pengfei Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deploy-prefect-on-prod-on-windows" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Pengfei Documentation" class="md-header__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pengfei Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deploy prefect on prod on windows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Pengfei Documentation" class="md-nav__button md-logo" aria-label="Pengfei Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pengfei Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    admin_sys
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    admin_sys
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/core/debian_admin_cheat_sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian_admin_cheat_sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/core/Cron_jobs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cron_jobs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/core/Systemd%28serviced%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    systemd(serviced) in linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/core/Time_Synchronization_in_Debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    time_synchronization_in_debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    db_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    db_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/db_management/mariadb/Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/db_management/mariadb/Management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgres
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgres
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/db_management/postgres/Install_postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation bare_metal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/db_management/postgres/Install_postgres_via_helm_chart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation on k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    fs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    fs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minio
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Minio
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/Minio/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/Minio/02.Install_minio_bare_metal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation bare_metal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/Minio/03.Install_and_config_minio_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_and config minio client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/Minio/04.Minio_installation_details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minio_installation_details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NFS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    NFS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/NFS/Install_nfs_server_client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rook_Ceph
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rook_Ceph
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/Rook_Ceph/rook_ceph_Installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rook_ceph_installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/fs/Rook_Ceph/Rook_Ceph_toolbox_and_dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    os_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    os_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/01.Lang_support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    server language support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/02.Add_debian_backports_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian backports repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/03.Remote_Desktop_access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server rdp access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/05.Debian_security_update_automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server security update automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/06.Accept_private_ca_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    debian server accept private ca cert
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/07.Setup_shared_folder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure a shared folder in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/08.Debian_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate debian 11 to 13
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/Install_configure_Postfix_to_sendmail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use postfix to sendmail
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_9" id="__nav_2_4_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    auto_config
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    auto_config
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_9_1" id="__nav_2_4_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_4_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ansible
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/auto_config/ansible/Install_ansible_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/auto_config/ansible/ansible_roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ansible roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_10" id="__nav_2_4_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    package_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    package_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/package_management/01.Install_deb_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install package via deb files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/package_management/02.Install_aptly_to_build_debian_repo_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build private package mirrors with aptly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/package_management/03.Configure_aptly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    config aptly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/package_management/02.Use_private_repo_in_debian.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    use private package repo in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4_11" id="__nav_2_4_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_4_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/01.Configure_ssh_local_account/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_local_account
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/02.Configure_ssh_pam_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_pam_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/03.Configure_ssh_sssd_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure ssh sssd ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/04.Configure_ssh_pam_sssd_ad_en/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_ad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/05.Static_uid_gid_integration_in_sssd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Static_uid_gid_integration_in_sssd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/os_setup/security/06.Configure_ssh_sssd_kerberos_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure_ssh_sssd_kerberos_linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    other_services
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    other_services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/other_services/build_openssl_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    build_openssl_tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/other_services/install_gitlab_ce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_gitlab_ce
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/other_services/install_vscode_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install_vscode_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_4" id="__nav_2_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/other_services/Nginx/01.Install_Nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/other_services/Nginx/02.Enable_https_resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enable_https_and_auto_redirect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../adminsys/other_services/Nginx/03.Use_Nginx_as_Http_load_balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use_nginx_as_load_balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Containerd
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Containerd
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Containerd/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Containerd/02.Install_config_containerd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker and Docker compose
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker and Docker compose
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Docker/01.Install_docker_dockerCompose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Docker/02.Use_docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Docker/03.Use_docker_compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use docker compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Helm_chart_registry/01.Deploy_a_helm_chart_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    helm chart registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    container image registry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    container image registry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_1" id="__nav_3_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/Docker/02.Docker_engine_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker engine installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/Docker/03.Docker_common_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker common commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4_2" id="__nav_3_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    harbor
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    harbor
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/harbor/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/harbor/02.Harbor_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/harbor/03.Harbor_helm_chart_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor helm chart management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/harbor/Harbor_export_import_image/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harbor export import image
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/Introduction_of_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/04.Use_private_image_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure container runtime to use private image registry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/Image_secu_inspection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image_secu_inspection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/Image_registry/Trivy_image_scanner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Image_vulnerability_scanner
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_1" id="__nav_3_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_with_kubeadm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_with_kubeadm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/deploy_k8s_with_kubeadm/01.Introduction_of_Kubeadm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/deploy_k8s_with_kubeadm/02.Deploy_k8s_cluster_online/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/deploy_k8s_with_kubeadm/03.K8s_cluster_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Manage k8s with kubeadm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/deploy_k8s_with_kubeadm/04.Post_k8s_cluster_installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Post installation config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_2" id="__nav_3_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    deploy_k8s_offline
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    deploy_k8s_offline
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/deploy_k8s_offline/02.Prepare_env_for_installing_k8s_offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prepare server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/deploy_k8s_offline/03.Install_k8s_offline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install k8s offline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_3" id="__nav_3_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_client_setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_client_setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/k8s_client_setup/01.Install_kubectl_and_helm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install kubectl and helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/k8s_client_setup/02.Helm_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of helm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/k8s_client_setup/03.Helm_use_private_repo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure helm client to use private repo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_4" id="__nav_3_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    k8s_security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/k8s_security/01.K8s_security_best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s security best practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/k8s_security/06.k8s_security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s network security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction of k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/04.Managing_k8s_certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Managing k8s certificate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/05.k8s_cluster_supervision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    K8s_cluster_supervision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/Debug_application_in_cluster_k8s/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debug_deployed_app_in_k8s
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../container/k8s/k8s_cluster_upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    k8s_cluster_upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    data_management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    data_management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../data_management/tuning.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tuning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../data_management/faq.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    dev_ops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    dev_ops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../devops/install.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../devops/config.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hadoop
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    hadoop
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    basic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    basic
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/basic/01.hdfs_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hdfs introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/basic/02.yarn_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    yarn introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    installation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/Installation/01.Install_hdfs_yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install hdfs yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/Installation/02.Install_spark_on_yarn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install spark on yarn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    kerberos integration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    kerberos integration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/kerberos_integration/Integrate_kerberos_in_hadoop_cluster.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integrate kerberos in hadoop cluster
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/kerberos_integration/Configure_spark_on_kerberosized_hadoop_cluster.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure spark on kerberos hadoop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cluster clients
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    cluster clients
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/cluster_clients/01.Install_hdfs_clients.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hdfs client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/cluster_clients/02.Install_R_studio_desktop.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rstudio desktop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../hadoop/cluster_clients/03.Install_R_studio_server.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rstudio server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Onyxia
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Onyxia
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../Onyxia/03.Install_onyxia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install onyxia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    python
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    python
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pypi_mirror
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    pypi_mirror
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../python/pypi_server/01.introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../python/04.Install_python_debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    install python interpreter in debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_1" id="__nav_9_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kerberos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kerberos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/kerberos/01.Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/kerberos/02.Install_kerberos_server_client_for_debian_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.Install_kerberos_client_server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/kerberos/03.Configure_kerberos_to_use_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.Configure_kerberos_to_use_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/kerberos/04.Install_kerberos_server_client_for_windows_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04.Install_kerberos_server_client_for_windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/kerberos/05.Configure_sssd_to_use_static_uid_gid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05.Configure_sssd_to_use_static_uid_gid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/kerberos/Keytab_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06.Keytab_introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_2" id="__nav_9_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    keycloak
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    keycloak
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/keycloak/Install_keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_9_3" id="__nav_9_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ldap
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ldap
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../security/ldap/01.install_ldap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install_ldap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stage_llm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    stage_llm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../LLMs/stage_david/1.introduction_ai_llm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Introduction_ai_llm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../LLMs/stage_david/2.Tokenization_and_embedding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Tokenization_and_embedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-deployment-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-deployment checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-create-service-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Create service account.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-install-postgresql-server-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Install postgresql server on windows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Install postgresql server on windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-use-enterprisedb-installer-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Use EnterpriseDB installer (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-configure-postgresql-for-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Configure postgresql for production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-create-prefect-database-and-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Create Prefect database and user
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-verify-postgres-service-during-prefect-launch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Verify postgres service during Prefect launch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-enable-pg_trgm-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Enable pg_trgm extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-tuning-the-postgres-server-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6. Tuning the postgres server (optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-install-the-python-interpreter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Install the python interpreter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-create-virtual-env-and-install-the-prefect-python-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Create virtual env, and install the prefect python package.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Create virtual env, and install the prefect python package.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-open-a-shell-as-svc_prefect-service-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Open a shell as svc_prefect service account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-create-a-python-virtual-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Create a python virtual env
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-configure-and-run-prefect-api-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Configure and run prefect api server
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Configure and run prefect api server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-prefect-configuration-with-system-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Prefect configuration with System Environment variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-prefect-configuration-with-project-level-configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Prefect configuration with project level configuration files
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Prefect configuration with project level configuration files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-env-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.1 .env file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-prefecttoml-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.2 prefect.toml file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-pyprojecttoml-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.3 pyproject.toml file
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-prefect-configuration-with-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Prefect configuration with profiles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-verify-the-configuration-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Verify the configuration values.
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-common-server-setting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Common server setting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-start-the-prefect-server-manually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Start the prefect server manually
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-create-a-work-pool-and-run-a-simple-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Create a work-pool and run a simple workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Create a work-pool and run a simple workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-create-a-work-pool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Create a work-pool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-create-a-simple-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Create a simple workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-create-a-window-service-for-prefect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Create a window service for Prefect
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Create a window service for Prefect">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-create-prefect-service-startup-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Create Prefect service startup scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-launch-the-prefect-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Launch the prefect service
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-use-a-user-account-to-test-the-prefect-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Use a user account to test the Prefect server
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="deploy-prefect-on-prod-on-windows">Deploy prefect on prod on windows<a class="headerlink" href="#deploy-prefect-on-prod-on-windows" title="Permanent link">&para;</a></h1>
+<p>In this doc, we will show how to deploy <code>Prefect</code> on production on a Windows server.</p>
+<p>There is an official doc <a href="https://docs.prefect.io/v3/how-to-guides/self-hosted/server-windows">here</a>. But I found it
+lack of many things.</p>
+<h2 id="pre-deployment-checklist">Pre-deployment checklist<a class="headerlink" href="#pre-deployment-checklist" title="Permanent link">&para;</a></h2>
+<p>Before the deployment steps, make sure you have the below items.</p>
+<ol>
+<li>Windows server admin access</li>
+<li>The right python interpreter version(3.11 or 3.12)</li>
+<li>The <code>Prefect</code> python wheel package</li>
+<li>The postgresql-15 server (or higher) .</li>
+<li>Prefect uses the <a href="https://www.postgresql.org/docs/current/pgtrgm.html">pg_trgm</a> extension, so it must be installed
+   and enabled on the postgresql server.</li>
+</ol>
+<h2 id="deployment-steps">Deployment steps<a class="headerlink" href="#deployment-steps" title="Permanent link">&para;</a></h2>
+<p>The below list shows the general <code>Prefect</code> deployment steps:</p>
+<ol>
+<li>Create Service account for <code>security isolation</code>, <code>continuous uptime</code> and better <code>auditing</code>.</li>
+<li>Install postgresql server with <code>pg_trgm</code> extension.(Dedicated service account to run postgresql)</li>
+<li>Install python interpreter. (Dedicated service account to run Prefect)</li>
+<li>Create virtual env, and install the prefect python package.</li>
+<li>Configure and run prefect api server(setup server <code>data, log, conf dir</code> with env var, postgresql connection config)</li>
+<li>Create a <code>work-pool</code> and run a <code>simple workflow</code></li>
+<li>Create a window service which runs the <code>Prefect Orion api server</code> and <code>worker</code> process.</li>
+<li>Launch the <code>Prefect</code> service.</li>
+<li>Login with a user account, try to register a workflow and run it. check the output, and the task logs, etc..</li>
+</ol>
+<h2 id="1-create-service-account">1. Create service account.<a class="headerlink" href="#1-create-service-account" title="Permanent link">&para;</a></h2>
+<p>We suppose the service account name which runs the prefect service is called <code>svc_prefect</code>. The postgresql server
+installer will
+create a service account automatically. So we only create <code>svc_prefect</code> here.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># 1. Create local account</span>
+<span class="nb">New-LocalUser</span> <span class="n">-Name</span> <span class="s2">&quot;svc_prefect&quot;</span> <span class="n">-Password</span> <span class="p">(</span><span class="nb">Read-Host</span> <span class="n">-AsSecureString</span> <span class="s2">&quot;Enter password&quot;</span><span class="p">)</span> <span class="n">-Description</span> <span class="s2">&quot;Prefect service account&quot;</span>
+
+<span class="c"># 2. Add &#39;Log on as a service&#39; right</span>
+<span class="nv">$account</span> <span class="p">=</span> <span class="s2">&quot;svc_prefect&quot;</span>
+<span class="c"># export current local security policy into a plaintext configuration file (C:\secpol.cfg)</span>
+<span class="n">secedit</span> <span class="p">/</span><span class="n">export</span> <span class="p">/</span><span class="n">cfg</span> <span class="n">C</span><span class="p">:\</span><span class="n">secpol</span><span class="p">.</span><span class="n">cfg</span>
+<span class="c"># modify the security policy by adding `*S-1-5-32-544`(the SID for the local Administrators group.)</span>
+<span class="p">(</span><span class="nb">gc </span><span class="n">C</span><span class="p">:\</span><span class="n">secpol</span><span class="p">.</span><span class="n">cfg</span><span class="p">).</span><span class="n">Replace</span><span class="p">(</span><span class="s2">&quot;SeServiceLogonRight =&quot;</span><span class="p">,</span> <span class="s2">&quot;SeServiceLogonRight = *S-1-5-32-544,$account&quot;</span><span class="p">)</span> <span class="p">|</span> <span class="nb">Out-File</span> <span class="n">C</span><span class="p">:\</span><span class="n">secpol</span><span class="p">.</span><span class="n">cfg</span>
+<span class="c"># after the above commands, in secpol.cfg, you should see the below lines</span>
+<span class="c"># SeServiceLogonRight = *S-1-5-32-544,svc_prefect</span>
+
+<span class="c"># import the modified security policy</span>
+<span class="n">secedit</span> <span class="p">/</span><span class="n">import</span> <span class="p">/</span><span class="n">cfg</span> <span class="n">C</span><span class="p">:\</span><span class="n">secpol</span><span class="p">.</span><span class="n">cfg</span> <span class="p">/</span><span class="n">db</span> <span class="n">secedit</span><span class="p">.</span><span class="n">sdb</span>
+<span class="c"># Apply the policy immediately</span>
+<span class="n">gpupdate</span> <span class="p">/</span><span class="n">force</span>
+<span class="c"># delete the temprary file</span>
+<span class="nb">Remove-Item</span> <span class="n">C</span><span class="p">:\</span><span class="n">secpol</span><span class="p">.</span><span class="n">cfg</span>
+
+<span class="c"># 3. Grant permissions</span>
+<span class="n">icacls</span> <span class="n">D</span><span class="p">:\</span><span class="n">prefect_data</span> <span class="p">/</span><span class="n">grant</span> <span class="s2">&quot;svc_prefect:(OI)(CI)F&quot;</span>
+
+<span class="c"># 4. If you also want to use it interactively (to open a shell session and install Python package):</span>
+<span class="n">net</span> <span class="n">localgroup</span> <span class="s2">&quot;Administrators&quot;</span> <span class="n">svc_prefect</span> <span class="p">/</span><span class="n">add</span>
+<span class="c"># You need to remove it later after installation for security hardening.</span>
+<span class="n">net</span> <span class="n">localgroup</span> <span class="s2">&quot;Administrators&quot;</span> <span class="n">svc_prefect</span> <span class="p">/</span><span class="n">delete</span>
+</code></pre></div>
+<h2 id="2-install-postgresql-server-on-windows">2. Install postgresql server on windows<a class="headerlink" href="#2-install-postgresql-server-on-windows" title="Permanent link">&para;</a></h2>
+<p>Prepare two directories to store the DB data and logs</p>
+<div class="highlight"><pre><span></span><code><span class="n">mkdir</span> <span class="s2">&quot;D:\pgsql\data&quot;</span>
+<span class="n">mkdir</span> <span class="s2">&quot;D:\pgsql\logs&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>Replace the <code>D:</code> by a suitable <code>non-system drive</code> (D: or E:) for production.
+Ensure only the <code>PostgreSQL service account and Administrators</code> have modify rights:</p>
+<p>Below commands show an example of ACL setup.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">icacls</span> <span class="n">D</span><span class="p">:\</span><span class="n">pgsql</span> <span class="p">/</span><span class="n">inheritance</span><span class="p">:</span><span class="nb">r </span><span class="p">/</span><span class="n">grant</span> <span class="s2">&quot;Administrators:(OI)(CI)F&quot;</span> <span class="p">/</span><span class="n">grant</span> <span class="s2">&quot;NT SERVICE\PostgreSQL:(OI)(CI)M&quot;</span>
+</code></pre></div>
+<h3 id="21-use-enterprisedb-installer-recommended">2.1 Use EnterpriseDB installer (recommended)<a class="headerlink" href="#21-use-enterprisedb-installer-recommended" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Download the Windows installer matching your architecture (e.g., <code>postgresql-16-windows-x64.exe</code>).</p>
+</li>
+<li>
+<p>Run it in <strong>Administrator mode</strong>.</p>
+</li>
+<li>
+<p>Server config:</p>
+<ul>
+<li>Installation directory: C:\Program Files\PostgreSQL\16</li>
+<li>Data directory: D:\pgsql\data</li>
+<li>Password: secure password for the postgres user</li>
+<li>Port: 5432</li>
+<li>Locale: default or en_US.UTF-8</li>
+</ul>
+</li>
+<li>
+<p>Check the generated service</p>
+<ul>
+<li>The installer automatically creates and registers the Windows service: <code>PostgreSQL Database Server 16</code> with
+  startup type Automatic.</li>
+<li>Verify the service: <code>Get-Service | Where-Object {$_.Name -like "*postgres*"}</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="22-configure-postgresql-for-production">2.2 Configure postgresql for production<a class="headerlink" href="#22-configure-postgresql-for-production" title="Permanent link">&para;</a></h3>
+<p>Edit <code>D:\pgsql\data\postgresql.conf</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="na">listen_addresses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;localhost&#39;</span>
+<span class="na">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">5432</span>
+<span class="na">logging_collector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">on</span>
+<span class="na">log_directory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;D:/pgsql/logs&#39;</span>
+<span class="na">log_filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;postgresql-%Y-%m-%d.log&#39;</span>
+</code></pre></div>
+<p>Edit <code>D:\pgsql\data\pg_hba.conf</code> to restrict access:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># TYPE  DATABASE  USER      ADDRESS         METHOD</span>
+<span class="n">local</span>   <span class="n">all</span>       <span class="n">all</span>                        <span class="n">scram-sha</span><span class="p">-</span><span class="n">256</span>
+<span class="n">host</span>    <span class="n">prefect_db</span>  <span class="n">prefect</span>  <span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">/</span><span class="n">32</span>    <span class="n">scram-sha</span><span class="p">-</span><span class="n">256</span>
+</code></pre></div>
+<p>Restart the service to apply the new conf</p>
+<div class="highlight"><pre><span></span><code><span class="n">net</span> <span class="n">stop</span> <span class="n">postgresql</span>
+<span class="n">net</span> <span class="nb">start </span><span class="n">postgresql</span>
+</code></pre></div>
+<blockquote>
+<p>Check with Eric, why postgres use outdated <code>net</code> command, not the modern <code>sc</code> command.</p>
+</blockquote>
+<h3 id="23-create-prefect-database-and-user">2.3 Create Prefect database and user<a class="headerlink" href="#23-create-prefect-database-and-user" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># start a psql shell</span>
+<span class="nb">cd </span><span class="s2">&quot;C:\Program Files\PostgreSQL\16\bin&quot;</span>
+<span class="p">.\</span><span class="n">psql</span> <span class="n">-U</span> <span class="n">postgres</span>
+
+<span class="c"># run the below command to create prefect db and user</span>
+<span class="n">CREATE</span> <span class="n">DATABASE</span> <span class="n">prefect_db</span><span class="p">;</span>
+<span class="n">CREATE</span> <span class="n">USER</span> <span class="n">prefect</span> <span class="n">WITH</span> <span class="n">ENCRYPTED</span> <span class="n">PASSWORD</span> <span class="s1">&#39;prefect_pass&#39;</span><span class="p">;</span>
+<span class="n">GRANT</span> <span class="n">ALL</span> <span class="n">PRIVILEGES</span> <span class="n">ON</span> <span class="n">DATABASE</span> <span class="n">prefect_db</span> <span class="n">TO</span> <span class="n">prefect</span><span class="p">;</span>
+
+<span class="c"># check the connexion</span>
+<span class="p">.\</span><span class="n">psql</span> <span class="n">-h</span> <span class="n">localhost</span> <span class="n">-p</span> <span class="n">5432</span> <span class="n">-U</span> <span class="n">prefect_user</span> <span class="n">-d</span> <span class="n">prefect_db</span>
+</code></pre></div>
+<blockquote>
+<p>Add the Prefect db connection string within <code>Prefect service account</code> :
+<code>setx /M PREFECT_API_DATABASE_CONNECTION_URL "postgresql+asyncpg://prefect_id:prefect_pass@localhost:5432/prefect_db"</code></p>
+<p>if you have permission issue on public Schema, you may need to change the owner of the <code>prefect_db</code> to <code>prefect</code></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c"># close all connexion</span>
+<span class="nb">SELECT </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<span class="n">FROM</span> <span class="n">pg_stat_activity</span>
+<span class="nb">WHERE </span><span class="n">datname</span> <span class="p">=</span> <span class="s1">&#39;prefect_db&#39;</span><span class="p">;</span>
+
+<span class="c"># change ownership of db</span>
+<span class="n">ALTER</span> <span class="n">DATABASE</span> <span class="n">prefect_db</span> <span class="n">OWNER</span> <span class="n">TO</span> <span class="n">prefect_user</span><span class="p">;</span>
+
+<span class="c"># change ownership of schema</span>
+<span class="p">\</span><span class="n">c</span> <span class="n">prefect_db</span>
+
+<span class="n">ALTER</span> <span class="n">SCHEMA</span> <span class="n">public</span> <span class="n">OWNER</span> <span class="n">TO</span> <span class="n">prefect_user</span><span class="p">;</span>
+
+<span class="c"># fix default privilege for future tables</span>
+<span class="n">ALTER</span> <span class="k">DEFAULT</span> <span class="n">PRIVILEGES</span> <span class="k">IN</span> <span class="n">SCHEMA</span> <span class="n">public</span>
+<span class="n">GRANT</span> <span class="n">ALL</span> <span class="n">PRIVILEGES</span> <span class="n">ON</span> <span class="n">TABLES</span> <span class="n">TO</span> <span class="n">prefect_user</span><span class="p">;</span>
+
+<span class="c"># grant all permisision</span>
+<span class="n">GRANT</span> <span class="n">ALL</span> <span class="n">PRIVILEGES</span> <span class="n">ON</span> <span class="n">DATABASE</span> <span class="n">prefect_db</span> <span class="n">TO</span> <span class="n">prefect_user</span><span class="p">;</span>
+</code></pre></div>
+<p>You can initiate the prefect service database schema with the below command</p>
+<div class="highlight"><pre><span></span><code><span class="n">prefect</span> <span class="n">server</span> <span class="n">database</span> <span class="n">upgrade</span>
+</code></pre></div>
+<blockquote>
+<p>Don't forget to activate your virtual env first.</p>
+</blockquote>
+<h3 id="24-verify-postgres-service-during-prefect-launch">2.4 Verify postgres service during Prefect launch<a class="headerlink" href="#24-verify-postgres-service-during-prefect-launch" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># check service status</span>
+<span class="nb">Get-Service</span> <span class="n">postgresql</span>
+
+<span class="c"># view db log</span>
+<span class="nb">Get-Content</span> <span class="s2">&quot;D:\pgsql\logs\server.log&quot;</span> <span class="n">-Tail</span> <span class="n">20</span>
+</code></pre></div>
+<h3 id="25-enable-pg_trgm-extension">2.5 Enable pg_trgm extension<a class="headerlink" href="#25-enable-pg_trgm-extension" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># get a psql shell</span>
+<span class="nb">cd </span><span class="s2">&quot;C:\Program Files\PostgreSQL\16\bin&quot;</span>
+<span class="n">psql</span> <span class="n">-U</span> <span class="n">postgres</span> <span class="n">-d</span> <span class="n">prefect_db</span>
+
+<span class="c"># enable the extension</span>
+<span class="n">CREATE</span> <span class="n">EXTENSION</span> <span class="k">IF</span> <span class="n">NOT</span> <span class="n">EXISTS</span> <span class="n">pg_trgm</span><span class="p">;</span>
+
+<span class="c"># check the installation</span>
+<span class="p">\</span><span class="n">dx</span>
+
+<span class="c"># expected output</span>
+<span class="n">List</span> <span class="n">of</span> <span class="n">installed</span> <span class="n">extensions</span>
+<span class="n">Name</span>    <span class="p">|</span> <span class="n">Version</span> <span class="p">|</span> <span class="n">Schema</span> <span class="p">|</span>                   <span class="n">Description</span>
+<span class="p">-----------+---------+--------+-----------------------------------------------</span>
+<span class="n">pg_trgm</span>   <span class="p">|</span> <span class="n">1</span><span class="p">.</span><span class="n">9</span>     <span class="p">|</span> <span class="n">public</span> <span class="p">|</span> <span class="n">text</span> <span class="n">similarity</span> <span class="n">measurement</span> <span class="n">and</span> <span class="n">index</span> <span class="n">searching</span>
+</code></pre></div>
+<blockquote>
+<p>The extension is enabled per database, so you must run it in every database where you want trigram indexes.</p>
+</blockquote>
+<h3 id="26-tuning-the-postgres-server-optional">2.6. Tuning the postgres server (optional)<a class="headerlink" href="#26-tuning-the-postgres-server-optional" title="Permanent link">&para;</a></h3>
+<p>If you need to increase the postgres server performance, you can edit the below params in <code>postgresql.conf</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="n">shared_buffers</span> <span class="p">=</span> <span class="n">2GB</span>
+<span class="n">work_mem</span> <span class="p">=</span> <span class="n">64MB</span>
+<span class="n">maintenance_work_mem</span> <span class="p">=</span> <span class="n">512MB</span>
+<span class="n">max_connections</span> <span class="p">=</span> <span class="n">50</span>
+<span class="n">wal_level</span> <span class="p">=</span> <span class="n">replica</span>
+<span class="n">checkpoint_timeout</span> <span class="p">=</span> <span class="n">15min</span>
+</code></pre></div>
+<h2 id="3-install-the-python-interpreter">3. Install the python interpreter<a class="headerlink" href="#3-install-the-python-interpreter" title="Permanent link">&para;</a></h2>
+<p>Should have conda installed in the Windows server.</p>
+<h2 id="4-create-virtual-env-and-install-the-prefect-python-package">4. Create virtual env, and install the prefect python package.<a class="headerlink" href="#4-create-virtual-env-and-install-the-prefect-python-package" title="Permanent link">&para;</a></h2>
+<p>The below commands should run under the <code>svc_prefect</code> service account.</p>
+<h3 id="41-open-a-shell-as-svc_prefect-service-account">4.1 Open a shell as svc_prefect service account<a class="headerlink" href="#41-open-a-shell-as-svc_prefect-service-account" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># open a shell as svc_prefect with runas</span>
+<span class="n">runas</span> <span class="p">/</span><span class="n">user</span><span class="p">:</span><span class="n">svc_prefect</span> <span class="n">cmd</span>
+
+<span class="c"># check the current user</span>
+<span class="n">whoami</span>
+<span class="c"># Expected output:</span>
+<span class="n">myserver</span><span class="p">\</span><span class="n">svc_prefect</span>
+</code></pre></div>
+<blockquote>
+<p>Now all actions (venv creation, python package install) happen inside this account’s profile.
+</p>
+</blockquote>
+<h3 id="42-create-a-python-virtual-env">4.2 Create a python virtual env<a class="headerlink" href="#42-create-a-python-virtual-env" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># create a virtual env</span>
+<span class="n">conda</span> <span class="n">create</span> <span class="p">-</span><span class="n">-name</span> <span class="n">prefect_env</span> <span class="n">python</span> <span class="p">-</span><span class="n">-offline</span>
+
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">prefect_env</span>
+
+<span class="c"># install prefect</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">prefect</span><span class="p">==</span><span class="n">3</span><span class="p">.</span><span class="n">4</span><span class="p">.</span><span class="n">25</span>
+
+<span class="c"># after installation, check prefect</span>
+<span class="n">prefect</span> <span class="n">version</span>
+
+<span class="c"># get python path</span>
+<span class="nb">where </span><span class="n">python</span>
+
+<span class="c"># get prefect executable path</span>
+<span class="nb">where </span><span class="n">prefect</span>
+</code></pre></div>
+<blockquote>
+<p>The current(25/10/2025) stable version is <code>3.4.25</code>.
+</p>
+</blockquote>
+<h2 id="5-configure-and-run-prefect-api-server">5. Configure and run prefect api server<a class="headerlink" href="#5-configure-and-run-prefect-api-server" title="Permanent link">&para;</a></h2>
+<p>The way on how to configure <code>Prefect</code> is quite <code>different between v2.0 and v3.0</code>. So check which version of Prefect that
+you are using before you follow the below doc. The below doc is only for <code>Prefect 3.0 and above</code>.</p>
+<p>You can visit the official <a href="https://docs.prefect.io/v3/concepts/settings-and-profiles">website</a> for more details.</p>
+<p>Prefect provides three level of configuration:</p>
+<ul>
+<li><strong>system level</strong>: System Environment variables</li>
+<li>user level: Active profile settings</li>
+<li>project level: <code>.env, prefect.toml, and pyproject.toml file</code> in the curring working directory(project folder).</li>
+</ul>
+<p>When multiple settings sources define the same setting, Prefect follows the precedence order (highest to lowest):</p>
+<ol>
+<li>Environment variables <code>(Highest priority)</code></li>
+<li>.env file in the current working directory</li>
+<li>prefect.toml file in the current working directory</li>
+<li>pyproject.toml file in the current working directory</li>
+<li>Active profile settings</li>
+<li>Default values <code>(Lowest priority)</code></li>
+</ol>
+<blockquote>
+<p>For example, if you set <code>PREFECT_API_URL</code> in both your environment and your active profile, the environment variable
+value will take precedence.</p>
+</blockquote>
+<h3 id="51-prefect-configuration-with-system-environment-variables">5.1 Prefect configuration with System Environment variables<a class="headerlink" href="#51-prefect-configuration-with-system-environment-variables" title="Permanent link">&para;</a></h3>
+<p>All Prefect settings can be set using environment variables prefixed with <code>PREFECT_</code>. They <strong>take precedence over all
+other sources</strong>, making them ideal for adjustments that should only apply to a single session or process.</p>
+<p>In this tutorial, as we plan to deploy the <code>Prefect</code> server for all users, the best way to configure <code>Prefect</code> is to
+use <code>System Environment variables</code>.</p>
+<p>For example, the below setting are</p>
+<div class="highlight"><pre><span></span><code><span class="n">setx</span> <span class="p">/</span><span class="n">M</span> <span class="n">PREFECT_HOME</span> <span class="s2">&quot;D:\prefect_data&quot;</span>
+<span class="n">setx</span> <span class="p">/</span><span class="n">M</span> <span class="n">PREFECT_API_URL</span> <span class="s2">&quot;http://localhost:4200/api&quot;</span>
+<span class="n">setx</span> <span class="p">/</span><span class="n">M</span> <span class="n">PREFECT_API_DATABASE_CONNECTION_URL</span> <span class="s2">&quot;postgresql+asyncpg://prefect_id:prefect_pass@localhost:5432/prefect_db&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>/M option means machine Machine-level environment variables
+Ensure <code>D:\prefect_data</code> is writable by <code>svc_prefect</code>:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">icacls</span> <span class="n">D</span><span class="p">:\</span><span class="n">prefect_data</span> <span class="p">/</span><span class="n">grant</span> <span class="s2">&quot;svc_prefect:(OI)(CI)M&quot;</span>
+</code></pre></div>
+<h3 id="52-prefect-configuration-with-project-level-configuration-files">5.2 Prefect configuration with project level configuration files<a class="headerlink" href="#52-prefect-configuration-with-project-level-configuration-files" title="Permanent link">&para;</a></h3>
+<p><code>Prefect 3.0</code> supports three types of configuration files:.</p>
+<ul>
+<li>.env</li>
+<li>prefect.toml</li>
+<li>pyproject.toml</li>
+</ul>
+<h4 id="521-env-file">5.2.1 .env file<a class="headerlink" href="#521-env-file" title="Permanent link">&para;</a></h4>
+<p><code>.env files</code> are useful for declaring local settings that you want to apply across multiple runs.
+When running prefect in a directory that contains a .env file,
+<code>Prefect will automatically apply the settings in the file</code>.
+We recommend keeping your .env files local and not committing them to your code repositories.</p>
+<p>For example, the following <code>.env file</code> declares a local setting for the logging level:</p>
+<div class="highlight"><pre><span></span><code>PREFECT_LOGGING_LEVEL=&quot;DEBUG&quot;
+</code></pre></div>
+<blockquote>
+<p>Any flows run in the same directory as this .env file will use the DEBUG logging level, even if they are run in
+different shell sessions.</p>
+</blockquote>
+<h4 id="522-prefecttoml-file">5.2.2 prefect.toml file<a class="headerlink" href="#522-prefecttoml-file" title="Permanent link">&para;</a></h4>
+<p>A prefect.toml file is useful when you want to declare settings for an entire project.</p>
+<p>You can keep a <code>prefect.toml file in your project directory</code> and the declared settings will be automatically
+applied when running prefect in that directory. We recommend committing this file to your code repositories to
+ensure consistency across environments.</p>
+<p>Example of the <code>prefect.toml</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[api]</span>
+<span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://127.0.0.1:4200/api&quot;</span>
+
+<span class="k">[server]</span>
+<span class="n">loggin_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;INFO&quot;</span>
+<span class="n">analytics_enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;False&quot;</span>
+<span class="n">deployment_schedule_max_scheduled_runs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span>
+<span class="n">database</span><span class="p">.</span><span class="n">connection_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;postgresql+asyncpg://prefect_user:your_secure_password@localhost:5432/prefect_db&quot;</span>
+</code></pre></div>
+<h4 id="523-pyprojecttoml-file">5.2.3 pyproject.toml file<a class="headerlink" href="#523-pyprojecttoml-file" title="Permanent link">&para;</a></h4>
+<p>Declaring settings in a <code>pyproject.toml</code> file is very similar to declaring settings in a <code>prefect.toml</code> file. The
+main difference is that <code>settings are declared in the [tool.prefect]</code> table instead of at the root of the file.</p>
+<p>For example, the following pyproject.toml file declares a setting for the logging level:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[tool.prefect]</span>
+<span class="n">logging</span><span class="p">.</span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;DEBUG&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>The advantage of declaring settings in a pyproject.toml file is that it allows you to keep all your dependencies and
+settings for all your tools in one place.</p>
+</blockquote>
+<h3 id="53-prefect-configuration-with-profiles">5.3 Prefect configuration with profiles<a class="headerlink" href="#53-prefect-configuration-with-profiles" title="Permanent link">&para;</a></h3>
+<p>Prefect profiles are useful for switching between different environments. By creating different profiles with
+different API URLs, you can easily switch between a local Prefect server and your production environment.</p>
+<p><code>Profiles</code> are stored in a TOML file located at <code>~/.prefect/profiles.toml</code> by default. This location can be
+configured by setting <code>PREFECT_PROFILES_PATH</code>.</p>
+<p>You can configure prefect with the <code>prefect profile CLI commands</code>, or edit the <code>profiles.toml</code> file directly.</p>
+<p>The <code>prefect profile CLI commands</code> enable you to <code>create, review, and manage profiles</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>create</td>
+<td>Create a new profile; use the --from flag to copy settings from another profile.</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>Delete the given profile.</td>
+</tr>
+<tr>
+<td>inspect</td>
+<td>Display settings from a given profile; defaults to active.</td>
+</tr>
+<tr>
+<td>ls</td>
+<td>List all profile names.</td>
+</tr>
+<tr>
+<td>rename</td>
+<td>Change the name of a profile.</td>
+</tr>
+<tr>
+<td>use</td>
+<td>Switch the active profile.</td>
+</tr>
+<tr>
+<td>populate-defaults</td>
+<td>Populate your profiles.toml file with opinionated stock profiles.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, the following CLI commands set configuration in the ephemeral profile and then create a new profile 
+with new settings:</p>
+<div class="highlight"><pre><span></span><code>prefect<span class="w"> </span>profile<span class="w"> </span>use<span class="w"> </span>ephemeral
+prefect<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">PREFECT_API_URL</span><span class="o">=</span>http://127.0.0.1:4200/api
+
+prefect<span class="w"> </span>profile<span class="w"> </span>create<span class="w"> </span>new-profile<span class="w"> </span>--from<span class="w"> </span>ephemeral
+prefect<span class="w"> </span>profile<span class="w"> </span>use<span class="w"> </span>new-profile
+prefect<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">PREFECT_RESULTS_PERSIST_BY_DEFAULT</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="nv">PREFECT_LOGGING_LEVEL</span><span class="o">=</span><span class="s2">&quot;ERROR&quot;</span>
+
+prefect<span class="w"> </span>profile<span class="w"> </span>inspect
+prefect<span class="w"> </span>config<span class="w"> </span><span class="nb">unset</span><span class="w"> </span>PREFECT_LOGGING_LEVEL<span class="w"> </span>-y
+</code></pre></div>
+<h3 id="54-verify-the-configuration-values">5.4 Verify the configuration values.<a class="headerlink" href="#54-verify-the-configuration-values" title="Permanent link">&para;</a></h3>
+<p>If you are not sure which are the current config values, you can use the below command to check</p>
+<div class="highlight"><pre><span></span><code><span class="c"># print all available settings and their active value</span>
+<span class="n">prefect</span> <span class="n">config</span> <span class="n">view</span> <span class="p">-</span><span class="n">-show-defaults</span>
+
+<span class="c"># check the validity of the config</span>
+<span class="n">prefect</span> <span class="n">config</span> <span class="n">validate</span>
+
+<span class="c"># change current setting values (general form)</span>
+<span class="n">prefect</span> <span class="n">config</span> <span class="nb">set </span><span class="p">&lt;</span><span class="n">setting</span><span class="p">&gt;=&lt;</span><span class="n">value</span><span class="p">&gt;</span>
+
+<span class="c"># for example</span>
+<span class="n">prefect</span> <span class="n">config</span> <span class="nb">set </span><span class="n">PREFECT_API_URL</span><span class="p">=</span><span class="n">http</span><span class="p">://</span><span class="n">127</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">:</span><span class="n">4200</span><span class="p">/</span><span class="n">api</span>
+
+<span class="c"># restore default value(general form)</span>
+<span class="n">prefect</span> <span class="n">config</span> <span class="n">unset</span> <span class="p">&lt;</span><span class="n">setting</span><span class="p">&gt;</span>
+
+<span class="c"># for example</span>
+<span class="n">prefect</span> <span class="n">config</span> <span class="n">unset</span> <span class="n">PREFECT_API_URL</span>
+</code></pre></div>
+<h3 id="55-common-server-setting">5.5 Common server setting<a class="headerlink" href="#55-common-server-setting" title="Permanent link">&para;</a></h3>
+<p>No matter which methods you use to configure the <code>Prefect</code> server. The minimum configuration are</p>
+<div class="highlight"><pre><span></span><code>PREFECT_HOME=&quot;D:\prefect_data&quot;
+PREFECT_API_URL=&quot;http://localhost:4200/api&quot;
+PREFECT_API_DATABASE_CONNECTION_URL=&quot;postgresql+asyncpg://prefect_id:prefect_pass@localhost:5432/prefect_db&quot;
+</code></pre></div>
+<h3 id="56-start-the-prefect-server-manually">5.6 Start the prefect server manually<a class="headerlink" href="#56-start-the-prefect-server-manually" title="Permanent link">&para;</a></h3>
+<p>For testing purpose, we can run the prefect server with the below command</p>
+<div class="highlight"><pre><span></span><code><span class="c"># upgrade or init the database</span>
+<span class="n">prefect</span> <span class="n">server</span> <span class="n">database</span> <span class="n">upgrade</span>
+
+<span class="c"># start prefect server</span>
+<span class="n">prefect</span> <span class="n">server</span> <span class="nb">start</span>
+</code></pre></div>
+<p>After the above command, you will have two services:</p>
+<ul>
+<li><strong>API</strong>: runs on http://127.0.0.1:4200/api</li>
+<li><strong>Web UI</strong>: runs on http://127.0.0.1:4200</li>
+</ul>
+<blockquote>
+<p>Leave this PowerShell window open
+</p>
+</blockquote>
+<h2 id="6-create-a-work-pool-and-run-a-simple-workflow">6. Create a work-pool and run a simple workflow<a class="headerlink" href="#6-create-a-work-pool-and-run-a-simple-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="61-create-a-work-pool">6.1 Create a work-pool<a class="headerlink" href="#61-create-a-work-pool" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c"># create a work-pool</span>
+<span class="n">prefect</span> <span class="n">work-pool</span> <span class="n">create</span> <span class="n">local-pool</span> <span class="p">-</span><span class="n">-type</span> <span class="k">process</span>
+
+<span class="c"># start a worker which takes flow from a pool</span>
+<span class="n">prefect</span> <span class="n">worker</span> <span class="nb">start </span><span class="p">-</span><span class="n">-pool</span> <span class="n">local-pool</span>
+</code></pre></div>
+<h3 id="62-create-a-simple-workflow">6.2 Create a simple workflow<a class="headerlink" href="#62-create-a-simple-workflow" title="Permanent link">&para;</a></h3>
+<p>You can save the below script in a directory. In my case, I put it under <code>./flows/pengfei/simple_flow.py</code></p>
+<blockquote>
+<p>The directory <code>flows/pengfei</code> should be accessible by admin and user pengfei.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">prefect</span><span class="w"> </span><span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">get_run_logger</span>
+
+
+<span class="nd">@task</span><span class="p">(</span><span class="n">log_prints</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Task1: Extracting data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">get_run_logger</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+
+<span class="nd">@task</span><span class="p">(</span><span class="n">log_prints</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task2: Transforming data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+
+
+<span class="nd">@task</span><span class="p">(</span><span class="n">log_prints</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task3: Loading result </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@flow</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">etl_flow</span><span class="p">():</span>
+    <span class="c1"># task 1</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">extract</span><span class="p">()</span>
+    <span class="c1"># task 2</span>
+    <span class="n">clean</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># task 3</span>
+    <span class="n">load</span><span class="p">(</span><span class="n">clean</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">etl_flow</span><span class="p">()</span>
+</code></pre></div>
+<blockquote>
+<p>This script uses both the print and logger to print info in the task logs</p>
+<p>You can run a workflow directly with the below command</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">python</span> <span class="p">./</span><span class="n">flows</span><span class="p">/</span><span class="n">pengfei</span><span class="p">/</span><span class="n">simple_flow</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+<h2 id="7-create-a-window-service-for-prefect">7. Create a window service for Prefect<a class="headerlink" href="#7-create-a-window-service-for-prefect" title="Permanent link">&para;</a></h2>
+<h3 id="71-create-prefect-service-startup-scripts">7.1 Create <code>Prefect</code> service startup scripts<a class="headerlink" href="#71-create-prefect-service-startup-scripts" title="Permanent link">&para;</a></h3>
+<p>Use the service manager of CASD? Check with Eric </p>
+<p>Create a server startup script under <code>D:\prefect_data\scripts\start_server.ps1</code></p>
+<div class="highlight"><pre><span></span><code><span class="nv">$env:PREFECT_HOME</span> <span class="p">=</span> <span class="s2">&quot;D:\prefect_data&quot;</span>
+<span class="nv">$env:PREFECT_API_DATABASE_CONNECTION_STRING</span> <span class="p">=</span> <span class="s2">&quot;postgresql+psycopg2://prefect:prefect_pass@localhost:5432/prefect_db&quot;</span>
+<span class="nv">$env:PREFECT_LOGGING_SERVER_LEVEL</span> <span class="p">=</span> <span class="s2">&quot;INFO&quot;</span>
+<span class="p">&amp;</span> <span class="s2">&quot;C:\Users\svc_prefect\prefect-env\Scripts\prefect.exe&quot;</span> <span class="n">orion</span> <span class="nb">start </span><span class="p">-</span><span class="n">-host</span> <span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span> <span class="p">-</span><span class="n">-port</span> <span class="n">4200</span>
+</code></pre></div>
+<p>Create a worker startup script under <code>D:\prefect_data\scripts\start_worker.ps1</code></p>
+<div class="highlight"><pre><span></span><code><span class="nv">$env:PREFECT_HOME</span> <span class="p">=</span> <span class="s2">&quot;D:\prefect_data&quot;</span>
+<span class="nv">$env:PREFECT_API_URL</span> <span class="p">=</span> <span class="s2">&quot;http://localhost:4200/api&quot;</span>
+<span class="p">&amp;</span> <span class="s2">&quot;C:\Users\svc_prefect\prefect-env\Scripts\prefect.exe&quot;</span> <span class="n">worker</span> <span class="nb">start </span><span class="p">-</span><span class="n">-pool</span> <span class="n">shared_pool</span>
+</code></pre></div>
+<p>Create <code>Windows Services</code> via <strong>sc.exe</strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># create service for server</span>
+<span class="nb">sc </span><span class="n">create</span> <span class="n">PrefectServer</span> <span class="n">binPath</span><span class="p">=</span> <span class="s2">&quot;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\prefect_data\scripts\start_server.ps1&quot;</span> <span class="n">start</span><span class="p">=</span> <span class="n">auto</span> <span class="n">obj</span><span class="p">=</span> <span class="s2">&quot;.\svc_prefect&quot;</span> <span class="n">password</span><span class="p">=</span> <span class="s2">&quot;StrongPwd!&quot;</span>
+
+<span class="c"># create service for worker</span>
+<span class="nb">sc </span><span class="n">create</span> <span class="n">PrefectWorker</span> <span class="n">binPath</span><span class="p">=</span> <span class="s2">&quot;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\prefect_data\scripts\start_worker.ps1&quot;</span> <span class="n">start</span><span class="p">=</span> <span class="n">auto</span> <span class="n">obj</span><span class="p">=</span> <span class="s2">&quot;.\svc_prefect&quot;</span> <span class="n">password</span><span class="p">=</span> <span class="s2">&quot;StrongPwd!&quot;</span>
+
+<span class="c"># check the created service</span>
+<span class="nb">sc </span><span class="n">query</span> <span class="n">PrefectServer</span>
+<span class="nb">sc </span><span class="n">query</span> <span class="n">PrefectWorker</span>
+
+<span class="c"># configure recovery and description</span>
+<span class="nb">sc </span><span class="n">failure</span> <span class="n">PrefectServer</span> <span class="n">reset</span><span class="p">=</span> <span class="n">86400</span> <span class="n">actions</span><span class="p">=</span> <span class="n">restart</span><span class="p">/</span><span class="n">5000</span>
+<span class="nb">sc </span><span class="n">failure</span> <span class="n">PrefectWorker</span> <span class="n">reset</span><span class="p">=</span> <span class="n">86400</span> <span class="n">actions</span><span class="p">=</span> <span class="n">restart</span><span class="p">/</span><span class="n">5000</span>
+<span class="nb">sc </span><span class="n">description</span> <span class="n">PrefectServer</span> <span class="s2">&quot;Prefect 3 Server API Service&quot;</span>
+<span class="nb">sc </span><span class="n">description</span> <span class="n">PrefectWorker</span> <span class="s2">&quot;Prefect 3 Worker Service&quot;</span>
+</code></pre></div>
+<blockquote>
+<p>To delete a service, we can use <code>sc delete &lt;service-name&gt;</code></p>
+</blockquote>
+<h2 id="8-launch-the-prefect-service">8. Launch the prefect service<a class="headerlink" href="#8-launch-the-prefect-service" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c"># start the service</span>
+<span class="nb">sc start </span><span class="n">PrefectServer</span>
+<span class="nb">sc start </span><span class="n">PrefectWorker</span>
+</code></pre></div>
+<blockquote>
+<p>Now you can check the Prefect Web UI: <code>http://localhost:4200</code>.</p>
+</blockquote>
+<p>Some useful commands for managing the services</p>
+<div class="highlight"><pre><span></span><code><span class="c"># Start server  </span>
+<span class="nb">sc start </span><span class="n">PrefectServer</span>
+
+<span class="c"># Stop Server   </span>
+<span class="nb">sc </span><span class="n">stop</span> <span class="n">PrefectServer</span>
+
+<span class="c"># Restart Worker    </span>
+<span class="nb">sc </span><span class="n">stop</span> <span class="n">PrefectWorker</span> <span class="p">&amp;&amp;</span> <span class="nb">sc start </span><span class="n">PrefectWorker</span>
+
+<span class="c"># View server status    </span>
+<span class="nb">sc </span><span class="n">query</span> <span class="n">PrefectServer</span>
+
+<span class="c"># View logs </span>
+<span class="n">Event</span> <span class="n">Viewer</span> <span class="err">→</span> <span class="n">Windows</span> <span class="n">Logs</span> <span class="err">→</span> <span class="n">Application</span>
+</code></pre></div>
+<h2 id="9-use-a-user-account-to-test-the-prefect-server">9. Use a user account to test the Prefect server<a class="headerlink" href="#9-use-a-user-account-to-test-the-prefect-server" title="Permanent link">&para;</a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "search.suggest", "search.highlight"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
