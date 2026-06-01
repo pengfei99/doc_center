@@ -143,6 +143,8 @@ nav:
   - Onyxia:
       - Install onyxia: Onyxia/03.Install_onyxia.md
   - python:
+      - py_env:
+          - uv: python/py_env/uv/README.md
       - pypi_mirror:
           - introduction: python/pypi_server/01.introduction.md
       - install python interpreter in debian: python/04.Install_python_debian.md
@@ -158,3 +160,7 @@ nav:
           - Install_keycloak: security/keycloak/Install_keycloak.md
       - ldap:
           - Install_ldap: security/ldap/01.install_ldap.md
+  - stage_llm:
+      - course:
+          - 01. Introduction_ai_llm: LLMs/stage_david/1.introduction_ai_llm.md
+          - 02. Tokenization_and_embedding: LLMs/stage_david/2.Tokenization_and_embedding.md
