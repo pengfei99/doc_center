@@ -19,7 +19,7 @@
     
     
       
-        <title>Deploy llama.cpp on debian 13 server - Pengfei Documentation</title>
+        <title>Deploy vllm debian13 - Pengfei Documentation</title>
       
     
     
@@ -59,11 +59,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#deploy-llamacpp-on-debian-13-server" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -96,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deploy llama.cpp on debian 13 server
+              Deploy vllm debian13
             
           </span>
         </div>
@@ -4669,7 +4664,7 @@
   <span class="md-ellipsis">
     
   
-    pypi_mirror
+    py_env
   
 
     
@@ -4682,6 +4677,89 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    py_env
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../python/py_env/uv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    uv
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pypi_mirror
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5387,271 +5465,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-overview-of-llamacpp" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. overview of llama.cpp
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1. overview of llama.cpp">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#11-application-layer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.1 Application layer
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1.1 Application layer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#llama-server" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Llama-server
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#llama-cli-the-local-client-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        llama-cli (The Local Client / Tool)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#llama-quantize-the-optimization-compactor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        llama-quantize (The Optimization Compactor)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#12-model-layer-libllama" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.2 Model layer (libllama)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13-ggml-layer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.3 GGML layer
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#14-ggml-hardware-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1.4 GGML Hardware Backend
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-install-build-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Install Build Dependencies
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-get-the-source" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Get the source
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-choose-your-ggml-backend" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Choose your GGML backend
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Choose your GGML backend">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-for-pure-cpu-infrastructure-avx2avx512" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 For Pure CPU Infrastructure (AVX2/AVX512)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-for-nvidia-gpu-acceleration-cuda" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 For NVIDIA GPU Acceleration (CUDA)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-model-provisioning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Model Provisioning
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-test-llamacpp-with-llama-client" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Test llama.cpp with llama-client
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. Test llama.cpp with llama-client">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-one-and-done-inline-prompt" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 One-and-Done Inline Prompt
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-interactive-chat-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Interactive Chat Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63-deterministic-json-schema-enforcement-grammar-constraints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.3 Deterministic JSON Schema Enforcement (Grammar Constraints)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#64-use-system-command-in-a-query" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.4 Use system command in a query
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-run-llama-server-as-daemon" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Run llama-server as daemon
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-setup-reverse-proxy-with-nginx" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Setup reverse Proxy with Nginx
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -5668,366 +5481,9 @@
 
 
 
-<h1 id="deploy-llamacpp-on-debian-13-server">Deploy llama.cpp on debian 13 server<a class="headerlink" href="#deploy-llamacpp-on-debian-13-server" title="Permanent link">&para;</a></h1>
-<p>In this tutorial, we will deploy a llama.cpp on a debian 13 server.</p>
-<h2 id="1-overview-of-llamacpp">1. overview of llama.cpp<a class="headerlink" href="#1-overview-of-llamacpp" title="Permanent link">&para;</a></h2>
-<p>The below figure shows the workflow of how a network request flows through the main components of the llama.cpp</p>
-<div class="highlight"><pre><span></span><code>[ Web UI / External App ]
-         │ (HTTP JSON Request / OpenAI API)
-         ▼
- ┌────────────────────────────────────────────────────────┐
- │         llama-server(application layer)                │
- │  - server_http_context (Accepts Network Connection)    │
- │  - server_queue        (Thread-safe Job Handling)      │
- │  - server_slot         (Parallel Inference Management) │
- └───────┬────────────────────────────────────────────────┘
-         │ (Context Extraction &amp; Tokenization)
-         ▼
- ┌────────────────────────────────────────────────────────┐
- │              libllama (model layer)                    │
- │  - KV Cache Management &amp; Prompt Prefix Matching        │
- │  - Transformer Graph Construction (Llama/Gemma/etc.)   │
- └───────┬────────────────────────────────────────────────┘
-         │ (Static Graph Nodes)
-         ▼
- ┌────────────────────────────────────────────────────────┐
- │                     GGML                               │
- │  - Graph Allocator (`ggml_gallocr`)                    │
- │  - Matrix Operations Engine                            │
- └───────┬────────────────────────────────────────────────┘
-         │ (Unified Hardware Drivers)
-         ▼
- ┌────────────────────────────────────────────────────────┐
- │               ggml-backend Ecosystem                   │
- │  [ggml-cuda]        [ggml-cpu]         [ggml-vulkan]   │
- └────────────────────────────────────────────────────────┘
-</code></pre></div>
-<h3 id="11-application-layer">1.1 Application layer<a class="headerlink" href="#11-application-layer" title="Permanent link">&para;</a></h3>
-<p>When we compile <code>llama.cpp</code>, the build system produces several distinct application components:
-- llama-server
-- llama-client
-- llama-quantize</p>
-<p>These are located in the <code>examples/</code> or <code>tools/</code> directories. These components are standalone binaries.</p>
-<p>These component allow users to interact with the LLM models deployed with llama.cpp.</p>
-<h4 id="llama-server">Llama-server<a class="headerlink" href="#llama-server" title="Permanent link">&para;</a></h4>
-<p>The <code>Llama-server</code> launches an enterprise-grade HTTP server component. It maps the local C++ model pipeline to an http endpoint.
-This endpoint provides:
-- <code>OpenAI-Compatible Engine</code>: It mirrors OpenAI’s <code>/v1/chat/completions</code>, <code>/v1/embeddings</code>, and <code>/v1/completions</code> API 
-                            schema natively, allowing you to drop it into existing enterprise frameworks (e.g. <code>LangChain, AutoGen, or LlamaIndex</code>) 
-                           without modifying code.</p>
-<ul>
-<li>
-<p><code>Parallel Slot Management (server_slot)</code>: The server introduces the concept of slots. If configured with multiple slots, 
-                       it processes multiple concurrent user requests in parallel, intelligently packing sequences 
-                          into a single matrix batch to maximize hardware utilization.</p>
-</li>
-<li>
-<p><code>Continuous Batching &amp; Prompt Checkpointing</code>: It dynamically adds new requests into the current execution loop without 
-                    stopping active token generations. It also saves snapshots of the prefix KV cache (server_prompt_checkpoint) 
-                    so that if multiple users share the same system prompt, the server skips re-evaluating it.</p>
-</li>
-<li>
-<p><code>Native SvelteKit Web UI</code>: Modern versions of llama-server include an <code>embedded web UI</code> that streams token generation 
-                     and provides a clean interface for debugging prompts and testing configurations.</p>
-</li>
-</ul>
-<h4 id="llama-cli-the-local-client-tool">llama-cli (The Local Client / Tool)<a class="headerlink" href="#llama-cli-the-local-client-tool" title="Permanent link">&para;</a></h4>
-<p>llama-cli ia a full-featured <code>command-line utility</code> used for:
-- localized interaction, 
-- testing
-- benchmarking
-- batch scripting.</p>
-<p>It provides:
-- <code>Interactive Chat Mode</code>: which turns your terminal into a persistent conversational assistant while retaining state memory.
-- <code>precise, granular parameter injection</code>: which can adjust parameters like <code>temperature, top_p, top_k, or context window</code> constraints directly via terminal arguments.</p>
-<h4 id="llama-quantize-the-optimization-compactor">llama-quantize (The Optimization Compactor)<a class="headerlink" href="#llama-quantize-the-optimization-compactor" title="Permanent link">&para;</a></h4>
-<p><code>llama-quantize</code> allows consumer hardware to run massive models by shrinking weight precisions down from <code>standard 16-bit floats (FP16)</code>.</p>
-<p>It supports :
-- <code>modern K-quants</code> (e.g., Q4_K_M, Q5_K_S).
-- <code>block-wise quantization</code>
-- allocating higher precision bitrates to critical attention layers
-- allocation lower bitrates to less sensitive feed-forward weights</p>
-<p>It can drop model sizes by up to 75% while keeping perplexity loss remarkably low.</p>
-<h3 id="12-model-layer-libllama">1.2 Model layer (libllama)<a class="headerlink" href="#12-model-layer-libllama" title="Permanent link">&para;</a></h3>
-<p><code>libllama</code> is a C-Style API which is exposed via <code>include/llama.h</code>, this layer translates the low-level tensor 
-operations into transformer-specific architectures.</p>
-<ul>
-<li>It handles <code>GGUF file ingestion</code> (parsing weights, tokenizers, and metadata seamlessly).</li>
-<li>It manages the <code>KV Cache (Key-Value Cache)</code>, which stores past token contexts so that the model doesn’t have to recompute the entire conversation history on every new token.</li>
-<li>It hosts the model-specific graph builders (e.g., Llama, Mistral, Gemma, Qwen architectures are mapped onto GGML operations here).</li>
-</ul>
-<h3 id="13-ggml-layer">1.3 GGML layer<a class="headerlink" href="#13-ggml-layer" title="Permanent link">&para;</a></h3>
-<p><code>GGML</code> is a pure C machine learning library written by <code>Georgi Gerganov</code>, which is the core of <code>llama.cpp</code></p>
-<blockquote>
-<p>llama.cpp does not use <code>PyTorch, TensorFlow, or ONNX</code>. </p>
-</blockquote>
-<p>GGML has two tasks:
-- manage <code>Computation Graphs</code>: GGML represents model evaluation as a <code>static computation graph</code>. Tensors (weights and activations) 
-                         are defined as nodes, and operations (matrix multiplication, RoPE, Softmax) are edges.
-- manage <code>execution memory allocation</code>: During initialization, llama.cpp calculates the exact memory required for the entire evaluation graph. 
-                           <code>Memory is allocated once at startup (ggml_gallocr)</code>. During inference, memory is reused 
-                          continuously, ensuring zero runtime heap allocations and avoiding garbage collection or memory fragmentation overhead.</p>
-<h3 id="14-ggml-hardware-backend">1.4 GGML Hardware Backend<a class="headerlink" href="#14-ggml-hardware-backend" title="Permanent link">&para;</a></h3>
-<p>To maintain portability, GGML abstracts the underlying computing hardware via a unified <code>backend interface (ggml-backend)</code>. 
-This allows llama.cpp to run across different hardware architectures:</p>
-<ul>
-<li>
-<p><code>ggml-cpu</code>: Tailored for system processors. Uses advanced SIMD instructions (AVX2, AVX-512 on Intel/AMD; NEON, SVE on ARM Graviton/Apple Silicon) to vectorize matrix multiplication.</p>
-</li>
-<li>
-<p><code>ggml-cuda</code>: Offloads computation graphs to NVIDIA graphics cards. It splits layers across multiple GPUs if VRAM is insufficient.</p>
-</li>
-<li>
-<p><code>Other Backends</code>: Includes Metal (Apple Silicon), Vulkan (AMD/Intel/Cross-platform), ROCm (AMD Enterprise), and RPC (for clustering multiple distributed servers over a network).</p>
-</li>
-</ul>
-<h2 id="2-install-build-dependencies">2. Install Build Dependencies<a class="headerlink" href="#2-install-build-dependencies" title="Permanent link">&para;</a></h2>
-<p>We recommend you to build <code>llama.cpp</code> from source, because based on your hardware configure, we need to build with different
-<code>GGML hardware backend</code>.</p>
-<p>So we need to install the required build tools first. Debian 13 includes <code>GCC 14</code>, which offers modern vectorization optimizations out of the box.</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>build-essential<span class="w"> </span>cmake<span class="w"> </span>git<span class="w"> </span>curl<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>pkg-config<span class="w"> </span>ccache
-</code></pre></div>
-<h2 id="3-get-the-source">3. Get the source<a class="headerlink" href="#3-get-the-source" title="Permanent link">&para;</a></h2>
-<p>Clone the <code>llama.cpp repository</code> into an appropriate directory, such as <code>/opt</code>.</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ggerganov/llama.cpp<span class="w"> </span>/opt/llama.cpp
-sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span><span class="nv">$USER</span>:<span class="nv">$USER</span><span class="w"> </span>/opt/llama.cpp
-<span class="nb">cd</span><span class="w"> </span>/opt/llama.cpp
-</code></pre></div>
-<h2 id="4-choose-your-ggml-backend">4. Choose your GGML backend<a class="headerlink" href="#4-choose-your-ggml-backend" title="Permanent link">&para;</a></h2>
-<p>The <code>GGML backend is essential for hardware vector acceleration</code>. So you need to choose the right one based on your hardware</p>
-<h3 id="41-for-pure-cpu-infrastructure-avx2avx512">4.1 For Pure CPU Infrastructure (AVX2/AVX512)<a class="headerlink" href="#41-for-pure-cpu-infrastructure-avx2avx512" title="Permanent link">&para;</a></h3>
-<p>If your Debian server runs on <code>standard x86_64</code> CPU hardware without dedicated GPUs, compile using <code>CPU vector acceleration</code>:</p>
-<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+  <h1>Deploy vllm debian13</h1>
 
-<span class="c1"># check system and prepare the build file</span>
-cmake<span class="w"> </span>..<span class="w"> </span>-DGGML_CPU<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release
 
-<span class="c1"># start the build process</span>
-cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--config<span class="w"> </span>Release<span class="w"> </span>--parallel<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span>
-</code></pre></div>
-<blockquote>
-<p>In the output, you should see a line <code>Adding CPU backend variant ggml-cpu: -march=native</code>. It means
-llama.cpp delegates the hardware detection entirely to the GNU 14.2.0 compiler wrapper. Because the build system 
-automatically detected your <code>x86_64 architecture</code>, it injected the -march=native flag. </p>
-<p>This flag tells GCC 14: "Look at the CPU this server is currently running on, look at its exact hardware 
-capabilities (AVX2, AVX512, FMA), and compile the code using all of them."
-</p>
-</blockquote>
-<h3 id="42-for-nvidia-gpu-acceleration-cuda">4.2 For NVIDIA GPU Acceleration (CUDA)<a class="headerlink" href="#42-for-nvidia-gpu-acceleration-cuda" title="Permanent link">&para;</a></h3>
-<p>Debian 13 provides the <code>nvidia-cuda-toolkit</code> in its <code>non-free</code> component. Ensure contrib <code>non-free</code>, <code>non-free-firmware</code> 
-are added to your <code>/etc/apt/sources.list</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># install nvidia toolchain</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nvidia-cuda-toolkit<span class="w"> </span>nvidia-driver
-
-<span class="c1"># build with cuda backend</span>
-mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
-cmake<span class="w"> </span>..<span class="w"> </span>-DGGML_CUDA<span class="o">=</span>ON<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release
-cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--config<span class="w"> </span>Release<span class="w"> </span>--parallel<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span>
-</code></pre></div>
-<h2 id="5-model-provisioning">5. Model Provisioning<a class="headerlink" href="#5-model-provisioning" title="Permanent link">&para;</a></h2>
-<p><code>llama.cpp</code> handles models in the GGUF format. We will create a structured storage hierarchy and download a 
-balanced model, such as <code>Llama-3-8B-Instruct</code> quantified to 4-bits.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Setup standard runtime directories</span>
-sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/lib/llama-models
-sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span><span class="nv">$USER</span>:<span class="nv">$USER</span><span class="w"> </span>/var/lib/llama-models
-
-<span class="c1"># Download the model directly from HuggingFace</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="s2">&quot;https://huggingface.co/lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf&quot;</span>
-</code></pre></div>
-<h2 id="6-test-llamacpp-with-llama-client">6. Test llama.cpp with llama-client<a class="headerlink" href="#6-test-llamacpp-with-llama-client" title="Permanent link">&para;</a></h2>
-<p>We have installed llama.cpp, downloaded a model. Now we can do some tests with <code>`llama-client</code>.
-Check version first, because the commands change a lot based on your version</p>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span>--version
-
-<span class="c1"># expected output</span>
-version:<span class="w"> </span><span class="m">9377</span><span class="w"> </span><span class="o">(</span>48e7eae41<span class="o">)</span>
-built<span class="w"> </span>with<span class="w"> </span>GNU<span class="w"> </span><span class="m">14</span>.2.0<span class="w"> </span><span class="k">for</span><span class="w"> </span>Linux<span class="w"> </span>x86_64
-</code></pre></div>
-<blockquote>
-<p>The below llama-client prompt command are tested with this version, if you use older or newer version, the below
-command may not work.</p>
-</blockquote>
-<h3 id="61-one-and-done-inline-prompt">6.1 One-and-Done Inline Prompt<a class="headerlink" href="#61-one-and-done-inline-prompt" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;System: You are an expert Debian SysAdmin.\nUser: Write a short bash script to check disk alerts.\nAssistant:&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-t<span class="w"> </span><span class="m">4</span>
-</code></pre></div>
-<p>Parameter Breakdown:
-- <code>-m</code>: specifies the model location
-- <code>-p</code>: The explicit structural prompt. It specifies manual separation tags (System:, User:, Assistant:) so the model knows precisely where its text output generation needs to begin.</p>
-<ul>
-<li>
-<p><code>-n 256</code>: Caps generation at a maximum of 256 tokens to prevent the model from infinitely writing code or looping.</p>
-</li>
-<li>
-<p><code>-t 4</code>: Sets execution parallelism constraints to 4 system threads (tune this matching your exact physical CPU core layout).</p>
-</li>
-</ul>
-<h3 id="62-interactive-chat-mode">6.2 Interactive Chat Mode<a class="headerlink" href="#62-interactive-chat-mode" title="Permanent link">&para;</a></h3>
-<p>Modern <code>GGUF models</code> embed their exact text parsing structure directly into their file metadata 
-(e.g., Llama 3 uses &lt;|im_start|&gt;, while Gemma uses &lt;|start_of_turn|&gt;). Instead of manually typing these system tags, 
-you can tell <code>llama-cli</code> to look up and apply the model's native template automatically:</p>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-cnv<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;You are an automated backup validation assistant.&quot;</span>
-</code></pre></div>
-<p>Parameter Breakdown:
-- <code>-cnv</code>: Activates the <code>Conversation/Chat Template mode</code>. It triggers an internal Jinja template parser that 
-           automatically detects the structural format needed by the specific GGUF model you loaded.</p>
-<ul>
-<li><code>-p</code>: Acts as your global System Prompt inside conversation mode, setting the model's behavior and constraints.</li>
-</ul>
-<h3 id="63-deterministic-json-schema-enforcement-grammar-constraints">6.3 Deterministic JSON Schema Enforcement (Grammar Constraints)<a class="headerlink" href="#63-deterministic-json-schema-enforcement-grammar-constraints" title="Permanent link">&para;</a></h3>
-<p>When your infrastructure expects structured configuration file output, you can enforce hard programmatic rules using a 
-<code>GBNF (GGML Backus-Naur Form) grammar template</code>. This forces the model's token selection process to only return 
-syntactically valid outputs.</p>
-<p>For instance, to ensure the model outputs nothing but a clean, structured JSON tracking array containing integers 
-and strings:</p>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--grammar<span class="w"> </span><span class="s1">&#39;</span>
-<span class="s1">    root   ::= &quot;{&quot; ws &quot;\&quot;service\&quot;:&quot; ws string &quot;,&quot; ws &quot;\&quot;port\&quot;:&quot; ws number &quot;}&quot; ws</span>
-<span class="s1">    ws     ::= [ \t\n\r]*</span>
-<span class="s1">    number ::= [0-9]+</span>
-<span class="s1">    string ::= &quot;\&quot;&quot; [a-zA-Z0-9_]* &quot;\&quot;&quot;</span>
-<span class="s1">  &#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;User: Output the default SSH configuration schema as JSON.&quot;</span>
-</code></pre></div>
-<blockquote>
-<p>The model does not have notions about custom rules like <code>ws (whitespace), string, or number</code> inside your root entry.
-As a result we need to define them with explicite regex definitions.</p>
-</blockquote>
-<p>In modern versioin, you can use <code>--json-schema</code> to specify the json structure directly</p>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--json-schema<span class="w"> </span><span class="s1">&#39;{&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;service&quot;: {&quot;type&quot;: &quot;string&quot;}, &quot;port&quot;: {&quot;type&quot;: &quot;integer&quot;}}, &quot;required&quot;: [&quot;service&quot;, &quot;port&quot;]}&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;Output the default SSH configuration schema.&quot;</span>
-</code></pre></div>
-<p>or you can create a schema file, and join the template file in the prompt with the command <code>-jf</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># create a schema file</span>
-cat<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39; &gt; /tmp/my_schema.json</span>
-<span class="s">{</span>
-<span class="s">  &quot;type&quot;: &quot;object&quot;,</span>
-<span class="s">  &quot;properties&quot;: {</span>
-<span class="s">    &quot;service&quot;: { &quot;type&quot;: &quot;string&quot; },</span>
-<span class="s">    &quot;port&quot;: { &quot;type&quot;: &quot;integer&quot; }</span>
-<span class="s">  },</span>
-<span class="s">  &quot;required&quot;: [&quot;service&quot;, &quot;port&quot;]</span>
-<span class="s">}</span>
-<span class="s">EOF</span>
-
-/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-jf<span class="w"> </span>/tmp/my_schema.json<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;Output the default SSH configuration schema.&quot;</span><span class="w"> </span>
-</code></pre></div>
-<h3 id="64-use-system-command-in-a-query">6.4 Use system command in a query<a class="headerlink" href="#64-use-system-command-in-a-query" title="Permanent link">&para;</a></h3>
-<p>Suppose you have a log file at <code>/tmp/syslog</code>, and you want the llm to analyze the content of the file. The normal way is 
-to copy the content of the file in the prompt. </p>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Analyze this log file for kernel panic warnings:&quot;</span><span class="p">;</span><span class="w"> </span>cat<span class="w"> </span>/tmp/syslog<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-t<span class="w"> </span><span class="m">4</span>
-</code></pre></div>
-<p>Or we can use <code>tail -n</code> to replace <code>cat</code></p>
-<div class="highlight"><pre><span></span><code>/opt/llama.cpp/build/bin/llama-cli<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Analyze this log file for kernel panic warnings:&quot;</span><span class="p">;</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">10</span><span class="w"> </span>/tmp/syslog<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-t<span class="w"> </span><span class="m">4</span>
-</code></pre></div>
-<h2 id="7-run-llama-server-as-daemon">7. Run llama-server as daemon<a class="headerlink" href="#7-run-llama-server-as-daemon" title="Permanent link">&para;</a></h2>
-<p>Create a systemd config file <code>/etc/systemd/system/llama.service</code></p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>Unit<span class="o">]</span>
-<span class="nv">Description</span><span class="o">=</span>Llama.cpp<span class="w"> </span>OpenAI-Compatible<span class="w"> </span>API<span class="w"> </span>Server
-<span class="nv">After</span><span class="o">=</span>network.target
-
-<span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">Type</span><span class="o">=</span>simple
-<span class="nv">User</span><span class="o">=</span>llama
-<span class="nv">Group</span><span class="o">=</span>llama
-<span class="nv">WorkingDirectory</span><span class="o">=</span>/opt/llama.cpp
-<span class="c1"># --host 127.0.0.1 forces internal traffic bindings for security; Nginx will expose it safely</span>
-<span class="nv">ExecStart</span><span class="o">=</span>/opt/llama.cpp/build/bin/llama-server<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-m<span class="w"> </span>/var/lib/llama-models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--host<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--port<span class="w"> </span><span class="m">8080</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-c<span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--n-gpu-layers<span class="w"> </span><span class="m">99</span>
-<span class="nv">Restart</span><span class="o">=</span>on-failure
-<span class="nv">RestartSec</span><span class="o">=</span><span class="m">5</span>
-
-<span class="c1"># Linux Kernel sandbox security tuning</span>
-<span class="nv">ProtectSystem</span><span class="o">=</span>strict
-<span class="nv">ProtectHome</span><span class="o">=</span><span class="nb">true</span>
-<span class="nv">ReadWritePaths</span><span class="o">=</span>/var/lib/llama-models
-<span class="nv">PrivateTmp</span><span class="o">=</span><span class="nb">true</span>
-
-<span class="o">[</span>Install<span class="o">]</span>
-<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
-</code></pre></div>
-<blockquote>
-<p>If running <code>CPU-only, remove --n-gpu-layers 99 or set it to 0</code>. </p>
-<p>If using a GPU, 99 tells the framework to offload all layers to VRAM.</p>
-<p>To activate the daemon after reboot </p>
-</blockquote>
-<div class="highlight"><pre><span></span><code><span class="c1"># reload daemon of systemd</span>
-sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
-
-<span class="c1"># start, stop or check status of the daemon </span>
-sudo<span class="w"> </span>systemctl<span class="w"> </span>start/stop/status<span class="w"> </span>llama.service
-
-<span class="c1"># enable daemon at reboot</span>
-sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>llama.service
-
-<span class="c1"># to check daemon journal/log</span>
-sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>llama.service<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span>--no-pager
-</code></pre></div>
-<h2 id="8-setup-reverse-proxy-with-nginx">8. Setup reverse Proxy with Nginx<a class="headerlink" href="#8-setup-reverse-proxy-with-nginx" title="Permanent link">&para;</a></h2>
-<p>Since the upstream daemon binds locally to <code>127.0.0.1:8080</code>, we will use Nginx to manage external traffic, provide 
-safe network mapping, and prepare for TLS encryption certificates.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># install nginx</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nginx
-</code></pre></div>
-<p>create a nginx profile configuration file for llama.cpp at <code>/etc/nginx/sites-available/llama</code>.</p>
-<p><div class="highlight"><pre><span></span><code>server<span class="w"> </span><span class="o">{</span>
-<span class="w">    </span>listen<span class="w"> </span><span class="m">80</span><span class="p">;</span>
-<span class="w">    </span>server_name<span class="w"> </span>ai.casd.local<span class="p">;</span><span class="w"> </span><span class="c1"># Swap with your domain or server IP</span>
-
-<span class="w">    </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
-<span class="w">        </span>proxy_pass<span class="w"> </span>http://127.0.0.1:8080<span class="p">;</span>
-<span class="w">        </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
-<span class="w">        </span>proxy_set_header<span class="w"> </span>X-Real-IP<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
-<span class="w">        </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-<span class="w">        </span>proxy_set_header<span class="w"> </span>X-Forwarded-Proto<span class="w"> </span><span class="nv">$scheme</span><span class="p">;</span>
-
-<span class="w">        </span><span class="c1"># Disable buffering to handle real-time chunked token streaming cleanly</span>
-<span class="w">        </span>proxy_buffering<span class="w"> </span>off<span class="p">;</span>
-<span class="w">        </span>proxy_read_timeout<span class="w"> </span>300s<span class="p">;</span>
-<span class="w">    </span><span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
-Activate the profile and cycle the Nginx daemon:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span>/etc/nginx/sites-available/llama<span class="w"> </span>/etc/nginx/sites-enabled/
-sudo<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>/etc/nginx/sites-enabled/default
-sudo<span class="w"> </span>nginx<span class="w"> </span>-t<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
-</code></pre></div>
-<p>To check the end point, you can use the below curl commands</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:8080/v1/chat/completions<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;messages&quot;: [</span>
-<span class="s1">      {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a helpful Debian sysadmin.&quot;},</span>
-<span class="s1">      {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a bash script to check memory usage.&quot;}</span>
-<span class="s1">    ]</span>
-<span class="s1">  }&#39;</span>
-</code></pre></div>
 
 
 
