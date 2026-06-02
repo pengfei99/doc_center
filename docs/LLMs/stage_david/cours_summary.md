@@ -102,7 +102,7 @@ TP: Use `NumPy` to implement:
 
 ## Lecture 3 — Neural Networks and Deep Learning Foundations
 Topics:
-- Perceptrons 
+- Perceptron 
 - Feed-forward neural networks 
 - Activation functions 
 - Backpropagation 
