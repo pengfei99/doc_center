@@ -96,6 +96,26 @@ built with GNU 14.2.0 for Linux x86_64
 > The below llama-client prompt command are tested with this version, if you use older or newer version, the below
 > command may not work.
 
+If you want to use the binaries without specify the path, you can add the binaries path into your `PATH`.
+
+For a single user:
+```shell
+# add the binaries to your .bashrc
+echo 'export PATH="/opt/llama.cpp/build/bin:$PATH"' >> ~/.bashrc
+
+# reload your .bashrc
+source ~/.bashrc
+```
+
+For all users:
+
+```shell
+# Create a new profile script
+echo 'export PATH="/opt/llama.cpp/build/bin:$PATH"' | sudo tee /etc/profile.d/llama.sh
+
+# make it executable
+sudo chmod +x /etc/profile.d/llama.sh
+```
 
 ### 5.1 One-and-Done Inline Prompt
 
