@@ -19,7 +19,7 @@ Examples of inference engines:
 
 
 
-## General architecture
+## 1. General architecture
 
 Internal Components of a Modern Inference Engine
 ```text
@@ -36,6 +36,12 @@ Inference Engine
 └── GPU Backend
 
 ```
+
+
+
+
+
+## Inference engine workflow
 
 A modern inference engine workflow looks roughly like:
 
@@ -66,8 +72,6 @@ A modern inference engine workflow looks roughly like:
                           ▼
                       Text Output
 ```
-
-## Inference engine workflow
 
 Suppose user send a request via rest api of the llama.cpp web server. 
 
@@ -231,3 +235,226 @@ restart the process until it meets:
 - EOS token 
 - Max length 
 - Stop sequence
+
+> When the token generation stops, the token will be converted to text and send back to users.
+> 
+
+
+## Llama.cpp
+
+You can check this [doc](./llama_cpp.md) to know more about llama.cpp(e.g architecture)
+
+This [doc](./deployment/deploy_llamacpp_debian13.md) shows how to deploy llama.cpp on debian server.
+
+
+## vllm
+
+You can check this [doc](./vllm.md) to know more about vllm(e.g architecture)
+
+This [doc](./deployment/deploy_vllm_debian13.md) shows how to deploy vllm on debian server.
+
+
+## vllm vs llama.cpp
+
+**vLLM and llama.cpp are designed for different goals.**
+
+A quick summary
+
+| Feature               | llama.cpp                              | vLLM                                 |
+|-----------------------|----------------------------------------|--------------------------------------|
+| Primary goal          | Run LLMs efficiently on local hardware | Serve LLMs efficiently to many users |
+| CPU support           | Excellent                              | Poor                                 |
+| GPU requirement       | Optional                               | Essentially required                 |
+| Single-user laptop    | Excellent                              | Overkill                             |
+| Multi-user API server | Limited                                | Excellent                            |
+| GGUF support          | Native                                 | No                                   |
+| HuggingFace models    | Limited                                | Native                               |
+| Throughput            | Good                                   | Excellent                            |
+| Memory optimization   | Quantization                           | PagedAttention                       |
+| OpenAI-compatible API | Possible                               | Built-in                             |
+| Production serving    | Good                                   | Excellent                            |
+
+llama.cpp advantages:
+- Simple binaries
+- GGUF models
+- CPU support
+- Small footprint
+- Easy offline deployment
+
+vLLM advantages:
+- Better serving at scale
+Better multi-user support
+Better GPU utilization
+
+## What Makes a Good Inference Engine?
+
+A high-quality inference engine optimizes:
+
+- Compute
+   - Fast matrix multiplication 
+   - GPU utilization
+- Memory 
+   - Efficient KV cache 
+   - Quantization
+- Scheduling 
+   - Batch multiple users
+- Latency
+   - Fast first token
+- Throughput
+   - High tokens/sec
+Compatibility
+   - Many model architectures
+
+## Model format
+
+As we mentioned before, the `Inference Engine` loads a model file to start the text completion. So we need a `file format`
+to store and share the models.
+
+| Format              | Created By   | Main Use Case             | Strengths                             | Weaknesses                      | Status (2026)       |
+|---------------------|--------------|---------------------------|---------------------------------------|---------------------------------|---------------------|
+| GGUF                | llama.cpp    | General LLM inference     | Best quantization, ecosystem support  | -                               | Dominant standard   |
+| Safetensors         | Hugging Face | Training + inference      | Very safe, fast loading, popular      | Usually FP16/BF16 (large files) | Extremely popular   |
+| PyTorch (.pth, .pt) | Meta         | Research & training       | Most flexible during training         | Not optimized for inference     | Still very common   |
+| ONNX                | Microsoft    | Cross-framework inference | Great interoperability                | More complex, heavier           | Popular in industry |
+| TensorRT            | NVIDIA       | Maximum GPU speed         | Blazing fast on NVIDIA GPUs           | NVIDIA-only, hard to quantize   | Niche (high-end)    |
+| AWQ                 | MIT4         | -bit quantization         | Good 4-bit performance                | Less flexible than GGUF         | Declining           |
+| GPTQ                | IST Austria  | 4-bit quantization        | Classic 4-bit method                  | Older, being replaced by GGUF   | Still used          |
+| EXL2                | turboderp    | Very high performance     | Excellent quantization (esp. 2-6 bit) | Only works with ExLlamaV2       | Niche but strong    |
+
+We recommend you to use GGUF, because Many tools (Ollama, LM Studio, SillyTavern, Faraday.dev, etc.) now only support 
+`GGUF` or convert everything to it internally.
+
+### What is GGUF?
+
+`GGUF (GGML Unified Format)` is a binary file format designed specifically for storing and running Large Language 
+Models efficiently, especially on CPU and consumer hardware.
+
+It was developed as part of the llama.cpp project (by Georgi Gerganov) as the successor to the older GGML format.
+Key Features of GGUF:
+
+- `Single-file format`: Contains everything — model weights, architecture config, tokenizer, metadata, etc.
+- `Quantization-first design`: Excellent support for various quantization methods (Q2_K, Q3_K, Q4_0, Q4_K, Q5_K, Q6_K, Q8_0, FP16, BF16, etc.).
+- `Highly efficient`: Optimized for fast loading and inference, especially with llama.cpp, Ollama, LM Studio, GPT4All, etc.
+- `Hardware flexibility`: Works great on CPU, GPU (via Vulkan, CUDA, Metal, etc.), and even mobile/edge devices.
+- `Extensible`: Supports custom metadata, versioning, and future-proofing.
+- `Smaller file sizes`: thanks to quantization (e.g., a 7B model in Q4_K_M is ~4GB instead of ~14GB in FP16).
+
+> GGUF is the de facto standard for distributing open-source models(2026). Almost every major model on 
+> Hugging Face (Llama, Mistral, Gemma, Qwen, Phi, DeepSeek, etc.) has official GGUF conversions.
+
+
+#### Explore GGUF metadata
+
+In the gguf file, you can access the model metadata. For example with ollama you can view the model metadata 
+```shell
+> ollama show gemma4:e4b
+
+# expected output
+  Model
+    architecture        gemma4
+    parameters          8.0B
+    context length      131072
+    embedding length    2560
+    quantization        Q4_K_M
+    requires            0.20.0
+
+  Capabilities
+    completion
+    vision
+    audio
+    tools
+    thinking
+
+  Parameters
+    temperature    1
+    top_k          64
+    top_p          0.95
+
+  License
+    Apache License
+    Version 2.0, January 2004
+    ...
+
+```
+
+`parameters: 8.0B` : This means the model has 8 Billion parameters (the internal weights and biases it learned during training).
+
+`context length 131072` : This is the model's maximum context window, measured in "tokens" (words or pieces of words). 
+131,072 tokens is equivalent to a 128K context window. `It means the model can process roughly 100,000 words in a single prompt`
+
+`embedding length 2560` : This is the hidden dimension of the model. When the model reads a word (token), it converts 
+it into a list of numbers (a vector) to understand its meaning. Every single token is represented internally as a list of 2,560 floating-point numbers. 
+
+`quantization Q4_K_M` : describes the quantization techniques of the model
+
+`Quantization` reduces the precision of model weights (from 16-bit floats down to fewer bits) to 
+`make models smaller, faster, and usable on consumer hardware`.
+
+Popular Quantization types comparison:
+
+| Quant Type | Approx. Bits | Size (7B model) | Quality Loss (PPL Δ) | Speed     | Recommendation                    |
+|------------|--------------|-----------------|----------------------|-----------|-----------------------------------|
+| Q2_K       | ~2.7         | ~2.7 GB         | High                 | Fast      | Only for extreme memory limits    |
+| IQ3_S      | ~3.4         | ~3.0 GB         | Medium-High          | Medium    | Good aggressive 3-bit             |
+| IQ3_M      | ~3.6         | ~3.2 GB         | Medium               | Medium    | Best 3-bit option                 |
+| Q3_K_M     | ~3.9         | ~3.1 GB         | Medium               | Fast      | Decent 3-bit K-quant              |
+| Q4_K_S     | ~4.3         | ~3.6 GB         | Low-Medium           | Very Fast | Tight VRAM                        |
+| Q4_K_M     | ~4.5–4.8     | ~3.8 GB         | Very Low             | Very Fast | Sweet spot for most users         |
+| IQ4_XS     | ~4.25        | ~3.7 GB         | Very Low             | Medium    | Excellent quality/size            |
+| Q5_K_S     | ~4.9         | ~4.3 GB         | Very Low             | Fast      | High quality                      |
+| Q5_K_M     | ~5.1         | ~4.45 GB        | Extremely Low        | Fast      | Best balance of quality           |
+| Q6_K       | ~6.0         | ~5.15 GB        | Almost none          | Medium    | Near-lossless                     |
+| Q8_0       | 8.0          | ~6.7–7 GB       | Negligible           | Slower    | Maximum quality (still quantized) |
+
+
+When to Choose Which One?
+1. Q4_K_M — The Community Sweet Spot (2026)
+
+   - Best overall choice for most people. 
+   - Excellent quality/size ratio. 
+   - Runs well on 6–8 GB VRAM GPUs (or CPU). 
+   - Minimal noticeable degradation on chat, coding, reasoning.
+
+2. Q5_K_M or Q5_K_S
+
+   - Choose this when you want noticeably better quality (especially reasoning, creativity, instruction following). 
+   - Still very good compression (~65–70% smaller than FP16).
+
+3. Q4_K_S or IQ4_XS
+
+   - When you are tight on memory (e.g. 5–6 GB VRAM or running large context). 
+   - IQ4_XS often beats Q4_K_S in quality at similar size.
+
+4. IQ3_M / Q3_K_M
+
+   - For running bigger models (13B–34B) on limited hardware. 
+   - IQ3_M is generally preferred over Q3_K_M at similar size.
+
+5. Q6_K or Q8_0
+
+   - When quality is critical (e.g. professional use, math, complex tasks). 
+   - Q6_K is very close to original model for most users.
+
+6. I-Quants (IQ)*
+
+   - Best when pushing very low bit counts (2–4 bits). 
+   - Use importance matrix -> smarter allocation of bits to important weights.
+
+Quick Decision Guide
+
+- Best quality possible → Q6_K or Q5_K_M 
+- Best balance → Q4_K_M (start here)
+- Maximum speed + low memory → Q4_K_S or IQ4_XS 
+- Running 70B on 24–32 GB → Q3_K_M or IQ3_M 
+- Almost no quality loss → Q6_K / Q8_0
+
+The difference between big and small quants is more noticeable in:
+
+- Long context
+- Complex reasoning
+- Creative writing
+- Instruction following
+
+Less noticeable in simple chat or knowledge recall.
+
+`requires: 0.20.0` : this indicates the minimum version of the `llama.cpp` software required to run this specific model file
