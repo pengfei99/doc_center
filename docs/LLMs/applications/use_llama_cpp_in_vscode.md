@@ -52,31 +52,28 @@ If you want both a sidebar chat and Tab-autocomplete with deep customization, us
 
 Install the Continue extension from the VS Code Marketplace.
 
-Click the gear icon on the Continue sidebar to open its configuration file (config.json or config.yaml).
+Click the gear icon on the Continue sidebar to open its configuration file (config.yaml).
+
+> the config.json is deprecated, You need to use the `config.yaml`
 
 Add or modify the models and tabAutocompleteModel sections:
 
-```json
-{
-  "models": [
-    {
-      "title": "Llama.cpp Code Chat",
-      "provider": "llama.cpp",
-      "model": "qwen2.5-coder",
-      "apiBase": "http://127.0.0.1:8012/v1"
-    }
-  ],
-  "tabAutocompleteModel": {
-    "title": "Llama.cpp FIM",
-    "provider": "llama.cpp",
-    "model": "qwen2.5-coder",
-    "apiBase": "http://127.0.0.1:8012/v1"
-  },
-  "tabAutocompleteOptions": {
-    "debounceDelay": 150,
-    "maxPromptTokens": 1024
-  }
-}
+```yaml
+name: Local Config
+version: 1.0.0
+schema: v1
+models:
+  - name: Llama.cpp Code Chat
+    provider: llama.cpp
+    model: qwen2.5-coder
+    apiBase: http://localhost:8012
+    roles:
+      - autocomplete
+      - chat
+      - edit
+    capabilities:
+      - tool_use
+      - image_input
 ```
 
 > Tip: Setting "debounceDelay": 150 means the model waits 150ms after you stop typing before firing a request, saving your system from processing incomplete thoughts.
