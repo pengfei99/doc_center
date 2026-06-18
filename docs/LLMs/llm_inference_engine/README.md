@@ -310,16 +310,17 @@ Compatibility
 As we mentioned before, the `Inference Engine` loads a model file to start the text completion. So we need a `file format`
 to store and share the models.
 
-| Format              | Created By   | Main Use Case             | Strengths                             | Weaknesses                      | Status (2026)       |
-|---------------------|--------------|---------------------------|---------------------------------------|---------------------------------|---------------------|
-| GGUF                | llama.cpp    | General LLM inference     | Best quantization, ecosystem support  | -                               | Dominant standard   |
-| Safetensors         | Hugging Face | Training + inference      | Very safe, fast loading, popular      | Usually FP16/BF16 (large files) | Extremely popular   |
-| PyTorch (.pth, .pt) | Meta         | Research & training       | Most flexible during training         | Not optimized for inference     | Still very common   |
-| ONNX                | Microsoft    | Cross-framework inference | Great interoperability                | More complex, heavier           | Popular in industry |
-| TensorRT            | NVIDIA       | Maximum GPU speed         | Blazing fast on NVIDIA GPUs           | NVIDIA-only, hard to quantize   | Niche (high-end)    |
-| AWQ                 | MIT4         | -bit quantization         | Good 4-bit performance                | Less flexible than GGUF         | Declining           |
-| GPTQ                | IST Austria  | 4-bit quantization        | Classic 4-bit method                  | Older, being replaced by GGUF   | Still used          |
-| EXL2                | turboderp    | Very high performance     | Excellent quantization (esp. 2-6 bit) | Only works with ExLlamaV2       | Niche but strong    |
+| Format              | Created By                             | Main Use Case                                                  | Strengths                             | Weaknesses                                | Status (2026)       |
+|---------------------|----------------------------------------|----------------------------------------------------------------|---------------------------------------|-------------------------------------------|---------------------|
+| GGUF                | llama.cpp                              | General LLM inference                                          | Best quantization, ecosystem support  | -                                         | Dominant standard   |
+| Safetensors         | Hugging Face                           | Training + inference                                           | Very safe, fast loading, popular      | Usually FP16/BF16 (large files)           | Extremely popular   |
+| PyTorch (.pth, .pt) | Meta                                   | Research & training                                            | Most flexible during training         | Not optimized for inference               | Still very common   |
+| ONNX                | Microsoft                              | Cross-framework inference                                      | Great interoperability                | More complex, heavier                     | Popular in industry |
+| TensorRT            | NVIDIA                                 | Maximum GPU speed                                              | Blazing fast on NVIDIA GPUs           | NVIDIA-only, hard to quantize             | Niche (high-end)    |
+| AWQ                 | MIT4                                   | -bit quantization                                              | Good 4-bit performance                | Less flexible than GGUF                   | Declining           |
+| GPTQ                | IST Austria                            | 4-bit quantization                                             | Classic 4-bit method                  | Older, being replaced by GGUF             | Still used          |
+| EXL2                | turboderp                              | Very high performance                                          | Excellent quantization (esp. 2-6 bit) | Only works with ExLlamaV2                 | Niche but strong    |
+| GGML bin file(.bin) | whisper.cpp and llama.cpp(old version) | store OpenAI’s original PyTorch Whisper models for whisper.cpp | very efficiently on CPU               | legacy format, only works for whisper.cpp | Declining           |
 
 We recommend you to use GGUF, because Many tools (Ollama, LM Studio, SillyTavern, Faraday.dev, etc.) now only support 
 `GGUF` or convert everything to it internally.
