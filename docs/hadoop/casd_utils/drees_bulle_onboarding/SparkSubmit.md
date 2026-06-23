@@ -8,7 +8,7 @@ In this tutorial, we only show how to submit pyspark jobs.
 
 ## 1. Check local spark env
 
-First check if you have spark installed in your environment. The below commands run inside `d1mutua-client` server. 
+First check if you have spark installed in your environment. Go to `d1mutua-client.casd.fr` and run the below commands. 
 
 ```shell
 # check current spark runtime version
@@ -223,7 +223,7 @@ spark.executor.heartbeatInterval 60s
 > - spark.driver.memory 1g
 > to make your spark job more efficient.
 
-> We **do not** recommend you to change overwrite other values unless you know what you are doing. 
+> We **do not** recommend you to overwrite other values unless you know what you are doing. 
 > 
 > 
 ### 2.6 Mode client vs Mode cluster
@@ -279,8 +279,8 @@ spark-submit \
 ```
 
 > This job takes 1 driver(2vCore, 4GB), 2 workers(2vCore, 4GB), in total 6vCore, 12GB mem of the cluster.
-> We have configured the spark deploy mode cluster. Check your requested resource is not greater than the total available 
-> resource of the cluster. 
+> We have configured the spark deploy mode as `cluster`. So all the 6vCore, adn 12GB memory will be consumed as the 
+> resource of the cluster. If the cluster does not have enough resource available, your job will never run
 > 
 > 
 ## 4. Other restriction
