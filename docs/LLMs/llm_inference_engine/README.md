@@ -325,8 +325,8 @@ Below is a list of popular model file formats:
 
 | Format                    | Best match inference engine            | Main Use Case                                                  | Strengths                                                                                                      | Weaknesses                                | Status (2026)       |
 |---------------------------|----------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|-------------------------------------------|---------------------|
-| GGUF                      | llama.cpp                              | General LLM inference for CPU                                  | Best quantization, ecosystem support                                                                           | -                                         | Dominant standard   |
-| Safetensors(Hugging Face) | vLLM                                   | Training + inference                                           | Very safe, fast loading, popular                                                                               | Usually FP16/BF16 (large files)           | Extremely popular   |
+| GGUF                      | llama.cpp, vLLM(with conditions)       | General LLM inference for CPU                                  | Best quantization, ecosystem support                                                                           | -                                         | Dominant standard   |
+| Safetensors(Hugging Face) | vLLM, TensorRT-LLM                     | Training + inference                                           | Very safe, fast loading, popular                                                                               | Usually FP16/BF16 (large files)           | Extremely popular   |
 | GGML bin file(.bin)       | whisper.cpp and llama.cpp(old version) | store OpenAI’s original PyTorch Whisper models for whisper.cpp | very efficiently on CPU                                                                                        | legacy format, only works for whisper.cpp | Declining           |
 | PyTorch (.pth, .pt)       | Meta                                   | Research & training                                            | Most flexible during training                                                                                  | Not optimized for inference               | Still very common   |
 | ONNX(Microsoft)           | ONNX Runtime                           | Cross-framework inference                                      | Great interoperability                                                                                         | More complex, heavier                     | Popular in industry |
@@ -340,17 +340,48 @@ We recommend you to use `GGUF`, because Many tools (Ollama, LM Studio, SillyTave
 > vLLM does not support GGUF natively, when you serve GGUF with vLLM, vLLM first convert GGUF to Safetensors, and the
 > converter is very buggy.
 
-## Quantization Algorithms
+## Quantization Algorithms and Quantization rules
 
-| Format Class | Flag Identifier | Optimal Target Hardware Backend | Notes                                                                               |
-|--------------|-----------------|---------------------------------|-------------------------------------------------------------------------------------|
-| AWQ          | awq             | NVIDIA GPUs / Intel CPUs        | "High throughput, great multi-user scaling."                                        |
-| GPTQ         | gptq            | NVIDIA GPUs / Intel CPUs        | Classic 4-bit standard.                                                             |
-| Marlin       | marlin          | NVIDIA GPUs (Ampere+)           | A hyper-fast kernel wrapper for specialized 4-bit configurations.                   |
-| FP8          | fp8             | "NVIDIA (Ada/Hopper/Blackwell)  | AMD (MI300+), Near-zero accuracy loss. Highly efficient for newer architectures.    |
-| BitsAndBytes | bitsandbytes    | NVIDIA GPUs                     | "Supports 4-bit (nf4/fp4) and 8-bit on the fly. Slower, but retains high accuracy." |
-| GGUF         | gguf            | NVIDIA GPUs / AMD GPUs          | Experimental. Requires external tokenizers.                                         |
-| TorchAO      | torchao         | CPU / GPU                       | Uses PyTorch's native architecture optimization formats (INT8/INT4 dynamic).        |
+A `quantization algorithm` is the analytical process used to determine which weights can be shrunk and how to shrink 
+them `without destroying the model's intelligence`. 
+
+If you blindly round all numbers in an LLM matrix to the nearest integer (naive quantization), the model will start 
+outputting gibberish. This is because neural networks contain `salient weights`—a tiny fraction (around 1%) of 
+parameters that carry a massive amount of the model's semantic knowledge
+
+A good Quantization algorithm figures out which 1% of a model's weights are "salient" (critical for accuracy) based 
+on real data activations and keeps those at higher precision, while crushing the remaining 99% down to 4-bit.
+
+| Format Class                                   | Flag Identifier | Optimal Target Hardware Backend | Notes                                                                               |
+|------------------------------------------------|-----------------|---------------------------------|-------------------------------------------------------------------------------------|
+| AWQ(Activation-aware Weight Quantization)      | awq             | NVIDIA GPUs / Intel CPUs        | "High throughput, great multi-user scaling."                                        |
+| GPTQ(layer-by-layer second-order optimization) | gptq            | NVIDIA GPUs / Intel CPUs        | Classic 4-bit standard.                                                             |
+| Marlin                                         | marlin          | NVIDIA GPUs (Ampere+)           | A hyper-fast kernel wrapper for specialized 4-bit configurations.                   |
+| FP8                                            | fp8             | "NVIDIA (Ada/Hopper/Blackwell)  | AMD (MI300+), Near-zero accuracy loss. Highly efficient for newer architectures.    |
+| BitsAndBytes                                   | bitsandbytes    | NVIDIA GPUs                     | "Supports 4-bit (nf4/fp4) and 8-bit on the fly. Slower, but retains high accuracy." |
+| GGUF                                           | gguf            | NVIDIA GPUs / AMD GPUs          | Experimental. Requires external tokenizers.                                         |
+| TorchAO                                        | torchao         | CPU / GPU                       | Uses PyTorch's native architecture optimization formats (INT8/INT4 dynamic).        |
+
+### Quantization rules
+
+Once the `quantization algorithm` decides which weights can be shrunk, the `Quantization Rules` dictate how those `weights are mathematically grouped, scaled, and physically arranged`
+so hardware (CPU or GPU) can compute them. Because an `integer (INT4) cannot natively represent a decimal point`, 
+quantization rules use specific mathematical structures to map integers back into floating-point spaces during active matrix multiplication.
+
+The Core Quantization Rules/Concepts:
+- `Block/Group Size Rules`: `weights are chopped into blocks` or groups (typically sizes of 32, 64, or 128). For example, 
+                a group size of 64 means that every sequence of 64 weights shares a single, highly precise floating-point "scale factor." 
+                Lower group sizes mean better model accuracy but a slightly larger file size.
+- `Symmetric vs. Asymmetric Mapping`: This dictates how the number range is mapped.
+                  - Symmetric: The rule clamps the mathematical range perfectly around zero (e.g., mapping float ranges from $-X$ to $+X$ directly to integer ranges $-127$ to $+127$). 
+                                 It is computationally fast because you only need a scale factor.
+                  - Asymmetric: The rule maps arbitrary ranges (e.g., $-0.2$ to $+0.8$). This requires both a Scale Factor and a Zero-Point offset, making the math slightly heavier but more accurate for skewed weight data.
+- `Grid Formatting`: In formats like `GGUF`, the quantization rules are strictly standardized into predefined types called "K-Quants" (Q4_K_M, Q5_K_S, etc.).
+                     For example, the rule for `Q4_K_M` states: Structure the weights into blocks of 256. Quantize the lower layers using 4-bit structures, but use a 6-bit structure for the critical attention matrices.
+
+### GGUF VS AWQ
+
+Here, we refer `GGUF` as quantization algorithm not model file format
 
 ## What is GGUF?
 
@@ -421,12 +452,12 @@ training).
 it into a list of numbers (a vector) to understand its meaning. Every single token is represented internally as a list
 of 2,560 floating-point numbers.
 
-`quantization Q4_K_M` : describes the quantization techniques of the model
+`quantization Q4_K_M` : describes the quantization rules which are used of the model
 
 `Quantization` reduces the precision of model weights (from 16-bit floats down to fewer bits) to
 `make models smaller, faster, and usable on consumer hardware`.
 
-Popular Quantization types comparison:
+Popular Quantization rules comparison:
 
 | Quant Type | Approx. Bits | Size (7B model) | Quality Loss (PPL Δ) | Speed     | Recommendation                    |
 |------------|--------------|-----------------|----------------------|-----------|-----------------------------------|
