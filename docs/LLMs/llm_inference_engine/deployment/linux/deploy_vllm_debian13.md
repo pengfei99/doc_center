@@ -58,6 +58,29 @@ IOMP_PATH=/home/pliu/git/test-vllm/vllm-bench/lib/libiomp5.so
 ```shell
 meta-llama/Llama-3.2-3B-Instruct
 ```
+
+### Use safetensor file
+
+To run a model locally, you can download the safetensors
+
+```shell
+# install the hf client
+uv pip install huggingface_hub
+
+# download the base model
+hf download Qwen/Qwen2.5-7B-Instruct --local-dir ./Qwen2.5-7B-Instruct
+
+
+# download the awq quantization model
+hf download Qwen/Qwen2.5-7B-Instruct-AWQ --local-dir ./Qwen2.5-7B-Instruct-AWQ
+
+# run the base model with vllm
+vllm serve /var/lib/llama-models/Qwen2.5-7B-Instruct/ --port 8000 --max-model-len 4096
+
+# run the awq quantization model
+vllm serve /var/lib/llama-models/Qwen2.5-7B-Instruct-AWQ/ --quantization awq --port 8000 --max-model-len 32768
+```
+
 ### Use GGUF file
 
 When I use vllm to deploy a model in gguf format with the below command, I encounter errors 
