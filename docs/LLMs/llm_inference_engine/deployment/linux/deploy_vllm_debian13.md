@@ -53,7 +53,7 @@ sudo find / -iname *libiomp5.so
 TC_PATH=/usr/lib/x86_64-linux-gnu/libtcmalloc_minimal.so.4
 IOMP_PATH=/home/pliu/git/test-vllm/vllm-bench/lib/libiomp5.so
 ```
-### Use hugginf face repo id
+### Use hugginface repo id
 
 ```shell
 meta-llama/Llama-3.2-3B-Instruct
