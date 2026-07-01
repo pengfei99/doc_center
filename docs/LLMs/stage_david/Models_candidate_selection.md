@@ -1,8 +1,10 @@
 # Models candidates selection
 
 To run the benchmark on models, we need to select some model candidates. The selection is based on 
-- Base model architecture (e.g. MOE)
+- Base model
+- fine-tuned model architecture (e.g. MOE)
 - Base model parameters
+- Active model parameter
 - Quantization rules(Q4-K-M, etc)
 
 ## Model architecture
@@ -28,6 +30,8 @@ in exponentially faster token generation ($TG$) speeds compared to a dense model
 `The cons` (RAM Bloat): The entire 35B model must still reside in your system RAM. While it speeds up token output, 
 it demands a massive RAM footprint, limiting how much room you have left for large context windows or concurrent user slots.
 
+> With MoE model, the active parameters will be max parameters to be loaded to the memory. 
+
 ### Reasoning (Chain-of-Thought) Architecture
 
 Models like `DeepSeek-R1` or `Phi-4-mini` are trained to generate an internal "thinking" process before writing an 
@@ -42,7 +46,7 @@ the actual answer, the user has to wait longer for the final result. If a CPU is
 a response requiring 400 thinking tokens will force the user to wait nearly a full minute just to see the first sentence of the output.
 
 
-### Attention Architecture: Multi-Head Attention (MHA) vs. `Grouped-Query Attention (GQA)`
+### Attention Architecture: `Multi-Head Attention (MHA)` vs. `Grouped-Query Attention (GQA)`
 
 Inside the transformer architecture, the model uses an "Attention" mechanism to look back at previous words in the 
 chat history. Older architectures used `Multi-Head Attention (MHA)`, while modern architectures use `Grouped-Query Attention (GQA)`.
@@ -68,3 +72,35 @@ RAM and cache overhead for processing long, simultaneous user chat histories
 ## Quantization
 
 
+## Model name and metadata analysis
+
+In general, the model name give you much information about the model. If it's not enough, you can go to the hugging-face
+website to get more metadata of the model.
+
+
+
+
+
+
+-          https://huggingface.co/empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF
+-          https://huggingface.co/squ11z1/Mythos-nano  
+-          https://huggingface.co/VLTX/VertaLily-1.2-1B-GGUF
+-          https://huggingface.co/unsloth/Phi-4-mini-instructGGUF
+-          https://huggingface.co/unsloth/gpt-oss-20b-GGUF
+-          https://huggingface.co/TeichAI/Qwen3-14B-Claude-4.5-Opus-High-Reasoning-Distill-GGUF
+-          https://huggingface.co/yuxinlu1/gemma-4-12B-it-Claude-4.6-4.8-Opus-GGUF
+-          https://huggingface.co/google/gemma-4-12B-it-qat-q4_0-gguf
+-          https://huggingface.co/Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF
+-          https://huggingface.co/prism-ml/Bonsai-8B-gguf
+-          https://huggingface.co/mistralai/Ministral-3-8B-Instruct-2512-GGUF
+
+Spécialisés code :
+-          https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF
+-          https://huggingface.co/bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF
+-          https://huggingface.co/yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF
+-          https://huggingface.co/jica98/qwen3.5-4B-super-coder
+
+Spécialisés traduction :
+-          https://huggingface.co/tencent/HY-MT1.5-1.8B-GGUF
+-          https://huggingface.co/google/madlad400-3b-mt
+-          https://huggingface.co/unsloth/Hy-MT2-7B-GGUF
