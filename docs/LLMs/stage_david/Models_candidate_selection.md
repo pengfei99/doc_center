@@ -241,29 +241,28 @@ In general, the model name give you much information about the model. If it's no
 website to get more metadata of the model.
 
 
+Let's see some examples
+
+### Phi-4-mini-instruct-GGUF
+
+https://huggingface.co/unsloth/Phi-4-mini-instruct and https://huggingface.co/unsloth/Phi-4-mini-instruct-GGUF(the gguf variation)
+
+You get the base model information of `Phi-4-mini-instruct(14B)`, how the model is fine-tuned into a `reasoning model`,
+and the gguf quantization process.
 
 
+### Qwythos-9B-Claude-Mythos-5-1M
 
+https://huggingface.co/empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF
 
--          https://huggingface.co/empero-ai/Qwythos-9B-Claude-Mythos-5-1M-GGUF
--          https://huggingface.co/squ11z1/Mythos-nano  
--          https://huggingface.co/VLTX/VertaLily-1.2-1B-GGUF
--          https://huggingface.co/unsloth/Phi-4-mini-instructGGUF
--          https://huggingface.co/unsloth/gpt-oss-20b-GGUF
--          https://huggingface.co/TeichAI/Qwen3-14B-Claude-4.5-Opus-High-Reasoning-Distill-GGUF
--          https://huggingface.co/yuxinlu1/gemma-4-12B-it-Claude-4.6-4.8-Opus-GGUF
--          https://huggingface.co/google/gemma-4-12B-it-qat-q4_0-gguf
--          https://huggingface.co/Jackrong/Qwen3.5-9B-DeepSeek-V4-Flash-GGUF
--          https://huggingface.co/prism-ml/Bonsai-8B-gguf
--          https://huggingface.co/mistralai/Ministral-3-8B-Instruct-2512-GGUF
-
-Spécialisés code :
--          https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF
--          https://huggingface.co/bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF
--          https://huggingface.co/yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF
--          https://huggingface.co/jica98/qwen3.5-4B-super-coder
-
-Spécialisés traduction :
--          https://huggingface.co/tencent/HY-MT1.5-1.8B-GGUF
--          https://huggingface.co/google/madlad400-3b-mt
--          https://huggingface.co/unsloth/Hy-MT2-7B-GGUF
+Let's decrypt the model name:
+1. `Qwythos` is `The Model Family Name` which the creator `Empero AI` gives.
+2. `9B` indicates a model size of 9 Billion parameters. Under the hood, this specific model is built using the `Qwen3.5-9B base architecture`. 
+3. `Claude-Mythos` describes the dataset used during the post-training phase. The model was fine-tuned on over `500 million tokens of high-quality 
+      conversational, reasoning, and tool-use traces mimicking Anthropic's Claude models` (specifically using datasets categorized under "Claude Mythos" and "Claude Fable").
+      This gives the model a highly articulate, objective, and analytical persona.It features a dedicated reasoning mode (utilizing <think> tags) 
+           and native function-calling blocks to serve agentic API tasks.It is engineered to be mostly uncensored to prevent false-positive refusals on 
+          technical tasks like parsing logs or red-teaming scripts.
+4. `5`: identifies the 5th major iteration of Empero AI's internal fine-tuning and reinforcement learning (RFT) pipeline. 
+       Higher numbers signify refinements in blocking formatting issues, eliminating repetition loops, and perfecting tool-calling triggers.
+5. `1M`: stands for a 1 Million token context window (specifically $1,048,576$ tokens). The model achieves this massive window by altering the positional math of the neural network using YaRN (Yet another RoPE extensioN) scaling.
