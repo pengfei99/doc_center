@@ -7,15 +7,17 @@ To run the benchmark on models, we need to select some model candidates. The sel
 - Active model parameter
 - Quantization rules(Q4-K-M, etc)
 
-## Model architecture
+## 1. Model fine-tuned architecture
 
 In this section, the model architecture does not refer to the transformer architecture(e.g. encoder, decoder, etc.). It 
 refers to :
 - Mixture of Experts (MoE) Architecture
 - Reasoning (Chain-of-Thought) Architecture
 - Attention Architecture: MHA vs. GQA
+- Instruct(Instruction Tuned)
+- MTP(Multi-Token Prediction)
 
-### Mixture of Experts (MoE) Architecture
+### 1.1. Mixture of Experts (MoE) Architecture
 
 
 In a standard "dense" model (like Llama 3 8B), `every single word generated requires the CPU to read all 8 billion parameters from RAM`.
@@ -32,7 +34,7 @@ it demands a massive RAM footprint, limiting how much room you have left for lar
 
 > With MoE model, the active parameters will be max parameters to be loaded to the memory. 
 
-### Reasoning (Chain-of-Thought) Architecture
+### 1.2 Reasoning (Chain-of-Thought) Architecture
 
 Models like `DeepSeek-R1` or `Phi-4-mini` are trained to generate an internal "thinking" process before writing an 
 answer. Instead of outputting the final answer immediately, the model textually solves the problem step-by-step behind the scenes.
@@ -46,7 +48,7 @@ the actual answer, the user has to wait longer for the final result. If a CPU is
 a response requiring 400 thinking tokens will force the user to wait nearly a full minute just to see the first sentence of the output.
 
 
-### Attention Architecture: `Multi-Head Attention (MHA)` vs. `Grouped-Query Attention (GQA)`
+### 1.3 Attention Architecture: `Multi-Head Attention (MHA)` vs. `Grouped-Query Attention (GQA)`
 
 Inside the transformer architecture, the model uses an "Attention" mechanism to look back at previous words in the 
 chat history. Older architectures used `Multi-Head Attention (MHA)`, while modern architectures use `Grouped-Query Attention (GQA)`.
@@ -58,16 +60,50 @@ The GQA Revolution: `GQA drastically reduces the size of the KV Cache` (the memo
 > per user slot shrinks dramatically. This prevents your server from running out of RAM or clogging the CPU bus when multiple people are typing at the same time.
 > 
 
+### 1.4 Instruction Tuned model
+
+A `base language model` is essentially just a giant auto-complete engine; if you type "How do I bake a cake?", a base model 
+might just respond with a list of other questions like "How do I bake a pie? How do I cook a steak?" 
+
+An Instruct model has `a secondary training phase called Instruction Fine-Tuning (IFT)`, often followed by `Reinforcement Learning (RLHF/RLAIF)`.
+
+In the second phase, the model has been explicitly `trained to act as an assistant`. It `understands commands, follows system prompts, output formats` when asked, 
+and carries out multi-turn conversations.
+
+> If you are building an API server handling real users, you should almost always use "Instruct" models. 
+> They are predictable, respect formatting constraints, and know how to stop generating text when the answer is complete.
+> 
+### 1.5 MTP (Multi-Token Prediction)
+
+Traditional LLMs `predict one single token at a time`. `MTP` is a modern architectural paradigm 
+(pioneered heavily by architectures like DeepSeek-V3/R1 and newer Qwen variants) where the 
+`model is trained to predict multiple future tokens simultaneously` during its training phase.
+
+It means the model's internal architecture is optimized to plan ahead and predict tokens $n+1$, $n+2$, etc., at the exact same time during its training.
+
+> Even though the final GGUF file you run on your CPU usually only outputs one token at a time during standard inference, 
+> an MTP-trained model has a much stronger grasp of sentence structure, grammar, and code logic because it was forced to "look ahead" during its training.
 
 ## Model parameters
 
-### The Ultra-Efficient Tier (3B–5B)
+The more parameters your model have, the more memory you need. If you don't have enough memory to load the model, the cpu
+will need to switch model weights in memory. And the response time of your model will be slow. So choosing the right parameter
+based on your hardware is essential.
+
+### The Ultra-fast Tier (3B–5B)
 
 With `3B–5B` parameters, the models runs incredibly fast on a standard CPU and leaves vast system 
 RAM and cache overhead for processing long, simultaneous user chat histories
 
+Component,RAM Consumption,Description|
+Model Weights (Static),~3.0 GB – 3.2 GB,"The actual size of the GGUF file loaded into RAM. Q4_K_M averages roughly 0.6 to 0.64 bytes per parameter because it utilizes a hybrid structure (quantizing attention tensors and some feed-forward weights at 4-bit, while keeping critical layers slightly higher to preserve logic)."
+llama.cpp Runtime Overhead,~0.2 GB – 0.5 GB,"Allocations for compute graphs, memory mapping (mmap), system thread management, and the backend execution context."
+KV Cache (Dynamic Buffer),~0.1 GB – 1.5+ GB,This is what scales with your users. It is the memory required to track conversational history. It depends heavily on your context limit (-c) and user concurrency (--parallel).
+
 ### The Balanced Tier (7B–9B)
 
+With `7B-9B` parameters, the models can solve complex reasoning, tool usage, and general chat. If after loading the model,
+the system still have >2GB memory for handling user chat session. It can support multiple simultaneous users
 
 ## Quantization
 
