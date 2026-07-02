@@ -95,15 +95,81 @@ based on your hardware is essential.
 With `3B–5B` parameters, the models runs incredibly fast on a standard CPU and leaves vast system 
 RAM and cache overhead for processing long, simultaneous user chat histories
 
-Component,RAM Consumption,Description|
-Model Weights (Static),~3.0 GB – 3.2 GB,"The actual size of the GGUF file loaded into RAM. Q4_K_M averages roughly 0.6 to 0.64 bytes per parameter because it utilizes a hybrid structure (quantizing attention tensors and some feed-forward weights at 4-bit, while keeping critical layers slightly higher to preserve logic)."
-llama.cpp Runtime Overhead,~0.2 GB – 0.5 GB,"Allocations for compute graphs, memory mapping (mmap), system thread management, and the backend execution context."
-KV Cache (Dynamic Buffer),~0.1 GB – 1.5+ GB,This is what scales with your users. It is the memory required to track conversational history. It depends heavily on your context limit (-c) and user concurrency (--parallel).
+| Component                  | RAM Consumption   | Description                                                                                                                                                                         |
+|----------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Model Weights (Static)     | ~3.0 GB – 3.2 GB  | The actual size of the GGUF file loaded into RAM.                                                                                                                                   |
+| llama.cpp Runtime Overhead | ~0.2 GB – 0.5 GB  | Memory overhead for the `compute graph, thread synchronization, and OS subsystem handlers(e.g. memory mapping (mmap), system thread management,and the backend execution context)`. |
+| KV Cache (Dynamic Buffer)  | ~0.1 GB – 1.5+ GB | The KV cache is used to accelerate conversational history computing. It `depends heavily on the context limit (-c) and user concurrency (--parallel)`.                              |
+
+> For a GGUF file with `Q4_K_M` quantization, we need to reserve roughly 0.6 to 0.65 bytes per parameter. A model with `Q4_K_M` quantization
+> stores quantizing attention tensors and some feed-forward weights at 4-bit, while keeping critical layers slightly higher to preserve model knowledge.
+
+Below are some server config examples:
+
+- Scenario A: A Single-User with llama.cpp config `--parallel 1, -c 8192 (8K context)`
+    - Weights + Overhead: ~3.2 GB 
+    - KV Cache Footprint: ~0.25 GB (for 8K context)
+    - Total Allocation: ~3.5 GB of RAM
+
+- Scenario B: Four users with llama.cpp config `--parallel 4 (4 concurrent slots), -c 8192 (8K context per slot)`
+     - Weights + Overhead: ~3.5 GB
+     - KV Cache Footprint: ~1.0 GB 
+     - Total Allocation: ~4.5 GB of RAM
+
+- Scenario C: 8 users with llama.cpp config `--parallel 8 (8 concurrent slots), -c 16384 (Large 16K context per slot)`
+     - Weights + Overhead: ~4.5 GB 
+     - KV Cache Footprint: ~2.0 GB 
+     - Total Allocation: ~6.5 GB of RAM
 
 ### The Balanced Tier (7B–9B)
 
 With `7B-9B` parameters, the models can solve complex reasoning, tool usage, and general chat. If after loading the model,
 the system still have >2GB memory for handling user chat session. It can support multiple simultaneous users
+
+| Component                  | RAM Consumption   | Description                                                                                                                                                                         |
+|----------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Model Weights (Static)     | ~6.0 GB – 7.5 GB  | The actual size of the GGUF file loaded into RAM.                                                                                                                                   |
+| llama.cpp Runtime Overhead | ~1 GB – 1.5 GB    | Memory overhead for the `compute graph, thread synchronization, and OS subsystem handlers(e.g. memory mapping (mmap), system thread management,and the backend execution context)`. |
+| KV Cache (Dynamic Buffer)  | ~0.5 GB – 4.0+ GB | The KV cache is used to accelerate conversational history computing. It `depends heavily on the context limit (-c) and user concurrency (--parallel)`.                              |
+
+
+Below are some server config examples:
+
+- Scenario A: A Single-User with llama.cpp config `--parallel 1, -c 8192 (8K context)`
+    - Weights + Overhead: ~6.3 GB 
+    - KV Cache Footprint: ~0.25 GB (for 8K context)
+    - Total Allocation: ~6.55 GB of RAM
+
+- Scenario B: Four users with llama.cpp config `--parallel 4 (4 concurrent slots), -c 8192 (8K context per slot)`
+     - Weights + Overhead: ~6.5 GB
+     - KV Cache Footprint: ~1.0 GB 
+     - Total Allocation: ~7.5 GB of RAM
+
+- Scenario C: 8 users with llama.cpp config `--parallel 8 (8 concurrent slots), -c 16384 (Large 16K context per slot)`
+     - Weights + Overhead: ~7.5 GB 
+     - KV Cache Footprint: ~4.0 GB 
+     - Total Allocation: ~11.5 GB of RAM
+
+> with 1 user, the CPU may produce 10 tokens per second, but if we have 4 users at the same time, the server cpu will 
+> bottleneck completely due to RAM bus saturation. Because cpu need to load kv cache of each user session from the memory
+> and process them. You may have 1 token per second.
+
+### The high-performance Tier (13B-120B+)
+
+For models with more than 13B parameters(active), the `Core Bottleneck is Memory BUS Bandwidth`. The CPU does not 
+spend its time doing math, it spends its time waiting for the model's parameters to travel from your system RAM into the CPU's cache.
+
+To generate a single token, a 13B model at 4-bit quantization requires the CPU to read roughly `7.8 GB of data from your RAM`.
+
+At a standard DDR4 or DDR5 memory bandwidth limit, `a single user` will typically experience an inference speed of roughly 4 to 7 tokens per second (t/s).
+
+For a single user this speed is OK, but if we serve multiple users with an API, the speed will drop quickly. Below are some examples
+
+| Concurrent Users (--parallel) | Average Speed Per User | User Experience             |
+|-------------------------------|------------------------|-----------------------------|
+| 1 User                        | ~6.0 tokens/sec        | Acceptable (Reading speed)  |
+| 2 Users                       | ~3.0 tokens/sec        | Noticeable Lagging          |
+| 4 Users                       | ~1.5 tokens/sec        | Frustrating / Timeout risks |
 
 ## Quantization
 
