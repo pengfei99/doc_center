@@ -457,56 +457,6 @@ of 2,560 floating-point numbers.
 `Quantization` reduces the precision of model weights (from 16-bit floats down to fewer bits) to
 `make models smaller, faster, and usable on consumer hardware`.
 
-Popular Quantization rules comparison:
-
-| Quant Type | Approx. Bits | Size (7B model) | Quality Loss (PPL Δ) | Speed     | Recommendation                    |
-|------------|--------------|-----------------|----------------------|-----------|-----------------------------------|
-| Q2_K       | ~2.7         | ~2.7 GB         | High                 | Fast      | Only for extreme memory limits    |
-| IQ3_S      | ~3.4         | ~3.0 GB         | Medium-High          | Medium    | Good aggressive 3-bit             |
-| IQ3_M      | ~3.6         | ~3.2 GB         | Medium               | Medium    | Best 3-bit option                 |
-| Q3_K_M     | ~3.9         | ~3.1 GB         | Medium               | Fast      | Decent 3-bit K-quant              |
-| Q4_K_S     | ~4.3         | ~3.6 GB         | Low-Medium           | Very Fast | Tight VRAM                        |
-| Q4_K_M     | ~4.5–4.8     | ~3.8 GB         | Very Low             | Very Fast | Sweet spot for most users         |
-| IQ4_XS     | ~4.25        | ~3.7 GB         | Very Low             | Medium    | Excellent quality/size            |
-| Q5_K_S     | ~4.9         | ~4.3 GB         | Very Low             | Fast      | High quality                      |
-| Q5_K_M     | ~5.1         | ~4.45 GB        | Extremely Low        | Fast      | Best balance of quality           |
-| Q6_K       | ~6.0         | ~5.15 GB        | Almost none          | Medium    | Near-lossless                     |
-| Q8_0       | 8.0          | ~6.7–7 GB       | Negligible           | Slower    | Maximum quality (still quantized) |
-
-When to Choose Which One?
-
-1. Q4_K_M — The Community Sweet Spot (2026)
-
-    - Best overall choice for most people.
-    - Excellent quality/size ratio.
-    - Runs well on 6–8 GB VRAM GPUs (or CPU).
-    - Minimal noticeable degradation on chat, coding, reasoning.
-
-2. Q5_K_M or Q5_K_S
-
-    - Choose this when you want noticeably better quality (especially reasoning, creativity, instruction following).
-    - Still very good compression (~65–70% smaller than FP16).
-
-3. Q4_K_S or IQ4_XS
-
-    - When you are tight on memory (e.g. 5–6 GB VRAM or running large context).
-    - IQ4_XS often beats Q4_K_S in quality at similar size.
-
-4. IQ3_M / Q3_K_M
-
-    - For running bigger models (13B–34B) on limited hardware.
-    - IQ3_M is generally preferred over Q3_K_M at similar size.
-
-5. Q6_K or Q8_0
-
-    - When quality is critical (e.g. professional use, math, complex tasks).
-    - Q6_K is very close to original model for most users.
-
-6. I-Quants (IQ)*
-
-    - Best when pushing very low bit counts (2–4 bits).
-    - Use importance matrix -> smarter allocation of bits to important weights.
-
 Quick Decision Guide
 
 - Best quality possible → Q6_K or Q5_K_M

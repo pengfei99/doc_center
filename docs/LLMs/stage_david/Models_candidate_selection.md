@@ -137,13 +137,13 @@ Below are some server config examples:
 
 - Scenario A: A Single-User with llama.cpp config `--parallel 1, -c 8192 (8K context)`
     - Weights + Overhead: ~6.3 GB 
-    - KV Cache Footprint: ~0.25 GB (for 8K context)
-    - Total Allocation: ~6.55 GB of RAM
+    - KV Cache Footprint: ~0.5 GB (for 8K context)
+    - Total Allocation: ~6.8 GB of RAM
 
 - Scenario B: Four users with llama.cpp config `--parallel 4 (4 concurrent slots), -c 8192 (8K context per slot)`
      - Weights + Overhead: ~6.5 GB
-     - KV Cache Footprint: ~1.0 GB 
-     - Total Allocation: ~7.5 GB of RAM
+     - KV Cache Footprint: ~2.0 GB 
+     - Total Allocation: ~8.5 GB of RAM
 
 - Scenario C: 8 users with llama.cpp config `--parallel 8 (8 concurrent slots), -c 16384 (Large 16K context per slot)`
      - Weights + Overhead: ~7.5 GB 
@@ -171,7 +171,68 @@ For a single user this speed is OK, but if we serve multiple users with an API, 
 | 2 Users                       | ~3.0 tokens/sec        | Noticeable Lagging          |
 | 4 Users                       | ~1.5 tokens/sec        | Frustrating / Timeout risks |
 
-## Quantization
+## Quantization Rules
+
+`Quantization` reduces the precision of model weights (from 16-bit floats down to fewer bits) to
+`make models smaller, faster, and usable on consumer hardware`.
+
+Popular Quantization rules comparison:
+
+| Quant Type | Approx. Bits | Size (7B model) | Quality Loss (PPL Δ) | Speed     | Recommendation                    |
+|------------|--------------|-----------------|----------------------|-----------|-----------------------------------|
+| Q2_K       | ~2.7         | ~2.7 GB         | High                 | Fast      | Only for extreme memory limits    |
+| IQ3_S      | ~3.4         | ~3.0 GB         | Medium-High          | Medium    | Good aggressive 3-bit             |
+| IQ3_M      | ~3.6         | ~3.2 GB         | Medium               | Medium    | Best 3-bit option                 |
+| Q3_K_M     | ~3.9         | ~3.1 GB         | Medium               | Fast      | Decent 3-bit K-quant              |
+| Q4_K_S     | ~4.3         | ~3.6 GB         | Low-Medium           | Very Fast | Tight VRAM                        |
+| Q4_K_M     | ~4.5–4.8     | ~3.8 GB         | Very Low             | Very Fast | Sweet spot for most users         |
+| IQ4_XS     | ~4.25        | ~3.7 GB         | Very Low             | Medium    | Excellent quality/size            |
+| Q5_K_S     | ~4.9         | ~4.3 GB         | Very Low             | Fast      | High quality                      |
+| Q5_K_M     | ~5.1         | ~4.45 GB        | Extremely Low        | Fast      | Best balance of quality           |
+| Q6_K       | ~6.0         | ~5.15 GB        | Almost none          | Medium    | Near-lossless                     |
+| Q8_0       | 8.0          | ~6.7–7 GB       | Negligible           | Slower    | Maximum quality (still quantized) |
+
+When to Choose Which One?
+
+1. Q4_K_M — The Community Sweet Spot (2026)
+
+    - Best overall choice for most people.
+    - Excellent quality/size ratio.
+    - Runs well on 6–8 GB VRAM GPUs (or CPU).
+    - Minimal noticeable degradation on chat, coding, reasoning.
+
+2. Q5_K_M or Q5_K_S
+
+    - Choose this when you want noticeably better quality (especially reasoning, creativity, instruction following).
+    - Still very good compression (~65–70% smaller than FP16).
+
+3. Q4_K_S or IQ4_XS
+
+    - When you are tight on memory (e.g. 5–6 GB VRAM or running large context).
+    - IQ4_XS often beats Q4_K_S in quality at similar size.
+
+4. IQ3_M / Q3_K_M
+
+    - For running bigger models (13B–34B) on limited hardware.
+    - IQ3_M is generally preferred over Q3_K_M at similar size.
+
+5. Q6_K or Q8_0
+
+    - When quality is critical (e.g. professional use, math, complex tasks).
+    - Q6_K is very close to original model for most users.
+
+6. I-Quants (IQ)*
+
+    - Best when pushing very low bit counts (2–4 bits).
+    - Use importance matrix -> smarter allocation of bits to important weights.
+
+Quick Decision Guide
+
+- Best quality possible → Q6_K or Q5_K_M
+- Best balance → Q4_K_M (start here)
+- Maximum speed + low memory → Q4_K_S or IQ4_XS
+- Running 70B on 24–32 GB → Q3_K_M or IQ3_M
+- Almost no quality loss → Q6_K / Q8_0
 
 
 ## Model name and metadata analysis
