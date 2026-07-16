@@ -28,7 +28,7 @@ opencode serve --port 4096                     # headless server
 
 ---
 
-### When OpenCode isn't the right tool
+## When OpenCode isn't the right tool
 
 | Limitation | Detail |
 |---|---|
@@ -51,3 +51,8 @@ opencode serve --port 4096                     # headless server
 > OpenCode's trade-off: flexibility and openness over polish and single-vendor integration. Worth it for many use cases; not all.
 
 ---
+
+## How to use opencode
+
+You can follow this [official doc](https://opencode.ai/docs) to start with opencode.
+
