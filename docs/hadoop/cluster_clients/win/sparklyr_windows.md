@@ -114,3 +114,114 @@ spark_disconnect(sc)
 > - Network Latency: In YARN client mode, shuffle metadata and driver-to-executor coordination travel over the network
     between Windows and the Hadoop cluster. Ensure your Windows Server has a high-bandwidth connection (10 Gbps
     recommended) to the cluster subnet.
+
+
+## To connect to spark 4.1 
+
+If you use sparklyr to connect to spark 4.*, you need to pay attention of the below points:
+- JDK version
+- spark and hadoop version of the driver must be the same as the cluster
+- sparklyr version
+- ANSI SQL behavior
+- 
+
+### JDK version
+
+For Spark 4.x, `JDK 17+` is Now Mandatory. Support for Java 8 and Java 11 is completely dropped. 
+On your driver machine, your `JAVA_HOME` environment variable must point to `JDK 17+`
+```r
+Sys.setenv(JAVA_HOME = "C:/Program Files/Java/jdk-17") 
+```
+
+> If you keep Java 8 or 11 in JAVA_HOME, driver initialization will crash with an `UnsupportedClassVersionError`.
+> 
+### Spark and Hadoop version
+The version of spark and hadoop in driver must be identical of the cluster
+
+### Sparklyr version
+
+For spark 4.x, sparklyr Version must be `1.9.0+`. Because Spark 4.x runs exclusively on Scala 2.13 (Scala 2.11 and 2.12 support were removed).
+Older versions of sparklyr only contained Scala 2.11/2.12 backend JARs. 
+
+```r
+# Check your installed sparklyr version in R
+packageVersion("sparklyr") # Must be >= 1.9.0
+
+# If needed, update sparklyr from CRAN
+install.packages("sparklyr")
+```
+
+
+### Strict ANSI SQL behavior
+
+`Spark 4.x enabls Strict ANSI SQL Behavior` by default `(spark.sql.ansi.enabled = true)`.Under strict ANSI SQL rules, 
+operations like dividing by zero, invalid string-to-number casts, or array index out-of-bounds `throw an runtime exception rather than returning NULL`. 
+
+If you prefer Spark 3.x's legacy lenient behavior, set this explicitly in your config
+```text
+config$`spark.sql.ansi.enabled` <- "false"
+
+```
+
+## How Spark Loads Configuration Under the Hood
+
+When you execute `spark_connect(master = "yarn")` in R, sparklyr does not create a Spark cluster from scratch, 
+it launches a local `Scala/Java gateway process` using the binaries located at your `SPARK_HOME`.
+
+```text
+[ R Session ] 
+      │
+      ▼ spark_connect(master = "yarn")
+[ sparklyr Java Gateway ]
+      │
+      ▼ Looks for $SPARK_HOME/conf/spark-defaults.conf
+[ Reads Key-Value Properties ]
+      │
+      ▼ Builds SparkConf JVM Object
+[ Submits YARN Client Application ]
+```
+
+During initialization, Spark automatically checks `$SPARK_HOME/conf/spark-defaults.conf`. Any key-value pair 
+inside that file is injected into the `driver's SparkConf object` before the connection to YARN is established.
+
+
+In your Windows Spark client folder, navigate to `C:\path\to\spark-4.1.0\conf\`.
+
+Create a file named `spark-defaults.conf` (if it only contains spark-defaults.conf.template, copy or rename it) 
+and add your properties using standard key-value whitespace format:
+
+```ini
+# ===================================================================
+# SPARK & YARN DEPLOYMENT
+# ===================================================================
+spark.master                             yarn
+spark.submit.deployMode                  client
+
+# ===================================================================
+# RESOURCE ALLOCATION
+# ===================================================================
+spark.driver.memory                      4g
+spark.executor.memory                    4g
+spark.executor.cores                     2
+spark.executor.instances                 4
+
+# ===================================================================
+# PATHS & DISK STORAGE (Prevent C:\ disk spillage)
+# ===================================================================
+spark.local.dir                          D:/spark_scratch
+spark.yarn.stagingDir                    hdfs:///tmp/spark_staging
+spark.sql.warehouse.dir                  hdfs:///user/hive/warehouse
+
+# ===================================================================
+# METASTORE & SECURITY
+# ===================================================================
+spark.hadoop.hive.metastore.uris         thrift://your-hive-metastore:9083
+spark.yarn.security.tokens.hdfs.enabled  true
+spark.yarn.security.tokens.hive.enabled  true
+
+# Network & Stability
+spark.network.timeout                    800s
+spark.executor.heartbeatInterval         60s
+```
+
+> If users set value in the config of the sparklyr session, the default values will be overwritten.
