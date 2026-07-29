@@ -1,7 +1,9 @@
 # Common problems in conda
 
 
-## conda init powershell/cmd.exe
+
+
+## 1. conda init powershell/cmd.exe
 
 To enable conda in `powershell` and `cmd`, you can use the command `conda init`. For example
 
@@ -10,6 +12,7 @@ conda init powershell
 conda init cmd.exe
 ```
 
+### 1.1 Bad side effects of conda init
 
 **But this command had very bad side effects.**
 
@@ -29,3 +32,14 @@ conda init --reverse cmd.exe
 
 These two commands will remove all the `@SET CONDA_EXE`, `@SET CONDA_PYTHON_EXE`
 
+### 1.2 conda activation by default
+
+After conda init, conda is activated by default in your powershell, or cmd, You can change this by using
+the below command.
+
+```powershell
+conda config --set auto_activate_base false
+```
+
+> This command does not remove conda from the profile hooks. Conda does not activate its base environment 
+> automatically when a new session starts
