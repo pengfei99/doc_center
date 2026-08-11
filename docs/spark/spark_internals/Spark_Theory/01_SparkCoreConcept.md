@@ -132,8 +132,18 @@ Spark supports multiple resource manager (e.g. stand alone, k8s, yarn, mesos). W
 
 #### Spark worker/executor
 
-A spark worker is referred to a server(e.g. physical or VM) in a spark cluster. A spark executor is referred to a 
+A spark worker is referred to a server(e.g. physical or VM) in a spark cluster. A `spark executor` is referred to a 
 container(jvm process) which can run tasks of a spark applications. So a spark worker may have multiple executors in it.
+
+It has 4 main functions:
+
+- `Task Execution`: Runs `multi-threaded` worker tasks assigned by the Driver. Each task slot processes one partition 
+                  of data at a time.
+- `In-Memory Caching & Storage`: Manages local memory for DataFrame caching (.persist()) and maintains broadcast variable copies received from the Driver.
+
+- `Shuffle Data Management`: Writes intermediate map outputs to local disk and serves shuffle fetch requests to other executors during shuffles (JOIN, GROUP BY).
+
+- `Heartbeating`: Periodically sends status reports, metrics, and health heartbeats back to the Driver. If an executor fails, the Driver detects the missing heartbeat and asks YARN to spawn a replacement container.
                      
 ### 1.2.2 job
 
