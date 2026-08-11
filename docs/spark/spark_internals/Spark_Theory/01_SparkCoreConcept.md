@@ -115,22 +115,25 @@ It consists of a driver program (the driver can be on client side or cluster sid
 A spark application can have multiple jobs.
 
 #### Spark driver
-**The driver is the process where the main method runs**. The driver will not only reserve resource and create executor, 
-but also schedule the task on the executors.
+
+The `Spark Driver` is the main entry point of your Spark application (where the SparkSession is instantiated).
+- `DAG Generation & Query Planning`: Converts data transformations code into an optimized `Directed Acyclic Graph (DAG)` of execution stages using the Catalyst Optimizer.
+- `YARN Resource Negotiation`: Communicates with the `YARN ResourceManager (RM)` to request allocation of executor YARN containers.
+- `Task Scheduling & Locality Tracking`: Breaks stages into unit tasks and assigns them directly to specific executor threads. It tracks HDFS block locations to enforce Data Locality (PROCESS_LOCAL or NODE_LOCAL).
+- `Metadata & State Tracking`: Maintains application state, broadcast variables, active task statuses, and hosts the Spark UI web server (port 4040).
+
+> After the creation of executor, driver and executor communicate directly. 
 
 
-##### Driver reserve resource
-First the driver will call **ClusterManager** to reserve resource and create executors on the worker nodes based on 
-the spark context/conf definition. Note for different spark cluster mode(e.g. stand alone, k8s, yarn, etc.), the ClusterManager
-can be different.
+Spark supports multiple resource manager (e.g. stand alone, k8s, yarn, mesos). When spark run on a cluster:
 
-After the creation of executor, driver and executor communicate directly. 
+- `client Mode`: Driver runs outside the YARN cluster on the client node/gateway machine where the job was launched. If the client disconnects or network drops, the application dies.
+- `cluster Mode`: Driver runs inside a YARN ApplicationMaster container managed by YARN on one of the cluster worker nodes. Essential for long-running batch jobs in production.
 
-##### Driver 
-The driver/SparkContext converts Spark Application (the user program main method) ->  Driver -> Jobs->Stages->Tasks 
-and after that it schedules the tasks on the executors.
+#### Spark worker/executor
 
-
+A spark worker is referred to a server(e.g. physical or VM) in a spark cluster. A spark executor is referred to a 
+container(jvm process) which can run tasks of a spark applications. So a spark worker may have multiple executors in it.
                      
 ### 1.2.2 job
 
