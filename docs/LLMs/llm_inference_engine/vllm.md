@@ -5,7 +5,7 @@ CPU/low-VRAM efficiency and single-user scenarios, `vLLM is the industry standar
 multi-user production workloads on enterprise GPUs`.
 
 
-You can find their official website [here](https://vllm.ai/) and github page [here](https://github.com/vllm-project/vllm)
+You can find their official website [here](https://vllm.ai/) and GitHub page [here](https://github.com/vllm-project/vllm)
 
 ## vLLM key features
 
