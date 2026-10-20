@@ -1,2 +1,0 @@
-# Hardwares for running LLMs
-

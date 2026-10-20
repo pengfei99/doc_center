@@ -38,7 +38,7 @@ Inference Engine
 
 ```
 
-## Inference engine workflow
+## 2. Inference engine workflow
 
 A modern inference engine workflow looks roughly like:
 
