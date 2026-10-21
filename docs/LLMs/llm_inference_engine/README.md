@@ -251,7 +251,7 @@ This [doc](./deployment/deploy_llamacpp_debian13.md) shows how to deploy llama.c
 
 ## vllm
 
-You can check this [doc](./vllm.md) to know more about vllm(e.g architecture)
+You can check this [doc](./vllm.md) to know more about vllm(e.g. architecture).
 
 This [doc](./deployment/deploy_vllm_debian13.md) shows how to deploy vllm on debian server.
 
