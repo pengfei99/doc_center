@@ -44,6 +44,7 @@ self-Hosted example: Vanna AI (open-source Text-to-SQL agent) or SQLChat.
 Cloud example: Julius AI, Hal9.
 self-Hosted example: `OpenInterpreter` (running locally in a secure sandbox).
 
+
 ## 5. Compliance & Security
 
 Translating millions of lines logs or SIEM alerts into plain-English incident summaries.

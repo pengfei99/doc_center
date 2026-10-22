@@ -171,4 +171,4 @@ PCI Express 4.0 x16 (No NVLink support)
 | Power Consumption (TDP)                | 350 W                                             | 600 W                                                                        | 10,000 W – 14,000 W                           |
 | Approx. France Price (TTC / Incl. Tax) | ~11,400 € – 12,800 € TTC                          | ~18,500 € – 21,000 € TTC                                                     | ~420,000 € – 850,000+ € TTC                   |
 
-> I recommend RTX Pro 6000, for 40% more money, you get 100% better performance. `HGX B300 NVL8` is too expansive for us
+> I recommend RTX Pro 6000, for 40% more money, you get 100% better performance compare to L40s. `HGX B300 NVL8` is too expansive for us
