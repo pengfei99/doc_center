@@ -48,6 +48,7 @@ Open your VS Code global settings (Ctrl + , or Cmd + ,), search for llama-vscode
 
 
 ### Option B: The Advanced Way (Continue Extension)
+
 If you want both a sidebar chat and Tab-autocomplete with deep customization, use Continue.
 
 Install the Continue extension from the VS Code Marketplace.
@@ -77,3 +78,6 @@ models:
 ```
 
 > Tip: Setting "debounceDelay": 150 means the model waits 150ms after you stop typing before firing a request, saving your system from processing incomplete thoughts.
+> 
+> 2026-oct Continue has been bought by Cursor
+> There is another vscode plugin https://twinny.dev/ to test
