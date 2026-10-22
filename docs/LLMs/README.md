@@ -7,6 +7,9 @@
 ## How to serve a LLM?
 
 In general, we have three layers in a LLM serving platform.
+- hardware/os Layer
+- inference engine Layer
+- model Layer
 
 ![LLM_Serving_Platform_Architecture.png](./imgs/LLM_Serving_Platform_Architecture.png)
 

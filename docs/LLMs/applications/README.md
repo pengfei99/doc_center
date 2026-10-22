@@ -63,6 +63,7 @@ The `Agentic systems` that can plan and execute multistep workflows and act on i
 For example:
 - Deep Research Agents: An agent that takes a prompt ("Find the linux server inventory"), searches PDFs, wiki, websites, 
 cross-check the results, and outputs a report. `AutoGen, CrewAI, LangGraph (all can be hosted locally)`.
-- Personal OS Assistants: Agents that can read local emails, draft replies, schedule calendar events, and organize files.
+- AI Assistants: Agents that can access various data source (e.g. local file system, emails, ), and execute actions 
+            write emails response run codes, etc..
 
 > Not easy to secure when working with confidential data, lack of control on agent actions.
