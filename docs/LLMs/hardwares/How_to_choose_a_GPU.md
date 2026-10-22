@@ -149,21 +149,26 @@ standard software-based NVIDIA vGPU profiles or container-level isolation if sha
 PCI Express 4.0 x16 (No NVLink support)
 
 
-| Parameter / Feature                    | NVIDIA L40S                                       | NVIDIA RTX Pro 6000 (Blackwell) Server Edition                               |
-|----------------------------------------|---------------------------------------------------|------------------------------------------------------------------------------|
-| GPU Architecture                       | Ada Lovelace                                      | Blackwell                                                                    |
-| CUDA Cores                             | "18,176"                                          | "24,064"                                                                     |
-| Tensor Cores                           | 568 (4th Gen)                                     | 752 (5th Gen)                                                                |
-| FP4 Tensor Compute                     | Not Supported                                     | 4.0 PFLOPS                                                                   |
-| FP8 Tensor Compute                     | 733 TFLOPS                                        | 2.0 PFLOPS                                                                   |
-| FP16 / BF16 Tensor Compute             | 366 TFLOPS (Dense)                                | 1.0 PFLOP                                                                    |
-| FP32 Tensor Compute                    | 183 TFLOPS                                        | 234 TFLOPS                                                                   |
-| Standard Single-Precision (FP32)       | 91.6 TFLOPS                                       | 120.0 TFLOPS                                                                 |
-| Memory Type                            | GDDR6 with ECC                                    | GDDR7 with ECC                                                               |
-| Memory Capacity                        | 48 GB                                             | 96 GB                                                                        |
-| Memory Interface                       | 384-bit                                           | 512-bit                                                                      |
-| Memory Bandwidth                       | 864 GB/s                                          | "1,597 GB/s"                                                                 |
-| Virtualization Support                 | No MIG (Software vGPU / Container isolation only) | Multi-Instance GPU (MIG)• Max 4 instances x 24GB• 1x 48GB + 2x 24GB• 2x 48GB |
-| PCIe Interface                         | PCI Express 4.0 x16 (No NVLink)                   | PCI Express 5.0 x16                                                          |
-| Power Consumption (TDP)                | 350 W                                             | 600 W                                                                        |
-| Approx. France Price (TTC / Incl. Tax) | "~11,400 € – 12,800 € TTC"                        | "~18,500 € – 21,000 € TTC"                                                   |
+## Comparison of the three GPU cards
+
+
+| Parameter / Feature                    | NVIDIA L40S                                       | NVIDIA RTX Pro 6000 (Blackwell) Server Edition                               | NVIDIA HGX B300 NVL8 (8-GPU Server Node)      |
+|----------------------------------------|---------------------------------------------------|------------------------------------------------------------------------------|-----------------------------------------------|
+| GPU Architecture                       | Ada Lovelace                                      | Blackwell                                                                    | Blackwell Ultra                               |
+| CUDA Cores                             | "18,176"                                          | "24,064"                                                                     | 192,512 (24,064 per GPU)                      |
+| Tensor Cores                           | 568 (4th Gen)                                     | 752 (5th Gen)                                                                | 6,016 (5th Gen) (752 per GPU)                 |
+| FP4 Tensor Compute                     | Not Supported                                     | 4.0 PFLOPS                                                                   | 144.0 PFLOPS (18P per GPU)                    |
+| FP8 Tensor Compute                     | 733 TFLOPS                                        | 2.0 PFLOPS                                                                   | 36.0 PFLOPS (~4.5 per GPU)                    |
+| FP16 / BF16 Tensor Compute             | 366 TFLOPS (Dense)                                | 1.0 PFLOP                                                                    | 18.0 PFLOPS (~2.25 per GPU)                   |
+| FP32 Tensor Compute                    | 183 TFLOPS                                        | 234 TFLOPS                                                                   | 1870 TFLOPS                                   |
+| Standard Single-Precision (FP32)       | 91.6 TFLOPS                                       | 120.0 TFLOPS                                                                 | 960 TFLOPS                                    |
+| Memory Type                            | GDDR6 with ECC                                    | GDDR7 with ECC                                                               | HBM3e                                         |
+| Memory Capacity                        | 48 GB                                             | 96 GB                                                                        | 2,304 GB (288GB per GPU)                      |
+| Memory Interface                       | 384-bit                                           | 512-bit                                                                      |                                               |
+| Memory Bandwidth                       | 864 GB/s                                          | 1,597 GB/s                                                                   | 64 TB/s (8.0 TB/s per GPU)                    |
+| Virtualization Support                 | No MIG (Software vGPU / Container isolation only) | Multi-Instance GPU (MIG)• Max 4 instances x 24GB• 1x 48GB + 2x 24GB• 2x 48GB | MIG Supported (Flexible multi-tenant slicing) |
+| PCIe Interface                         | Dual-Slot PCI Express 4.0 x16 (No NVLink)         | Dual-Slot PCI Express 5.0 x16                                                | 4U Liquid-Cooled / 8U Air-Cooled SXM Server   |
+| Power Consumption (TDP)                | 350 W                                             | 600 W                                                                        | 10,000 W – 14,000 W                           |
+| Approx. France Price (TTC / Incl. Tax) | ~11,400 € – 12,800 € TTC                          | ~18,500 € – 21,000 € TTC                                                     | ~420,000 € – 850,000+ € TTC                   |
+
+> I recommend RTX Pro 6000, for 40% more money, you get 100% better performance. `HGX B300 NVL8` is too expansive for us
