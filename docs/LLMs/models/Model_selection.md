@@ -17,3 +17,7 @@
 | Llama 3.3 70B | 70B Dense | Native FP8             | ~65 – 90 t/s      | "Multi-user Chat API, High Concurrency"   |
 | Gemma 4 31B   | 31B Dense | Unquantized FP16       | ~110+ t/s         | "Low latency, Vision + Audio processing"  |
 | Qwen 3.8 27B  | 27B Dense | Unquantized FP16       | ~120+ t/s         | "Extreme speed repo coding, 256k context" |
+
+
+
+> We need to test the 
